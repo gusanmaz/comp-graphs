@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bölüm 2 - Renk Teorisi</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html" class="active"><span class="section-num">2</span> Renk Teorisi</a>
+    </div>
+    <div class="sidebar-toc">
+      <!-- Auto-populated by JS -->
+    </div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html" class="active">Bölüm 2</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header" style="background: linear-gradient(135deg, #e94560, #533483, #0f3460, #00d2ff);">
+    <span class="week-number">📅 BÖLÜM 2</span>
+    <h1>Renk Teorisi</h1>
+    <p class="week-desc">RGB, HSB, Alpha kanalı, renk paletleri, oyunlarda renk kullanımı ve erişilebilirlik</p>
+    <div class="week-meta">
+      <div class="meta-item">📖 Teori: 2 saat</div>
+      <div class="meta-item">💻 Uygulama: 2 saat</div>
+      <div class="meta-item">🛠️ Araçlar: GIMP / Photopea, Coolors.co</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ══════ TENTATIVE SYLLABUS ══════ -->
+    <h2>📅 Dönemlik Ders Planı (Tentative)</h2>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Bu plan taslaktır (tentative) ve dönem içinde değişebilir!</div>
+      <p>Aşağıdaki plan, dersin genel gidişatını göstermek amacıyla hazırlanmıştır. Öğrenci ihtiyaçlarına, ilerleme hızına ve güncel gelişmelere bağlı olarak konu sıralaması ve içeriklerde değişiklikler yapılabilir. Sınav haftalarında ders işlenmez.</p>
+    </div>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Hafta</th>
+          <th>Konu</th>
+          <th>Teori</th>
+          <th>Uygulama / Lab</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Bilgisayar Grafiğine Giriş</td><td>Piksel, Raster vs Vektör, GPU vs CPU, Grafik Pipeline</td><td>GIMP ile piksel atölyesi</td></tr>
+        <tr><td>2</td><td>Renk Teorisi</td><td>RGB, HSB, Alpha, Renk Paletleri, Erişilebilirlik</td><td>GIMP / Coolors.co ile renk çalışması</td></tr>
+        <tr><td>3</td><td>Dijital Görüntü Temelleri</td><td>Çözünürlük, DPI/PPI, Dosya Formatları, Sıkıştırma</td><td>Sprite hazırlama</td></tr>
+        <tr><td>4</td><td>2D Dönüşümler ve Koordinat Sistemleri</td><td>Translation, Rotation, Scaling, Pivot, Matris Temelleri</td><td>Dönüşüm uygulamaları</td></tr>
+        <tr><td>5</td><td>Pixel Art ve 2D Asset Oluşturma</td><td>Pixel Art İlkeleri, Dithering, Karakter Tasarımı</td><td>Sprite Sheet oluşturma</td></tr>
+        <tr><td>6</td><td>2D Animasyon Temelleri</td><td>Frame-by-frame, Tweening, Easing, Animasyon İlkeleri</td><td>Animasyon uygulaması</td></tr>
+        <tr><td>7</td><td>Tilemap ve Seviye Tasarımı</td><td>Tile Sistemi, Tileset Tasarımı, Parallax</td><td>Tiled Map Editor</td></tr>
+        <tr style="background: rgba(255, 214, 0, 0.08);"><td><strong>8</strong></td><td><strong>📝 ARA SINAV</strong></td><td colspan="2">Bu hafta ders işlenmez — tüm süre sınava ayrılmıştır</td></tr>
+        <tr><td>9</td><td>3D Grafik Temelleri</td><td>3D Koordinatlar, Mesh, Vertex, Polygon</td><td>Blender'a giriş</td></tr>
+        <tr><td>10</td><td>3D Modelleme</td><td>Box Modeling, Extrude, Modifier</td><td>Prop Modelleme</td></tr>
+        <tr><td>11</td><td>Materyal, Texture ve UV Mapping</td><td>Texture, UV Mapping, Normal Map, PBR Temelleri</td><td>Blender UV workshop</td></tr>
+        <tr><td>12</td><td>Işık ve Render</td><td>Işık Türleri, Gölgeler, Ambient Occlusion</td><td>Render uygulaması</td></tr>
+        <tr><td>13</td><td>Shader ve Post-Processing</td><td>Shader Kavramı, Post-Process Efektleri</td><td>Shadertoy</td></tr>
+        <tr><td>14</td><td>Grafik Optimizasyonu ve Pipeline</td><td>Draw Call, Batching, LOD, Atlas, Profiling</td><td>Profiling uygulaması</td></tr>
+        <tr><td>15</td><td>Final Proje Sunumları</td><td colspan="2">Proje Sunumları + Akran Değerlendirmesi</td></tr>
+        <tr style="background: rgba(255, 214, 0, 0.08);"><td><strong>Final</strong></td><td><strong>📝 FİNAL SINAVI</strong></td><td colspan="2">Ders işlenmez — tüm dönem konularından sınav</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📊 Değerlendirme (Tentative)</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Etkinlik</th><th>Adet</th><th>Katkı %</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Haftalık Lab Katılım & Çalışmalar</td><td>~10</td><td>15%</td></tr>
+        <tr><td>Ödevler (GitHub Classroom)</td><td>3</td><td>20%</td></tr>
+        <tr><td>Ara Sınav (Teori + Uygulama)</td><td>1</td><td>25%</td></tr>
+        <tr><td>Final Projesi</td><td>1</td><td>40%</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ AKADEMİK DÜRÜSTLÜK ══════ -->
+    <h2>⚖️ Yasal Mevzuat ve Akademik Dürüstlük</h2>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Kopya ve İntihal Uyarısı</div>
+      <p>Bu ders kapsamındaki tüm sınavlar, ödevler ve projeler <strong>2547 sayılı Yükseköğretim Kanunu</strong> ve ilgili yönetmelikler çerçevesinde değerlendirilir. Sınavlarda kopya çekmek, kopya vermek veya buna teşebbüs etmek disiplin suçudur.</p>
+      <ul style="margin-top: 0.75rem; padding-left: 1.25rem; color: var(--text-secondary);">
+        <li>📌 Kopya fiili tespit edildiğinde ilgili sınav <strong>geçersiz sayılır</strong> ve tutanak tutulur.</li>
+        <li>📌 Kınama veya daha ağır disiplin cezalarına yol açabilir; tekrarlayan durumlarda <strong>uzaklaştırma cezası</strong> uygulanabilir.</li>
+        <li>📌 Ödev ve projelerde <strong>intihal (plagiarism)</strong> de aynı kapsamda değerlendirilir.</li>
+      </ul>
+      <p style="margin-top: 0.75rem;">📄 <strong>2547 Sayılı Yükseköğretim Kanunu:</strong> <a href="https://cdn.anadolu.edu.tr/files/anadolu-cms/7gldkYw1/file/2547-sayili-yuksekogretim-kanunu-3befcc7ff61806b0.pdf" target="_blank">PDF İndir</a></p>
+      <p>⚠️ Tüm öğrenciler, kayıtlı oldukları üniversitenin <strong>öğrenci disiplin yönetmeliğini</strong> okumakla yükümlüdür.</p>
+    </div>
+
+    <!-- İÇİNDEKİLER -->
+    <div class="toc">
+      <h3>📑 Bu Bölümün İçeriği</h3>
+      <ol>
+        <li><a href="#renk-nedir">Renk Nedir? Işık ve Algı</a></li>
+        <li><a href="#rgb">RGB Renk Modeli</a></li>
+        <li><a href="#hex">HEX Renk Kodları</a></li>
+        <li><a href="#hsb">HSB / HSL: Daha Sezgisel Bir Yaklaşım</a></li>
+        <li><a href="#alpha">Alpha Kanalı: Saydamlık</a></li>
+        <li><a href="#paletler">Renk Paletleri ve Uyum</a></li>
+        <li><a href="#oyunlarda-renk">Oyunlarda Renk Kullanımı</a></li>
+        <li><a href="#erisilebilirlik">Erişilebilirlik ve Renk Körlüğü</a></li>
+        <li><a href="#lab">Lab: Renk Atölyesi</a></li>
+        <li><a href="#kaynaklar">Kaynaklar ve Okumalar</a></li>
+      </ol>
+    </div>
+
+    <!-- BÖLÜM 1: RENK NEDİR -->
+    <h2 id="renk-nedir">1. Renk Nedir? 🌈</h2>
+
+    <p>
+      Renk aslında <strong>beyninizin bir yorumudur</strong>. Fiziksel dünyada "kırmızı" diye bir şey yoktur — sadece farklı dalga boylarında elektromanyetik ışınlar vardır. Gözlerimiz bu ışınları algılar, beynimiz onları "renk" olarak yorumlar.
+    </p>
+
+    <p>
+      Fiziksel olarak, ışık bir <strong>elektromanyetik dalga</strong>dır. İnsan gözünün algılayabildiği dalga boyları yaklaşık <strong>380 nm (nanometre) ile 700 nm</strong> arasındadır. 
+      Bu aralığa <strong>"görünür ışık spektrumu"</strong> denir. 380 nm civarı mor/menekşe, 700 nm civarı kırmızı olarak algılanır. 
+      Gökkuşağı, beyaz ışığın prizma veya yağmur damlalarıyla farklı dalga boylarına ayrılmasıdır!
+    </p>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Düşünün</div>
+      <p>Bir ağaç yaprağı ormanda yeşil görünür çünkü yeşil dalga boyundaki ışığı yansıtır, diğer dalga boylarını emer. Renkler objelerin kendisinde değil, ışıkta ve algımızdadır! Aynı yaprak kırmızı ışık altında siyah görünür — çünkü yansıtacak yeşil ışık yoktur.</p>
+    </div>
+
+    <h3>Gözümüz Nasıl Çalışır?</h3>
+    <p>İnsan gözünde retina üzerinde iki tür ışığa duyarlı hücre vardır:</p>
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+      <li><strong>Çubuk hücreler (Rod cells):</strong> ~120 milyon adet. Düşük ışıkta çalışır, renk görmez ama hareket ve şekil algılar. Gece görüşü bunlar sayesindedir.</li>
+      <li><strong>Koni hücreler (Cone cells):</strong> ~6 milyon adet. Renk görüşünden sorumlu. Üç türü vardır:</li>
+    </ul>
+
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card" style="border-top: 3px solid #ff4444; text-align: center;">
+        <div style="font-size: 2rem;">🔴</div>
+        <h3 style="margin-top: 0.5rem; color: #ff4444;">L-koni (Uzun Dalga)</h3>
+        <p>~564 nm'de (kırmızı bölge) en duyarlı. Kırmızı ve turuncu ışığa tepki verir.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid #44ff44; text-align: center;">
+        <div style="font-size: 2rem;">🟢</div>
+        <h3 style="margin-top: 0.5rem; color: #44ff44;">M-koni (Orta Dalga)</h3>
+        <p>~534 nm'de (yeşil bölge) en duyarlı. Yeşil ışığa tepki verir. L-koni ile çok örtüşür.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid #4444ff; text-align: center;">
+        <div style="font-size: 2rem;">🔵</div>
+        <h3 style="margin-top: 0.5rem; color: #4444ff;">S-koni (Kısa Dalga)</h3>
+        <p>~420 nm'de (mavi-mor bölge) en duyarlı. Mavi ve menekşe ışığa tepki verir.</p>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 İşte RGB Buradan Geliyor!</div>
+      <p>Bilgisayar ekranları <strong>R</strong>ed (Kırmızı), <strong>G</strong>reen (Yeşil), <strong>B</strong>lue (Mavi) kullanır çünkü gözümüz tam olarak bu üç dalga boyuna duyarlı! Bu üç rengi farklı yoğunluklarda karıştırarak, beynimizi <strong>milyonlarca farklı rengi algılıyormuşuz gibi kandırabiliyoruz</strong>. Aslında ekranda sarı renk yoktur — kırmızı ve yeşil alt pikseller yan yana yanınca beynimiz "sarı" olarak algılar!</p>
+    </div>
+
+    <h3>Toplamsal (Additive) vs Çıkarımsal (Subtractive) Renk Karıştırma</h3>
+    <p>Renkleri karıştırmanın iki temel yolu vardır ve bu fark çok önemlidir:</p>
+
+    <div class="card-grid">
+      <div class="card" style="border-top: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; color: var(--accent-4);">💡 Toplamsal (Additive) — Işık</h3>
+        <p>Işık kaynakları birbirine eklenir. <strong>Daha fazla ışık = daha açık renk.</strong></p>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Kırmızı + Yeşil = <strong>Sarı</strong></li>
+          <li>Kırmızı + Mavi = <strong>Magenta</strong></li>
+          <li>Yeşil + Mavi = <strong>Cyan</strong></li>
+          <li>Hepsi = <strong>Beyaz</strong> ☀️</li>
+          <li>Hiçbiri = <strong>Siyah</strong> (karanlık)</li>
+        </ul>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Kullanıldığı yer:</strong> Ekranlar, monitörler, LED, projektörler — yani <strong>bilgisayar grafiği!</strong></p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent-2);">
+        <h3 style="margin-top: 0; color: var(--accent-2);">🖌️ Çıkarımsal (Subtractive) — Boya/Mürekkep</h3>
+        <p>Pigmentler ışığı emer (çıkarır). <strong>Daha fazla boya = daha koyu renk.</strong></p>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Cyan + Magenta = <strong>Mavi</strong></li>
+          <li>Cyan + Sarı = <strong>Yeşil</strong></li>
+          <li>Magenta + Sarı = <strong>Kırmızı</strong></li>
+          <li>Hepsi = <strong>Siyah</strong> (koyu kahverengi) 🖤</li>
+          <li>Hiçbiri = <strong>Beyaz</strong> (kağıdın rengi)</li>
+        </ul>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Kullanıldığı yer:</strong> Yazıcılar (CMYK), resim boyaları, matbaa</p>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 İlkokuldaki "Ana Renkler" Hatası</div>
+      <p>İlkokulda "ana renkler kırmızı, sarı, mavi" diye öğrenmiş olabilirsiniz. Bu aslında çıkarımsal (boya) karıştırma için yaklaşık doğrudur (CMYK: Cyan, Magenta, Yellow). Ama <strong>ışık (ekran) için ana renkler: Kırmızı, Yeşil, Mavi (RGB)</strong>. Bilgisayar grafiğinde hep RGB dünyasındayız çünkü ekranlar ışık yayar, boya sürmez!</p>
+    </div>
+
+    <!-- BÖLÜM 2: RGB -->
+    <h2 id="rgb">2. RGB Renk Modeli 🔴🟢🔵</h2>
+
+    <p>
+      <strong>RGB</strong>, bilgisayar ekranlarında kullanılan temel renk modelidir.
+      Her renk, <strong>Kırmızı (R)</strong>, <strong>Yeşil (G)</strong> ve <strong>Mavi (B)</strong> bileşenlerinin karışımından oluşur.
+      Bu model doğrudan gözümüzün üç tür koni hücresine karşılık gelir.
+    </p>
+
+    <p>Her bileşen <strong>0 ile 255</strong> arasında bir değer alır:</p>
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+      <li><strong>0</strong> = o renkten hiç yok (o renk kanalı kapalı, ışık yok)</li>
+      <li><strong>128</strong> = orta değer (yarı parlaklıkta)</li>
+      <li><strong>255</strong> = o renkten maksimum (tam açık, en parlak)</li>
+    </ul>
+
+    <p>
+      RGB değerlerini <code>rgb(R, G, B)</code> formatında yazarız. Örneğin: <code>rgb(233, 69, 96)</code> — 
+      bu, çok kırmızı, biraz yeşil, biraz mavi demektir. Sonuç: koyu pembe/kırmızı bir ton.
+    </p>
+
+    <!-- İNTERAKTİF DEMO: RGB MIXER -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">🎨 İnteraktif Demo: RGB Renk Karıştırıcı</div>
+        <span style="font-size: 0.8rem; color: var(--text-secondary)">Slider'ları hareket ettirin!</span>
+      </div>
+      <div class="demo-body">
+        <div style="display: grid; grid-template-columns: 1fr 200px; gap: 2rem; align-items: start;">
+          <div>
+            <div class="control-group">
+              <label style="color: #ff4444; font-weight: 700;">🔴 Red:</label>
+              <input type="range" id="rgbR" min="0" max="255" value="233" style="accent-color: #ff4444;">
+              <span class="value-display" id="rgbRVal">233</span>
+            </div>
+            <div class="control-group">
+              <label style="color: #44ff44; font-weight: 700;">🟢 Green:</label>
+              <input type="range" id="rgbG" min="0" max="255" value="69" style="accent-color: #44ff44;">
+              <span class="value-display" id="rgbGVal">69</span>
+            </div>
+            <div class="control-group">
+              <label style="color: #6666ff; font-weight: 700;">🔵 Blue:</label>
+              <input type="range" id="rgbB" min="0" max="255" value="96" style="accent-color: #6666ff;">
+              <span class="value-display" id="rgbBVal">96</span>
+            </div>
+
+            <div style="margin-top: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
+              <div>RGB: <span id="rgbText" style="color: var(--accent-4);">rgb(233, 69, 96)</span></div>
+              <div>HEX: <span id="hexText" style="color: var(--accent-4);">#E94560</span></div>
+            </div>
+
+            <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="btn" onclick="setRGB(255,0,0)">Kırmızı</button>
+              <button class="btn" onclick="setRGB(0,255,0)">Yeşil</button>
+              <button class="btn" onclick="setRGB(0,0,255)">Mavi</button>
+              <button class="btn" onclick="setRGB(255,255,0)">Sarı</button>
+              <button class="btn" onclick="setRGB(0,255,255)">Cyan</button>
+              <button class="btn" onclick="setRGB(255,0,255)">Magenta</button>
+              <button class="btn" onclick="setRGB(255,255,255)">Beyaz</button>
+              <button class="btn" onclick="setRGB(0,0,0)">Siyah</button>
+            </div>
+          </div>
+
+          <div>
+            <div id="rgbPreview" style="width: 200px; height: 200px; border-radius: 16px; background: rgb(233,69,96); border: 3px solid var(--border-color); box-shadow: 0 0 40px rgba(233,69,96,0.3); transition: all 0.2s;"></div>
+          </div>
+        </div>
+
+        <div class="info-box tip" style="margin-top: 1.5rem; margin-bottom: 0;">
+          <div class="info-title">💡 Deneyin</div>
+          <p>
+            <strong>1)</strong> R ve G'yi 255 yapıp B'yi 0 yapın → Sarı! (kırmızı + yeşil ışık = sarı algısı)<br>
+            <strong>2)</strong> Üç slider'ı da aynı değere getirin → Gri tonları!<br>
+            <strong>3)</strong> Cilt rengi yapmayı deneyin → Turuncu tonlarında (R yüksek, G orta, B düşük)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 8-bit Renk = 256 Değer</div>
+      <p>Neden 0-255? Çünkü her bileşen <strong>8 bit</strong> (1 byte) ile saklanır. 2⁸ = 256 farklı değer (0'dan 255'e). Üç bileşen birlikte: 256 × 256 × 256 = <strong>16.777.216 farklı renk</strong>! Buna "True Color" veya "24-bit renk" denir. Bu sayı, insan gözünün ayırt edebildiği renk sayısından (~10 milyon) bile fazladır — yani pratik olarak "sınırsız renk" demektir.</p>
+    </div>
+
+    <h3>Önemli RGB Değerleri</h3>
+    <p>Bazı temel renklerin RGB değerlerini ezbere bilmek işinize yarar:</p>
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Renk</th><th>R</th><th>G</th><th>B</th><th>Not</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>⬛ Siyah</td><td>0</td><td>0</td><td>0</td><td>Hiç ışık yok — ekran kapalı gibi</td></tr>
+        <tr><td>⬜ Beyaz</td><td>255</td><td>255</td><td>255</td><td>Tüm ışıklar tam açık</td></tr>
+        <tr><td>🔴 Kırmızı</td><td>255</td><td>0</td><td>0</td><td>Sadece kırmızı kanal açık</td></tr>
+        <tr><td>🟢 Yeşil</td><td>0</td><td>255</td><td>0</td><td>Sadece yeşil kanal açık</td></tr>
+        <tr><td>🔵 Mavi</td><td>0</td><td>0</td><td>255</td><td>Sadece mavi kanal açık</td></tr>
+        <tr><td>🟡 Sarı</td><td>255</td><td>255</td><td>0</td><td>Kırmızı + Yeşil (Mavi yok)</td></tr>
+        <tr><td>🩵 Cyan</td><td>0</td><td>255</td><td>255</td><td>Yeşil + Mavi (Kırmızı yok)</td></tr>
+        <tr><td>🩷 Magenta</td><td>255</td><td>0</td><td>255</td><td>Kırmızı + Mavi (Yeşil yok)</td></tr>
+        <tr><td>🩶 Gri (%50)</td><td>128</td><td>128</td><td>128</td><td>R=G=B → her zaman gri tonları</td></tr>
+        <tr><td>🟠 Turuncu</td><td>255</td><td>165</td><td>0</td><td>Çok kırmızı + orta yeşil</td></tr>
+        <tr><td>🟤 Kahverengi</td><td>139</td><td>69</td><td>19</td><td>Koyu turuncu — düşük değerlerle</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Gri Tonları Kuralı</div>
+      <p>R, G ve B değerleri birbirine eşit olduğunda <strong>her zaman</strong> bir gri tonu elde edersiniz. (0,0,0) siyah, (64,64,64) koyu gri, (128,128,128) orta gri, (192,192,192) açık gri, (255,255,255) beyaz. Toplamda <strong>256 farklı gri tonu</strong> vardır. Bu bilgi shader yazarken çok işinize yarayacak!</p>
+    </div>
+
+    <h3>Renk Kanalları (Channels)</h3>
+    <p>Bir RGB görüntüyü üç ayrı <strong>kanal (channel)</strong> olarak düşünebilirsiniz. Her kanal tek başına gri tonlu bir görüntüdür:</p>
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card" style="border-top: 3px solid #ff4444; text-align: center;">
+        <h3 style="margin-top: 0; color: #ff4444;">Kırmızı Kanalı</h3>
+        <p>Her pikselde ne kadar kırmızı olduğunu gösteren gri tonlu görüntü. Beyaz = çok kırmızı, siyah = kırmızı yok.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid #44ff44; text-align: center;">
+        <h3 style="margin-top: 0; color: #44ff44;">Yeşil Kanalı</h3>
+        <p>Her pikselde ne kadar yeşil olduğunu gösteren gri tonlu görüntü. GIMP'te Renk → Ayrıştır ile görebilirsiniz.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid #4444ff; text-align: center;">
+        <h3 style="margin-top: 0; color: #4444ff;">Mavi Kanalı</h3>
+        <p>Her pikselde ne kadar mavi olduğunu gösteren gri tonlu görüntü. Bu üç kanal birleşince renkli görüntü oluşur!</p>
+      </div>
+    </div>
+    <div class="info-box note">
+      <div class="info-title">📌 GIMP'te Deneyin</div>
+      <p>GIMP'te herhangi bir fotoğrafı açıp <strong>Windows → Dockable Dialogs → Channels</strong> (Pencereler → Takılabilir Diyaloglar → Kanallar) seçeneğiyle her kanalı tek tek görüntüleyebilirsiniz. Kırmızı bir domates fotoğrafında R kanalı parlak, G ve B kanalları koyu olacaktır!</p>
+    </div>
+
+    <!-- BÖLÜM 3: HEX -->
+    <h2 id="hex">3. HEX Renk Kodları #️⃣</h2>
+
+    <p>
+      Web'de ve tasarım araçlarında renkleri <strong>HEX (hexadecimal / onaltılık)</strong> formatında sıkça görürsünüz.
+      HEX aslında RGB'nin başka bir yazım şeklidir — aynı bilgiyi daha kısa ve kompakt bir şekilde ifade eder.
+    </p>
+
+    <p>
+      Neden "onaltılık" (hexadecimal)? Normal (ondalık / decimal) sayı sisteminde 10 sembol kullanılır: 0-9. 
+      Onaltılık sistemde ise <strong>16 sembol</strong> kullanılır: <code>0 1 2 3 4 5 6 7 8 9 A B C D E F</code>. 
+      A=10, B=11, C=12, D=13, E=14, F=15. İki basamaklı bir HEX sayısı 00-FF arasında = 0-255 ondalık.
+    </p>
+
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">#️⃣ HEX Nasıl Çalışır?</div>
+      </div>
+      <div class="demo-body">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; text-align: center; margin: 1rem 0; letter-spacing: 4px;">
+          <span style="color: var(--text-secondary);">#</span><span style="color: #ff4444;" id="hexR">E9</span><span style="color: #44ff44;" id="hexG">45</span><span style="color: #6666ff;" id="hexB">60</span>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 2rem; font-size: 0.85rem; color: var(--text-secondary);">
+          <span>↑ Red (233)</span>
+          <span>↑ Green (69)</span>
+          <span>↑ Blue (96)</span>
+        </div>
+
+        <div style="margin-top: 1.5rem; background: var(--bg-secondary); padding: 1rem; border-radius: 8px;">
+          <p style="font-size: 0.9rem; margin: 0;">
+            <strong>Ondalık → Onaltılık nasıl çalışır?</strong><br>
+            Normal sayılar 0-9 arası 10 rakam kullanır. HEX ise 0-9 ve A-F arası <strong>16 sembol</strong> kullanır.<br>
+            A=10, B=11, C=12, D=13, E=14, F=15<br><br>
+            Örnek: <code style="color: var(--accent-4);">E9</code> = (14 × 16) + 9 = 224 + 9 = <strong>233</strong><br>
+            Örnek: <code style="color: var(--accent-4);">FF</code> = (15 × 16) + 15 = 240 + 15 = <strong>255</strong> (maksimum)<br>
+            Örnek: <code style="color: var(--accent-4);">00</code> = (0 × 16) + 0 = <strong>0</strong> (minimum)<br>
+            Örnek: <code style="color: var(--accent-4);">80</code> = (8 × 16) + 0 = <strong>128</strong> (tam orta)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Hızlı HEX Referansları</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Renk</th><th>HEX</th><th>RGB Karşılığı</th><th>Not</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>⬛ Siyah</td><td><code>#000000</code></td><td>rgb(0, 0, 0)</td><td>En kısa hali: <code>#000</code></td></tr>
+        <tr><td>⬜ Beyaz</td><td><code>#FFFFFF</code></td><td>rgb(255, 255, 255)</td><td>En kısa hali: <code>#FFF</code></td></tr>
+        <tr><td>🔴 Kırmızı</td><td><code>#FF0000</code></td><td>rgb(255, 0, 0)</td><td>En kısa hali: <code>#F00</code></td></tr>
+        <tr><td>🟢 Yeşil</td><td><code>#00FF00</code></td><td>rgb(0, 255, 0)</td><td>En kısa hali: <code>#0F0</code></td></tr>
+        <tr><td>🔵 Mavi</td><td><code>#0000FF</code></td><td>rgb(0, 0, 255)</td><td>En kısa hali: <code>#00F</code></td></tr>
+        <tr><td>🩶 Gri</td><td><code>#808080</code></td><td>rgb(128, 128, 128)</td><td>Web'de "gray" adıyla da kullanılır</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Kısaltılmış HEX</div>
+      <p>Eğer her kanalın iki basamağı aynıysa, kısaltılabilir: <code>#FF0000</code> → <code>#F00</code>, <code>#AABBCC</code> → <code>#ABC</code>. Bu sadece yazım kolaylığıdır, anlam aynıdır. CSS'te yaygın kullanılır.</p>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 HEX Hesaplamayı Ezberlemeyin!</div>
+      <p>HEX-ondalık çevirme işlemini elle yapmanıza gerek yok! Tüm renk seçici araçlar (color picker) otomatik çevirir. Önemli olan <code>#FF0000</code> = kırmızı, <code>#00FF00</code> = yeşil, <code>#0000FF</code> = mavi olduğunu bilmek ve bir HEX kodunu gördüğünüzde yaklaşık olarak ne renk olduğunu tahmin edebilmek.</p>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🤔 Neden HEX Kullanılıyor? RGB Yeterli Değil mi?</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <p>HEX'in RGB'ye göre avantajları:</p>
+          <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+            <li><strong>Daha kısa:</strong> <code>#E94560</code> vs <code>rgb(233, 69, 96)</code> — 7 karakter vs 17 karakter</li>
+            <li><strong>Kopyala-yapıştır kolaylığı:</strong> Tek bir dize, boşluk ve virgül yok</li>
+            <li><strong>Web standardı:</strong> CSS'te en yaygın format. Tasarımcılar genellikle HEX ile iletişim kurar</li>
+            <li><strong>Bellekle direkt ilişki:</strong> Her HEX çifti tam 1 byte'a karşılık gelir (00-FF = 0-255)</li>
+          </ul>
+          <p>Sonuçta HEX ve RGB aynı şeyi ifade eder, sadece yazım biçimi farklıdır. Hangisini isterseniz kullanın!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BÖLÜM 4: HSB/HSL -->
+    <h2 id="hsb">4. HSB / HSL: Daha Sezgisel Bir Yaklaşım 🎡</h2>
+
+    <p>
+      RGB renkleri karıştırmak bazen zor olabilir — "biraz daha açık turuncu" istediğinizde hangi R, G, B değerlerini değiştirmeniz gerektiğini bilmek kolay değildir.
+      <strong>HSB (veya HSL)</strong> modeli daha <strong>insan dostu</strong> bir yaklaşımdır çünkü rengi, insanların renk hakkında düşünme biçimine daha yakın bir şekilde tanımlar.
+    </p>
+
+    <p>HSL, rengi üç bağımsız özellikle tanımlar:</p>
+
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem;">🎡</div>
+        <h3 style="margin-top: 0.5rem; color: var(--accent-4);">H — Hue (Ton)</h3>
+        <p>Rengin <strong>kendisi</strong>: kırmızı, turuncu, sarı, yeşil, mavi, mor... Bir renk çemberi üzerinde <strong>0° - 360°</strong> derece olarak ifade edilir.</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">0° = Kırmızı, 60° = Sarı, 120° = Yeşil, 180° = Cyan, 240° = Mavi, 300° = Mor, 360° = tekrar Kırmızı</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem;">💧</div>
+        <h3 style="margin-top: 0.5rem; color: var(--accent-4);">S — Saturation (Doygunluk)</h3>
+        <p>Rengin <strong>canlılığı</strong>: çok canlı/doygun mu, yoksa soluk/griimsi mi?</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);"><strong>0%</strong> = tamamen gri (renksiz), <strong>100%</strong> = en canlı hali. Doygunluğu düşürmek rengi "pastel" yapar.</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem;">☀️</div>
+        <h3 style="margin-top: 0.5rem; color: var(--accent-4);">B/L — Brightness/Lightness</h3>
+        <p>Rengin <strong>açıklığı/koyuluğu</strong>: siyaha mı yoksa beyaza mı yakın?</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">HSL'de: <strong>0%</strong> = siyah, <strong>50%</strong> = en doygun, <strong>100%</strong> = beyaz. HSB'de: 0% = siyah, 100% = en parlak.</p>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 HSL'nin Gücü: Sezgisel Renk Kontrolü</div>
+      <p>HSL ile renk üzerinde çok sezgisel kontrol sahibi olursunuz:<br>
+      <strong>"Daha açık kırmızı istiyorum"</strong> → L'yi artır, H ve S'ye dokunma<br>
+      <strong>"Daha soluk/pastel mavi istiyorum"</strong> → S'yi düşür<br>
+      <strong>"Aynı tonda ama yeşil istiyorum"</strong> → H'yi 120°'ye getir, S ve L aynı kalsın<br>
+      RGB'de bunları yapmak çok daha zor olurdu!</p>
+    </div>
+
+    <!-- İNTERAKTİF DEMO: HSB -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">🎡 İnteraktif Demo: HSL Renk Seçici</div>
+      </div>
+      <div class="demo-body">
+        <div style="display: grid; grid-template-columns: 1fr 200px; gap: 2rem; align-items: start;">
+          <div>
+            <div class="control-group">
+              <label style="font-weight: 700;">🎡 Hue:</label>
+              <input type="range" id="hslH" min="0" max="360" value="348">
+              <span class="value-display" id="hslHVal">348°</span>
+            </div>
+            <div style="height: 16px; border-radius: 8px; margin: 0.25rem 0 1rem; background: linear-gradient(to right, hsl(0,100%,50%), hsl(60,100%,50%), hsl(120,100%,50%), hsl(180,100%,50%), hsl(240,100%,50%), hsl(300,100%,50%), hsl(360,100%,50%));"></div>
+
+            <div class="control-group">
+              <label style="font-weight: 700;">💧 Saturation:</label>
+              <input type="range" id="hslS" min="0" max="100" value="82">
+              <span class="value-display" id="hslSVal">82%</span>
+            </div>
+            <div class="control-group">
+              <label style="font-weight: 700;">☀️ Lightness:</label>
+              <input type="range" id="hslL" min="0" max="100" value="59">
+              <span class="value-display" id="hslLVal">59%</span>
+            </div>
+
+            <div style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
+              <div>HSL: <span id="hslText" style="color: var(--accent-4);">hsl(348, 82%, 59%)</span></div>
+            </div>
+
+            <div style="margin-top: 1rem;">
+              <p style="font-size: 0.85rem;"><strong>Deneyin:</strong> Hue'yu sabit tutup sadece Saturation ve Lightness ile oynayın — aynı rengin çok farklı varyasyonlarını keşfedin! Sonra Hue'yu değiştirip aynı S/L ile farklı renkler yaratın.</p>
+            </div>
+          </div>
+
+          <div>
+            <div id="hslPreview" style="width: 200px; height: 200px; border-radius: 16px; background: hsl(348, 82%, 59%); border: 3px solid var(--border-color); transition: all 0.2s;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 HSB vs HSL — Farkı Nedir?</div>
+      <p><strong>HSB/HSV</strong> (Hue, Saturation, <em>Brightness/Value</em>) ve <strong>HSL</strong> (Hue, Saturation, <em>Lightness</em>) birbirine çok benzer ama tam aynı değildir:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem; margin-top: 0.5rem;">
+        <li><strong>HSB/HSV:</strong> B=100% tamamen parlak renk verir, B=0% siyah. Photoshop, Unity, Blender bunu kullanır.</li>
+        <li><strong>HSL:</strong> L=50% en doygun renk, L=0% siyah, L=100% beyaz. CSS ve web teknolojileri bunu kullanır.</li>
+      </ul>
+      <p>İkisini de bilmeniz faydalı! Temel mantık aynıdır, sadece "parlaklık" ölçeği biraz farklı çalışır.</p>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🤔 Ne Zaman RGB, Ne Zaman HSL Kullanmalı?</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <table class="comparison-table">
+            <thead>
+              <tr><th>Durum</th><th>Önerilen Model</th><th>Neden?</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Kod içinde renk belirtmek (CSS, C#, shader)</td><td>RGB / HEX</td><td>Çoğu API ve format RGB kullanır, doğrudan piksel değeri</td></tr>
+              <tr><td>Renk paleti oluşturmak</td><td>HSL</td><td>Hue sabit tutup S/L ile varyasyon yaratmak çok kolay</td></tr>
+              <tr><td>Rengi açmak/koyulaştırmak</td><td>HSL</td><td>Sadece L (Lightness) değerini değiştir, diğerleri sabit</td></tr>
+              <tr><td>Rengi soldurmak/canlılaştırmak</td><td>HSL</td><td>Sadece S (Saturation) değerini değiştir</td></tr>
+              <tr><td>Shader yazmak (GPU programlama)</td><td>RGB</td><td>GPU'lar doğal olarak RGB ile çalışır, en hızlı format</td></tr>
+              <tr><td>Renk geçişleri / animasyon</td><td>HSL</td><td>Hue üzerinde geçiş yapmak gökkuşağı efekti verir, RGB'de garip karışımlar olabilir</td></tr>
+              <tr><td>Tasarımcıyla iletişim</td><td>HEX</td><td>Tasarımcılar genellikle HEX kodlarıyla konuşur</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- BÖLÜM 5: ALPHA -->
+    <h2 id="alpha">5. Alpha Kanalı: Saydamlık 👻</h2>
+
+    <p>
+      Bazen bir rengin <strong>saydam (transparent)</strong> olmasını isteriz. Örneğin bir oyun karakterinin sprite'ının arka planı saydam olmalıdır ki arkadaki oyun dünyası görünsün. Ya da bir cam veya su efekti yapmak istiyorsanız, yarı saydamlık gerekir. İşte burada <strong>Alpha kanalı</strong> devreye girer.
+    </p>
+
+    <p>Alpha, RGB'ye eklenen <strong>dördüncü bir kanal</strong>dır: <code>RGBA(R, G, B, A)</code>. Pikselin ne kadar saydam veya opak (katı) olduğunu belirler:</p>
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+      <li><strong>Alpha = 0 (veya 0%)</strong> → Tamamen saydam — piksel görünmez, arkası tamamen görünür</li>
+      <li><strong>Alpha = 128 (veya %50)</strong> → Yarı saydam — pikselin rengi ve arkadaki renk karışır</li>
+      <li><strong>Alpha = 255 (veya 100%)</strong> → Tamamen opak — normal, katı piksel, arkası hiç görünmez</li>
+    </ul>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Alpha Blend (Karıştırma) Nasıl Çalışır?</div>
+      <p>Yarı saydam bir piksel ekrana çizildiğinde, renk <strong>matematiksel olarak karıştırılır:</strong><br>
+      <code>Son Renk = (Ön Renk × Alpha) + (Arka Renk × (1 - Alpha))</code><br><br>
+      Örnek: Yarı saydam kırmızı (255,0,0, %50) mavi (0,0,255) zemin üzerine çizilirse:<br>
+      R = (255 × 0.5) + (0 × 0.5) = 128<br>
+      G = (0 × 0.5) + (0 × 0.5) = 0<br>
+      B = (0 × 0.5) + (255 × 0.5) = 128<br>
+      Sonuç: <strong>(128, 0, 128)</strong> — mor! Kırmızı ve mavi karışımı.</p>
+    </div>
+
+    <!-- İNTERAKTİF DEMO: Alpha -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">👻 İnteraktif Demo: Alpha (Saydamlık)</div>
+      </div>
+      <div class="demo-body">
+        <div class="control-group">
+          <label style="font-weight: 700;">Alpha:</label>
+          <input type="range" id="alphaSlider" min="0" max="100" value="70">
+          <span class="value-display" id="alphaVal">70%</span>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <canvas id="alphaCanvas" width="500" height="300" style="border: 2px solid var(--border-color); border-radius: 8px;"></canvas>
+        </div>
+        <p style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+          Kırmızı karenin saydamlığını ayarlayın — arkasındaki dama tahtası deseni ve mavi kare görünür
+        </p>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Alpha Formatları</div>
+      <p>Alpha farklı formatlarda ifade edilebilir:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem; margin-top: 0.5rem;">
+        <li><strong>CSS'te:</strong> <code>rgba(233, 69, 96, 0.5)</code> — son değer 0-1 arası float</li>
+        <li><strong>HEX'te:</strong> <code>#E9456080</code> — son 2 karakter alpha (80 hex = 128 decimal = %50)</li>
+        <li><strong>8-bit:</strong> 0-255 arası tam sayı — oyun motorları genellikle bunu kullanır</li>
+        <li><strong>Yüzde:</strong> %0-%100 — en sezgisel ama programlamada az kullanılır</li>
+      </ul>
+    </div>
+
+    <h3>Oyunlarda Alpha Kullanım Alanları</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top: 0;">🎭 Sprite Arka Planları</h3>
+        <p>Bir karakter sprite'ının dikdörtgen resim dosyasında, karakterin dışındaki alanlar <strong>alpha = 0</strong> (tamamen saydam) olur. Bu yüzden oyun sprite'ları için <strong>PNG formatı</strong> kullanılır — JPG alpha desteklemez!</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">💨 Parçacık Efektleri</h3>
+        <p>Duman, ateş, büyü efektleri, patlama... Hepsi yarı saydam parçacıklar (particle) kullanır. Alpha zamanla azalarak "sönen" efekt verilir. Bu sayede efektler gerçekçi görünür.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🪟 Cam ve Su</h3>
+        <p>Yarı saydam materyaller: cam pencereler, su yüzeyleri, buz, hologram efektleri. Saydamlık derecesine göre arkadaki objeler az veya çok görünür.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">📱 UI Elemanları</h3>
+        <p>Oyun HUD'ı (sağlık barı, minimap, menüler) genellikle yarı saydam yapılır ki arkadaki oyun dünyası da görünsün. Özellikle pause menüleri ve overlay'ler.</p>
+      </div>
+    </div>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Performans Notu</div>
+      <p>Saydam objeler render etmek, opak objelerden <strong>daha pahalıdır</strong> (daha fazla GPU işlemi gerektirir). Çünkü GPU hem önündeki hem arkasındaki pikseli hesaplamalı ve karıştırmalıdır. Çok fazla üst üste saydam obje (overdraw) performansı düşürebilir. Bu yüzden oyun geliştiriciler saydamlığı dikkatli kullanır.</p>
+    </div>
+
+    <!-- BÖLÜM 6: PALETLER -->
+    <h2 id="paletler">6. Renk Paletleri ve Uyum 🎨</h2>
+
+    <p>
+      Bir oyun, film veya tasarım projesinde rastgele renkler seçmezsiniz.
+      <strong>Renk paleti</strong>, birbiriyle uyumlu renklerin seçilmiş bir grubudur.
+      İyi bir palet, projenize profesyonel ve tutarlı bir görünüm kazandırır. Kötü bir palet ise projeyi amatör ve dağınık gösterir.
+    </p>
+
+    <p>
+      Renk uyumu, yüzlerce yıllık sanat teorisine dayanır. 
+      <strong>Renk çemberi (color wheel)</strong> üzerindeki ilişkiler, hangi renklerin birbiriyle iyi durduğunu belirler. 
+      Bu kurallar subjektif değildir — insan algısının nasıl çalıştığına dayanır.
+    </p>
+
+    <h3>Temel Renk Uyum Kuralları</h3>
+
+    <!-- İNTERAKTİF DEMO: Renk Çemberi ve Uyum -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">🎯 İnteraktif Demo: Renk Uyum Tipleri</div>
+      </div>
+      <div class="demo-body">
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+          <button class="btn primary" onclick="setHarmony('complementary')" id="harmBtn1">Tamamlayıcı</button>
+          <button class="btn" onclick="setHarmony('analogous')" id="harmBtn2">Analog</button>
+          <button class="btn" onclick="setHarmony('triadic')" id="harmBtn3">Üçlü (Triadic)</button>
+          <button class="btn" onclick="setHarmony('split')" id="harmBtn4">Bölünmüş Tamamlayıcı</button>
+          <button class="btn" onclick="setHarmony('monochromatic')" id="harmBtn5">Monokromatik</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem; align-items: start;">
+          <div style="text-align: center;">
+            <canvas id="colorWheelCanvas" width="250" height="250"></canvas>
+            <div class="control-group" style="margin-top: 1rem;">
+              <label>Ana Renk:</label>
+              <input type="range" id="baseHueSlider" min="0" max="360" value="0">
+            </div>
+          </div>
+          <div>
+            <h4 id="harmonyTitle" style="margin-top: 0;">Tamamlayıcı (Complementary)</h4>
+            <p id="harmonyDesc" style="font-size: 0.9rem;">Renk çemberinde birbirine zıt (180° karşısında) iki renk. Güçlü kontrast sağlar. Aksiyon oyunlarında düşman vs oyuncu renkleri için idealdir.</p>
+            <div id="harmonySwatches" style="display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap;"></div>
+            <div id="harmonyExamples" style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>📖 Renk Uyum Tiplerinin Detaylı Açıklamaları</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <h4>1. Tamamlayıcı (Complementary)</h4>
+          <p>Renk çemberinde karşı karşıya (180°) duran iki renk. <strong>En yüksek kontrast</strong> sağlar. Dikkat çekmek için mükemmel ama aşırı kullanılırsa gözü yorar.</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">🎮 Oyun örneği: Mario'nun kırmızı şapkası yeşil borular üzerinde, Sonic'in mavi rengi altın sarısı yüzükleriyle.</p>
+
+          <h4>2. Analog (Analogous)</h4>
+          <p>Renk çemberinde yan yana duran 3-4 renk (30-60° aralıkta). <strong>Uyumlu, huzurlu, doğal</strong> görünüm. Ama kontrast düşük olduğu için önemli elemanlar kaybolabilir.</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">🎮 Oyun örneği: Orman seviyeleri (yeşil-sarı-yeşilmavi), gün batımı sahneleri (kırmızı-turuncu-sarı).</p>
+
+          <h4>3. Üçlü (Triadic)</h4>
+          <p>Renk çemberinde eşit aralıklı üç renk (120° arayla). <strong>Canlı ama dengeli</strong>. Çocuk oyunlarında ve enerjik tasarımlarda sık kullanılır.</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">🎮 Oyun örneği: Superman'in renkleri (kırmızı-mavi-sarı), birçok süper kahraman tasarımı.</p>
+
+          <h4>4. Bölünmüş Tamamlayıcı (Split-Complementary)</h4>
+          <p>Bir ana renk ve onun tamamlayıcısının iki yanındaki renkler. Tamamlayıcının kontrastını verir ama <strong>daha yumuşak ve hata yapması daha zor</strong>.</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">🎮 Yeni başlayanlar için en güvenli seçim!</p>
+
+          <h4>5. Monokromatik (Monochromatic)</h4>
+          <p>Tek bir rengin farklı açıklık (lightness) ve doygunluk (saturation) varyasyonları. <strong>Zarif, tutarlı, minimal.</strong> Ama monoton olabilir.</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">🎮 Oyun örneği: Limbo (tamamen gri tonları), Inside (koyu mavi-gri tonları).</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Palet Oluşturma Pratik Kuralları</h3>
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <h3 style="margin-top: 0; color: var(--accent-4);">🎯 60-30-10 Kuralı</h3>
+      <p>İç mekan tasarımından gelen bu kural oyunlarda da çalışır:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>%60 — Ana Renk (Dominant):</strong> Arka plan, zemin, büyük yüzeyler. Genellikle nötr veya sakin bir ton.</li>
+        <li><strong>%30 — İkincil Renk (Secondary):</strong> UI elemanları, dekoratif objeler, orta önemdeki detaylar.</li>
+        <li><strong>%10 — Vurgu Renk (Accent):</strong> Butonlar, önemli objeler, dikkat çekici noktalar. <strong>En canlı ve çarpıcı renk.</strong></li>
+      </ul>
+      <p style="font-size: 0.85rem; margin-top: 0.5rem;">Bu oranları takip ederseniz, tasarımınız doğal ve profesyonel görünecektir!</p>
+    </div>
+
+    <h3>Oyunlardan Palet Örnekleri</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top:0">🍃 Stardew Valley</h3>
+        <div style="display: flex; gap: 4px; margin: 0.75rem 0;">
+          <div style="width:40px;height:40px;border-radius:6px;background:#5b8c3e;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#8bc34a;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#d4a574;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#6d4c41;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#42a5f5;"></div>
+        </div>
+        <p style="font-size: 0.85rem;">Sıcak, doğal, huzurlu — yeşil ve toprak tonları dominasyon. Çiftlik teması ve doğa hissi yaratıyor. Analog palet + nötr tonlar.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">💀 Hollow Knight</h3>
+        <div style="display: flex; gap: 4px; margin: 0.75rem 0;">
+          <div style="width:40px;height:40px;border-radius:6px;background:#1a1a2e;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#3d5a80;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#e0e0e0;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#98c1d9;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#ee6c4d;"></div>
+        </div>
+        <p style="font-size: 0.85rem;">Koyu, gizemli, az sayıda vurgulayıcı renk. Monokromatik koyu mavi + turuncu/kırmızı vurgu. Her bölgenin kendi alt paleti var.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">🍳 Celeste</h3>
+        <div style="display: flex; gap: 4px; margin: 0.75rem 0;">
+          <div style="width:40px;height:40px;border-radius:6px;background:#4a148c;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#e91e63;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#00bcd4;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#ffc107;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#e8eaf6;"></div>
+        </div>
+        <p style="font-size: 0.85rem;">Her bölüm farklı palet — duygusal anlatımı destekliyor. Karanlık bölümlerde mor-koyu mavi, huzurlu bölümlerde açık mavi-beyaz.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">🔥 Hades</h3>
+        <div style="display: flex; gap: 4px; margin: 0.75rem 0;">
+          <div style="width:40px;height:40px;border-radius:6px;background:#b71c1c;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#ff6f00;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#ffd54f;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#212121;"></div>
+          <div style="width:40px;height:40px;border-radius:6px;background:#4a148c;"></div>
+        </div>
+        <p style="font-size: 0.85rem;">Sıcak, agresif — kırmızı ve turuncu dominansı. Yeraltı dünyası teması, ateş/lav hissi. Koyu arka plan üzerinde canlı renkler = güçlü kontrast.</p>
+      </div>
+    </div>
+
+    <!-- BÖLÜM 7: OYUNLARDA RENK -->
+    <h2 id="oyunlarda-renk">7. Oyunlarda Renk Kullanımı 🎮</h2>
+
+    <p>Oyunlarda renk sadece "güzel görünmek" için değildir. Renk, oyun tasarımının en güçlü araçlarından biridir. Doğru kullanıldığında renk, <strong>bilgi iletir</strong>, <strong>duygu yaratır</strong>, <strong>oyuncuyu yönlendirir</strong> ve <strong>hikâye anlatır</strong>.</p>
+
+    <div class="card">
+      <h3 style="margin-top: 0;">🔴 Renk = Bilgi (Fonksiyonel Renk)</h3>
+      <p>Oyunlarda renkler evrensel bir dil oluşturur. Oyuncular bu renk kodlarını sezgisel olarak anlar:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>🔴 <strong>Kırmızı:</strong> Tehlike, hasar, düşman, düşük sağlık, durdurma sinyali</li>
+        <li>🟢 <strong>Yeşil:</strong> Güvenli, sağlık, para, toplanabilir eşya, "devam et"</li>
+        <li>🔵 <strong>Mavi:</strong> Mana, enerji, su, sakinlik, bilgi arayüzleri</li>
+        <li>🟡 <strong>Sarı/Altın:</strong> Değerli, önemli, quest işaretçisi, uyarı</li>
+        <li>⚪ <strong>Beyaz:</strong> Saf, nötr, kutsal, iyileştirme, aydınlık alan</li>
+        <li>🟣 <strong>Mor/Eflatun:</strong> Nadir, büyülü, gizemli, efsanevi eşya (Epic/Legendary loot)</li>
+        <li>🟠 <strong>Turuncu:</strong> Enerji, coşku, "uncommon" nadirlikteki eşyalar</li>
+      </ul>
+      <div class="info-box note" style="margin-top: 0.75rem; margin-bottom: 0;">
+        <div class="info-title">📌 Loot Rarity Sistemi</div>
+        <p>RPG ve looter oyunlarda eşya nadirliği renk ile belirtilir: ⚪ Common (Beyaz) → 🟢 Uncommon (Yeşil) → 🔵 Rare (Mavi) → 🟣 Epic (Mor) → 🟠 Legendary (Turuncu/Altın). Bu sistem World of Warcraft'tan beri standarttır ve oyuncular bunu sezgisel olarak bilir.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top: 0;">🎭 Renk = Duygu (Atmosferik Renk)</h3>
+      <p>Renk, diyalog veya metin olmadan bile güçlü duygular yaratır:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Sıcak renkler</strong> (kırmızı, turuncu, sarı): Enerji, heyecan, tehlike, savaş, öfke</li>
+        <li><strong>Soğuk renkler</strong> (mavi, yeşil, mor): Huzur, gizemli, melankolik, ürkütücü, soğuk</li>
+        <li><strong>Düşük doygunluk (desaturated):</strong> Hüzün, nostalji, gerçekçilik, savaş sonrası, hastalık</li>
+        <li><strong>Yüksek doygunluk (saturated):</strong> Çizgi film, eğlence, enerji, oyuncaklık</li>
+        <li><strong>Koyu paletler:</strong> Korku, gerilim, ciddiyet, gece, yer altı</li>
+        <li><strong>Açık/pastel paletler:</strong> Mutluluk, masumiyet, rahatlık, çocuk oyunu, rüya</li>
+      </ul>
+      <div class="info-box tip" style="margin-top: 0.75rem; margin-bottom: 0;">
+        <div class="info-title">💡 Renk Sıcaklığı (Color Temperature)</div>
+        <p>Film ve oyunlarda "renk sıcaklığı" atmosfer yaratmanın en güçlü araçlarından biridir. Sıcak filtre (turuncu/sarı tint) = gün batımı, çöl, nostalji. Soğuk filtre (mavi/yeşil tint) = gece, uzay, karanlık gelecek, teknoloji. <strong>Örnek:</strong> Breaking Bad'in Meksika sahneleri sarı filtre, Matrix yeşil filtre kullanır.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top: 0;">🧭 Renk = Yönlendirme (Navigation Color)</h3>
+      <p>Oyuncunun nereye gitmesi gerektiğini anlatmak için renk, en doğal ve non-intrusive (oyunu bozmayan) yöntemdir:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Etkileşilebilir objeler</strong> arka plandan farklı renkte olur (parlak sarı sandık, gri duvar içinde)</li>
+        <li><strong>Doğru yol</strong> daha aydınlık, yanlış yol daha karanlık — oyuncu farkında olmadan doğru yöne çekilir</li>
+        <li><strong>Mirror's Edge:</strong> Kırmızı = doğru yol, parkur yapılacak objeler kırmızı vurgulanır (mükemmel örnek!)</li>
+        <li><strong>Uncharted serisi:</strong> Tırmanılacak çıkıntılar sarı/turuncu ile vurgulanır</li>
+        <li><strong>Dead Space:</strong> Kaynak ve önemli objeler mavi ışıkla vurgulanır, tehlike kırmızıyla</li>
+      </ul>
+      <p style="margin-top: 0.75rem; font-size: 0.9rem;">İyi bir oyun tasarımında oyuncu "<em>nereye gideceğimi nasıl anladım bilmiyorum ama doğru yere gittim</em>" der — bu genellikle renk yönlendirmesi sayesindedir!</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top: 0;">📖 Renk = Hikâye Anlatımı (Narrative Color)</h3>
+      <p>Renk, hikâye anlatımının görsel bir aracı olarak da kullanılır:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Karakter kişiliği:</strong> Kötü karakter = koyu renkler, iyi karakter = açık/canlı renkler</li>
+        <li><strong>Zaman geçişi:</strong> Flashback sahneleri desaturated (renksiz), şimdiki zaman renkli</li>
+        <li><strong>Hikâye dönüm noktaları:</strong> Önemli anlarda renk paleti değişir (Journey'de her bölüm farklı palet)</li>
+        <li><strong>Karakter gelişimi:</strong> Karakter güçlendikçe renkleri canlılaşır (Hades'te silah upgrade'leri)</li>
+      </ul>
+    </div>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Tartışma</div>
+      <p>En sevdiğiniz bir oyunu düşünün. Renk paleti nasıl? Sıcak mı soğuk mu? Renkler bilgi veriyor mu? Duygusal bir atmosfer yaratıyor mu? Oyuncu yönlendirmesi için renk kullanılıyor mu? Sınıfta tartışalım!</p>
+    </div>
+
+    <!-- BÖLÜM 8: ERİŞİLEBİLİRLİK -->
+    <h2 id="erisilebilirlik">8. Erişilebilirlik ve Renk Körlüğü 👁️</h2>
+
+    <p>
+      Dünya nüfusunun yaklaşık <strong>%8'i (erkeklerde)</strong> ve <strong>%0.5'i (kadınlarda)</strong> bir tür renk körlüğüne sahiptir.
+      Bu, bir sınıftaki 30 erkek öğrenciden <strong>2-3 tanesinin</strong> kırmızı-yeşil veya mavi-sarı farkını göremeyeceği anlamına gelir.
+      Oyun geliştiriciler olarak bu kitleyi görmezden gelemezsiniz.
+    </p>
+
+    <h3>Renk Körlüğü Türleri</h3>
+    <p>Renk körlüğü genellikle koni hücrelerdeki genetik farklılıklardan kaynaklanır:</p>
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card" style="border-top: 3px solid #ff6666;">
+        <h3 style="margin-top: 0; color: #ff6666;">Protanopi</h3>
+        <p><strong>L-koni (kırmızı) eksik veya bozuk.</strong> Kırmızı ile yeşili ayırt edemez. Kırmızılar daha koyu ve gri görünür. Erkeklerin ~%1'inde.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid #66ff66;">
+        <h3 style="margin-top: 0; color: #66ff66;">Deuteranopi</h3>
+        <p><strong>M-koni (yeşil) eksik veya bozuk.</strong> En yaygın tür! Kırmızı-yeşil ayrımı yapamaz. Erkeklerin ~%6'sında.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid #6666ff;">
+        <h3 style="margin-top: 0; color: #6666ff;">Tritanopi</h3>
+        <p><strong>S-koni (mavi) eksik veya bozuk.</strong> Mavi-sarı ayrımı yapamaz. Çok nadir (~%0.01). Yaşla oluşabilir.</p>
+      </div>
+    </div>
+
+    <!-- İNTERAKTİF DEMO: Renk Körlüğü Simülasyonu -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">👁️ İnteraktif Demo: Renk Körlüğü Simülasyonu</div>
+      </div>
+      <div class="demo-body">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+          <button class="btn primary" onclick="setColorBlindMode('normal')" id="cbBtn1">Normal Görüş</button>
+          <button class="btn" onclick="setColorBlindMode('protanopia')" id="cbBtn2">Protanopi (Kırmızı-Yeşil)</button>
+          <button class="btn" onclick="setColorBlindMode('deuteranopia')" id="cbBtn3">Deuteranopi (Yeşil-Kırmızı)</button>
+          <button class="btn" onclick="setColorBlindMode('tritanopia')" id="cbBtn4">Tritanopi (Mavi-Sarı)</button>
+        </div>
+        <canvas id="colorBlindCanvas" width="600" height="200" style="width: 100%; border-radius: 8px; border: 2px solid var(--border-color);"></canvas>
+        <p id="colorBlindInfo" style="font-size: 0.85rem; margin-top: 0.75rem; color: var(--text-secondary);">
+          Normal renk görüşü. Tüm renkler ayırt edilebilir.
+        </p>
+      </div>
+    </div>
+
+    <h3>Oyunlarda Erişilebilirlik İçin Tasarım Kuralları</h3>
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Asla sadece renge güvenmeyin:</strong> Önemli bilgiyi renk + şekil + ikon + metin ile iletin. Kırmızı daire yerine kırmızı X işareti veya "Tehlike" yazısı.</li>
+        <li><strong>Renk körlüğü modu ekleyin:</strong> Birçok modern oyun (Fortnite, Overwatch, Apex Legends) bunu ayarlarda sunar. Genellikle renkleri farklı tonlara kaydırır.</li>
+        <li><strong>Yüksek kontrast kullanın:</strong> Önemli elemanlar arka plandan en az 4.5:1 kontrast oranıyla ayrılmalı (WCAG standardı).</li>
+        <li><strong>Farklı doku/pattern kullanın:</strong> Takım renklerini veya kategorileri ayırt etmek için renk yanında farklı desenler ekleyin.</li>
+        <li><strong>Simülatörlerle test edin:</strong> <a href="https://www.color-blindness.com/coblis-color-blindness-simulator/" target="_blank">Coblis</a> veya <a href="https://colororacle.org/" target="_blank">Color Oracle</a> ile ekranınızı renk körü gözüyle görün.</li>
+        <li><strong>Boyut ve kalınlık farkı kullanın:</strong> Önemli çizgiler daha kalın, daha büyük olsun — renk farkı görülmese bile boyut farkı görülür.</li>
+      </ol>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Başarılı Örnekler</div>
+      <p><strong>Among Us:</strong> Karakterlere şapka/aksesuar ekleyerek renk dışında ayırt edicilik sağlar. <strong>Fortnite:</strong> Kapsamlı erişilebilirlik ayarları — düşman vurgusu, dost/düşman renk değiştirme. <strong>The Last of Us Part II:</strong> Oyun endüstrisinin en kapsamlı erişilebilirlik seçeneklerine sahip — 60+ erişilebilirlik ayarı! Bu sadece etik bir sorumluluk değil, aynı zamanda daha geniş bir kitleye ulaşmak = daha fazla satış demektir.</p>
+    </div>
+
+    <!-- BÖLÜM 9: LAB -->
+    <h2 id="lab">9. 💻 Lab: Renk Atölyesi</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Lab Hedefleri</div>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>RGB ve HSL renk modellerini uygulamalı olarak kavramak</li>
+        <li>Renk paleti oluşturma pratiği yapmak</li>
+        <li>GIMP/Photopea'da renk araçlarını kullanmak</li>
+        <li>Renk erişilebilirliğini test etmek</li>
+      </ul>
+    </div>
+
+    <h3>Lab Aktivite 1: Renk Paleti Oluşturma</h3>
+    <div class="card">
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><a href="https://coolors.co/" target="_blank">Coolors.co</a>'ya gidin</li>
+        <li>Space tuşuna basarak rastgele paletler keşfedin (beğendiğiniz renkleri kilitleyebilirsiniz)</li>
+        <li>Aşağıdaki temalardan biri için 5 renklik bir palet oluşturun:
+          <ul>
+            <li>🌊 Okyanus macera oyunu</li>
+            <li>🔥 Cehennem temalı aksiyon oyunu</li>
+            <li>🌸 Kawaii/sevimli mobil oyun</li>
+            <li>🧟 Zombi hayatta kalma oyunu</li>
+            <li>🚀 Uzay keşif oyunu</li>
+          </ul>
+        </li>
+        <li>Paleti kaydedin (Export → veya ekran görüntüsü) ve HEX kodlarını not edin</li>
+        <li>60-30-10 kuralına göre: hangi renk %60, hangisi %30, hangisi %10 olacak?</li>
+        <li>Neden bu renkleri seçtiğinizi 2-3 cümleyle açıklayın</li>
+      </ol>
+    </div>
+
+    <h3>Lab Aktivite 2: Aynı Sahne, Farklı Palet</h3>
+    <div class="card">
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>GIMP veya <a href="https://www.photopea.com/" target="_blank">Photopea</a> açın</li>
+        <li>Basit bir oyun sahnesi çizin: gökyüzü, zemin, bir ağaç, bir ev (çok detaylı olmak zorunda değil, 320×240 px yeterli)</li>
+        <li>Bu sahneyi 3 farklı renk paletiyle renklendirin:
+          <ul>
+            <li>☀️ Gündüz versiyonu (sıcak, aydınlık — sarı/turuncu tonlar)</li>
+            <li>🌙 Gece versiyonu (soğuk, koyu — mavi/mor tonlar)</li>
+            <li>☢️ Kıyamet/post-apokaliptik versiyonu (gri, soluk, desaturated)</li>
+          </ul>
+        </li>
+        <li>Her versiyonu ayrı katman (layer) olarak yapabilir veya 3 farklı dosya oluşturabilirsiniz</li>
+        <li>3 versiyonu yan yana koyun — rengin atmosferi nasıl değiştirdiğini gözlemleyin</li>
+        <li><strong>Bonus:</strong> HSL'de sadece H (Hue) değiştirerek otomatik ton değişimi deneyin (GIMP: Colors → Hue-Saturation)</li>
+      </ol>
+    </div>
+
+    <h3>Lab Aktivite 3: Renk Erişilebilirlik Testi</h3>
+    <div class="card">
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>Lab 1'de oluşturduğunuz paleti <a href="https://www.color-blindness.com/coblis-color-blindness-simulator/" target="_blank">Coblis Simulator</a>'da test edin (paletteki renklerle basit bir görsel yapıp yükleyin)</li>
+        <li>Her üç renk körlüğü tipinde (Protanopi, Deuteranopi, Tritanopi) simülasyon çalıştırın</li>
+        <li>Renk körü bir oyuncu paletinizdeki renkleri ayırt edebilir mi? Hangi renkler karışıyor?</li>
+        <li>Eğer ayırt edemiyorsa, paleti nasıl iyileştirirsiniz? (İpucu: Sadece rengi değil, parlaklık farkını da düşünün)</li>
+        <li><a href="https://webaim.org/resources/contrastchecker/" target="_blank">WebAIM Contrast Checker</a> ile metin ve arka plan renginizin kontrast oranını ölçün (minimum 4.5:1 olmalı)</li>
+      </ol>
+    </div>
+
+    <h3>Lab Aktivite 4: RGB Kanallarını İnceleme (Bonus)</h3>
+    <div class="card">
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>İnternetten renkli bir oyun ekran görüntüsü indirin (Celeste, Hollow Knight vb.)</li>
+        <li>GIMP'te açın ve Colors → Components → Decompose → RGB seçin</li>
+        <li>Her renk kanalını (R, G, B) ayrı ayrı inceleyin — gri tonlu görüntüler</li>
+        <li>Hangi bölgelerde hangi kanal parlak? Neden?</li>
+        <li>Bir kanalı kapatın (siyah yapın) ve rengin nasıl değiştiğini gözlemleyin</li>
+      </ol>
+    </div>
+
+    <!-- QUIZ -->
+    <h2>🧪 Kendini Test Et</h2>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 1</div>
+      <p>RGB(0, 0, 0) hangi renktir?</p>
+      <div class="quiz-option" data-correct="false">Beyaz</div>
+      <div class="quiz-option" data-correct="true">Siyah</div>
+      <div class="quiz-option" data-correct="false">Kırmızı</div>
+      <div class="quiz-option" data-correct="false">Gri</div>
+      <div class="quiz-feedback" data-explanation="R=0, G=0, B=0 → hiç ışık yok = siyah! RGB toplamsal (additive) bir model olduğu için, hiç ışık olmaması = karanlık = siyah demektir."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 2</div>
+      <p>Bir rengi "daha soluk/pastel" yapmak istiyorsanız HSL'de hangi değeri düşürürsünüz?</p>
+      <div class="quiz-option" data-correct="false">Hue (Ton)</div>
+      <div class="quiz-option" data-correct="true">Saturation (Doygunluk)</div>
+      <div class="quiz-option" data-correct="false">Lightness (Parlaklık)</div>
+      <div class="quiz-option" data-correct="false">Alpha</div>
+      <div class="quiz-feedback" data-explanation="Saturation (Doygunluk) düştükçe renk griye yaklaşır, yani daha pastel/soluk olur. Hue rengin cinsini, Lightness açıklığını değiştirir."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 3</div>
+      <p>Bir oyunda sağlık azaldığını göstermek için sadece kırmızı renk kullanmak neden sorunlu olabilir?</p>
+      <div class="quiz-option" data-correct="false">Kırmızı kötü bir renktir</div>
+      <div class="quiz-option" data-correct="false">Kırmızı çok parlaktır</div>
+      <div class="quiz-option" data-correct="true">Renk körü oyuncular kırmızıyı göremeyebilir</div>
+      <div class="quiz-option" data-correct="false">Kırmızı yavaş render edilir</div>
+      <div class="quiz-feedback" data-explanation="Protanopi ve deuteranopi (kırmızı-yeşil renk körlüğü) olan kişiler kırmızıyı ayırt edemez. Bu yüzden renk + şekil/ikon birlikte kullanılmalıdır. Kırmızı + X ikonu + 'Danger' yazısı gibi."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 4</div>
+      <p>24-bit renk (True Color) ile toplam kaç farklı renk oluşturulabilir?</p>
+      <div class="quiz-option" data-correct="false">256</div>
+      <div class="quiz-option" data-correct="false">65.536</div>
+      <div class="quiz-option" data-correct="true">16.777.216 (yaklaşık 16,7 milyon)</div>
+      <div class="quiz-option" data-correct="false">1 milyar</div>
+      <div class="quiz-feedback" data-explanation="Her kanal 8 bit = 256 değer. 256 × 256 × 256 = 16.777.216 farklı renk. 24-bit = 3 kanal × 8 bit."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 5</div>
+      <p>RGB(255, 255, 0) hangi renktir?</p>
+      <div class="quiz-option" data-correct="false">Turuncu</div>
+      <div class="quiz-option" data-correct="false">Mor</div>
+      <div class="quiz-option" data-correct="true">Sarı</div>
+      <div class="quiz-option" data-correct="false">Beyaz</div>
+      <div class="quiz-feedback" data-explanation="Kırmızı (255) + Yeşil (255) + Mavi yok (0) = Sarı! Toplamsal karışımda kırmızı ve yeşil ışık birleşince sarı algısı oluşur."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 6</div>
+      <p>Alpha = 0 olan bir piksel nasıl görünür?</p>
+      <div class="quiz-option" data-correct="false">Siyah</div>
+      <div class="quiz-option" data-correct="false">Beyaz</div>
+      <div class="quiz-option" data-correct="true">Tamamen görünmez (saydam)</div>
+      <div class="quiz-option" data-correct="false">Yarı saydam</div>
+      <div class="quiz-feedback" data-explanation="Alpha = 0 tamamen saydam demektir. Pikselin rengi ne olursa olsun (kırmızı, mavi, siyah...) hiç görünmez, arkadaki katman tamamen görünür."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 7</div>
+      <p>Toplamsal (additive) renk karıştırmada tüm renkler (R+G+B) karıştırılırsa ne olur?</p>
+      <div class="quiz-option" data-correct="false">Siyah olur</div>
+      <div class="quiz-option" data-correct="true">Beyaz olur</div>
+      <div class="quiz-option" data-correct="false">Kahverengi olur</div>
+      <div class="quiz-option" data-correct="false">Gri olur</div>
+      <div class="quiz-feedback" data-explanation="Toplamsal (ışık) karıştırmada R + G + B = Beyaz! Bu, boyaların (çıkarımsal) karıştırılmasından farklıdır — boyada hepsi karışınca koyu kahverengi/siyah olur."></div>
+    </div>
+
+    <!-- KAYNAKLAR -->
+    <h2 id="kaynaklar">📚 Kaynaklar ve Okumalar</h2>
+
+    <h3>🎬 Videolar</h3>
+    <div class="resources-list">
+      <a href="https://www.youtube.com/watch?v=srRI7yMjGnQ" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>Color Theory for Game Design</h4>
+          <p>GDC Talk — Profesyonel oyun tasarımcılarından renk kullanımı stratejileri. Oyun endüstrisinin konferansı.</p>
+          <span class="resource-tag">YouTube · GDC · 30 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=AvgCkHrcj90" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>Understanding Color</h4>
+          <p>Blender Guru — Renk teorisinin temelleri, çok anlaşılır anlatım. 3D sanatçı perspektifinden.</p>
+          <span class="resource-tag">YouTube · 15 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=Qj1FK8n7WgY" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How Games Use Color (and why it matters)</h4>
+          <p>Design Doc — Oyunlarda rengin anlamı, bilgi iletimi ve atmosfer yaratma. Birçok oyundan örnek.</p>
+          <span class="resource-tag">YouTube · 12 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=_2LLXnUdUIc" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>Color Theory Basics</h4>
+          <p>The Futur — Renk teorisi temelleri, tasarım perspektifi. Renk çemberi, uyum kuralları, pratik ipuçları.</p>
+          <span class="resource-tag">YouTube · 10 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=iNJdPyoqt8U" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How Color Blindness Works</h4>
+          <p>Verge Science — Renk körlüğünün bilimi, nasıl çalışır, nasıl simüle edilir. Erişilebilirlik farkındalığı.</p>
+          <span class="resource-tag">YouTube · 8 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=UWwNIMHFdW4" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>Pixel Art Class - Color Theory for Beginners</h4>
+          <p>AdamCYounis — Pixel art için renk teorisi, palet oluşturma, doygunluk ve değer (value) kavramları.</p>
+          <span class="resource-tag">YouTube · 20 dk · İngilizce</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>📖 Okumalar</h3>
+    <div class="resources-list">
+      <a href="https://www.interaction-design.org/literature/topics/color-theory" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Color Theory — Interaction Design Foundation</h4>
+          <p>Renk teorisinin kapsamlı açıklaması: terimler, kurallar, örnekler. Akademik ama erişilebilir.</p>
+          <span class="resource-tag">Web · İngilizce · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://blog.unity.com/games/on-accessibility-color-consideration-in-game-design" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Unity Blog: Color Consideration in Game Design</h4>
+          <p>Oyun tasarımında renk ve erişilebilirlik. Unity'nin resmi blogundan pratik öneriler.</p>
+          <span class="resource-tag">Blog · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://lospec.com/palette-list" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Lospec Palette List</h4>
+          <p>Oyun geliştirme için hazır renk paletleri koleksiyonu — özellikle pixel art için. Yüzlerce palet, filtre ve arama.</p>
+          <span class="resource-tag">Web · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://gameaccessibilityguidelines.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Game Accessibility Guidelines</h4>
+          <p>Oyun erişilebilirliği için kapsamlı kılavuz. Renk körlüğü dahil tüm erişilebilirlik konuları.</p>
+          <span class="resource-tag">Web · İngilizce · Ücretsiz</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>🛠️ Araçlar</h3>
+    <div class="resources-list">
+      <a href="https://coolors.co/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Coolors.co</h4>
+          <p>Hızlı ve kolay renk paleti oluşturucu — Space tuşuyla rastgele palet! Kilitleme, ayarlama, export. Lab'da kullanacağız.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://color.adobe.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Adobe Color</h4>
+          <p>Renk çemberi ile interaktif palet oluşturma. Analog, tamamlayıcı, üçlü vb. uyum kurallarını otomatik uygular.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://paletton.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Paletton</h4>
+          <p>Detaylı renk uyum aracı. Farklı harmonileri görselleştirir, önizleme modları sunar.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://www.color-blindness.com/coblis-color-blindness-simulator/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Coblis — Color Blindness Simulator</h4>
+          <p>Görsellerinizi yükleyip farklı renk körlüğü türlerinde nasıl göründüğünü simüle edin. Lab Aktivite 3 için kullanacağız.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://webaim.org/resources/contrastchecker/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>WebAIM Contrast Checker</h4>
+          <p>İki renk arasındaki kontrast oranını ölçün. WCAG standartlarına uygun mu kontrol edin.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://lospec.com/palette-editor" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Lospec Palette Editor</h4>
+          <p>Özellikle pixel art için palette editörü. Sınırlı renk paleti oluşturmak ve paylaşmak için harika.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- NAVİGASYON -->
+    <div class="week-nav">
+      <a href="../hafta1/index.html">← Bölüm 1: Bilgisayar Grafiğine Giriş</a>
+      <a href="#" style="opacity: 0.5; pointer-events: none;">Bölüm 3: Yakında →</a>
+    </div>
+
+    <footer class="site-footer">
+      Bilgisayar Grafiği • Oyun Geliştirme ve Programlama Bölümü • 2025-2026 Bahar
+    </footer>
+  </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="../shared.js"></script>
+  <script src="./hafta2.js"></script>
+</body>
+</html>
