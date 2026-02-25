@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bölüm 3 - GIMP ile Dijital Görüntü İşleme</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .gimp-img-container { text-align: center; margin: 1.5rem 0; }
+    .gimp-img-container img {
+      max-width: 100%; border-radius: 12px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .gimp-img-container .img-caption {
+      font-size: 0.85rem; color: var(--text-secondary);
+      margin-top: 0.5rem; font-style: italic;
+    }
+    .gimp-img-container .img-credit {
+      font-size: 0.75rem; color: var(--text-secondary); opacity: 0.7;
+    }
+    .gimp-menu-path {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-secondary); padding: 4px 10px; border-radius: 6px;
+      font-size: 0.9rem; display: inline-block; margin: 4px 0;
+      border-left: 3px solid var(--accent-4);
+    }
+    .jargon-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-4); font-weight: 600; white-space: nowrap;
+    }
+    .tutorial-card {
+      display: block; text-decoration: none; color: inherit;
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 1.5rem; margin: 1rem 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tutorial-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    .tutorial-card h4 { margin: 0 0 0.5rem; color: var(--accent-4); }
+    .tutorial-card p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .step-box {
+      background: var(--bg-secondary); border-left: 4px solid var(--accent-4);
+      padding: 1rem 1.25rem; margin: 1rem 0; border-radius: 0 8px 8px 0;
+    }
+    .step-box .step-num {
+      font-weight: 800; color: var(--accent-4); font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    .ref-image-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem; margin: 1rem 0;
+    }
+    .ref-image-card {
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 12px; overflow: hidden; transition: transform 0.2s;
+    }
+    .ref-image-card:hover { transform: translateY(-3px); }
+    .ref-image-card img { width: 100%; height: 180px; object-fit: cover; }
+    .ref-image-card .ref-info { padding: 0.75rem 1rem; }
+    .ref-image-card .ref-info h4 { margin: 0 0 0.25rem; font-size: 0.95rem; }
+    .ref-image-card .ref-info p { margin: 0; font-size: 0.8rem; color: var(--text-secondary); }
+    .ref-image-card .ref-info a {
+      font-size: 0.8rem; color: var(--accent-4); text-decoration: none;
+    }
+    .ref-image-card .ref-info a:hover { text-decoration: underline; }
+    .unit-card { text-align: center; padding: 1rem; }
+    .unit-card .unit-symbol {
+      font-size: 1.8rem; font-weight: 800; color: var(--accent-4);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .unit-card .unit-name { font-weight: 600; margin: 0.25rem 0; }
+    .unit-card .unit-desc { font-size: 0.82rem; color: var(--text-secondary); }
+    .comparison-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;
+    }
+    @media (max-width: 600px) { .comparison-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="has-sidebar">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html" class="active"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+    </div>
+    <div class="sidebar-toc"></div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- PAGE WRAPPER -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html" class="active">Bölüm 3</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header" style="background: linear-gradient(135deg, #4a6741, #2d8659, #1a5276, #6c3483);">
+    <span class="week-number">📅 BÖLÜM 3</span>
+    <h1>GIMP ile Dijital Görüntü İşleme</h1>
+    <p class="week-desc">GIMP arayüzü, temel terimler, görüntü ölçekleme, kırpma, döndürme, katmanlar, maskeler ve renk eğrileri</p>
+    <div class="week-meta">
+      <div class="meta-item">📖 Teori: 2 saat</div>
+      <div class="meta-item">💻 Uygulama: 2 saat</div>
+      <div class="meta-item">🛠️ Araç: GIMP 2.10+</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="info-box tip">
+      <div class="info-title">🌍 Türkçe Uyarlama Hakkında</div>
+      <p>Bu sayfadaki öğreticilerin önemli bir kısmı, <a href="https://www.gimp.org/tutorials/" target="_blank">GIMP'in resmi sitesindeki İngilizce öğreticilerden</a> Türkçe'ye uyarlanmıştır.
+      Her bölümün başında orijinal çalışmaya ve yazarına ait atf (link) bulunmaktadır. Orijinal öğreticilerin tamamı <strong>Creative Commons</strong> lisansı altında yayınlanmıştır.
+      Daha fazla detay ve İngilizce tam metin için, her bölümdeki "Orijinal" bağlantısına tıklayın.</p>
+    </div>
+
+    <!-- İÇİNDEKİLER -->
+    <div class="toc">
+      <h3>📑 Bu Bölümün İçeriği</h3>
+      <ol>
+        <li><a href="#gimp-nedir">GIMP Nedir?</a></li>
+        <li><a href="#gimp-jargon">GIMP Terimleri Sözlüğü (Jargon)</a></li>
+        <li><a href="#olcekleme">Görüntü Ölçekleme (Scale Image)</a></li>
+        <li><a href="#birimler">Ölçü Birimleri: Piksel, İnç, Milimetre...</a></li>
+        <li><a href="#jpeg-sikistirma">JPEG Sıkıştırma ve Dosya Boyutu</a></li>
+        <li><a href="#kirpma">Görüntü Kırpma (Crop)</a></li>
+        <li><a href="#dondurme">Döndürme ve Çevirme (Rotate &amp; Flip)</a></li>
+        <li><a href="#katmanlar">Katmanlar (Layers)</a></li>
+        <li><a href="#katman-maskeleri">Katman Maskeleri (Layer Masks)</a></li>
+        <li><a href="#renk-egrileri">Renk Eğrileri (Color Curves)</a></li>
+        <li><a href="#floating-logo">Uygulama: Floating Logo Yapımı</a></li>
+        <li><a href="#foto-duzenleme">Fotoğraf Düzenleme (Photo Editing)</a></li>
+        <li><a href="#dijital-boyama">Dijital Boyama (Painting)</a></li>
+        <li><a href="#referans-gorseller">Referans Görseller (Çalışma Materyalleri)</a></li>
+        <li><a href="#kaynaklar">Kaynaklar ve GIMP Öğreticileri</a></li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 1: GIMP NEDİR -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="gimp-nedir">1. GIMP Nedir? 🖌️</h2>
+
+    <p>
+      <strong>GIMP</strong> (GNU Image Manipulation Program — GNU Görüntü İşleme Programı), açık kaynaklı ve <strong>tamamen ücretsiz</strong> bir dijital görüntü düzenleme yazılımıdır.
+      Adobe Photoshop'a en güçlü ücretsiz alternatif olarak kabul edilir. Windows, macOS ve Linux üzerinde çalışır.
+    </p>
+
+    <div class="card-grid">
+      <div class="card" style="border-top: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; color: var(--accent-4);">✅ GIMP ile Neler Yapılabilir?</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Fotoğraf rötuşlama ve renk düzeltme</li>
+          <li>Görüntü boyutu ve çözünürlük değiştirme</li>
+          <li>Katman (layer) tabanlı kompozisyon</li>
+          <li>Seçim araçları ile hassas düzenleme</li>
+          <li>Filtreler ve efektler uygulama</li>
+          <li>Dijital resim / illüstrasyon çizme</li>
+          <li>Game texture ve sprite hazırlama</li>
+          <li>GIF animasyon oluşturma</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent-2);">
+        <h3 style="margin-top: 0; color: var(--accent-2);">📥 İndirme ve Kurulum</h3>
+        <p>GIMP'i resmi sitesinden indirin:</p>
+        <p style="font-size: 1.1rem; text-align: center; margin: 1rem 0;">
+          <a href="https://www.gimp.org/downloads/" target="_blank" style="color: var(--accent-4); font-weight: 700;">🔗 gimp.org/downloads</a>
+        </p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+          Mevcut kararlı sürüm: <strong>GIMP 2.10.x</strong><br>
+          Geliştirme sürümü: GIMP 3.0 (RC)<br>
+          Alternatif (tarayıcıda): <a href="https://www.photopea.com/" target="_blank">Photopea</a> — GIMP benzeri çevrimiçi editör
+        </p>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Neden GIMP?</div>
+      <p>Bu derste GIMP kullanıyoruz çünkü: <strong>(1)</strong> Tamamen ücretsiz — öğrenci bütçesine uygun. <strong>(2)</strong> Açık kaynak — her platformda çalışır. <strong>(3)</strong> Profesyonel seviyede araçlar sunar. <strong>(4)</strong> Endüstrideki Photoshop kavramlarını (katman, maske, blend mode, vb.) öğretir. Photoshop biliyorsanız GIMP'e geçiş kolaydır; GIMP biliyorsanız Photoshop'a geçiş de kolaydır!</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 2: GIMP JARGON -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="gimp-jargon">2. GIMP Terimleri Sözlüğü (Jargon) 📖</h2>
+
+    <p>
+      GIMP (ve genel olarak grafik yazılımları) birçok İngilizce terim kullanır. Bu terimleri anlamak, hem GIMP'i etkin kullanmak hem de
+      diğer grafik araçlarına (Photoshop, Krita, Aseprite) geçiş yaparken çok önemlidir. İşte en temel terimler:
+    </p>
+
+    <h3 id="jargon-arayuz">🖥️ Arayüz Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Canvas</td><td>Tuval</td><td>Üzerinde çalıştığınız görüntünün gösterildiği ana alan. Bir ressam tuvaline benzer.</td></tr>
+        <tr><td>Toolbox</td><td>Araç Kutusu</td><td>Fırça, silgi, seçim aracı gibi tüm araçların bulunduğu panel.</td></tr>
+        <tr><td>Tool Options</td><td>Araç Seçenekleri</td><td>Seçili aracın ayarlarının gösterildiği panel. Fırça boyutu, opaklık vb.</td></tr>
+        <tr><td>Dock / Dockable Dialog</td><td>Takılabilir Diyalog</td><td>Katmanlar, kanallar, yol gibi panellerin esnek pencere sistemi.</td></tr>
+        <tr><td>Menu Bar</td><td>Menü Çubuğu</td><td>File, Edit, Image, Layer, Colors, Filters gibi ana menüler.</td></tr>
+        <tr><td>Statusbar</td><td>Durum Çubuğu</td><td>Ekranın altındaki gezinme ve zoom bilgisi alanı.</td></tr>
+        <tr><td>Zoom</td><td>Yakınlaştırma/Uzaklaştırma</td><td>Görüntüyü büyültüp küçültmek (gerçek piksel sayısını değiştirmez!).</td></tr>
+        <tr><td>Fit Image in Window</td><td>Görüntüyü Pencereye Sığdır</td><td>Görüntünün tamamını görebilecek şekilde zoom'u ayarlama.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="jargon-goruntu">🖼️ Görüntü Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Image</td><td>Görüntü</td><td>GIMP'te açtığınız dosyanın tamamı. Birden fazla katman içerebilir.</td></tr>
+        <tr><td>Resolution</td><td>Çözünürlük</td><td>Görüntünün piksel cinsinden boyutu (genişlik × yükseklik). Örn: 1920×1080.</td></tr>
+        <tr><td>DPI / PPI</td><td>İnç Başına Nokta/Piksel</td><td>Baskı çözünürlüğü. 72 DPI ekran için, 300 DPI baskı için standarttır.</td></tr>
+        <tr><td>Scale</td><td>Ölçekleme</td><td>Görüntünün piksel sayısını değiştirerek boyutunu büyütme/küçültme.</td></tr>
+        <tr><td>Crop</td><td>Kırpma</td><td>Görüntünün istenmeyen kenarlarını keserek daha küçük bir alan bırakma.</td></tr>
+        <tr><td>Rotate</td><td>Döndürme</td><td>Görüntüyü bir açı etrafında çevirme (90°, 180° veya serbest açı).</td></tr>
+        <tr><td>Flip</td><td>Çevirme / Aynalama</td><td>Görüntüyü yatay veya dikey eksende aynalama.</td></tr>
+        <tr><td>Aspect Ratio</td><td>En-Boy Oranı</td><td>Genişlik/yükseklik oranı. 16:9, 4:3, 1:1 vb. Zincir simgesi kilitli iken korunur.</td></tr>
+        <tr><td>Interpolation</td><td>Enterpolasyon / Ara Değer Hesaplama</td><td>Ölçekleme sırasında yeni piksellerin renk değerini hesaplama yöntemi.</td></tr>
+        <tr><td>Resampling</td><td>Yeniden Örnekleme</td><td>Piksel ekleme veya çıkarma işlemi. Scale ile gerçekleşir.</td></tr>
+        <tr><td>Canvas Size</td><td>Tuval Boyutu</td><td>Çalışma alanının boyutu. Görüntü boyutundan farklı olabilir.</td></tr>
+        <tr><td>Print Size</td><td>Baskı Boyutu</td><td>Görüntünün kağıda basıldığındaki fiziksel boyutu (cm, inç).</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="jargon-katman">📚 Katman ve Seçim Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Layer</td><td>Katman</td><td>Üst üste yerleştirilmiş şeffaf sayfalar gibi düşünün. Her katman bağımsız düzenlenebilir.</td></tr>
+        <tr><td>Layer Mask</td><td>Katman Maskesi</td><td>Bir katmanın hangi kısımlarının görünür olduğunu kontrol eden gri tonlu görüntü.</td></tr>
+        <tr><td>Opacity</td><td>Opaklık / Saydamlık</td><td>Bir katmanın ne kadar saydam olduğu. 100% = tam opak, 0% = tamamen şeffaf.</td></tr>
+        <tr><td>Blend Mode</td><td>Karışım Modu</td><td>Katmanların birbirleriyle nasıl etkileştiğini belirleyen mod (Normal, Multiply, Screen vb.).</td></tr>
+        <tr><td>Flatten Image</td><td>Görüntüyü Düzleştir</td><td>Tüm katmanları tek bir katmanda birleştirme.</td></tr>
+        <tr><td>Merge Down</td><td>Aşağıya Birleştir</td><td>Aktif katmanı altındaki katmanla birleştirme.</td></tr>
+        <tr><td>Floating Selection</td><td>Yüzen Seçim</td><td>Yapıştırma sonrası oluşan geçici katman. Anchor (Sabitle) ile kalıcı olur.</td></tr>
+        <tr><td>Anchor</td><td>Sabitle / Çıpala</td><td>Yüzen seçimi mevcut katmana sabitleme.</td></tr>
+        <tr><td>Alpha Channel</td><td>Alfa Kanalı</td><td>Saydamlık bilgisini tutan kanal. PNG formatı alfa kanalını destekler.</td></tr>
+        <tr><td>Selection</td><td>Seçim</td><td>"Marching ants" (yürüyen karıncalar) ile belirtilen düzenlenebilir alan.</td></tr>
+        <tr><td>Feather</td><td>Tüyleme / Yumuşatma</td><td>Seçimin kenarlarını yumuşak geçişli yapma.</td></tr>
+        <tr><td>Color to Alpha</td><td>Rengi Alfa'ya Dönüştür</td><td>Belirli bir rengi saydam yapma (beyaz arkaplanı kaldırmak için harika).</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="jargon-araclar">🔧 Araç Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama / Kısayol</th></tr></thead>
+      <tbody>
+        <tr><td>Paintbrush</td><td>Boya Fırçası</td><td>Serbest çizim aracı. Kısayol: <kbd>P</kbd></td></tr>
+        <tr><td>Eraser</td><td>Silgi</td><td>Pikselleri silen araç (alfa kanalı varsa şeffaf yapar). Kısayol: <kbd>Shift+E</kbd></td></tr>
+        <tr><td>Bucket Fill</td><td>Kova Doldurma</td><td>Bir alanı tek renkle dolduran araç. Kısayol: <kbd>Shift+B</kbd></td></tr>
+        <tr><td>Gradient (Blend)</td><td>Renk Geçişi</td><td>İki renk arasında yumuşak geçiş oluşturur. Kısayol: <kbd>G</kbd></td></tr>
+        <tr><td>Clone Stamp</td><td>Klonlama Damgası</td><td>Bir bölgeyi başka bir yere kopyalar (rötuş için). Kısayol: <kbd>C</kbd></td></tr>
+        <tr><td>Healing Tool</td><td>İyileştirme Aracı</td><td>Clone Stamp'e benzer ama çevreyle daha iyi uyum sağlar. Kısayol: <kbd>H</kbd></td></tr>
+        <tr><td>Color Picker / Eyedropper</td><td>Renk Seçici / Damlalık</td><td>Görüntüden renk örneklemek için. Kısayol: <kbd>O</kbd></td></tr>
+        <tr><td>Text Tool</td><td>Metin Aracı</td><td>Görüntüye yazı ekleme. Kısayol: <kbd>T</kbd></td></tr>
+        <tr><td>Move Tool</td><td>Taşıma Aracı</td><td>Katmanları veya seçimleri taşıma. Kısayol: <kbd>M</kbd></td></tr>
+        <tr><td>Rectangle Select</td><td>Dikdörtgen Seçim</td><td>Dikdörtgen alan seçme. Kısayol: <kbd>R</kbd></td></tr>
+        <tr><td>Ellipse Select</td><td>Elips Seçim</td><td>Daire/elips alan seçme. Kısayol: <kbd>E</kbd></td></tr>
+        <tr><td>Free Select (Lasso)</td><td>Serbest Seçim (Kement)</td><td>Serbest elle çizilen seçim alanı. Kısayol: <kbd>F</kbd></td></tr>
+        <tr><td>Fuzzy Select (Magic Wand)</td><td>Bulanık Seçim (Sihirli Değnek)</td><td>Benzer renkteki pikselleri seçer. Kısayol: <kbd>U</kbd></td></tr>
+        <tr><td>Crop Tool</td><td>Kırpma Aracı</td><td>Görüntüyü kırpmak için alan seçme. Kısayol: <kbd>Shift+C</kbd></td></tr>
+        <tr><td>Scale Tool</td><td>Ölçekleme Aracı</td><td>Katman veya seçimi ölçekler (Image Scale'den farklı!). Kısayol: <kbd>Shift+S</kbd></td></tr>
+        <tr><td>Rotate Tool</td><td>Döndürme Aracı</td><td>Katman veya seçimi serbest açıda döndürür. Kısayol: <kbd>Shift+R</kbd></td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="jargon-filtre">🎨 Filtre ve Renk Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Filter</td><td>Filtre</td><td>Görüntüye otomatik efekt uygulayan işlem (bulanıklaştırma, keskinleştirme vb.).</td></tr>
+        <tr><td>Gaussian Blur</td><td>Gauss Bulanıklığı</td><td>En yaygın bulanıklaştırma yöntemi. Yumuşak, doğal bulanıklık üretir.</td></tr>
+        <tr><td>Sharpen (Unsharp Mask)</td><td>Keskinleştirme</td><td>Kenarları belirginleştirerek görüntüyü daha keskin gösterir.</td></tr>
+        <tr><td>Bump Map</td><td>Kabartma Haritası</td><td>Düz bir yüzeyde 3B kabartma yanılsaması oluşturur.</td></tr>
+        <tr><td>Curves</td><td>Eğriler</td><td>Renk tonlarını hassas kontrol eden araç. En güçlü renk düzeltme aracı.</td></tr>
+        <tr><td>Levels</td><td>Seviyeler</td><td>Histogram tabanlı parlaklık ve kontrast ayarı.</td></tr>
+        <tr><td>Hue-Saturation</td><td>Ton-Doygunluk</td><td>Renk tonu (hue) ve doygunluğu (saturation) ayarlama.</td></tr>
+        <tr><td>Brightness-Contrast</td><td>Parlaklık-Kontrast</td><td>Basit parlaklık ve kontrast ayarı (Curves kadar güçlü değildir).</td></tr>
+        <tr><td>Desaturate</td><td>Doygunluğu Gider / Gri Yap</td><td>Görüntüyü siyah-beyaz (gri tonlu) yapma.</td></tr>
+        <tr><td>Color Balance</td><td>Renk Dengesi</td><td>Gölgeler, orta tonlar ve aydınlık bölgelerde renk ayarı.</td></tr>
+        <tr><td>Threshold</td><td>Eşikleme</td><td>Görüntüyü sadece siyah ve beyaz piksellere dönüştürme.</td></tr>
+        <tr><td>Invert</td><td>Renkleri Ters Çevir / Negatif</td><td>Tüm renkleri tersine çevirir (beyaz↔siyah, kırmızı↔cyan).</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="jargon-dosya">💾 Dosya ve Dışa Aktarım Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Export / Export As</td><td>Dışa Aktar</td><td>Görüntüyü GIMP dışı formatlarda (PNG, JPG, GIF vb.) kaydetme. <strong>File → Export As</strong></td></tr>
+        <tr><td>Save / Save As</td><td>Kaydet</td><td>GIMP'in kendi formatında (.xcf) kaydetme. Katmanlar korunur!</td></tr>
+        <tr><td>Overwrite</td><td>Üzerine Yaz</td><td>Orijinal dosyayı aynı isimle değiştirme. <strong>Dikkatli kullanın!</strong></td></tr>
+        <tr><td>.xcf</td><td>GIMP Proje Dosyası</td><td>GIMP'in kendi formatı. Katmanlar, maskeler, yollar hepsi korunur. PSD gibi.</td></tr>
+        <tr><td>Lossy Compression</td><td>Kayıplı Sıkıştırma</td><td>Veri kaybederek dosya boyutunu küçültme (JPEG gibi).</td></tr>
+        <tr><td>Lossless Compression</td><td>Kayıpsız Sıkıştırma</td><td>Veri kaybetmeden sıkıştırma (PNG gibi).</td></tr>
+        <tr><td>Bit Depth</td><td>Bit Derinliği</td><td>Renk başına kullanılan bit sayısı. 8-bit = kanal başına 256 değer.</td></tr>
+        <tr><td>Color Mode</td><td>Renk Modu</td><td>RGB, Grayscale (Gri Tonlu), Indexed (İndeksli) renk modları.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 GIMP'te Kaydetme vs Dışa Aktarma</div>
+      <p>Yeni başlayanların en çok karıştırdığı konu! GIMP'te <strong><kbd>Ctrl+S</kbd> (Save)</strong> görüntüyü <code>.xcf</code> formatında kaydeder — bu GIMP'e özel bir proje dosyasıdır, başka programlar açamaz. Görüntüyü <strong>PNG veya JPEG</strong> olarak kaydetmek istiyorsanız <strong><kbd>Ctrl+Shift+E</kbd> (Export As)</strong> kullanmalısınız. Bu çok önemli bir fark!</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 3: GÖRÜNTÜ ÖLÇEKLEME -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="olcekleme">3. Görüntü Ölçekleme (Scale Image) 🔍</h2>
+
+    <p>
+      Görüntü ölçekleme, en sık ihtiyaç duyulan işlemlerden biridir. Bir görüntüyü web sitesine koymak istediğinizde, e-postayla göndermek
+      istediğinizde veya belirli bir boyutta olması gerektiğinde ölçekleme yaparsınız.
+    </p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu öğretici, GIMP'in resmi sitesindeki "GIMP Quickies" öğreticisinden Türkçe'ye uyarlanmıştır</div>
+      <p>Orijinal: <a href="https://www.gimp.org/tutorials/community/GIMP_Quickies/" target="_blank">gimp.org/tutorials/community/GIMP_Quickies</a> — Pat David tarafından yazılmıştır (CC BY-SA 3.0).</p>
+    </div>
+
+    <p>Örnek olarak NASA'nın <a href="https://apod.nasa.gov/apod/ap130422.html" target="_blank">Horsehead Nebula in Infrared</a> (Kızılötesi Atbaşı Bulutsusu) görüntüsünü kullanacağız.</p>
+
+    <p>Görüntüyü GIMP'te açtığınızda, pencere başlığında mevcut piksel boyutları görünür:</p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Scale-View-Pixel-Size-Original.png" alt="GIMP penceresinde piksel boyutu görünümü" loading="lazy">
+      <div class="img-caption">GIMP penceresinin üst kısmında görüntü boyutu bilgisi (1225×1280 piksel)</div>
+      <div class="img-credit">Kaynak: gimp.org — CC BY-SA 3.0</div>
+    </div>
+
+    <p>Ölçekleme diyaloğunu açmak için:</p>
+    <div class="gimp-menu-path">Image → Scale Image… &nbsp;(Görüntü → Görüntüyü Ölçekle)</div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Scale-Image-Dialog.png" alt="GIMP Scale Image diyaloğu" loading="lazy">
+      <div class="img-caption">Scale Image (Görüntüyü Ölçekle) diyalog penceresi</div>
+    </div>
+
+    <p>Bu diyalogda göreceğiniz önemli alanlar:</p>
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+      <li><strong>Width / Height (Genişlik / Yükseklik):</strong> Yeni piksel boyutlarını girin.</li>
+      <li><strong>🔗 Zincir simgesi:</strong> Kilitliyken en-boy oranı korunur. Genişliği değiştirince yükseklik otomatik ayarlanır.</li>
+      <li><strong>px açılır menüsü:</strong> Ölçü birimi seçimi (piksel, yüzde, inç, milimetre vb.).</li>
+      <li><strong>X/Y Resolution:</strong> Baskı çözünürlüğü (DPI).</li>
+      <li><strong>Interpolation:</strong> Ölçekleme kalitesi yöntemi.</li>
+    </ul>
+
+    <p>Örneğin genişliği 600 piksel yapmak istiyorsanız, Width alanına 600 yazın — zincir kilitliyken Height otomatik olarak orantılı şekilde ayarlanır:</p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Scale-Image-Dialog-Scaled.png" alt="GIMP ölçekleme 600px genişlik" loading="lazy">
+      <div class="img-caption">Genişlik 600px yapıldığında yükseklik otomatik olarak 627px olur (en-boy oranı korunur)</div>
+    </div>
+
+    <h3>Enterpolasyon (Interpolation) Yöntemleri</h3>
+    <p>Görüntüyü ölçeklediğinizde, yeni piksellerin renk değerlerinin nasıl hesaplanacağını belirlemeniz gerekir. Bu işleme <strong>enterpolasyon</strong> denir:</p>
+
+    <table class="comparison-table">
+      <thead><tr><th>Yöntem</th><th>İngilizce</th><th>Kalite</th><th>Hız</th><th>Ne Zaman Kullanılır?</th></tr></thead>
+      <tbody>
+        <tr><td>Hiçbiri</td><td>None</td><td>⭐</td><td>En hızlı</td><td>Piksel art — piksel keskinliğini korumak istediğinizde</td></tr>
+        <tr><td>Doğrusal</td><td>Linear</td><td>⭐⭐</td><td>Hızlı</td><td>Hızlı önizleme, taslak çalışma</td></tr>
+        <tr><td>Kübik</td><td>Cubic</td><td>⭐⭐⭐</td><td>Orta</td><td>Genel amaçlı, iyi kalite-hız dengesi (varsayılan)</td></tr>
+        <tr><td>LoHalo</td><td>LoHalo</td><td>⭐⭐⭐⭐</td><td>Yavaş</td><td>Küçültme için en iyi kalite. <strong>Önerilen</strong></td></tr>
+        <tr><td>NoHalo</td><td>NoHalo</td><td>⭐⭐⭐⭐</td><td>Yavaş</td><td>LoHalo'ya alternatif, bazı görüntülerde daha iyi</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Büyütme Kaliteyi Düşürür!</div>
+      <p>Bir raster görüntüyü küçültmek genellikle sorun yaratmaz, ama <strong>büyütmek</strong> her zaman kalite kaybına yol açar. GIMP, olmayan pikselleri enterpolasyonla "tahmin eder" — bu da bulanıklığa neden olur. Ne kadar çok büyütürseniz, o kadar çok bulanıklaşır. Bu yüzden <strong>her zaman yüksek çözünürlüklü kaynak görüntüler kullanın</strong>! Raster görüntüler doğası gereği büyütmeye uygun değildir.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 4: ÖLÇÜ BİRİMLERİ -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="birimler">4. Ölçü Birimleri: Piksel, İnç, Milimetre... 📏</h2>
+
+    <p>
+      GIMP'in Scale Image diyaloğundaki "px" açılır menüsünde birçok ölçü birimi seçeneği göreceksiniz.
+      Bu birimler farklı kullanım senaryolarında işinize yarar. Ekrandaki görüntü ile atılan resim senaryosundaki görüntü ekranlarınız aynı fonttadır.
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Scale-Image-Dialog-Value-Types.png" alt="GIMP ölçü birimi seçenekleri" loading="lazy">
+      <div class="img-caption">Scale Image diyaloğundaki birim seçenekleri — piksel dışında birçok fiziksel birim mevcuttur</div>
+    </div>
+
+    <p>İşte tüm birimler ve ne işe yaradıkları:</p>
+
+    <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
+      <div class="card unit-card">
+        <div class="unit-symbol">px</div>
+        <div class="unit-name">Pixels (Piksel)</div>
+        <div class="unit-desc">Dijital görüntünün en temel birimi. Ekranda gösterilen en küçük renkli nokta. <strong>Web ve oyun geliştirme için standart birimdir.</strong></div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">%</div>
+        <div class="unit-name">Percent (Yüzde)</div>
+        <div class="unit-desc">Orijinal boyutun yüzdesi. %50 = yarı boyut. Hızlı ölçekleme için pratik. Örn: "Resmi yarısına küçült" = %50.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">in</div>
+        <div class="unit-name">Inches (İnç)</div>
+        <div class="unit-desc">1 inç = 2.54 cm. <strong>Baskı dünyasının standart birimi</strong> (özellikle ABD). DPI ile birlikte kullanılır.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">mm</div>
+        <div class="unit-name">Millimeters (Milimetre)</div>
+        <div class="unit-desc">Metrik sistemde hassas ölçüm. Baskı ve endüstriyel tasarımda kullanılır. 1 mm = 0.03937 inç.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">pt</div>
+        <div class="unit-name">Points (Punto)</div>
+        <div class="unit-desc">Tipografi birimi. 1 punto = 1/72 inç ≈ 0.353 mm. Yazı boyutu "12pt" gibi punto ile ifade edilir.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">pc</div>
+        <div class="unit-name">Picas (Pika)</div>
+        <div class="unit-desc">Matbaa birimi. 1 pica = 12 punto = 1/6 inç ≈ 4.233 mm. Gazete/kitap sayfa düzeninde kullanılır.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">cm</div>
+        <div class="unit-name">Centimeters (Santimetre)</div>
+        <div class="unit-desc">Metrik baskı ölçümü. A4 kağıt = 21 × 29.7 cm. Günlük hayatta aşina olduğumuz birim.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">m</div>
+        <div class="unit-name">Meters (Metre)</div>
+        <div class="unit-desc">Büyük format baskılar için (reklam panosu, billboard). Büyük fiziksel için kullanılır.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">ft</div>
+        <div class="unit-name">Feet (Ayak)</div>
+        <div class="unit-desc">1 ayak = 12 inç = 30.48 cm. ABD'de büyük baskılar ve mimari çizimlerde kullanılır.</div>
+      </div>
+      <div class="card unit-card">
+        <div class="unit-symbol">yd</div>
+        <div class="unit-name">Yards (Yarda)</div>
+        <div class="unit-desc">1 yarda = 3 ayak = 91.44 cm. ABD/İngiltere'de kumaş ve büyük baskı ölçüsü.</div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Hangi Birimi Ne Zaman Kullanmalısınız?</div>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem; margin: 0;">
+        <li><strong>Web / Oyun / Ekran:</strong> Her zaman <code>px</code> (piksel) kullanın. Ekranlar piksellerle çalışır.</li>
+        <li><strong>Hızlı boyut değişikliği:</strong> <code>%</code> (yüzde) kullanın. "%50" yazmak çok kolay.</li>
+        <li><strong>Baskı (poster, kartvizit):</strong> <code>mm</code> veya <code>cm</code> + DPI ayarı yapın (genellikle 300 DPI).</li>
+        <li><strong>Tipografi / sayfa düzeni:</strong> <code>pt</code> (punto) veya <code>pc</code> (pica) kullanılır.</li>
+        <li><strong>İnç, feet, yard:</strong> ABD/İngiltere metrik sistemi kullanmaz; özellikle uluslararası projelerde karşılaşırsınız.</li>
+      </ul>
+    </div>
+
+    <h3>DPI / PPI Nedir? Piksel ve Fiziksel Boyut İlişkisi</h3>
+    <p>
+      Dijital bir görüntünün <strong>iki farklı boyutu</strong> vardır:
+    </p>
+
+    <div class="card-grid">
+      <div class="card" style="border-top: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; color: var(--accent-4);">📱 Piksel Boyutu (Dijital)</h3>
+        <p>Görüntüdeki toplam piksel sayısı. Örn: 1920×1080 piksel.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Ekranda ne kadar büyük göründüğü, ekranın kendi çözünürlüğüne ve zoom'a bağlıdır.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent-2);">
+        <h3 style="margin-top: 0; color: var(--accent-2);">🖨️ Fiziksel Boyut (Baskı)</h3>
+        <p>Kağıda basıldığında gerçek ölçüsü (cm veya inç). <strong>DPI</strong> değerine bağlıdır.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Formül: Fiziksel boyut = Piksel sayısı ÷ DPI</p>
+      </div>
+    </div>
+
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">📐 DPI Hesaplayıcı</div>
+        <span style="font-size: 0.8rem; color: var(--text-secondary);">Değerleri değiştirerek fiziksel boyutu görün</span>
+      </div>
+      <div class="demo-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; align-items: start;">
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Piksel Genişliği:</label>
+            <input type="number" id="dpiPixelW" value="1920" min="1" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+          </div>
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Piksel Yüksekliği:</label>
+            <input type="number" id="dpiPixelH" value="1080" min="1" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+          </div>
+          <div>
+            <label style="font-weight: 600; display: block; margin-bottom: 0.5rem;">DPI (Çözünürlük):</label>
+            <input type="number" id="dpiValue" value="300" min="1" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-primary); font-size: 1rem;">
+          </div>
+        </div>
+        <div id="dpiResult" style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px; font-family: 'JetBrains Mono', monospace;">
+        </div>
+        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn" onclick="setDPI(72)">72 DPI (Ekran)</button>
+          <button class="btn" onclick="setDPI(150)">150 DPI (Orta)</button>
+          <button class="btn" onclick="setDPI(300)">300 DPI (Baskı)</button>
+          <button class="btn" onclick="setDPI(600)">600 DPI (Yüksek)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Ekran vs Baskı: Farklı Dünyalar</div>
+      <p>
+        <strong>Ekran için:</strong> DPI önemli değildir — sadece piksel boyutu önemlidir. 1920×1080 piksellik bir görüntü, 72 DPI de olsa 300 DPI de olsa ekranda aynı görünür.<br>
+        <strong>Baskı için:</strong> DPI kritiktir! Aynı 1920×1080 piksellik görüntü, 72 DPI'da 67.7×38.1 cm (büyük ama kalitesiz), 300 DPI'da ise 16.3×9.1 cm (küçük ama keskin) basılır.
+      </p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 5: JPEG SIKISTIRMA -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="jpeg-sikistirma">5. JPEG Sıkıştırma ve Dosya Boyutu 📦</h2>
+
+    <p>
+      JPEG (veya JPG), <strong>kayıplı sıkıştırma (lossy compression)</strong> kullanan bir görüntü formatıdır. Bu, dosya boyutunu küçültmek için
+      görüntü kalitesinden bir miktar fedakarlık ettiği anlamına gelir. Sıkıştırma seviyesini siz kontrol edersiniz.
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/JPG-Compression-Sample.png" alt="JPEG sıkıştırma karşılaştırması" loading="lazy">
+      <div class="img-caption">Farklı JPEG kalite seviyeleri karşılaştırması — kalite düştükçe dosya boyutu küçülür ama detay kaybı artar</div>
+      <div class="img-credit">Kaynak: gimp.org — CC BY-SA 3.0</div>
+    </div>
+
+    <p>Dışa aktarma yapmak için:</p>
+    <div class="gimp-menu-path">File → Export As… &nbsp;(Dosya → Dışa Aktar…) — Kısayol: <kbd>Ctrl+Shift+E</kbd></div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Export-Image-Dialog.png" alt="GIMP Export diyaloğu" loading="lazy">
+      <div class="img-caption">Export Image (Görüntüyü Dışa Aktar) diyaloğu — dosya adı ve formatı burada belirlenir</div>
+    </div>
+
+    <p>JPEG olarak dışa aktarırken kalite ayarı yapabilirsiniz:</p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Export-Image-as-JPEG.png" alt="GIMP JPEG kalite ayarı" loading="lazy">
+      <div class="img-caption">JPEG kalite ayarı — "Show preview in image window" seçeneğiyle önizleme yapılabilir</div>
+    </div>
+
+    <table class="comparison-table">
+      <thead><tr><th>Kalite</th><th>Dosya Boyutu</th><th>Görsel Kalite</th><th>Kullanım Alanı</th></tr></thead>
+      <tbody>
+        <tr><td>100</td><td>En büyük</td><td>Mükemmel</td><td>Arşivleme, profesyonel baskı</td></tr>
+        <tr><td>85-95</td><td>Büyük</td><td>Çok iyi</td><td>Portföy, yüksek kaliteli web</td></tr>
+        <tr><td>70-85</td><td>Orta</td><td>İyi</td><td>Genel web kullanımı (önerilen)</td></tr>
+        <tr><td>50-70</td><td>Küçük</td><td>Kabul edilebilir</td><td>Küçük resimler (thumbnail), hızlı yükleme</td></tr>
+        <tr><td>20-50</td><td>Çok küçük</td><td>Düşük</td><td>Yer doldurucu, çok düşük bant genişliği</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 JPEG vs PNG: Hangisini Kullanmalıyım?</div>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem; margin: 0;">
+        <li><strong>JPEG:</strong> Fotoğraflar, karmaşık gradyanlar, doğal görüntüler. Saydamlık (alfa) desteklemez.</li>
+        <li><strong>PNG:</strong> Logolar, ikonlar, piksel art, saydam arka plan gerektiren görseller. Kayıpsız sıkıştırma kullanır.</li>
+        <li><strong>GIF:</strong> Basit animasyonlar, çok sınırlı renk paleti (256 renk). Saydam arka plan destekler (1-bit).</li>
+        <li><strong>WebP:</strong> Modern web formatı. JPEG'den küçük, PNG gibi saydamlık destekler. Oyun UI için ideal.</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 6: KIRPMA -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="kirpma">6. Görüntü Kırpma (Crop) ✂️</h2>
+
+    <p>
+      Kırpma (crop), görüntünün istenmeyen kenarlarını keserek daha küçük bir alana odaklanma işlemidir.
+      Estetik nedenlerle veya belirli bir bölgeyi vurgulamak için kullanılır.
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Crop-Example.png" alt="GIMP kırpma örneği" loading="lazy">
+      <div class="img-caption">Sol: Orijinal görüntü — Sağ: Kırpılmış görüntü</div>
+      <div class="img-credit">Kaynak: gimp.org — CC BY-SA 3.0</div>
+    </div>
+
+    <h3>Yöntem 1: Crop Tool (Kırpma Aracı)</h3>
+
+    <div class="step-box">
+      <div class="step-num">Adım 1: Aracı Seçin</div>
+      <p>Araç kutusundan Crop Tool'u seçin veya menüden erişin:</p>
+      <div class="gimp-menu-path">Tools → Transform Tools → Crop &nbsp;(Araçlar → Dönüştürme Araçları → Kırpma)</div>
+      <p>Kısayol: <kbd>Shift+C</kbd></p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Crop-Tool.png" alt="GIMP Crop Tool" loading="lazy">
+      <div class="img-caption">Araç kutusunda Crop Tool simgesi</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 2: Alan Seçin</div>
+      <p>Tuval üzerinde sol tıklayarak ve sürükleyerek kırpmak istediğiniz alanı çizin. Seçim tutamaçlarını (handle) sürükleyerek ince ayar yapabilirsiniz.</p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Crop-First.png" alt="GIMP kırpma alanı seçimi" loading="lazy">
+      <div class="img-caption">Sol: Crop Tool seçenekleri — Sağ: Tuval üzerinde kırpma alanı</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 3: Kırpmayı Uygulayın</div>
+      <p>Kırpma alanından memnunsanız <kbd>Enter</kbd> tuşuna basın. Vazgeçmek için <kbd>Esc</kbd> tuşuna basın.</p>
+    </div>
+
+    <h3>Yöntem 2: Seçim ile Kırpma</h3>
+    <p>Alternatif olarak, önce bir seçim yapıp sonra kırpabilirsiniz:</p>
+    <ol style="color: var(--text-secondary); padding-left: 1.5rem;">
+      <li><strong>Rectangle Select Tool</strong> (<kbd>R</kbd>) ile bir alan seçin</li>
+      <li>Menüden kırpın: <span class="gimp-menu-path">Image → Crop to Selection &nbsp;(Görüntü → Seçime Göre Kırp)</span></li>
+    </ol>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 7: DÖNDÜRME ve ÇEVİRME -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="dondurme">7. Döndürme ve Çevirme (Rotate & Flip) 🔄</h2>
+
+    <p>Bazen bir fotoğraf yanlış yönde olabilir veya aynalama (flip) gerekebilir. GIMP'te bu işlemler çok kolaydır:</p>
+
+    <div class="gimp-menu-path">Image → Transform &nbsp;(Görüntü → Dönüştür)</div>
+
+    <h3>Döndürme (Rotate)</h3>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Rotate-Sample.jpg" alt="GIMP döndürme örnekleri" loading="lazy">
+      <div class="img-caption">Sol üst: Orijinal — Sağ üst: 90° saat yönünde — Sol alt: 90° saat yönü tersi — Sağ alt: 180°</div>
+      <div class="img-credit">Kaynak: gimp.org — CC BY-SA 3.0</div>
+    </div>
+
+    <p>Mevcut döndürme seçenekleri:</p>
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+      <li><strong>90° clockwise (Saat yönünde 90°)</strong> — Fotoğrafı sağa çevirme</li>
+      <li><strong>90° counter-clockwise (Saat yönü tersi 90°)</strong> — Fotoğrafı sola çevirme</li>
+      <li><strong>180°</strong> — Baş aşağı çevirme</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Serbest Açı Döndürme</div>
+      <p>Image → Transform yalnızca 90° ve 180° döndürme sunar. <strong>Serbest açıda döndürme</strong> (örn: 15° veya 45°) yapmak için <strong>Rotate Tool</strong>'u kullanın (<kbd>Shift+R</kbd>). Bu araç sadece aktif katmanı döndürür, görüntünün tamamını değil.</p>
+    </div>
+
+    <h3>Çevirme / Aynalama (Flip)</h3>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/GIMP_Quickies/Flip-Sample-Arrow.jpg" alt="GIMP flip örnekleri" loading="lazy">
+      <div class="img-caption">Flip (aynalama) işleminin tüm varyasyonları</div>
+    </div>
+
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+      <li><strong>Flip Horizontally (Yatay çevir):</strong> Ayna gibi — sol ve sağ yer değiştirir</li>
+      <li><strong>Flip Vertically (Dikey çevir):</strong> Üst ve alt yer değiştirir</li>
+    </ul>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 8: KATMANLAR -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="katmanlar">8. Katmanlar (Layers) 📚</h2>
+
+    <p>
+      <strong>Katmanlar</strong>, GIMP'in (ve tüm profesyonel grafik yazılımlarının) en temel kavramıdır. Katmanları, üst üste yerleştirilmiş
+      <strong>şeffaf asetat kağıtları</strong> gibi düşünebilirsiniz. Her katmanda farklı bir öğe (arka plan, karakter, metin, efekt) bulunabilir
+      ve bunlar bir araya gelerek nihai görüntüyü oluşturur.
+    </p>
+
+    <div class="card-grid">
+      <div class="card" style="border-top: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; color: var(--accent-4);">✅ Katmanların Avantajları</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Her öğeyi <strong>bağımsız olarak düzenleyebilirsiniz</strong></li>
+          <li>Bir katmanı değiştirmek diğerlerini etkilemez</li>
+          <li>Katmanları gizleyebilir, sıralayabilir, opaklığını ayarlayabilirsiniz</li>
+          <li>Blend mode'larla katmanlar arası efektler oluşturabilirsiniz</li>
+          <li>Her zaman geri alabilirsiniz — <strong>non-destructive</strong> (tahribatsız) çalışma</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent-2);">
+        <h3 style="margin-top: 0; color: var(--accent-2);">🎮 Oyun Geliştirmede Katmanlar</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li><strong>Background layer:</strong> Arka plan çizimi</li>
+          <li><strong>Character layer:</strong> Sprite / karakter</li>
+          <li><strong>Effects layer:</strong> Parçacıklar, ışıklar</li>
+          <li><strong>UI layer:</strong> Sağlık çubuğu, skor</li>
+          <li>Sprite sheet oluştururken her frame ayrı katmanda olabilir</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Temel Katman İşlemleri</h3>
+    <table class="comparison-table">
+      <thead><tr><th>İşlem</th><th>Menü Yolu</th><th>Kısayol</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Yeni Katman</td><td>Layer → New Layer</td><td><kbd>Ctrl+Shift+N</kbd></td><td>Boş yeni katman oluşturur</td></tr>
+        <tr><td>Katmanı Çoğalt</td><td>Layer → Duplicate Layer</td><td><kbd>Ctrl+Shift+D</kbd></td><td>Aktif katmanın kopyasını oluşturur</td></tr>
+        <tr><td>Katmanı Sil</td><td>Layer → Delete Layer</td><td>—</td><td>Aktif katmanı siler (geri alınabilir)</td></tr>
+        <tr><td>Aşağıya Birleştir</td><td>Layer → Merge Down</td><td>—</td><td>Aktif katmanı altındakiyle birleştirir</td></tr>
+        <tr><td>Görüntüyü Düzleştir</td><td>Image → Flatten Image</td><td>—</td><td>Tüm katmanları tek katmanda birleştirir</td></tr>
+        <tr><td>Görünenden Yeni</td><td>Layer → New from Visible</td><td>—</td><td>Tüm görünür katmanlardan birleşik yeni katman oluşturur</td></tr>
+        <tr><td>Katman Sırası</td><td>Layer → Stack →</td><td>—</td><td>Katmanı yukarı/aşağı taşır</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 9: KATMAN MASKELERİ -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="katman-maskeleri">9. Katman Maskeleri (Layer Masks) 🎭</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu bölüm, GIMP'in resmi "Layer Masks" öğreticisinden uyarlanmıştır</div>
+      <p>Orijinal: <a href="https://www.gimp.org/tutorials/community/Layer_Masks/" target="_blank">gimp.org/tutorials/community/Layer_Masks</a> — Pat David (CC BY-SA 3.0).</p>
+    </div>
+
+    <p>
+      Katman maskeleri, bir katmanın <strong>hangi bölgelerinin ne kadar görünür olduğunu</strong> kontrol etmenizi sağlar.
+      Katmanın opaklık (opacity) slider'ından farkı, maskenin katmanın <strong>farklı bölgelerinde farklı saydamlık</strong> uygulayabilmesidir.
+      Bu, katmana zarar vermeden (non-destructive) çalışmanızı sağlar.
+    </p>
+
+    <h3>Maske Nasıl Çalışır?</h3>
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem;">⬜</div>
+        <h3 style="margin-top: 0.5rem;">Beyaz = Görünür</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Maskenin beyaz bölgeleri, katmanı <strong>tam opak</strong> (görünür) gösterir.</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem;">⬛</div>
+        <h3 style="margin-top: 0.5rem;">Siyah = Gizli</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Maskenin siyah bölgeleri, katmanı <strong>tamamen şeffaf</strong> (gizli) yapar.</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 2rem;">🩶</div>
+        <h3 style="margin-top: 0.5rem;">Gri = Yarı Saydam</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Gri tonları, <strong>kısmi saydamlık</strong> uygular. Daha koyu = daha şeffaf.</p>
+      </div>
+    </div>
+
+    <h3>Maske Ekleme Adımları</h3>
+
+    <div class="step-box">
+      <div class="step-num">Adım 1: Katman maskesi ekleyin</div>
+      <p>Katmanlar panelinde katmana sağ tıklayın → <strong>Add Layer Mask</strong> seçin (veya menüden):</p>
+      <div class="gimp-menu-path">Layer → Mask → Add Layer Mask… &nbsp;(Katman → Maske → Katman Maskesi Ekle)</div>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Layer_Masks/Layers-Add-Mask-Dialog.png" alt="GIMP katman maskesi ekleme" loading="lazy">
+      <div class="img-caption">Sağ tıklama menüsünden "Add Layer Mask" seçeneği</div>
+      <div class="img-credit">Kaynak: gimp.org — CC BY-SA 3.0</div>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Layer_Masks/Add-Mask-Dialog.png" alt="GIMP maske seçenekleri diyaloğu" loading="lazy">
+      <div class="img-caption">Maske başlatma seçenekleri — White (tam görünür) veya Black (tam gizli) ile başlayabilirsiniz</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 2: Maskeyi düzenleyin</div>
+      <p>Maske aktifken (katmanlar panelinde maske küçük resmine tıklayın), fırça ile boyayabilirsiniz:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Siyah fırça ile boyayın</strong> → o alanı gizler (şeffaf yapar)</li>
+        <li><strong>Beyaz fırça ile boyayın</strong> → o alanı gösterir</li>
+        <li><strong>Gri fırça ile boyayın</strong> → yarı saydam yapar</li>
+      </ul>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Layer_Masks/Masked-Various.png" alt="GIMP farklı gri tonlarında maske" loading="lazy">
+      <div class="img-caption">Farklı gri tonlarında boyanan maske — üstte siyah (tam şeffaf) → altta beyaz (tam opak)</div>
+    </div>
+
+    <h3>Uygulama: Seçici Renklendirme (Selective Colorization)</h3>
+    <p>Katman maskelerinin çok popüler bir kullanımı, siyah-beyaz bir görüntüde belirli bir alanın renkli kalmasını sağlamaktır:</p>
+
+    <ol style="color: var(--text-secondary); padding-left: 1.5rem;">
+      <li>Görüntüyü çoğaltın: <span class="gimp-menu-path">Layer → Duplicate Layer</span></li>
+      <li>Üst katmanı gri yapın: <span class="gimp-menu-path">Colors → Desaturate</span></li>
+      <li>Gri katmana beyaz maske ekleyin</li>
+      <li>Siyah fırça ile renkli kalmasını istediğiniz alanları boyayın</li>
+    </ol>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Layer_Masks/SelCol-Base.jpg" alt="Orijinal renkli görüntü" loading="lazy">
+        <div class="img-caption">Orijinal renkli görüntü</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Layer_Masks/SelCol-Boy.jpg" alt="Seçici renklendirme sonucu" loading="lazy">
+        <div class="img-caption">Seçici renklendirme — sadece boyanan alan renkli</div>
+      </div>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Layer_Masks/SelCol-Boy-Mask.jpg" alt="Katman maskesi görünümü" loading="lazy">
+      <div class="img-caption">Yukarıdaki sonucu elde etmek için boyanan maske — siyah alanlar rengin görünmesini sağlar</div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 10: RENK EĞRİLERİ -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="renk-egrileri">10. Renk Eğrileri (Color Curves) 📈</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu bölüm, GIMP'in resmi "Basic Color Curves" öğreticisinden uyarlanmıştır</div>
+      <p>Orijinal: <a href="https://www.gimp.org/tutorials/community/Basic_Color_Curves/" target="_blank">gimp.org/tutorials/community/Basic_Color_Curves</a> — Pat David (CC BY-SA 3.0).</p>
+    </div>
+
+    <p>
+      <strong>Curves (Eğriler)</strong>, GIMP'teki en güçlü renk düzeltme aracıdır. Görüntünün parlaklık ve renk tonlarını hassas bir şekilde
+      kontrol etmenizi sağlar. Brightness/Contrast aracından çok daha esnek ve güçlüdür.
+    </p>
+
+    <h3>Piksellerin Yapısını Hatırlayalım</h3>
+    <p>Bölüm 2'de (Renk Teorisi) gördüğümüz gibi, her piksel RGB değerlerinden oluşur. Her kanal 0-255 arası bir değer alır:</p>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/curves-house-square-zoom-3.png" alt="Piksel yakınlaştırma" loading="lazy">
+        <div class="img-caption">Bir görüntüyü çok yakınlaştırdığınızda tek tek pikselleri görürsünüz</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/curves-your-pixel-info.png" alt="Piksel RGB bilgisi" loading="lazy">
+        <div class="img-caption">Bir pikselin RGB bileşenleri — bu mavi piksel çoğunlukla mavi, biraz yeşil, az kırmızı</div>
+      </div>
+    </div>
+
+    <h3>Curves Diyaloğu</h3>
+    <div class="gimp-menu-path">Colors → Curves… &nbsp;(Renkler → Eğriler) — Kısayol: yok (menüden erişin)</div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/curves-dialog-original.png" alt="GIMP Curves diyaloğu" loading="lazy">
+      <div class="img-caption">Curves diyaloğu — yatay eksen mevcut değerleri, dikey eksen yeni değerleri gösterir. Arkadaki histogram görüntünün ton dağılımını gösterir.</div>
+      <div class="img-credit">Kaynak: gimp.org — CC BY-SA 3.0</div>
+    </div>
+
+    <h3>Curves'ün Çalışma Prensibi</h3>
+    <p>
+      Eğrinin <strong>alt ekseni (X)</strong> piksellerin <strong>mevcut değerlerini</strong>, <strong>sol ekseni (Y)</strong> ise piksellerin <strong>yeni değerlerini</strong> temsil eder.
+      Düz çapraz çizgi = değişiklik yok. Eğriyi yukarı çekmek = aydınlatmak, aşağı çekmek = karartmak.
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/curves-dialog-darksmidslights.png" alt="Curves bölgeleri" loading="lazy">
+      <div class="img-caption">⬆️ Bu görseli aklınıza kazıyın! Eğrideki bölgeler: Karanlıklar (Darks), Orta Tonlar (Mids), Aydınlıklar (Lights)</div>
+    </div>
+
+    <h3>"S" Eğrisi — Kontrast Artırma</h3>
+    <p>En yaygın eğri ayarlarından biri <strong>"S" eğrisi</strong>dir. Karanlık tonları daha karanlık, aydınlık tonları daha aydınlık yaparak <strong>global kontrastı artırır</strong>:</p>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/curves-dialog-slight-s.png" alt="S eğrisi" loading="lazy">
+        <div class="img-caption">"S" eğrisi — hafif kontrast artışı</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/flickr-qsimple-5636649561-slight-s.jpg" alt="S eğrisi sonucu" loading="lazy">
+        <div class="img-caption">Sonuç: Gölgeler daha derin, aydınlıklar daha parlak</div>
+      </div>
+    </div>
+
+    <h3>RGB Kanallarında Renk Ayarı</h3>
+    <p>
+      Curves diyaloğunda "Channel" açılır menüsünden <strong>Red, Green veya Blue</strong> kanallarını seçerek
+      belirli renk tonlarını ayarlayabilirsiniz:
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/curves-dialog-value-rgb-select.png" alt="Kanal seçimi" loading="lazy">
+      <div class="img-caption">Value, Red, Green, Blue kanal seçici — her kanalı bağımsız olarak ayarlayabilirsiniz</div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Renk Çemberi — Zıt Renkler</div>
+      <p>Her kanalı yukarı çekmek o rengi artırır. <strong>Aşağı çekmek ise zıt rengi artırır!</strong></p>
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap;">
+        <span style="padding: 6px 12px; border-radius: 6px; background: rgba(255,0,0,0.15); font-weight: 600;">Red ↑ ↔ Cyan ↓</span>
+        <span style="padding: 6px 12px; border-radius: 6px; background: rgba(0,255,0,0.15); font-weight: 600;">Green ↑ ↔ Magenta ↓</span>
+        <span style="padding: 6px 12px; border-radius: 6px; background: rgba(0,100,255,0.15); font-weight: 600;">Blue ↑ ↔ Yellow ↓</span>
+      </div>
+    </div>
+
+    <h3>Örnek: Soğuk Gölgeler</h3>
+    <p>Gölgelere mavi ekleyerek "soğuk" bir atmosfer oluşturmak için Blue kanalında karanlık tonları yukarı çekin:</p>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/curves-dialog-darks-blue-boost.png" alt="Mavi kanal gölge artışı" loading="lazy">
+        <div class="img-caption">Blue kanalında karanlık tonlara mavi ekleme</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/flickr-qsimple-5636649561-dark-blue-boost.jpg" alt="Soğuk gölgeler sonucu" loading="lazy">
+        <div class="img-caption">Sonuç: Gölgelere mavi/soğuk ton eklendi</div>
+      </div>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Basic_Color_Curves/Color_circle.png" alt="HSV renk çemberi" loading="lazy" style="max-width: 300px;">
+      <div class="img-caption">HSV Renk çemberi — her kanalın zıt rengi tam karşısındadır</div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 11: FLOATING LOGO -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="floating-logo">11. Uygulama: Floating Logo Yapımı 🎮</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu uygulama, GIMP'in resmi "Simple Floating Logo" öğreticisinden uyarlanmıştır</div>
+      <p>Orijinal: <a href="https://www.gimp.org/tutorials/community/Floating_Logo/" target="_blank">gimp.org/tutorials/community/Floating_Logo</a> — Pat David (CC BY-SA 3.0).</p>
+    </div>
+
+    <p>
+      Bu uygulamada katman, maske, metin, filtre ve blend kavramlarını bir arada kullanarak
+      havada süzülüyor gibi görünen bir logo oluşturacağız. İşte nihai sonuç:
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Floating-Logo-Final.png" alt="Floating logo sonucu" loading="lazy">
+      <div class="img-caption">Nihai sonuç — havada süzülen plasma efektli logo</div>
+      <div class="img-credit">Kaynak: gimp.org — CC BY-SA 3.0</div>
+    </div>
+
+    <h3>Adım Adım Yapım</h3>
+
+    <div class="step-box">
+      <div class="step-num">Adım 1: Yeni Görüntü Oluşturun</div>
+      <div class="gimp-menu-path">File → New… &nbsp;(Dosya → Yeni)</div>
+      <p>256×128 piksel boyutunda yeni bir görüntü oluşturun.</p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/New-Dialog.png" alt="GIMP yeni görüntü diyaloğu" loading="lazy">
+      <div class="img-caption">Yeni görüntü diyaloğu — boyutu 256×128 yapın</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 2: Arka Planı Siyah Yapın</div>
+      <p>Foreground (ön plan) rengini siyah yapın (<kbd>D</kbd> tuşu varsayılan renklere döner), sonra <strong>Bucket Fill</strong> (<kbd>Shift+B</kbd>) ile doldurun.</p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Change-Foreground-Color.png" alt="GIMP ön plan rengi" loading="lazy" style="max-width: 200px;">
+      <div class="img-caption">Foreground (ön plan) rengini siyah yapmak için tıklayın</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 3: Metin Ekleyin</div>
+      <p>Foreground'u beyaza değiştirin (<kbd>X</kbd> ile renkleri takas edin). <strong>Text Tool</strong> (<kbd>T</kbd>) ile istediğiniz metni yazın. Font boyutunu 100px gibi büyük yapın.</p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Text-Entry.png" alt="GIMP metin girişi" loading="lazy">
+      <div class="img-caption">Sol: Text Tool seçenekleri (font, boyut) — Sağ: Tuval üzerinde metin</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 4: Görünenden Yeni Katman + Gaussian Blur</div>
+      <p>
+        <span class="gimp-menu-path">Layer → New from Visible</span> ile tüm görünür katmanlardan yeni katman oluşturun.<br>
+        Sonra bu yeni katmana bulanıklık ekleyin: <span class="gimp-menu-path">Filters → Blur → Gaussian Blur…</span> (Yarıçap: ~7)
+      </p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Gaussian-Blur.png" alt="GIMP Gaussian Blur diyaloğu" loading="lazy">
+      <div class="img-caption">Gaussian Blur diyaloğu — yarıçapı 7 civarına ayarlayın</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 5: Plasma Katmanı Oluşturun</div>
+      <p>
+        Yeni boş katman ekleyin: <span class="gimp-menu-path">Layer → New Layer</span><br>
+        Plasma filtresi uygulayın: <span class="gimp-menu-path">Filters → Render → Noise → Plasma…</span>
+      </p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Plasma.jpg" alt="GIMP Plasma filtresi" loading="lazy">
+      <div class="img-caption">Plasma filtresi sonucu — renkli, rastgele bir doku oluşturur</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 6: Bump Map ile 3B Kabartma</div>
+      <p>
+        Plasma katmanına bump map uygulayın: <span class="gimp-menu-path">Filters → Map → Bump Map…</span><br>
+        Height Map olarak "Visible" katmanını seçin, Depth değerini artırın (~6).
+      </p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Bump-Map.jpg" alt="GIMP Bump Map" loading="lazy">
+      <div class="img-caption">Bump Map diyaloğu — metin şeklinde 3B kabartma efekti oluşturur</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 7: Katman Maskesi ile İzolasyon</div>
+      <p>
+        Plasma katmanına beyaz maske ekleyin. "Visible" katmanını kopyalayın (<kbd>Ctrl+C</kbd>),
+        maskeyi aktif yapıp yapıştırın (<kbd>Ctrl+V</kbd>), sonra sabitleyin: <span class="gimp-menu-path">Layer → Anchor</span><br>
+        <span class="gimp-menu-path">Colors → Levels</span> ile maskenin kenarlarını keskinleştirin.
+      </p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Masked.png" alt="GIMP maske uygulanmış" loading="lazy">
+      <div class="img-caption">Maske uygulandıktan sonra — plasma efekti sadece metin alanında görünür</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 8: Gölge Ekleme (Drop Shadow)</div>
+      <p>
+        "Visible" katmanını çoğaltın, <span class="gimp-menu-path">Colors → Invert</span> ile ters çevirin,
+        <span class="gimp-menu-path">Layer → Transparency → Color to Alpha</span> ile beyazı şeffaf yapın.<br>
+        <strong>Move Tool</strong> ile biraz sağa-aşağı kaydırın, ardından Gaussian Blur uygulayın.
+      </p>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Shadow-Final.png" alt="GIMP gölge eklenmiş logo" loading="lazy">
+      <div class="img-caption">Gölge eklendikten sonra — Gaussian Blur ve opaklık ayarı ile yumuşatılmış</div>
+    </div>
+
+    <h3>Sonuç</h3>
+    <p>Farklı arka planlarla kullanılabilir, hatta arka plansız PNG olarak dışa aktarılabilir:</p>
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Floating-Logo-Sinus.png" alt="Floating logo sinüs arka plan" loading="lazy">
+        <div class="img-caption">Farklı bir arka plan ile</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Floating_Logo/Floating-Logo-NoBG.png" alt="Floating logo şeffaf arka plan" loading="lazy">
+        <div class="img-caption">Şeffaf arka plan (PNG) — herhangi bir yere yerleştirilebilir</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 12: FOTOĞRAF DÜZENLEME -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="foto-duzenleme">12. Fotoğraf Düzenleme (Photo Editing) 📸</h2>
+
+    <p>
+      GIMP sadece bir "görüntü düzenleme" aracı değil, aynı zamanda güçlü bir <strong>fotoğraf düzenleme</strong> yazılımıdır.
+      Bu bölümde GIMP'in resmi öğreticilerinden üç ileri seviye tekniği inceliyoruz: <strong>Luminosity Masks</strong> (parlaklık maskeleri),
+      <strong>Tone Mapping</strong> (ton eşleme / gölge kurtarma) ve <strong>Focus Group</strong> (odak grubu / blend mode kullanımı).
+    </p>
+
+    <!-- 12a: Luminosity Masks -->
+    <h3 id="luminosity-masks">📸 Luminosity Masks — Parlaklık Maskeleri</h3>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Türkçe uyarlama</div>
+      <p>Bu bölüm, Pat David tarafından yazılmış orijinal GIMP öğreticisinin Türkçe’ye uyarlanmış halidir.<br>
+      Orijinal: <a href="https://www.gimp.org/tutorials/community/Luminosity_Masks/" target="_blank">gimp.org/tutorials/community/Luminosity_Masks</a> (CC BY-SA 3.0).</p>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Bu bölüm nedir?</div>
+      <p><strong>Luminosity Masks</strong> (parlaklık maskeleri), bir görüntüdeki belirli ton aralıklarını hedefleyen katman maskeleridir. Maskenin kendisi görüntü verisinden türetildiği için "kendi kendine yumuşatma" (self-feathering) özelliğine sahiptir — sert geçişler ve karışım sorunlarından kaçınılır.</p>
+    </div>
+
+    <p>
+      Parlaklık maskeleri ile neler yapılabilir?
+    </p>
+    <ul>
+      <li>Gölgeleri veya açık tonları etkilemeden <strong>orta tonları aydınlatmak</strong></li>
+      <li>Görüntüyü farklı renklerle <strong>split-toning</strong> (böl-tonla) yapmak</li>
+      <li>Yalnızca en koyu gölgelerde <strong>kontrastı artırmak</strong></li>
+      <li>Ton aralıklarını izole ederek hassas düzenleme yapmak</li>
+    </ul>
+
+    <div class="info-box tip">
+      <div class="info-title">⚠️ Ön Koşul</div>
+      <p>Bu öğreticiyi takip etmeden önce <a href="#katman-maskeleri">Katman Maskeleri</a> bölümünü okumanız önerilir.</p>
+    </div>
+
+    <h4>Adım 1: Katmanı Çoğaltma ve Doygunluk Giderme</h4>
+    <p>Temel katmanı çoğaltın (<span class="gimp-menu-path">Layer → Duplicate Layer</span>) ve ardından Luminosity yöntemiyle doygunluk giderin:</p>
+    <p><span class="gimp-menu-path">Colors → Desaturate…</span> → Yöntem: <strong>Luminosity</strong></p>
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Layer-Duplicate.png" alt="GIMP Layer Duplicate" loading="lazy">
+        <div class="img-caption">Katman çoğaltma</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Layer-Desaturate.png" alt="GIMP Desaturate Luminosity" loading="lazy">
+        <div class="img-caption">Luminosity ile desaturate</div>
+      </div>
+    </div>
+    <p>Bu doygunluk giderilmiş kopya, "Lights" (Açık Tonlar) kanalını temsil eder.</p>
+
+    <h4>Adım 2: "Lights" Kanalı Oluşturma</h4>
+    <p>Kanallar diyaloğunu açın: <span class="gimp-menu-path">Windows → Dockable Dialogs → Channels</span></p>
+    <p>RGB kanallarından herhangi birini alt pencereye sürükleyin (desaturate işlemi nedeniyle hepsi aynı veriyi taşır). Kanala <strong>"L"</strong> ismini verin.</p>
+    <div class="gimp-img-container" style="max-width: 500px;">
+      <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Channels-Dialog.png" alt="GIMP Channels Dialog" loading="lazy">
+      <div class="img-caption">Kanallar diyaloğu — üstte RGB kanalları, altta özel kanallar</div>
+    </div>
+    <div class="gimp-img-container" style="max-width: 500px;">
+      <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/L-Channel.png" alt="L Channel" loading="lazy">
+      <div class="img-caption">Oluşturulan "L" (Lights) kanalı</div>
+    </div>
+
+    <h4>Adım 3: "Darks" Kanalı Oluşturma</h4>
+    <p>"Darks" kanalı, "Lights" kanalının tersidir. Tüm görüntüyü seçip L kanalını çıkararak elde ederiz:</p>
+    <ol>
+      <li><span class="gimp-menu-path">Select → All</span> (tüm görüntüyü seç)</li>
+      <li>L kanalına sağ tıklayın → <strong>"Subtract from Selection"</strong></li>
+      <li><span class="gimp-menu-path">Select → Save to Channel</span> → İsim: <strong>"D"</strong></li>
+    </ol>
+    <div class="gimp-img-container" style="max-width: 500px;">
+      <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/L-Channel-Subtract.png" alt="Subtract L Channel" loading="lazy">
+      <div class="img-caption">L kanalını seçimden çıkarma</div>
+    </div>
+    <p>Daha koyu maskeler için L kanalını tekrar çıkarabilirsiniz: <strong>D → DD → DDD</strong></p>
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Darks-All.jpg" alt="D, DD, DDD channels" loading="lazy">
+      <div class="img-caption">D, DD ve DDD kanalları — giderek daha koyu tonları hedefler</div>
+    </div>
+
+    <h4>Adım 4: Daha Açık Maskeler ve Orta Tonlar</h4>
+    <p>Aynı mantığı tersine çevirerek <strong>LL</strong> ve <strong>LLL</strong> kanalları oluşturulur (L seçimi yapılır, D çıkarılır). Orta tonlar ise L ve D kanallarının <strong>kesişimi</strong> ile elde edilir:</p>
+    <ol>
+      <li>L kanalını seçime alın → D kanalına sağ tık → <strong>"Intersect with Selection"</strong></li>
+      <li><span class="gimp-menu-path">Select → Save to Channel</span> → İsim: <strong>"M"</strong></li>
+    </ol>
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Lights-All.jpg" alt="L, LL, LLL channels" loading="lazy">
+        <div class="img-caption">L, LL, LLL — açık ton kanalları</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Mid.jpg" alt="Mid tones mask" loading="lazy">
+        <div class="img-caption">M — Orta ton maskesi</div>
+      </div>
+    </div>
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/All-Masks.jpg" alt="All luminosity masks" loading="lazy">
+      <div class="img-caption">Tüm parlaklık maskeleri: Lights (sol), Mids (orta), Darks (sağ)</div>
+    </div>
+
+    <h4>Uygulama: Split Toning (Böl-Tonla)</h4>
+    <p>Parlaklık maskeleri ile split-toning yaparak koyu ve açık tonlara farklı renkler verebiliriz:</p>
+    <div class="step-box">
+      <h4>1. Koyu Tonları Renklendirme</h4>
+      <p>Temel katmanı çoğaltın → <strong>"Dark"</strong> olarak adlandırın → DD maskesini katman maskesi olarak ekleyin:</p>
+      <p><span class="gimp-menu-path">Layer → Mask → Add Layer Mask</span> → Channel: <strong>DD</strong></p>
+      <p>Sonra renklendirin: <span class="gimp-menu-path">Colors → Colorize</span> → Hue: <strong>200</strong> (mavi/teal)</p>
+    </div>
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/AddLayerMask.png" alt="Add Layer Mask from Channel" loading="lazy">
+        <div class="img-caption">DD kanalını maske olarak ekleme</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Colorize-200.png" alt="Colorize Hue 200" loading="lazy">
+        <div class="img-caption">Hue: 200 ile renklendirme</div>
+      </div>
+    </div>
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/All-Hues.jpg" alt="Different hue values with DD mask" loading="lazy">
+      <div class="img-caption">DD maskesi ile farklı Hue değerleri — renk değişimi sadece koyu tonlarda!</div>
+    </div>
+
+    <div class="step-box">
+      <h4>2. Açık Tonları Renklendirme</h4>
+      <p>Aynı işlemi tekrarlayın ama bu sefer <strong>LL</strong> maskesi ve ~25 Hue (turuncu) kullanın.</p>
+    </div>
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Mountains.jpg" alt="Original mountains" loading="lazy">
+        <div class="img-caption">Orijinal fotoğraf</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Mountains-split.jpg" alt="Split toned mountains" loading="lazy">
+        <div class="img-caption">Split-toning sonucu: koyu=mavi, açık=turuncu</div>
+      </div>
+    </div>
+
+    <h4>Uygulama: Orta Ton Maskesiyle Kontrast Artırma</h4>
+    <p>M maskesi ile agresif bir eğri uygulamak, açık/koyu tonları bozmadan orta tonlarda kontrast ve doygunluğu artırır:</p>
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Mid-Curve.png" alt="Aggressive mid-tone curve" loading="lazy">
+        <div class="img-caption">Agresif eğri ayarı</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Luminosity_Masks/Mid-Boost.jpg" alt="Mid-tone boosted result" loading="lazy">
+        <div class="img-caption">M maskesi + eğri sonucu</div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Önemli Not</div>
+      <p>Parlaklık maskeleri, fotoğraf düzenlemede en güçlü tekniklerden biridir. Her bir resmi "ton aralıklarının bir koleksiyonu" olarak düşünmeye başladığınızda, çok hassas ve profesyonel düzenlemeler yapabilirsiniz. Denemekten çekinmeyin!</p>
+    </div>
+
+    <!-- 12b: Tone Mapping -->
+    <h3 id="tone-mapping">🌅 Tone Mapping — Gölge Kurtarma (Shadow Recovery)</h3>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Türkçe uyarlama</div>
+      <p>Bu bölüm, Elle Stone tarafından yazılmış orijinal GIMP öğreticisinin Türkçe’ye uyarlanmış halidir.<br>
+      Orijinal: <a href="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/" target="_blank">gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels</a> (CC BY-SA 3.0).</p>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Bu bölüm nedir?</div>
+      <p><strong>Tone Mapping</strong>, bir görüntünün gölge ve orta tonlarını aydınlatırken açık alanların (highlight) "yanmasını" engelleme tekniğidir. Özellikle güneşli günlerde çekilen, gökyüzü iyi ama zemin karanlık olan fotoğraflarda çok işe yarar.</p>
+    </div>
+
+    <p>
+      GIMP'in <strong>32-bit kayan nokta (floating point)</strong> hassasiyetindeki <span class="gimp-menu-path">Colors → Exposure</span> aracı,
+      Curves'den çok daha iyi sonuç verir çünkü RGB kanal değerlerini <strong>kırpmaz</strong> (clip etmez).
+      Bu sayede gölge ve orta tonlara pozitif pozlama kompanzasyonu ekleyebilir, highlight bilgisini koruyabilirsiniz.
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/power-lines.jpg" alt="Power lines before and after tone mapping" loading="lazy">
+      <div class="img-caption">Güç hatları öğleden sonra: Tone mapping öncesi ve sonrası</div>
+    </div>
+
+    <h4>Adım Adım Gölge Kurtarma</h4>
+
+    <div class="step-box">
+      <h4>1. Görüntüyü 32-bit Float'a Dönüştürün</h4>
+      <p><span class="gimp-menu-path">Image → Precision</span> → 32-bit floating point → <strong>Linear light</strong></p>
+      <p>Bu, Normal blend modunun radyometrik olarak doğru sonuçlar üretmesini sağlar.</p>
+    </div>
+
+    <div class="step-box">
+      <h4>2. Katmanı Çoğaltın ve +1 Stop Pozlama Ekleyin</h4>
+      <p>Katmanı çoğaltın → <span class="gimp-menu-path">Colors → Exposure</span> → <strong>+1.0 stop</strong> pozlama kompanzasyonu</p>
+    </div>
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/gegl-exposure-add-one-stop-positive-exposure-compensation.jpg" alt="Colors/Exposure dialog +1 stop" loading="lazy">
+        <div class="img-caption">+1 stop pozlama ekleme diyaloğu</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/gegl-exposure-one-stop-positive-exposure-compensation-added.jpg" alt="Image with +1 stop" loading="lazy">
+        <div class="img-caption">Sonuç: Highlight'lar "yanmış" görünüyor ama aslında veri hâlâ mevcut!</div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Neden Float Hassasiyeti?</div>
+      <p>Integer (tamsayı) hassasiyetinde highlight değerleri 255'te kesilir ve bilgi kaybolur. Float hassasiyette ise 1.0'ın üstündeki değerler saklanır — maske ile geri getirebilirsiniz!</p>
+    </div>
+
+    <div class="step-box">
+      <h4>3. Ters Gri Tonlu Katman Maskesi Ekleyin</h4>
+      <p>Katmana sağ tık → <strong>Add Layer Mask</strong> → Grayscale copy of layer → <strong>Invert mask ✓</strong></p>
+    </div>
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/gegl-exposure-inverse-grayscale-mask-added.jpg" alt="Inverse grayscale mask added" loading="lazy">
+      <div class="img-caption">Ters gri tonlu maske eklendikten sonra — biraz bulutlu görünebilir, sorun değil!</div>
+    </div>
+
+    <div class="step-box">
+      <h4>4. Maskeye Auto Stretch Contrast Uygulayın</h4>
+      <p>Maskeye tıklayın → <span class="gimp-menu-path">Colors → Auto → Stretch Contrast</span> (Keep Colors ✓)</p>
+    </div>
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/gegl-exposure-mask-auto-stretched.jpg" alt="Final tone mapped result" loading="lazy">
+      <div class="img-caption">Auto Stretch Contrast sonrası: Gölgeler aydınlanmış, highlight'lar sağlam!</div>
+    </div>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/tree-exposed-for-sky-ground-is-dark.jpg" alt="Tree before and after" loading="lazy">
+        <div class="img-caption">Başka bir örnek: Gökyüzü için expose edilmiş ağaç — gölge kurtarma ile zemin aydınlandı</div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 İpuçları</div>
+      <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-secondary);">
+        <li>Bu teknik özellikle güneşli günlerde çekilen "gökyüzü vs zemin" fotoğraflarında çok etkilidir</li>
+        <li>Birden fazla pozlama katmanı ekleyerek 2-3 stop bile kurtarabilirsiniz</li>
+        <li>Mikro kontrastı geri kazanmak için maskeye edge-respecting blur (G'MIC bilateral smooth gibi) uygulayabilirsiniz</li>
+        <li>Maskeyi Curves ile düzenleyerek son halini ince ayarla tamamlayabilirsiniz</li>
+      </ul>
+    </div>
+
+    <!-- 12c: Focus Group -->
+    <h3 id="focus-group">🎯 Focus Group — Blend Mode ile Odak Ayrımı</h3>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Türkçe uyarlama</div>
+      <p>Bu bölüm, John Brewer tarafından yazılmış orijinal GIMP öğreticisinin Türkçe’ye uyarlanmış halidir.<br>
+      Orijinal: <a href="https://www.gimp.org/tutorials/community/Focus_Group/" target="_blank">gimp.org/tutorials/community/Focus_Group</a> (CC BY-SA 4.0).</p>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Bu bölüm nedir?</div>
+      <p><strong>Focus Group</strong> tekniği, bir fotoğraftaki "ilgi odağını" arka plandan ayırarak öne çıkarmayı amaçlar. Katman maskeleri ve <strong>blend modları</strong> (Screen, Multiply, Overlay, Soft Light) kullanılır.</p>
+    </div>
+
+    <h4>Örnek 1: Teh Tarik — Kötü Aydınlatmayı Kurtarma</h4>
+    <p>Flaşlı çekilmiş, aşırı aydınlık arka planlı bir fotoğrafı, arka planı karartıp özneyi vurgulayarak kurtarıyoruz:</p>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/TehTarik_Original.jpg" alt="Teh Tarik original" loading="lazy">
+        <div class="img-caption">Orijinal — arka plan çok parlak</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/TehTarik_Final.jpg" alt="Teh Tarik final" loading="lazy">
+        <div class="img-caption">Düzenlenmiş — arka plan karartıldı, özne öne çıktı</div>
+      </div>
+    </div>
+
+    <p><strong>Teknik:</strong></p>
+    <ol>
+      <li>Orijinal katmanı 2 kez çoğaltın</li>
+      <li>Alt kopyanın blend modunu <strong>Screen</strong> yapın (maskeleme sırasında renk farkını görmek için)</li>
+      <li>Üst kopyaya <strong>siyah katman maskesi</strong> ekleyin</li>
+      <li>Fırça ile öznenin kenarlarını beyaz boyayarak maskeleyin</li>
+      <li>Screen katmanını <strong>Multiply</strong>'a çevirin (arka planı karartır)</li>
+      <li>Maske katmanını <strong>Screen</strong>'e çevirin (özneyi aydınlatır)</li>
+    </ol>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/TehTarik_Mask.jpg" alt="Layer mask view" loading="lazy">
+        <div class="img-caption">Katman maskesi — beyaz alanlar görünür kalır</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/TehTarik_Layers.jpg" alt="Layer stack" loading="lazy">
+        <div class="img-caption">Katman yapısı</div>
+      </div>
+    </div>
+
+    <h4>Örnek 2: Singapur — Kalabalıktan Odak Ayrımı</h4>
+    <p>Kalabalık bir sahnede belirli kişileri öne çıkarmak için arka planı farklılaştırıyoruz:</p>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/Singapore_Original.jpg" alt="Singapore original" loading="lazy">
+        <div class="img-caption">Orijinal — kalabalık sahne</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/Singapore_Final.jpg" alt="Singapore final" loading="lazy">
+        <div class="img-caption">Odak grubu ayrıştırılmış</div>
+      </div>
+    </div>
+
+    <p><strong>Teknik:</strong></p>
+    <ol>
+      <li>Orijinali çoğaltın → <strong>Background</strong> katmanı olarak adlandırın</li>
+      <li>Arka plana <span class="gimp-menu-path">Colors → Desaturate → Sepia</span> uygulayın (Strength: 0.5, Opacity: 70%)</li>
+      <li>Orijinali tekrar çoğaltıp en üste taşıyın → siyah maske ekleyin</li>
+      <li>Beyaz fırça ile odak grubunu (anne ve çocukları) maskeleyin</li>
+      <li>Bu katmanı çoğaltıp <strong>Soft Light</strong> moduna alın (kontrast artışı) → Opacity: 50%</li>
+      <li>Son olarak kırpma (crop) ile kompozisyonu düzeltin</li>
+    </ol>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/Singapore_Mask.jpg" alt="Singapore mask" loading="lazy">
+        <div class="img-caption">Odak grubu maskesi</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/Singapore_Focus.jpg" alt="Singapore focus applied" loading="lazy">
+        <div class="img-caption">Maske + Soft Light uygulandıktan sonra</div>
+      </div>
+    </div>
+
+    <h4>Örnek 3: Fırtına — Gökyüzü ve Deniz İçin Farklı Blend Mode</h4>
+    <p>Aynı fotoğrafın farklı bölgelerine farklı blend modları uygulayarak dramatik etki yaratıyoruz:</p>
+
+    <div class="comparison-row">
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/Storm_Original.jpg" alt="Storm original" loading="lazy">
+        <div class="img-caption">Orijinal — sönük fırtına</div>
+      </div>
+      <div class="gimp-img-container">
+        <img src="https://www.gimp.org/tutorials/community/Focus_Group/Storm_After.jpg" alt="Storm after" loading="lazy">
+        <div class="img-caption">Düzenlenmiş — dramatik fırtına</div>
+      </div>
+    </div>
+
+    <p><strong>Teknik:</strong> Katman çoğaltılır → <strong>Multiply</strong> (gökyüzünü karartır) + <strong>Overlay</strong> (deniz/kara dokusunu güçlendirir). Her biri için ayrı maskeler oluşturulur.</p>
+
+    <div class="gimp-img-container" style="max-width: 400px;">
+      <img src="https://www.gimp.org/tutorials/community/Focus_Group/Storm_Layers.JPG" alt="Storm layer stack" loading="lazy">
+      <div class="img-caption">Fırtına için katman yapısı</div>
+    </div>
+
+    <h4>Temel Blend Modları Özeti</h4>
+    <table class="jargon-table">
+      <thead><tr><th>Blend Mode</th><th>Türkçe</th><th>Ne Yapar?</th><th>Benzetme</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Screen</strong></td><td>Ekran</td><td>Aydınlatır — siyahı yok sayar, açık pikselleri daha açık yapar</td><td>İki projektörü aynı perdeye yansıtmak</td></tr>
+        <tr><td><strong>Multiply</strong></td><td>Çarpma</td><td>Karartır — beyazı yok sayar, koyu pikselleri daha koyu yapar</td><td>İki slaytı üst üste koymak</td></tr>
+        <tr><td><strong>Overlay</strong></td><td>Kaplama</td><td>Kontrastı artırır — %50 griyi yok sayar, açıkları aydınlatır, koyuları karartır</td><td>Screen + Multiply birleşimi</td></tr>
+        <tr><td><strong>Soft Light</strong></td><td>Yumuşak Işık</td><td>Overlay'in daha yumuşak versiyonu</td><td>Hafif kontrast artışı</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 13: DİJİTAL BOYAMA -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="dijital-boyama">13. Dijital Boyama (Painting) 🎨</h2>
+
+    <p>
+      GIMP sadece fotoğraf düzenleme için değil, aynı zamanda <strong>dijital boyama (digital painting)</strong> için de kullanılabilir.
+      Özellikle <strong>parametrik fırçalar</strong> (.vbr), doğru ayarlarla kuru medya (kalem, pastel boya, kömür) efektlerini
+      oldukça inanılır şekilde taklit edebilir.
+    </p>
+
+    <!-- 13a: Parametric Brushes -->
+    <h3 id="parametric-brushes">🖌️ Parametric Brushes — Parametrik Fırçalar</h3>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Türkçe uyarlama</div>
+      <p>Bu bölüm, Americo Gobbo tarafından yazılmış orijinal GIMP öğreticisinin Türkçe’ye uyarlanmış halidir.<br>
+      Orijinal: <a href="https://www.gimp.org/tutorials/community/Parametric_Brush/" target="_blank">gimp.org/tutorials/community/Parametric_Brush</a> (CC0 1.0 — Public Domain).</p>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📖 GIMP'te İki Tür Fırça</div>
+      <p><strong>Parametrik fırça</strong> (.vbr): Vektör tabanlıdır, şekil parametreleri (radius, spikes, hardness, aspect ratio, angle, spacing) ile kontrol edilir. Esnek ve her boyutta net.<br>
+      <strong>Raster fırça</strong> (.gbr / .gih): Görüntü tabanlıdır, daha resimsel kalitelere sahiptir ama oluşturması daha karmaşıktır.</p>
+    </div>
+
+    <div class="gimp-img-container" style="max-width: 600px;">
+      <img src="https://www.gimp.org/tutorials/community/Parametric_Brush/parametric-brushes.assets/parametric-brushes-dialog-editor.png" alt="Parametric brush editor" loading="lazy">
+      <div class="img-caption">Fırça seti ve Parametrik Editör (.vbr) — yuvarlak, kare ve elmas şekilleri</div>
+    </div>
+
+    <h4>Parametrik Fırçaların Avantajları</h4>
+    <ul>
+      <li>Hardness = 1 ile <strong>en keskin ve sert</strong> darbe elde edilir (raster fırçalardan daha iyi)</li>
+      <li>Hardness kolayca editörden veya Tool Options'dan ayarlanır</li>
+      <li>Farklı boyutlarda kaliteli sonuç verir (özellikle 8-64 piksel arası optimal)</li>
+      <li>Paint Dynamics ile birleştirildiğinde gerçekçi medya efektleri üretir</li>
+    </ul>
+
+    <h4>Kuru Medya (Dry Media) Efektleri</h4>
+    <p>
+      Parametrik fırçalar, doğru <strong>Paint Dynamics</strong> ayarları ile kalem, renkli kalem, kömür, tebeşir ve
+      pastel boya gibi kuru medya araçlarını taklit edebilir.
+    </p>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Parametric_Brush/parametric-brushes.assets/parametric-brushes-deveze-dry-media-test.png" alt="Dry media test by Gustavo Deveze" loading="lazy">
+      <div class="img-caption">Gustavo Deveze tarafından Dry Media paint dynamics ile yapılmış çizim</div>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Parametric_Brush/parametric-brushes.assets/parametric-brushes-dry-media-airbrush-x-paintbrush.png" alt="Airbrush vs Paintbrush tool" loading="lazy">
+      <div class="img-caption">Paintbrush vs Airbrush Tool: Airbrush, Rate ve Flow kontrolleri sayesinde daha ilginç sonuçlar üretir</div>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Parametric_Brush/parametric-brushes.assets/parametric-brushes-shapes-and-strokes-dry-media.png" alt="Different brush shapes with dry media" loading="lazy">
+      <div class="img-caption">Farklı şekilli parametrik fırçalar ile Airbrush tool sonuçları</div>
+    </div>
+
+    <h4>Önerilen Ayarlar (Airbrush Tool)</h4>
+    <p>Kuru medya efektleri için Airbrush aracında şu ayarları kullanın:</p>
+    <table class="jargon-table">
+      <thead><tr><th>Ayar</th><th>Değer</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Opacity</strong></td><td>75 – 100</td><td>Darbe opaklığı</td></tr>
+        <tr><td><strong>Jitter</strong></td><td>0.5 – 0.75 (etkin)</td><td>Fırçaya rastgelelik ekler — doğal görünüm</td></tr>
+        <tr><td><strong>Force</strong></td><td>100%</td><td>Basınç kuvveti (GIMP 2.10+)</td></tr>
+        <tr><td><strong>Rate</strong></td><td>75 – 125</td><td>Boya akış hızı</td></tr>
+        <tr><td><strong>Flow</strong></td><td>~50</td><td>Boya yoğunluğu</td></tr>
+        <tr><td><strong>Motion Only</strong></td><td>Etkin</td><td>Duruyor olsanız bile boya akmasını engeller</td></tr>
+      </tbody>
+    </table>
+
+    <div class="gimp-img-container" style="max-width: 350px;">
+      <img src="https://www.gimp.org/tutorials/community/Parametric_Brush/parametric-brushes.assets/parametric-brushes-tool-options-settings-dry-media.png" alt="Tool Options settings" loading="lazy">
+      <div class="img-caption">Airbrush Tool Options — Dry Media ayarları</div>
+    </div>
+
+    <div class="gimp-img-container">
+      <img src="https://www.gimp.org/tutorials/community/Parametric_Brush/parametric-brushes.assets/parametric-brushes-personaggio-bizarro.jpg" alt="Sample painting with parametric brushes" loading="lazy">
+      <div class="img-caption">Americo Gobbo tarafından Dry Media paint dynamics ve parametrik fırçalar ile yapılmış dijital çizim (2013)</div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">📥 Fırça Seti İndir</div>
+      <p>Bu öğreticide kullanılan parametrik fırça seti ve Paint Dynamics'i ücretsiz indirin (CC0 — Public Domain):</p>
+      <p style="font-size: 1rem; text-align: center; margin: 0.5rem 0;">
+        <a href="https://www.gimp.org/tutorials/community/Parametric_Brush/parametric-brushes.assets/parametric-brushes-Brushset-and-paint-dynamics.zip" target="_blank" style="color: var(--accent-4); font-weight: 700;">📥 Brush Set + Paint Dynamics (.zip)</a>
+      </p>
+      <p style="font-size: 0.85rem; color: var(--text-secondary);">İndirilen .vbr dosyalarını GIMP'in fırça klasörüne (<code>~/.config/GIMP/2.10/brushes/</code> veya eşdeğeri) kopyalayın ve GIMP'i yeniden başlatın.</p>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">🎮 Oyun Geliştirme İçin Neden Önemli?</div>
+      <p>Dijital boyama becerileri, oyun geliştirmede <strong>konsept art</strong>, <strong>texture painting</strong>, <strong>UI tasarımı</strong> ve <strong>karakter/ortam eskizleri</strong> için doğrudan kullanılır. GIMP'te temel fırça kontrolünü öğrenmek, daha sonra Krita, Photoshop veya Substance Painter gibi araçlara geçişi kolaylaştırır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 14: REFERANS GÖRSELLER -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="referans-gorseller">14. Referans Görseller (Çalışma Materyalleri) 🖼️</h2>
+
+    <p>
+      Aşağıdaki görselleri indirerek GIMP'te üzerinde çalışma yapabilirsiniz. Ölçekleme, kırpma, renk ayarı,
+      katman maskeleri gibi konuları bu görsellerle pratik edebilirsiniz. Tüm görseller ücretsiz ve açık lisanslıdır.
+    </p>
+
+    <h3>🌌 NASA APOD (Astronomy Picture of the Day) Görselleri</h3>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">GIMP'in resmi öğretilerinde de kullanılan APOD görselleri, yüksek çözünürlüklü ve ücretsizdir.</p>
+
+    <div class="ref-image-grid">
+      <div class="ref-image-card">
+        <img src="https://apod.nasa.gov/apod/image/1304/horseheadir_hubble_1225.jpg" alt="Horsehead Nebula" loading="lazy">
+        <div class="ref-info">
+          <h4>Horsehead Nebula (Kızılötesi)</h4>
+          <p>GIMP Quickies öğreticisinde kullanılan nebula görseli. Ölçekleme ve sıkıştırma pratiği için ideal.</p>
+          <a href="https://apod.nasa.gov/apod/ap130422.html" target="_blank">APOD'da Görüntüle →</a>
+        </div>
+      </div>
+      <div class="ref-image-card">
+        <img src="https://apod.nasa.gov/apod/image/2301/CrabNebula_Hubble_3864.jpg" alt="Crab Nebula (M1)" loading="lazy">
+        <div class="ref-info">
+          <h4>Yengeç Bulutsusu (M1) — Hubble</h4>
+          <p>Renk eğrileri ve filament detayları pratiği için harika — çeşitli renk tonları ve parlaklık seviyeleri içerir.</p>
+          <a href="https://apod.nasa.gov/apod/ap230115.html" target="_blank">APOD'da Görüntüle →</a>
+        </div>
+      </div>
+      <div class="ref-image-card">
+        <img src="https://apod.nasa.gov/apod/image/2207/STScI-SMACS0723_webb.png" alt="Webb Deep Field SMACS 0723" loading="lazy">
+        <div class="ref-info">
+          <h4>Webb İlk Derin Alan (SMACS 0723)</h4>
+          <p>JWST'nin ilk derin alan görüntüsü — binlerce galaksi. Detay zenginliği ile ölçekleme kalitesi farkını görmek için mükemmel.</p>
+          <a href="https://apod.nasa.gov/apod/ap220713.html" target="_blank">APOD'da Görüntüle →</a>
+        </div>
+      </div>
+      <div class="ref-image-card">
+        <img src="https://apod.nasa.gov/apod/image/2208/Cartwheel_Webb_2000.jpg" alt="Cartwheel Galaxy Webb" loading="lazy">
+        <div class="ref-info">
+          <h4>Çarkıfelek Galaksisi — Webb</h4>
+          <p>Kırpma ve döndürme pratiği için. Hue-Saturation ayarlarını deneyin. Muhteşem renk çeşitliliği.</p>
+          <a href="https://apod.nasa.gov/apod/ap220824.html" target="_blank">APOD'da Görüntüle →</a>
+        </div>
+      </div>
+    </div>
+
+    <h3>🎨 Renk ve Texture Çalışmaları İçin</h3>
+
+    <div class="ref-image-grid">
+      <div class="ref-image-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/GoldenGateBridge-001.jpg/1280px-GoldenGateBridge-001.jpg" alt="Golden Gate Bridge" loading="lazy">
+        <div class="ref-info">
+          <h4>Golden Gate Bridge</h4>
+          <p>Renk eğrileri ve seçici renklendirme için ideal (kırmızı köprü + mavi gökyüzü).</p>
+          <a href="https://commons.wikimedia.org/wiki/File:GoldenGateBridge-001.jpg" target="_blank">Wikimedia'da Görüntüle →</a>
+        </div>
+      </div>
+      <div class="ref-image-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Sunrise_over_the_sea.jpg/1280px-Sunrise_over_the_sea.jpg" alt="Gün Doğumu" loading="lazy">
+        <div class="ref-info">
+          <h4>Deniz Üzerinde Gün Doğumu</h4>
+          <p>Sıcak/soğuk ton dengesi ve curves pratiği için güzel gradyan tonları.</p>
+          <a href="https://commons.wikimedia.org/wiki/File:Sunrise_over_the_sea.jpg" target="_blank">Wikimedia'da Görüntüle →</a>
+        </div>
+      </div>
+      <div class="ref-image-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/560px-PNG_transparency_demonstration_1.png" alt="PNG Saydamlık" loading="lazy">
+        <div class="ref-info">
+          <h4>PNG Saydamlık Demosu</h4>
+          <p>Alpha kanalı ve saydamlık kavramını anlamak için. Katman maskeleri ile çalışılabilir.</p>
+          <a href="https://commons.wikimedia.org/wiki/File:PNG_transparency_demonstration_1.png" target="_blank">Wikimedia'da Görüntüle →</a>
+        </div>
+      </div>
+      <div class="ref-image-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png" alt="Çiçekler" loading="lazy">
+        <div class="ref-info">
+          <h4>Rengarenk Çiçekler</h4>
+          <p>Hue-Saturation ve Color Balance alıştırmaları için çeşitli renkler sunar.</p>
+          <a href="https://commons.wikimedia.org/wiki/File:Image_created_with_a_mobile_phone.png" target="_blank">Wikimedia'da Görüntüle →</a>
+        </div>
+      </div>
+    </div>
+
+    <h3>🕹️ Oyun Geliştirme İçin Texture / Sprite Kaynakları</h3>
+    <div class="ref-image-grid">
+      <div class="ref-image-card" style="cursor: pointer;" onclick="window.open('https://opengameart.org/', '_blank')">
+        <div style="height: 180px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #2d5016, #1a8b3f); font-size: 3rem;">🎮</div>
+        <div class="ref-info">
+          <h4>OpenGameArt.org</h4>
+          <p>Binlerce ücretsiz oyun asset'i: sprite, texture, tile set. CC lisanslı.</p>
+          <a href="https://opengameart.org/" target="_blank">Siteye Git →</a>
+        </div>
+      </div>
+      <div class="ref-image-card" style="cursor: pointer;" onclick="window.open('https://kenney.nl/assets', '_blank')">
+        <div style="height: 180px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #ff6b35, #f7931e); font-size: 3rem;">🧊</div>
+        <div class="ref-info">
+          <h4>Kenney.nl Assets</h4>
+          <p>Yüksek kaliteli, CC0 (kısıtlamasız) oyun asset'leri. Sprite sheet, tileset, UI kit.</p>
+          <a href="https://kenney.nl/assets" target="_blank">Siteye Git →</a>
+        </div>
+      </div>
+      <div class="ref-image-card" style="cursor: pointer;" onclick="window.open('https://itch.io/game-assets/free', '_blank')">
+        <div style="height: 180px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #fa5c5c, #d63384); font-size: 3rem;">🎯</div>
+        <div class="ref-info">
+          <h4>itch.io Free Assets</h4>
+          <p>Bağımsız geliştiricilerin paylaştığı ücretsiz oyun grafikleri.</p>
+          <a href="https://itch.io/game-assets/free" target="_blank">Siteye Git →</a>
+        </div>
+      </div>
+      <div class="ref-image-card" style="cursor: pointer;" onclick="window.open('https://www.textures.com/', '_blank')">
+        <div style="height: 180px; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg, #5d4e37, #8b7355); font-size: 3rem;">🧱</div>
+        <div class="ref-info">
+          <h4>Textures.com</h4>
+          <p>PBR dokular, malzemeler. Günlük 15 ücretsiz kredi. 3D ve 2D projeler için.</p>
+          <a href="https://www.textures.com/" target="_blank">Siteye Git →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Bu Hafta İçin Önerilen Alıştırma</div>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem; margin: 0;">
+        <li>Yukarıdaki NASA görsellerinden birini indirin ve GIMP'te açın</li>
+        <li>Görüntüyü %50 oranında küçültün (Scale Image + Percent)</li>
+        <li>İlginç bir bölgeyi kırpın (Crop Tool)</li>
+        <li>Curves ile kontrast artırın (S eğrisi)</li>
+        <li>Farklı JPEG kalitelerinde dışa aktarın ve dosya boyutlarını karşılaştırın</li>
+        <li>Floating Logo uygulamasını adım adım takip edin</li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 15: KAYNAKLAR -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="kaynaklar">15. Kaynaklar ve GIMP Öğreticileri 📚</h2>
+
+    <h3>🎓 Resmi GIMP Öğreticileri (Beginner)</h3>
+    <p style="color: var(--text-secondary); font-size: 0.9rem;">Aşağıdaki tüm öğreticiler GIMP'in resmi sitesinde yer almaktadır ve CC BY-SA lisanslıdır.</p>
+
+    <div class="resources-list">
+      <a href="https://www.gimp.org/tutorials/community/GIMP_Quickies/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>GIMP Quickies — Hızlı Başlangıç</h4>
+          <p>Scale, crop, rotate, JPEG sıkıştırma — en temel işlemler. Bu bölümün ana kaynağı.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/tutorials/community/Floating_Logo/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Simple Floating Logo — Havada Süzülen Logo</h4>
+          <p>Katman, maske, metin, filtre ve bump map kullanarak logo tasarımı. Lab uygulaması.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/tutorials/community/Layer_Masks/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Layer Masks — Katman Maskeleri</h4>
+          <p>Seçici saydamlık, seçici renklendirme, non-destructive düzenleme.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/tutorials/community/Basic_Color_Curves/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Basic Color Curves — Temel Renk Eğrileri</h4>
+          <p>Value ve RGB kanallarında eğri ayarları, renk tonu düzeltme, S eğrisi, renk grading.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Başlangıç-Orta</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/tutorials/community/CircleImage/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Making a Circle-Shaped Image — Dairesel Görüntü</h4>
+          <p>Dairesel kırpma ve seçim teknikleri. Profil fotoğrafları için kullanışlı.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/tutorials/community/Heart_Shape/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Making a Heart Shape — Kalp Şekli Seçimleri</h4>
+          <p>Seçim araçlarını birleştirerek karmaşık şekiller oluşturma.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>� Resmi GIMP Öğreticileri (Photo Editing)</h3>
+    <div class="resources-list">
+      <a href="https://www.gimp.org/tutorials/community/Luminosity_Masks/" target="_blank" class="resource-card">
+        <div class="resource-icon">📸</div>
+        <div class="resource-info">
+          <h4>Luminosity Masks — Parlaklık Maskeleri</h4>
+          <p>Ton aralıklarını hedefleyen maskeler ile split-toning, kontrast ayarlama ve hassas düzenleme.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Orta-İleri</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/tutorials/community/Tone_Mapping_Using_GIMP_Levels/" target="_blank" class="resource-card">
+        <div class="resource-icon">📸</div>
+        <div class="resource-info">
+          <h4>Tone Mapping / Shadow Recovery — Gölge Kurtarma</h4>
+          <p>32-bit float hassasiyette Colors/Exposure ile gölgeleri aydınlatma, highlight koruma.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Orta-İleri</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/tutorials/community/Focus_Group/" target="_blank" class="resource-card">
+        <div class="resource-icon">📸</div>
+        <div class="resource-info">
+          <h4>Focus Group — Blend Mode ile Odak Ayrımı</h4>
+          <p>Screen, Multiply, Overlay blend modları ile fotoğraftaki ilgi odağını öne çıkarma.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Orta</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>🎨 Resmi GIMP Öğreticileri (Painting)</h3>
+    <div class="resources-list">
+      <a href="https://www.gimp.org/tutorials/community/Parametric_Brush/" target="_blank" class="resource-card">
+        <div class="resource-icon">🎨</div>
+        <div class="resource-info">
+          <h4>Parametric Brushes — Parametrik Fırçalar</h4>
+          <p>Kuru medya (kalem, pastel, kömür) efektleri için parametrik fırça kullanımı ve paint dynamics.</p>
+          <span class="resource-tag">gimp.org · İngilizce · Orta</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>�📖 GIMP Belgeleri</h3>
+    <div class="resources-list">
+      <a href="https://docs.gimp.org/2.10/en/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>GIMP 2.10 Resmi Kullanım Kılavuzu</h4>
+          <p>Her menü, araç ve özelliğin detaylı açıklaması. Referans olarak başucu kaynağınız.</p>
+          <span class="resource-tag">docs.gimp.org · İngilizce · Referans</span>
+        </div>
+      </a>
+      <a href="https://docs.gimp.org/2.10/en/gimp-image-scale.html" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Scale Image — Resmi Belge</h4>
+          <p>Görüntü ölçekleme diyaloğunun tüm seçeneklerinin detaylı açıklaması.</p>
+          <span class="resource-tag">docs.gimp.org · İngilizce · Referans</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>🎬 Video Öğreticiler</h3>
+    <div class="resources-list">
+      <a href="https://www.youtube.com/watch?v=x6pXJ7Ijir0" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>GIMP 2.10 Basics — Complete Overview</h4>
+          <p>GIMP 2.10 arayüzü, araçlar ve temel işlemlerin kapsamlı tanıtımı. TechGumbo.</p>
+          <span class="resource-tag">YouTube · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=2EPIUyFJ4aw" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>GIMP for Beginners — Davies Media Design</h4>
+          <p>GIMP'in en popüler YouTube eğitmeni tarafından adım adım başlangıç rehberi.</p>
+          <span class="resource-tag">YouTube · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=Q8EmHniVVq8" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How to Make Pixel Art with GIMP</h4>
+          <p>GIMP ile pixel art yapma teknikleri — oyun geliştirme için doğrudan uygulanabilir.</p>
+          <span class="resource-tag">YouTube · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/playlist?list=PLqazFFzUAPc4vITMJaF3Fnqh3pccSMnC4" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>GIMP Dersleri — Nick Saporito (Playlist)</h4>
+          <p>Kapsamlı GIMP eğitim serisi. Başlangıçtan ileri seviyeye adım adım GIMP öğrenin.</p>
+          <span class="resource-tag">YouTube · Playlist · İngilizce · Başlangıç–İleri</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=2V0KUl06FuU" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>GIMP Tutorial for Beginners — Complete Intro</h4>
+          <p>GIMP'e yeni başlayanlar için eksiksiz giriş. Arayüz, araçlar ve temel işlemler tek videoda.</p>
+          <span class="resource-tag">YouTube · İngilizce · Başlangıç</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=LX-S1CX1HUI" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>GIMP Photo Editing — İleri Düzenleme Teknikleri</h4>
+          <p>GIMP ile fotoğraf düzenleme: renk düzeltme, rötuş, katman teknikleri ve daha fazlası.</p>
+          <span class="resource-tag">YouTube · İngilizce · Orta</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>🛠️ İlgili Araçlar</h3>
+    <div class="resources-list">
+      <a href="https://www.gimp.org/downloads/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>GIMP — İndir</h4>
+          <p>Windows, macOS, Linux için GIMP 2.10. Ücretsiz, açık kaynak.</p>
+          <span class="resource-tag">Masaüstü App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://www.photopea.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Photopea — Çevrimiçi Alternatif</h4>
+          <p>Tarayıcıda çalışan Photoshop/GIMP benzeri editör. Kurulum gerektirmez. PSD ve XCF açabilir.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://apod.nasa.gov/apod/astropix.html" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>NASA APOD — Her Günün Astronomi Fotoğrafı</h4>
+          <p>Her gün yeni bir yüksek çözünürlüklü uzay görüntüsü. GIMP pratiği için mükemmel kaynak.</p>
+          <span class="resource-tag">Web · Ücretsiz</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Quiz -->
+    <h2>🧩 Mini Quiz</h2>
+
+    <div class="quiz-container">
+      <div class="quiz-question">GIMP'te bir görüntüyü JPEG olarak kaydetmek için hangi kısayolu kullanırsınız?</div>
+      <div class="quiz-option" data-correct="false">Ctrl+S (Save)</div>
+      <div class="quiz-option" data-correct="true">Ctrl+Shift+E (Export As)</div>
+      <div class="quiz-option" data-correct="false">Ctrl+Shift+S (Save As)</div>
+      <div class="quiz-option" data-correct="false">Ctrl+P (Print)</div>
+      <div class="quiz-feedback" data-explanation="Ctrl+S GIMP'in kendi formatı olan .xcf dosyası olarak kaydeder. JPEG/PNG için Export As kullanılmalıdır!"></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">Scale Image diyaloğunda zincir simgesi ne işe yarar?</div>
+      <div class="quiz-option" data-correct="false">DPI değerini kilitler</div>
+      <div class="quiz-option" data-correct="false">Dosya boyutunu sınırlar</div>
+      <div class="quiz-option" data-correct="true">En-boy oranını (aspect ratio) korur</div>
+      <div class="quiz-option" data-correct="false">Enterpolasyon kalitesini sabitler</div>
+      <div class="quiz-feedback" data-explanation="Zincir kilitli iken genişlik veya yükseklikten birini değiştirdiğinizde diğeri otomatik olarak orantılı değişir, böylece görüntü bozulmaz."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">Katman maskesinde SİYAH renk ne anlama gelir?</div>
+      <div class="quiz-option" data-correct="false">Tam opak (görünür)</div>
+      <div class="quiz-option" data-correct="true">Tam şeffaf (gizli)</div>
+      <div class="quiz-option" data-correct="false">Yarı saydam</div>
+      <div class="quiz-option" data-correct="false">Rengi tersine çevirir</div>
+      <div class="quiz-feedback" data-explanation="Maskelerde beyaz = görünür, siyah = gizli (şeffaf), gri tonları = yarı saydam. 'Beyaz açar, siyah kapatır' diye hatırlayın!"></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">300 DPI'da 1800×1200 piksellik bir görüntünün baskı boyutu nedir?</div>
+      <div class="quiz-option" data-correct="false">30 × 20 cm</div>
+      <div class="quiz-option" data-correct="true">6 × 4 inç (≈15.24 × 10.16 cm)</div>
+      <div class="quiz-option" data-correct="false">18 × 12 inç</div>
+      <div class="quiz-option" data-correct="false">1800 × 1200 mm</div>
+      <div class="quiz-feedback" data-explanation="Baskı boyutu = Piksel ÷ DPI. 1800÷300 = 6 inç, 1200÷300 = 4 inç. İnçten cm'ye: 6×2.54 = 15.24 cm."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">Curves diyaloğunda Blue kanalını aşağı çekmek ne yapar?</div>
+      <div class="quiz-option" data-correct="false">Görüntüye mavi ekler</div>
+      <div class="quiz-option" data-correct="true">Görüntüye sarı ekler (mavi azaltır)</div>
+      <div class="quiz-option" data-correct="false">Görüntüyü bulanıklaştırır</div>
+      <div class="quiz-option" data-correct="false">Görüntüyü siyah-beyaz yapar</div>
+      <div class="quiz-feedback" data-explanation="Renk çemberinde mavinin zıttı sarıdır. Blue kanalını aşağı çekmek = mavi azaltmak = sarı artırmak."></div>
+    </div>
+
+    <!-- NAVİGASYON -->
+    <div class="week-nav">
+      <a href="../hafta2/index.html">← Bölüm 2: Renk Teorisi</a>
+      <a href="#" style="opacity: 0.5; pointer-events: none;">Bölüm 4: Yakında →</a>
+    </div>
+
+    <footer class="site-footer">
+      Bilgisayar Grafiği • Oyun Geliştirme ve Programlama Bölümü • 2025-2026 Bahar
+    </footer>
+  </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="../shared.js"></script>
+  <script src="./hafta3.js"></script>
+</body>
+</html>
