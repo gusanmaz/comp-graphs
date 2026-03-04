@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bölüm 1 - Bilgisayar Grafiğine Giriş</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html" class="active"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+    </div>
+    <div class="sidebar-toc">
+      <!-- Auto-populated by JS -->
+    </div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html" class="active">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header">
+    <span class="week-number">📅 BÖLÜM 1</span>
+    <h1>Bilgisayar Grafiğine Giriş</h1>
+    <p class="week-desc">Piksel nedir? Ekrana bir görüntü nasıl oluşur? Raster vs Vektör? GPU ne işe yarar?</p>
+    <div class="week-meta">
+      <div class="meta-item">📖 Teori: 2 saat</div>
+      <div class="meta-item">💻 Uygulama: 2 saat</div>
+      <div class="meta-item">🛠️ Araçlar: GIMP, Photopea</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ══════ TENTATIVE SYLLABUS ══════ -->
+    <h2>📅 Dönemlik Ders Planı (Tentative)</h2>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Bu plan taslaktır (tentative) ve dönem içinde değişebilir!</div>
+      <p>Aşağıdaki plan, dersin genel gidişatını göstermek amacıyla hazırlanmıştır. Öğrenci ihtiyaçlarına, ilerleme hızına ve güncel gelişmelere bağlı olarak konu sıralaması ve içeriklerde değişiklikler yapılabilir. Sınav haftalarında ders işlenmez.</p>
+    </div>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Hafta</th>
+          <th>Konu</th>
+          <th>Teori</th>
+          <th>Uygulama / Lab</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Bilgisayar Grafiğine Giriş</td><td>Piksel, Raster vs Vektör, GPU vs CPU, Grafik Pipeline</td><td>GIMP ile piksel atölyesi</td></tr>
+        <tr><td>2</td><td>Renk Teorisi</td><td>RGB, HSB, Alpha, Renk Paletleri, Erişilebilirlik</td><td>GIMP / Coolors.co ile renk çalışması</td></tr>
+        <tr><td>3</td><td>Dijital Görüntü Temelleri</td><td>Çözünürlük, DPI/PPI, Dosya Formatları, Sıkıştırma</td><td>Sprite hazırlama</td></tr>
+        <tr><td>4</td><td>2D Dönüşümler ve Koordinat Sistemleri</td><td>Translation, Rotation, Scaling, Pivot, Matris Temelleri</td><td>Dönüşüm uygulamaları</td></tr>
+        <tr><td>5</td><td>Pixel Art ve 2D Asset Oluşturma</td><td>Pixel Art İlkeleri, Dithering, Karakter Tasarımı</td><td>Sprite Sheet oluşturma</td></tr>
+        <tr><td>6</td><td>2D Animasyon Temelleri</td><td>Frame-by-frame, Tweening, Easing, Animasyon İlkeleri</td><td>Animasyon uygulaması</td></tr>
+        <tr><td>7</td><td>Tilemap ve Seviye Tasarımı</td><td>Tile Sistemi, Tileset Tasarımı, Parallax</td><td>Tiled Map Editor</td></tr>
+        <tr style="background: rgba(255, 214, 0, 0.08);"><td><strong>8</strong></td><td><strong>📝 ARA SINAV</strong></td><td colspan="2">Bu hafta ders işlenmez — tüm süre sınava ayrılmıştır</td></tr>
+        <tr><td>9</td><td>3D Grafik Temelleri</td><td>3D Koordinatlar, Mesh, Vertex, Polygon</td><td>Blender'a giriş</td></tr>
+        <tr><td>10</td><td>3D Modelleme</td><td>Box Modeling, Extrude, Modifier</td><td>Prop Modelleme</td></tr>
+        <tr><td>11</td><td>Materyal, Texture ve UV Mapping</td><td>Texture, UV Mapping, Normal Map, PBR Temelleri</td><td>Blender UV workshop</td></tr>
+        <tr><td>12</td><td>Işık ve Render</td><td>Işık Türleri, Gölgeler, Ambient Occlusion</td><td>Render uygulaması</td></tr>
+        <tr><td>13</td><td>Shader ve Post-Processing</td><td>Shader Kavramı, Post-Process Efektleri</td><td>Shadertoy</td></tr>
+        <tr><td>14</td><td>Grafik Optimizasyonu ve Pipeline</td><td>Draw Call, Batching, LOD, Atlas, Profiling</td><td>Profiling uygulaması</td></tr>
+        <tr><td>15</td><td>Final Proje Sunumları</td><td colspan="2">Proje Sunumları + Akran Değerlendirmesi</td></tr>
+        <tr style="background: rgba(255, 214, 0, 0.08);"><td><strong>Final</strong></td><td><strong>📝 FİNAL SINAVI</strong></td><td colspan="2">Ders işlenmez — tüm dönem konularından sınav</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📊 Değerlendirme (Tentative)</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Etkinlik</th><th>Adet</th><th>Katkı %</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Haftalık Lab Katılım & Çalışmalar</td><td>~10</td><td>15%</td></tr>
+        <tr><td>Ödevler (GitHub Classroom)</td><td>3</td><td>20%</td></tr>
+        <tr><td>Ara Sınav (Teori + Uygulama)</td><td>1</td><td>25%</td></tr>
+        <tr><td>Final Projesi</td><td>1</td><td>40%</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ AKADEMİK DÜRÜSTLÜK ══════ -->
+    <h2>⚖️ Yasal Mevzuat ve Akademik Dürüstlük</h2>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Kopya ve İntihal Uyarısı</div>
+      <p>Bu ders kapsamındaki tüm sınavlar, ödevler ve projeler <strong>2547 sayılı Yükseköğretim Kanunu</strong> ve ilgili yönetmelikler çerçevesinde değerlendirilir. Sınavlarda kopya çekmek, kopya vermek veya buna teşebbüs etmek disiplin suçudur.</p>
+      <ul style="margin-top: 0.75rem; padding-left: 1.25rem; color: var(--text-secondary);">
+        <li>📌 Kopya fiili tespit edildiğinde ilgili sınav <strong>geçersiz sayılır</strong> ve tutanak tutulur.</li>
+        <li>📌 Kınama veya daha ağır disiplin cezalarına yol açabilir; tekrarlayan durumlarda <strong>uzaklaştırma cezası</strong> uygulanabilir.</li>
+        <li>📌 Ödev ve projelerde <strong>intihal (plagiarism)</strong> de aynı kapsamda değerlendirilir.</li>
+      </ul>
+      <p style="margin-top: 0.75rem;">📄 <strong>2547 Sayılı Yükseköğretim Kanunu:</strong> <a href="https://cdn.anadolu.edu.tr/files/anadolu-cms/7gldkYw1/file/2547-sayili-yuksekogretim-kanunu-3befcc7ff61806b0.pdf" target="_blank">PDF İndir</a></p>
+      <p>⚠️ Tüm öğrenciler, kayıtlı oldukları üniversitenin <strong>öğrenci disiplin yönetmeliğini</strong> okumakla yükümlüdür.</p>
+    </div>
+
+    <!-- İÇİNDEKİLER -->
+    <div class="toc">
+      <h3>📑 Bu Bölümün İçeriği</h3>
+      <ol>
+        <li><a href="#grafik-nedir">Bilgisayar Grafiği Nedir?</a></li>
+        <li><a href="#piksel">Piksel: Dijital Dünyanın Tuğlası</a></li>
+        <li><a href="#raster-vektor">Raster vs Vektör Grafikler</a>
+          <ol style="margin-top: 0.3rem;">
+            <li><a href="#dosya-formatlari">Dosya Formatları: Görüntüler Nasıl Saklanır?</a></li>
+            <li><a href="#svg-formati">SVG: Vektör Grafiğin Web Dili</a></li>
+          </ol>
+        </li>
+        <li><a href="#gpu-cpu">GPU vs CPU: Kim Ne İş Yapar?</a></li>
+        <li><a href="#pipeline">Grafik Pipeline'a Kuş Bakışı</a></li>
+        <li><a href="#tarihce">Kısa Tarihçe: Pong'dan Bugüne</a></li>
+        <li><a href="#lab">Lab: Piksel Atölyesi</a></li>
+        <li><a href="#kaynaklar">Kaynaklar ve Okumalar</a></li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 1: GRAFİK NEDİR -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="grafik-nedir">1. Bilgisayar Grafiği Nedir? 🤔</h2>
+
+    <p>
+      <strong>Bilgisayar grafiği</strong>, bilgisayar kullanarak görsel içerik oluşturma, düzenleme ve gösterme bilimidir.
+      Şu an baktığınız bu web sayfası bile bilgisayar grafiğinin bir ürünüdür!
+    </p>
+
+    <p>
+      Tanımı biraz daha açalım: Bilgisayar grafiği, <strong>verileri (sayılar, koordinatlar, renk kodları) görsel temsillere dönüştürme</strong> sürecidir.
+      Mesela bir oyun motorunda karakterinizin pozisyonu (x=150, y=300) gibi soyut bir veridir. Bilgisayar grafiği bu sayıyı ekranda
+      görünür bir karakter haline getirir. Aslında gördüğünüz her şey — her piksel, her renk — arka planda bir sayıdır.
+    </p>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Düşünün</div>
+      <p>Bugün bilgisayar grafiklerinin olmadığı bir dünya hayal edin. Telefon ekranınız, oyunlar, filmler, Instagram, Google Maps... Hepsi bilgisayar grafiği sayesinde çalışıyor. Bilgisayar grafiği olmasa, bilgisayarlar hâlâ 1970'lerdeki gibi sadece metin (text) tabanlı terminaller olurdu!</p>
+    </div>
+
+    <p>Bilgisayar grafiği birçok alanda kullanılır:</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top:0">🎮 Oyun Geliştirme</h3>
+        <p>Karakterler, dünyalar, efektler, UI — bir oyundaki gördüğünüz her şey bilgisayar grafiği. 
+        2D sprite'lardan 3D modellere, partikül efektlerinden gölgelendirmeye kadar her görsel eleman bu disiplinin ürünüdür.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Örnekler:</strong> Unity, Unreal Engine, Godot ile yapılan her oyun</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">🎬 Film ve Animasyon</h3>
+        <p>Pixar filmleri tamamen bilgisayar grafiği ile yapılır. Marvel filmlerindeki VFX (görsel efektler) olmasaydı Iron Man uçamazdı! 
+        Bir Pixar filminin tek bir karesi render edilmesi saatler sürebilir.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Örnekler:</strong> Toy Story, Avatar, Spider-Verse</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">📱 Arayüz Tasarımı (UI/UX)</h3>
+        <p>Telefonunuzdaki her uygulama, her buton, her ikon, her animasyon bir grafik çalışması. 
+        Bir butona bastığınızda renk değişimi, bir sayfayı kaydırdığınızda akıcı geçişler — hepsi bilgisayar grafiği.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Örnekler:</strong> iOS arayüzü, Material Design, web siteleri</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">🏥 Tıp ve Bilim</h3>
+        <p>MR ve tomografi görüntüleri, 3D organ modelleri, molekül simülasyonları, hava durumu haritaları... 
+        Bilim insanları ve doktorlar verileri görselleştirmek için bilgisayar grafiğine güvenir.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Örnekler:</strong> 3D beyin haritaları, cerrahi simülasyonlar</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">🏗️ Mimarlık ve Mühendislik</h3>
+        <p>Binalar inşa edilmeden önce 3D olarak modellenir ve fotorealistik render'lar üretilir. 
+        CAD programları, iç mekan tasarımı, şehir planlaması — hepsi bilgisayar grafiği kullanır.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Örnekler:</strong> AutoCAD, SketchUp, V-Ray render'lar</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">🤖 Sanal/Artırılmış Gerçeklik</h3>
+        <p>VR (sanal gerçeklik) ve AR (artırılmış gerçeklik) tamamen bilgisayar grafiğine dayanır. 
+        Meta Quest, Apple Vision Pro gibi cihazlar gerçek zamanlı 3D grafikler üretir.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);"><strong>Örnekler:</strong> Beat Saber, Pokémon GO, IKEA Place</p>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu Derste Ne Yapacağız?</div>
+      <p>Biz bu derste ağırlıklı olarak <strong>oyun geliştirme</strong> perspektifinden bilgisayar grafiğini öğreneceğiz. Ama öğreneceğiniz kavramlar (piksel, renk, animasyon, shader...) tüm alanlarda geçerli. Bilgisayar grafiği öğrenmek, sadece oyun yapmak değil — dijital dünyanın nasıl çalıştığını anlamak demek.</p>
+    </div>
+
+    <h3>Bilgisayar Grafiğinin Alt Dalları</h3>
+    <p>Bilgisayar grafiği çok geniş bir alan. İşte ana alt dalları:</p>
+
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-1);">
+        <h3 style="margin-top:0; color: var(--accent-1);">🖼️ 2D Grafikler</h3>
+        <p>Düz yüzeyde çalışma: piksel tabanlı görüntüler, sprite'lar, UI elemanları, tipografi. Bu dersin ilk yarısında buna odaklanacağız.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-2);">
+        <h3 style="margin-top:0; color: var(--accent-2);">🧊 3D Grafikler</h3>
+        <p>Üç boyutlu uzayda modelleme, texture kaplama, aydınlatma ve render. Dersin ikinci yarısında Blender ile öğreneceğiz.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-3);">
+        <h3 style="margin-top:0; color: var(--accent-3);">🎥 Gerçek Zamanlı Render</h3>
+        <p>Oyunlarda olduğu gibi her kare (frame) anında hesaplanır. Saniyede 30-60-120+ kare üretilmelidir.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-4);">
+        <h3 style="margin-top:0; color: var(--accent-4);">🖨️ Offline Render</h3>
+        <p>Pixar filmlerinde olduğu gibi tek bir karenin hesaplanması dakikalar/saatler sürer ama sonuç çok gerçekçi olur.</p>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Gerçek Zamanlı vs Offline</div>
+      <p>Oyunlarda <strong>gerçek zamanlı (real-time)</strong> render kullanılır — her kare anında hesaplanmalıdır, yoksa oyun donar. Filmlerde ise <strong>offline render</strong> kullanılır — saatler sürer ama kalite çok yüksek olur. Oyun motorları (Unity, Unreal) gerçek zamanlı, Blender'ın Cycles motoru ise offline render yapar. İlginç olan şu: oyun grafikleri o kadar ilerledi ki artık gerçek zamanlı render bile film kalitesine yaklaşıyor!</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 2: PİKSEL -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="piksel">2. Piksel: Dijital Dünyanın Tuğlası 🧱</h2>
+
+    <p>
+      Bilgisayar ekranında gördüğünüz <strong>her şey</strong> piksellerden oluşur.
+      <strong>Piksel</strong> (Picture Element — "resim elemanı"), ekrandaki en küçük renk noktasıdır.
+    </p>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Basit Analoji</div>
+      <p>Pikselleri bir <strong>mozaik</strong> gibi düşünün. Uzaktan baktığınızda güzel bir resim görürsünüz, ama yakınlaştırınca küçük renkli kareler olduğunu fark edersiniz. İşte her bir kare bir pikseldir. Ya da <strong>LEGO</strong> düşünün — küçük tuğlalarla büyük yapılar oluşturuyorsunuz. Piksel de ekranın LEGO tuğlasıdır.</p>
+    </div>
+
+    <h3>Bir Piksel Neyi Bilir?</h3>
+    <p>Her bir piksel aslında çok basit bir şeydir — sadece <strong>bir renk değeri</strong> tutar. Hiçbir piksel "ben bir yüzün parçasıyım" bilmez. Her piksel tek başına sadece "ben kırmızıyım" veya "ben koyu maviyim" der. Ama milyonlarca piksel yan yana gelince, bizim gözümüz onları anlamlı bir görüntü olarak algılar.</p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <h3 style="margin-top: 0;">🔬 Pikselin Anatomisi</h3>
+      <p>Bir pikselin temel özellikleri:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Pozisyon (x, y):</strong> Ekrandaki satır ve sütun konumu. Sol üst köşe genellikle (0, 0)'dır.</li>
+        <li><strong>Renk değeri:</strong> Genellikle RGB formatında — üç sayı ile ifade edilir (örn: 255, 0, 0 = kırmızı)</li>
+        <li><strong>Alpha (saydamlık):</strong> Opsiyonel — pikselin ne kadar saydam olduğu</li>
+        <li><strong>Bit derinliği:</strong> Her renk kanalının kaç bit ile ifade edildiği (genellikle 8-bit = 0-255)</li>
+      </ul>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Koordinat Sistemi Dikkat!</div>
+      <p>Matematikteki koordinat sisteminden farklı olarak, bilgisayar grafiklerinde <strong>Y ekseni aşağı doğru artar!</strong> Sol üst köşe (0,0), sağ alt köşe (genişlik, yükseklik). Bu başta kafa karıştırıcı olabilir ama alışınca çok mantıklıdır — çünkü yazıyı da soldan sağa, yukarıdan aşağı okuruz.</p>
+    </div>
+
+    <!-- İNTERAKTİF DEMO: Piksel Zoom -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">🔬 İnteraktif Demo: Pikselleri Keşfet</div>
+        <span style="font-size: 0.8rem; color: var(--text-secondary)">Fare ile çizin!</span>
+      </div>
+      <div class="demo-body">
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;">Aşağıdaki ızgarada her bir kareye tıklayarak piksel piksel bir şey çizin. Ekranınızdaki her görüntü tam olarak böyle çalışır — sadece çok daha fazla ve çok daha küçük piksellerle!</p>
+
+        <div style="text-align: center; margin: 1rem 0;">
+          <canvas id="pixelCanvas" width="480" height="480" style="border: 2px solid var(--border-color); border-radius: 8px; cursor: crosshair;"></canvas>
+        </div>
+
+        <div class="control-group">
+          <label>🎨 Renk:</label>
+          <input type="color" id="pixelColor" value="#e94560">
+          <button class="btn" onclick="clearPixelGrid()">🗑️ Temizle</button>
+          <button class="btn" onclick="randomFillPixels()">🎲 Rastgele Doldur</button>
+        </div>
+
+        <div class="info-box tip" style="margin-top: 1rem; margin-bottom: 0;">
+          <div class="info-title">💡 Deneyin</div>
+          <p>Küçük bir yüz veya kalp çizmeye çalışın. Ne kadar az piksel varsa, o kadar "bloklu" görünür. Bu yüzden eski oyunlar (Pac-Man, Mario) bloklu görünüyordu — az pikselle çalışıyorlardı!</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Çözünürlük: Kaç Piksel?</h3>
+
+    <p>Bir ekranın <strong>çözünürlüğü</strong>, yatay × dikey piksel sayısını belirtir. Çözünürlük ne kadar yüksekse, görüntü o kadar keskin ve detaylı olur, çünkü aynı alana daha fazla piksel sığar ve her piksel daha küçük olur.</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Çözünürlük Adı</th>
+          <th>Piksel Sayısı</th>
+          <th>Toplam Piksel</th>
+          <th>Nerede Kullanılır?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>HD (720p)</strong></td>
+          <td>1280 × 720</td>
+          <td>~921.000</td>
+          <td>Eski telefonlar, web videoları</td>
+        </tr>
+        <tr>
+          <td><strong>Full HD (1080p)</strong></td>
+          <td>1920 × 1080</td>
+          <td>~2.073.600</td>
+          <td>Çoğu monitör, TV, oyun konsolu</td>
+        </tr>
+        <tr>
+          <td><strong>2K (1440p)</strong></td>
+          <td>2560 × 1440</td>
+          <td>~3.686.400</td>
+          <td>Oyun monitörleri, iyi telefonlar</td>
+        </tr>
+        <tr>
+          <td><strong>4K (2160p)</strong></td>
+          <td>3840 × 2160</td>
+          <td>~8.294.400</td>
+          <td>Yeni TV'ler, PS5/Xbox Series X</td>
+        </tr>
+        <tr>
+          <td><strong>8K</strong></td>
+          <td>7680 × 4320</td>
+          <td>~33.177.600</td>
+          <td>Sinema, yeni nesil (çok nadir)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Düşünün</div>
+      <p>Full HD bir ekranda <strong>2 milyondan fazla</strong> piksel var ve bilgisayar her bir pikselin rengini saniyede en az 30-60 kez yeniden hesaplıyor. Bu muazzam bir iş! Saniyede 60 FPS (frame per second) ile Full HD render = saniyede <strong>124 milyon piksel renk hesabı.</strong> 4K'da bu rakam 498 milyona çıkıyor! İşte bu yüzden GPU denen özel bir donanıma ihtiyaç var.</p>
+    </div>
+
+    <h3>DPI ve PPI: Piksel Yoğunluğu</h3>
+    <p>Aynı çözünürlük farklı boyutlardaki ekranlarda farklı görünür. <strong>PPI (Pixels Per Inch)</strong> = bir inç'e kaç piksel sığdığı.</p>
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+      <li><strong>Düşük PPI (72-100):</strong> Piksel göze görünebilir, "pikselli" görünüm. Eski monitörler.</li>
+      <li><strong>Orta PPI (100-200):</strong> Normal monitörler. Yakından bakınca pikseller fark edilebilir.</li>
+      <li><strong>Yüksek PPI (200-460+):</strong> "Retina" ekranlar. Piksel çıplak gözle görünmez. iPhone 15: 460 PPI!</li>
+    </ul>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Oyun Geliştirmede Çözünürlük</div>
+      <p>Bir oyun geliştirirken hedef çözünürlüğü belirlemek önemlidir. Pixel art oyunlar genellikle düşük çözünürlükte (320×180, 640×360) tasarlanıp büyütülür. 3D oyunlar ise genellikle 1080p veya 4K hedefler. Düşük çözünürlükte çalışmak sanatsal bir tercih olabilir — Celeste 320×180'de tasarlanmıştır!</p>
+    </div>
+
+    <!-- İNTERAKTİF DEMO: Çözünürlük Karşılaştırma -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">📐 İnteraktif Demo: Çözünürlük Farkı</div>
+      </div>
+      <div class="demo-body">
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;">Slider'ı hareket ettirerek aynı görüntünün farklı çözünürlüklerde nasıl göründüğünü karşılaştırın. Dikkat edin: az piksel = bloklu, çok piksel = pürüzsüz.</p>
+        <div class="control-group">
+          <label>Çözünürlük:</label>
+          <input type="range" id="resolutionSlider" min="2" max="64" value="8">
+          <span class="value-display" id="resolutionValue">8×8</span>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <canvas id="resolutionCanvas" width="400" height="400" style="border: 2px solid var(--border-color); border-radius: 8px;"></canvas>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center; margin-top: 0.5rem;">
+          Az piksel = bulanık/bloklu görüntü · Çok piksel = keskin görüntü
+        </p>
+      </div>
+    </div>
+
+    <h3>Piksel ve Bellek İlişkisi</h3>
+    <p>Her pikselin rengi bellekte (RAM veya VRAM) saklanır. Bir piksel için gereken bellek, <strong>bit derinliğine</strong> bağlıdır:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Format</th><th>Bit/Piksel</th><th>Renk Sayısı</th><th>1080p Görüntü Boyutu</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1-bit (siyah/beyaz)</td><td>1</td><td>2</td><td>~253 KB</td></tr>
+        <tr><td>8-bit (indeksli)</td><td>8</td><td>256</td><td>~2 MB</td></tr>
+        <tr><td>24-bit RGB (True Color)</td><td>24</td><td>16.7 milyon</td><td>~6 MB</td></tr>
+        <tr><td>32-bit RGBA (+ alpha)</td><td>32</td><td>16.7 milyon + saydamlık</td><td>~8 MB</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Neden Bu Önemli?</div>
+      <p>Bir oyunda onlarca texture (doku) aynı anda bellekte tutulur. Her texture aslında bir piksel dizisidir. 4K bir texture (4096×4096) RGBA formatında <strong>64 MB</strong> yer kaplar! Bir oyunda yüzlerce texture varsa, bu hızla gigabyte'lara ulaşır. Bu yüzden <strong>texture sıkıştırma</strong> (DXT, ETC, ASTC) çok önemlidir — ilerideki haftalarda göreceğiz.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 3: RASTER VS VEKTÖR -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="raster-vektor">3. Raster vs Vektör Grafikler ⚔️</h2>
+
+    <p>Bilgisayar grafiklerinde görüntüleri oluşturmanın iki temel yaklaşımı vardır. Bu ikisini anlamak, doğru aracı doğru iş için seçmeniz açısından çok önemlidir.</p>
+
+    <h3>Raster (Bitmap) Grafikler</h3>
+    <p>
+      Raster grafikler, <strong>piksel ızgarasından</strong> oluşur. Her piksel bir renk değeri tutar. 
+      Fotoğraf makinenizle çektiğiniz her fotoğraf, telefonunuzdaki her ekran görüntüsü, oyunlardaki sprite'lar — hepsi raster grafiktir.
+    </p>
+    <p>
+      Raster görsellerin en büyük dezavantajı: <strong>büyütüldüklerinde kalite kaybı yaşanır</strong> (pikselleme / bulanıklaşma). 
+      Çünkü orijinal pikseller arasına yeni bilgi eklenemez, var olan pikseller sadece büyütülür.
+    </p>
+
+    <h3>Vektör Grafikler</h3>
+    <p>
+      Vektör grafikler, pikseller yerine <strong>matematiksel formüllerle</strong> tanımlanır. 
+      Bir daire "merkez noktası (200, 200), yarıçap 50, renk kırmızı" gibi bir formülle ifade edilir. 
+      Ekrana çizilmesi gerektiğinde, bilgisayar bu formülü o anki çözünürlüğe göre piksel piksel hesaplar (<strong>rasterize</strong> eder).
+    </p>
+    <p>
+      En büyük avantajı: <strong>ne kadar büyütürseniz büyütün, keskin kalır.</strong> 
+      Çünkü formül her boyutta yeniden hesaplanır. Bu yüzden logolar, fontlar ve ikonlar genellikle vektöreldir.
+    </p>
+
+    <div class="image-compare">
+      <div class="compare-item">
+        <canvas id="rasterDemo" width="300" height="300"></canvas>
+        <div class="compare-label">🟦 Raster (Piksel Tabanlı)</div>
+      </div>
+      <div class="compare-item">
+        <canvas id="vectorDemo" width="300" height="300"></canvas>
+        <div class="compare-label">🔵 Vektör (Matematik Tabanlı)</div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin: 1rem 0;">
+      <button class="btn primary" onclick="zoomComparison()">🔍 Yakınlaştır ve Farkı Gör!</button>
+      <button class="btn" onclick="resetComparison()">↩️ Sıfırla</button>
+    </div>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Özellik</th>
+          <th>Raster (Bitmap)</th>
+          <th>Vektör</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Yapı taşı</strong></td>
+          <td>Piksel (küçük renk noktaları)</td>
+          <td>Matematiksel nesneler (noktalar, çizgiler, eğriler)</td>
+        </tr>
+        <tr>
+          <td><strong>Yakınlaştırınca?</strong></td>
+          <td>❌ Bulanıklaşır, pikselleşir (bloklu olur)</td>
+          <td>✅ Her zaman keskin kalır (formül yeniden hesaplanır)</td>
+        </tr>
+        <tr>
+          <td><strong>Dosya boyutu</strong></td>
+          <td>Çözünürlüğe bağlı — yüksek çözünürlük = büyük dosya</td>
+          <td>Karmaşıklığa bağlı — genellikle daha küçük</td>
+        </tr>
+        <tr>
+          <td><strong>Fotoğraf için?</strong></td>
+          <td>✅ Mükemmel — fotoğraflar doğası gereği piksel tabanlı</td>
+          <td>❌ Uygun değil — fotoğrafı formüllerle ifade edemezsiniz</td>
+        </tr>
+        <tr>
+          <td><strong>Dosya formatları</strong></td>
+          <td>PNG, JPG/JPEG, GIF, BMP, TIFF, WebP</td>
+          <td>SVG, AI, EPS, PDF (vektör içerikli)</td>
+        </tr>
+        <tr>
+          <td><strong>Ne için uygun?</strong></td>
+          <td>Fotoğraflar, oyun sprite'ları, texture'lar, detaylı görseller</td>
+          <td>Logolar, ikonlar, UI elemanları, fontlar, infografikler</td>
+        </tr>
+        <tr>
+          <td><strong>Düzenleme araçları</strong></td>
+          <td>GIMP, Photoshop, Aseprite, Krita</td>
+          <td>Illustrator, Inkscape, Figma, Affinity Designer</td>
+        </tr>
+        <tr>
+          <td><strong>Oyunlarda kullanım</strong></td>
+          <td>Sprite'lar, texture'lar, arka planlar, UI görselleri</td>
+          <td>UI elemanları, bazı stil seçimleri, font render</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Oyun Geliştirmede Hangisi?</div>
+      <p>Oyunlarda <strong>çoğunlukla raster grafikler</strong> kullanılır — sprite'lar, texture'lar, arka planlar hep piksel tabanlıdır. Ama UI elemanlarında (butonlar, menüler), logolarda ve bazı stil tercihlerinde vektör de kullanılabilir. <strong>Önemli:</strong> Oyun motoru sonuçta her şeyi piksele dönüştürür (rasterize eder) — çünkü ekran piksellerden oluşur!</p>
+    </div>
+
+    <!-- İNTERAKTİF DEMO: Raster Zoom Bozulma -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">🔍 İnteraktif Demo: Raster Görüntülerde Zoom Bozulması</div>
+      </div>
+      <div class="demo-body">
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;">Raster bir görüntüyü yakınlaştırdığınızda ne olur? Aşağıda bir manzara görseli var. Slider ile yakınlaştırarak piksellerin nasıl bloklu hale geldiğini gözlemleyin. Gerçek hayatta fotoğraflarınızı zoom yaptığınızda gördüğünüz "bulanıklık" veya "blok etkisi" tam olarak budur.</p>
+
+        <div class="control-group">
+          <label>🔍 Zoom Seviyesi:</label>
+          <input type="range" id="rasterZoomSlider" min="1" max="32" value="1" step="1">
+          <span class="value-display" id="rasterZoomValue">1x</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+          <div style="text-align: center;">
+            <canvas id="rasterZoomOriginal" width="400" height="300" style="border: 2px solid var(--border-color); border-radius: 8px; width: 100%;"></canvas>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">📷 Orijinal Görüntü</p>
+          </div>
+          <div style="text-align: center;">
+            <canvas id="rasterZoomDetail" width="400" height="300" style="border: 2px solid var(--border-color); border-radius: 8px; width: 100%;"></canvas>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">🔍 Yakınlaştırılmış Bölge (pikseller görünür!)</p>
+          </div>
+        </div>
+
+        <div class="info-box note" style="margin-top: 1rem; margin-bottom: 0;">
+          <div class="info-title">📌 Neden Bozuluyor?</div>
+          <p>Raster görsellerde piksel sayısı <strong>sabittir</strong>. Yakınlaştırdığınızda yeni bilgi eklenemez — var olan pikseller büyütülür ve bloklar halinde görünür. Bu yüzden profesyonel fotoğrafçılar yüksek çözünürlüklü kameralarla çekim yapar. Vektör görsellerde bu sorun yoktur çünkü her zoom seviyesinde formül yeniden hesaplanır.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- DOSYA FORMATLARI DETAY -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="dosya-formatlari">3.1. Dosya Formatları: Görüntüler Nasıl Saklanır? 💾</h2>
+
+    <p>Bir görüntü oluşturduğunuzda veya fotoğraf çektiğinizde, bu veri bir şekilde dosya olarak saklanmalıdır. Farklı formatlar farklı amaçlara hizmet eder — bazıları kaliteyi korur, bazıları dosya boyutunu küçültür, bazıları saydamlık destekler. Hangi formatı ne zaman kullanacağınızı bilmek, oyun geliştirmede ve grafik tasarımda temel bir beceridir.</p>
+
+    <h3 id="bmp-formati">BMP: Sıkıştırmasız Ham Piksel Verisi</h3>
+
+    <p><strong>BMP (Bitmap)</strong>, en eski ve en basit görüntü formatlarından biridir. Microsoft tarafından 1990'larda Windows için geliştirilmiştir. BMP'nin çalışma mantığı çok basittir: <strong>her pikselin renk değerini olduğu gibi, sıkıştırmadan saklar.</strong></p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-orange);">
+      <h3 style="margin-top: 0; color: var(--accent-orange);">📦 BMP Dosya Yapısı</h3>
+      <p>Bir BMP dosyası üç ana bölümden oluşur:</p>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Dosya Başlığı (14 byte):</strong> "BM" sihirli sayısı, dosya boyutu, veri başlangıç noktası (offset)</li>
+        <li><strong>Bilgi Başlığı (40+ byte):</strong> Genişlik, yükseklik, bit derinliği (1/4/8/24/32 bit), sıkıştırma türü</li>
+        <li><strong>Piksel Verileri:</strong> Her pikselin renk değeri, satır satır (genellikle alttan üste!). 24-bit BMP'de her piksel 3 byte = B, G, R sırasıyla</li>
+      </ol>
+    </div>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Düşünün: BMP Neden Bu Kadar Büyük?</div>
+      <p>100×100 piksellik 24-bit bir BMP görüntüsü: 100 × 100 × 3 byte = <strong>30.000 byte (~30 KB)</strong> sadece piksel verisi + başlıklar. Bir Full HD (1920×1080) görüntü ise: 1920 × 1080 × 3 = <strong>~5.9 MB</strong>! Hiçbir sıkıştırma olmadığı için dosyalar devasa olur. Bu yüzden günümüzde BMP neredeyse hiç kullanılmaz — ama formatın basitliği onu öğretim için mükemmel yapar.</p>
+    </div>
+
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">🔬 BMP Piksel Verisi Görselleştirmesi</div>
+      </div>
+      <div class="demo-body">
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;">Aşağıdaki 4×4 piksel görüntüde her pikselin RGB değerini görebilirsiniz. BMP dosyası tam olarak bu değerleri sırasıyla saklar — ne sıkıştırma ne de kayıp, ham veri!</p>
+        <div style="text-align: center; margin: 1rem 0;">
+          <canvas id="bmpDemoCanvas" width="400" height="400" style="border: 2px solid var(--border-color); border-radius: 8px;"></canvas>
+        </div>
+        <div id="bmpPixelInfo" style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-secondary); text-align: center; margin-top: 0.5rem;">Piksellere tıklayarak RGB değerlerini görün</div>
+        <div class="control-group" style="margin-top: 1rem;">
+          <button class="btn" onclick="randomizeBmpDemo()">🎲 Rastgele Renkler</button>
+          <button class="btn" onclick="gradientBmpDemo()">🌈 Gradyan</button>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="jpeg-formati">JPEG/JPG: Kayıplı Sıkıştırma Kralı</h3>
+
+    <p><strong>JPEG (Joint Photographic Experts Group)</strong>, 1992'de geliştirilmiş ve fotoğraflar için en yaygın kullanılan formattır. JPEG'in sırrı <strong>kayıplı sıkıştırma (lossy compression)</strong> kullanmasıdır — dosya boyutunu dramatik şekilde küçültür ama karşılığında bir miktar görüntü kalitesi kaybeder.</p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-1);">
+      <h3 style="margin-top: 0; color: var(--accent-1);">⚙️ JPEG Nasıl Sıkıştırır?</h3>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Renk Uzayı Dönüşümü:</strong> RGB → YCbCr. Y = parlaklık (luminance), Cb/Cr = renk bilgisi (chrominance). İnsan gözü parlaklık değişimlerine renk değişimlerinden daha duyarlıdır.</li>
+        <li><strong>Chroma Alt-örnekleme:</strong> Renk bilgisi (Cb, Cr) yarı çözünürlüğe düşürülür — gözümüz farkı pek algılamaz ama veri %50 azalır!</li>
+        <li><strong>8×8 Blok DCT:</strong> Görüntü 8×8 piksellik bloklara bölünür ve her blok <strong>Ayrık Kosinüs Dönüşümü (DCT)</strong> ile frekans bileşenlerine ayrılır.</li>
+        <li><strong>Kuantizasyon:</strong> Yüksek frekanslı (ince detay) bileşenler yuvarlanır veya sıfırlanır — insan gözü bu detayları kaçırır. <strong>Kalite ayarı bunu kontrol eder!</strong></li>
+        <li><strong>Huffman Kodlama:</strong> Son olarak, kalan veriler istatistiksel sıkıştırma ile kodlanır.</li>
+      </ol>
+    </div>
+
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">📊 İnteraktif Demo: JPEG Kalite Karşılaştırması</div>
+      </div>
+      <div class="demo-body">
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;">JPEG kalite ayarını değiştirerek sıkıştırmanın görüntüye etkisini gözlemleyin. Düşük kalitede 8×8 blok artefaktları ve renk bantlaması belirginleşir.</p>
+        <div class="control-group">
+          <label>📊 JPEG Kalitesi:</label>
+          <input type="range" id="jpegQualitySlider" min="1" max="100" value="90">
+          <span class="value-display" id="jpegQualityValue">%90</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+          <div style="text-align: center;">
+            <canvas id="jpegOriginalCanvas" width="300" height="300" style="border: 2px solid var(--border-color); border-radius: 8px; width: 100%;"></canvas>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">Orijinal</p>
+          </div>
+          <div style="text-align: center;">
+            <canvas id="jpegCompressedCanvas" width="300" height="300" style="border: 2px solid var(--border-color); border-radius: 8px; width: 100%;"></canvas>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">JPEG Sıkıştırılmış (simüle)</p>
+          </div>
+        </div>
+        <p id="jpegSizeInfo" style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--accent-4); text-align: center; margin-top: 0.5rem;"></p>
+      </div>
+    </div>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ JPEG'in Zayıf Noktaları</div>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Saydamlık (alpha) desteklemez!</strong> Saydam arka plan gerekiyorsa PNG kullanın.</li>
+        <li><strong>Keskin kenarları bozar:</strong> Metin, logolar, pixel art gibi keskin kenarlı görsellerde blok artefaktları belirgin olur.</li>
+        <li><strong>Her kaydetme kalite düşürür:</strong> JPEG'i açıp tekrar kaydetmek "nesil kaybına" yol açar — kalite her seferinde biraz daha düşer.</li>
+        <li><strong>Oyunlarda sprite için kullanılmaz!</strong> Saydamlık yok + kenar bozulması = sprite'lar için PNG tercih edilir.</li>
+      </ul>
+    </div>
+
+    <h3 id="png-formati">PNG: Kayıpsız Sıkıştırma ve Saydamlık</h3>
+
+    <p><strong>PNG (Portable Network Graphics)</strong>, 1996'da GIF'in patent sorunlarına alternatif olarak geliştirilmiştir. PNG <strong>kayıpsız sıkıştırma (lossless compression)</strong> kullanır — dosya boyutunu küçültür ama <strong>hiçbir piksel bilgisi kaybetmez.</strong> Sıkıştırmayı açtığınızda orijinal görüntüyü birebir geri alırsınız.</p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-green);">
+      <h3 style="margin-top: 0; color: var(--accent-green);">⚙️ PNG Nasıl Sıkıştırır?</h3>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Filtreleme:</strong> Her piksel satırı, komşu piksellere göre fark olarak kodlanır (Sub, Up, Average, Paeth filtreleri). Düz renkli alanlar çok küçük farklar üretir → sıkıştırma verimliliği artar.</li>
+        <li><strong>DEFLATE Sıkıştırma:</strong> Filtrelenmiş veriler LZ77 + Huffman kodlama ile sıkıştırılır (ZIP ile aynı algoritma). Tekrar eden desenleri bulur ve kısa kodlarla temsil eder.</li>
+        <li><strong>Alpha Kanalı:</strong> PNG, 8-bit alpha kanalı destekler — her piksel 0 (tamamen saydam) ile 255 (tamamen opak) arasında saydamlık değerine sahip olabilir.</li>
+      </ol>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 PNG vs JPEG: Ne Zaman Hangisi?</div>
+      <table class="comparison-table" style="margin-top: 0.75rem;">
+        <thead>
+          <tr><th>Durum</th><th>Tercih</th><th>Neden?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Fotoğraf (web)</td><td><strong>JPEG</strong></td><td>Çok küçük dosya boyutu, saydamlık gerekmez</td></tr>
+          <tr><td>Oyun sprite'ı</td><td><strong>PNG</strong></td><td>Saydamlık şart, keskin kenarlar korunmalı</td></tr>
+          <tr><td>Logo / ikon</td><td><strong>PNG veya SVG</strong></td><td>Keskin kenarlar, saydamlık, ölçeklenebilirlik</td></tr>
+          <tr><td>Ekran görüntüsü</td><td><strong>PNG</strong></td><td>Metin ve UI kenarları JPEG'de bozulur</td></tr>
+          <tr><td>Sosyal medya</td><td><strong>JPEG</strong></td><td>Hızlı yükleme, dosya boyutu küçük</td></tr>
+          <tr><td>UI texture</td><td><strong>PNG</strong></td><td>Saydamlık + kalite kaybı yok</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SVG FORMATI -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="svg-formati">3.2. SVG: Vektör Grafiğin Web Dili 📐</h2>
+
+    <p><strong>SVG (Scalable Vector Graphics)</strong>, W3C tarafından 2001'de standartlaştırılmış, XML tabanlı bir vektör grafik formatıdır. SVG'nin en büyük özelliği: <strong>bir metin dosyasıdır!</strong> Piksel içermez, bunun yerine şekilleri matematiksel olarak tanımlar. Herhangi bir metin editöründe açıp okuyabilir, düzenleyebilirsiniz.</p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <h3 style="margin-top: 0; color: var(--accent-4);">🔤 SVG = Metin Tabanlı Grafik</h3>
+      <p>Aşağıdaki SVG koduna bakın — bir daire, bir dikdörtgen ve bir metin:</p>
+      <pre style="background: var(--code-bg); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; font-size: 0.82rem; line-height: 1.6;"><code>&lt;svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;!-- Arka plan dikdörtgeni --&gt;
+  &lt;rect width="200" height="200" fill="#1a1a2e" rx="10"/&gt;
+
+  &lt;!-- Kırmızı daire --&gt;
+  &lt;circle cx="100" cy="80" r="50" fill="#e94560"/&gt;
+
+  &lt;!-- Yeşil dikdörtgen --&gt;
+  &lt;rect x="60" y="140" width="80" height="40"
+        fill="#00e676" rx="5"/&gt;
+
+  &lt;!-- Metin --&gt;
+  &lt;text x="100" y="175" text-anchor="middle"
+        fill="white" font-size="14"&gt;SVG!&lt;/text&gt;
+&lt;/svg&gt;</code></pre>
+      <div style="text-align: center; margin-top: 1rem;">
+        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" style="border-radius: 10px;">
+          <rect width="200" height="200" fill="#1a1a2e" rx="10"/>
+          <circle cx="100" cy="80" r="50" fill="#e94560"/>
+          <rect x="60" y="140" width="80" height="40" fill="#00e676" rx="5"/>
+          <text x="100" y="175" text-anchor="middle" fill="white" font-size="14">SVG!</text>
+        </svg>
+        <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem;">↑ Yukarıdaki kodun tarayıcıdaki çıktısı (bu gerçek bir SVG!)</p>
+      </div>
+    </div>
+
+    <h3>SVG Temel Şekilleri</h3>
+    <p>SVG'de kullanabileceğiniz temel şekiller:</p>
+
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-1);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">⬤ circle</h3>
+        <pre style="background: var(--code-bg); padding: 0.5rem; border-radius: 6px; font-size: 0.78rem;"><code>&lt;circle cx="50" cy="50" r="40"
+  fill="red" stroke="white" 
+  stroke-width="2"/&gt;</code></pre>
+        <p style="font-size: 0.8rem;">cx, cy = merkez, r = yarıçap</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">▬ rect</h3>
+        <pre style="background: var(--code-bg); padding: 0.5rem; border-radius: 6px; font-size: 0.78rem;"><code>&lt;rect x="10" y="10" 
+  width="100" height="60"
+  fill="blue" rx="10"/&gt;</code></pre>
+        <p style="font-size: 0.8rem;">x, y = konum, rx = köşe yuvarlama</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-green);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">╱ line</h3>
+        <pre style="background: var(--code-bg); padding: 0.5rem; border-radius: 6px; font-size: 0.78rem;"><code>&lt;line x1="0" y1="0" 
+  x2="100" y2="100"
+  stroke="green" 
+  stroke-width="3"/&gt;</code></pre>
+        <p style="font-size: 0.8rem;">x1,y1 → x2,y2 noktaları</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-yellow);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">⬠ polygon</h3>
+        <pre style="background: var(--code-bg); padding: 0.5rem; border-radius: 6px; font-size: 0.78rem;"><code>&lt;polygon 
+  points="50,5 95,40 80,95 
+          20,95 5,40"
+  fill="gold"/&gt;</code></pre>
+        <p style="font-size: 0.8rem;">Noktalar listesi → kapalı şekil</p>
+      </div>
+    </div>
+
+    <h3>SVG Path: En Güçlü Araç</h3>
+    <p>SVG'nin en güçlü elemanı <code>&lt;path&gt;</code>'tır. <strong>Bézier eğrileri</strong> dahil her türlü şekli çizebilir. Komutlar:</p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-3);">
+      <table class="comparison-table" style="margin-bottom: 0;">
+        <thead>
+          <tr><th>Komut</th><th>Anlamı</th><th>Örnek</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>M</code></td><td>Move to (başlangıç)</td><td><code>M 10 10</code></td></tr>
+          <tr><td><code>L</code></td><td>Line to (düz çizgi)</td><td><code>L 90 90</code></td></tr>
+          <tr><td><code>C</code></td><td>Cubic Bézier eğrisi</td><td><code>C 20 80, 80 80, 90 10</code></td></tr>
+          <tr><td><code>Q</code></td><td>Quadratic Bézier eğrisi</td><td><code>Q 50 0, 90 50</code></td></tr>
+          <tr><td><code>A</code></td><td>Arc (yay)</td><td><code>A 25 25 0 0 1 50 50</code></td></tr>
+          <tr><td><code>Z</code></td><td>Kapat (başlangıca dön)</td><td><code>Z</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">✏️ İnteraktif SVG Editörü</div>
+      </div>
+      <div class="demo-body">
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;">Aşağıdaki SVG kodunu düzenleyin ve sonucun canlı olarak değiştiğini görün. Renkleri, boyutları, pozisyonları değiştirmeyi deneyin!</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <textarea id="svgEditor" style="width: 100%; height: 260px; background: var(--code-bg); color: var(--accent-4); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; resize: vertical; line-height: 1.5;" spellcheck="false">
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#1a1a2e"/>
+  <circle cx="80" cy="100" r="60" fill="#e94560" opacity="0.8"/>
+  <circle cx="150" cy="100" r="60" fill="#00d2ff" opacity="0.8"/>
+  <circle cx="220" cy="100" r="60" fill="#00e676" opacity="0.8"/>
+  <text x="150" y="185" text-anchor="middle" fill="white" font-size="16" font-family="sans-serif">RGB Daireleri</text>
+</svg></textarea>
+          </div>
+          <div>
+            <div id="svgPreview" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem; min-height: 260px; display: flex; align-items: center; justify-content: center;"></div>
+          </div>
+        </div>
+        <div class="control-group" style="margin-top: 0.75rem;">
+          <button class="btn" onclick="resetSvgEditor()">↩️ Sıfırla</button>
+          <button class="btn" onclick="loadSvgStar()">⭐ Yıldız Örneği</button>
+          <button class="btn" onclick="loadSvgHeart()">❤️ Kalp Örneği</button>
+          <button class="btn" onclick="loadSvgFace()">😊 Yüz Örneği</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 SVG'nin Avantajları</div>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Sonsuz ölçeklenebilir:</strong> Ne kadar büyütürseniz büyütün keskin kalır</li>
+        <li><strong>Küçük dosya boyutu:</strong> Basit şekiller için PNG'den çok daha küçük</li>
+        <li><strong>CSS ile stillenebilir:</strong> Renk, animasyon, hover efektleri CSS ile kontrol edilebilir</li>
+        <li><strong>JavaScript ile manipüle edilebilir:</strong> Dinamik grafikler, veri görselleştirme, animasyonlar</li>
+        <li><strong>Erişilebilir:</strong> Metin tabanlı olduğu için ekran okuyucular anlayabilir</li>
+        <li><strong>SEO dostu:</strong> Arama motorları SVG içindeki metinleri indeksleyebilir</li>
+      </ul>
+    </div>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ SVG Ne Zaman Uygun Değildir?</div>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Fotoğraflar:</strong> Milyonlarca renk geçişini vektörle ifade edemezsiniz — dosya devasa olur</li>
+        <li><strong>Çok karmaşık grafikler:</strong> Detay arttıkça SVG dosya boyutu da artar ve render yavaşlar</li>
+        <li><strong>Oyun sprite'ları:</strong> Oyun motorları genellikle raster texture'larla çalışır, SVG doğrudan desteklenmez</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- VEKTÖR ARAÇLARI -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h3 id="vektor-araclari">Vektör ve Raster Grafik Araçları</h3>
+
+    <p>Grafik tasarım dünyasında onlarca araç var. İşte en popüler olanları, kategorilerine göre:</p>
+
+    <h4>🎨 Raster (Piksel Tabanlı) Araçlar</h4>
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-1);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">🖼️ Adobe Photoshop</h3>
+        <p>Endüstri standardı raster grafik editörü. Fotoğraf düzenleme, dijital boyama, UI tasarımı. Ücretli (abonelik).</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);"><strong>Alternatifler:</strong> Photopea (ücretsiz, web tabanlı), Affinity Photo</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-green);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">🎨 Krita</h3>
+        <p><strong>Açık kaynak</strong> ve tamamen ücretsiz dijital boyama programı. Profesyonel fırça motoru, animasyon desteği, HDR boyama. Oyun asset'leri oluşturmak için mükemmel. Konsept sanatçılar ve illüstratörler tarafından seviliyor.</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);"><a href="https://krita.org/" target="_blank">krita.org</a> · Windows, Mac, Linux</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">🖌️ GIMP</h3>
+        <p><strong>Açık kaynak</strong> Photoshop alternatifi. Fotoğraf düzenleme, katman desteği, filtreler. Bu derste kullanacağız!</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);"><a href="https://www.gimp.org/" target="_blank">gimp.org</a> · Windows, Mac, Linux</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-yellow);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">👾 Aseprite</h3>
+        <p>Pixel art ve sprite animasyonu için özel araç. Oyun geliştiriciler arasında çok popüler. Ücretli (küçük bir ücret).</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);"><a href="https://www.aseprite.org/" target="_blank">aseprite.org</a> · Kaynak kodu açık (derleyebilirsiniz)</p>
+      </div>
+    </div>
+
+    <h4>📐 Vektör Tabanlı Araçlar</h4>
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-3);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">✒️ Adobe Illustrator</h3>
+        <p>Endüstri standardı vektör editörü. Logolar, ikonlar, infografikler, tipografi. Ücretli (abonelik).</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">🖊️ Inkscape</h3>
+        <p><strong>Açık kaynak</strong> vektör grafik editörü. SVG formatında çalışır. Illustrator'a ücretsiz alternatif. Logo ve ikon tasarımı için harika.</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);"><a href="https://inkscape.org/" target="_blank">inkscape.org</a> · Windows, Mac, Linux</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-1);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">🎯 Figma</h3>
+        <p>Web tabanlı tasarım aracı. UI/UX tasarımı, prototipleme, işbirliği. Vektör tabanlı ama raster dışa aktarım da yapar. Ücretsiz plan mevcut.</p>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);"><a href="https://www.figma.com/" target="_blank">figma.com</a> · Tarayıcı + Desktop</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-orange);">
+        <h3 style="margin-top: 0; font-size: 0.95rem;">💎 Affinity Designer</h3>
+        <p>Hem vektör hem raster modunda çalışabilen hibrit araç. Tek seferlik ödeme (abonelik yok). Illustrator alternatifi.</p>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Krita Hakkında</div>
+      <p><strong>Krita</strong> özellikle dijital boyama ve konsept art için tasarlanmış profesyonel bir araçtır. Photoshop'un fırça motoruna rakip olacak kalitede fırçalar sunar. Oyun geliştirme dünyasında konsept art, karakter tasarımı, arka plan boyama ve texture oluşturma için yaygın kullanılır. Animasyon özelliği de var — basit frame-by-frame animasyonlar yapabilirsiniz. <strong>Ve tamamen ücretsizdir!</strong></p>
+    </div>
+
+    <h3>Yaygın Dosya Formatları</h3>
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>📁 Raster Formatları Detaylı Karşılaştırma</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <table class="comparison-table">
+            <thead>
+              <tr><th>Format</th><th>Alpha (Saydamlık)</th><th>Sıkıştırma</th><th>Ne Zaman Kullan?</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>PNG</strong></td>
+                <td>✅ Destekler</td>
+                <td>Kayıpsız (lossless)</td>
+                <td>Sprite'lar, UI, saydam görseller — <strong>oyunlarda en çok kullanılan format</strong></td>
+              </tr>
+              <tr>
+                <td><strong>JPG / JPEG</strong></td>
+                <td>❌ Desteklemez</td>
+                <td>Kayıplı (lossy) — boyut çok küçülür ama kalite düşer</td>
+                <td>Fotoğraflar, arka planlar — saydamlık gerekmiyorsa</td>
+              </tr>
+              <tr>
+                <td><strong>GIF</strong></td>
+                <td>⚠️ Kısmen (1-bit: ya saydam ya değil)</td>
+                <td>Kayıpsız, max 256 renk</td>
+                <td>Basit animasyonlar, ama oyun geliştirmede pek kullanılmaz</td>
+              </tr>
+              <tr>
+                <td><strong>WebP</strong></td>
+                <td>✅ Destekler</td>
+                <td>Hem kayıplı hem kayıpsız seçenek</td>
+                <td>Web projeleri — PNG'den %25-35 daha küçük dosya boyutu</td>
+              </tr>
+              <tr>
+                <td><strong>BMP</strong></td>
+                <td>⚠️ Kısmen</td>
+                <td>Sıkıştırma yok — çok büyük dosyalar</td>
+                <td>Neredeyse hiç kullanılmaz, çok eski format</td>
+              </tr>
+              <tr>
+                <td><strong>SVG</strong></td>
+                <td>✅ Destekler (vektörel)</td>
+                <td>Metin tabanlı — çok küçük boyut (basit şekillerde)</td>
+                <td>Logolar, ikonlar, UI elemanları, web grafikleri</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 4: GPU vs CPU -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="gpu-cpu">4. GPU vs CPU: Kim Ne İş Yapar? 🖥️</h2>
+
+    <p>
+      Bilgisayarınızda iki ana işlemci var. İkisi de hesaplama yapar ama <strong>çok farklı şekillerde</strong>. 
+      Bu farkı anlamak, bilgisayar grafiklerinin neden özel bir donanıma ihtiyaç duyduğunu kavramanın anahtarıdır.
+    </p>
+
+    <div class="card-grid">
+      <div class="card" style="border-top: 3px solid var(--accent-4);">
+        <h3 style="margin-top:0; color: var(--accent-4);">🧠 CPU (İşlemci)</h3>
+        <p><strong>Central Processing Unit</strong> — Merkezi İşlem Birimi</p>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Az sayıda çekirdek (4-16, en fazla 64-128 sunucularda)</li>
+          <li>Her çekirdek çok güçlü ve çok yönlü</li>
+          <li>Karmaşık, sıralı, birbirine bağımlı işler için ideal</li>
+          <li>Oyun mantığı, fizik hesapları, yapay zeka, ses, ağ</li>
+          <li>Dallanma (if/else), döngü gibi karmaşık kontrol akışında uzman</li>
+        </ul>
+        <div class="info-box note" style="margin-bottom: 0;">
+          <p style="margin: 0; font-size: 0.85rem;">Analoji: <strong>Çok zeki bir profesör</strong> — diferansiyel denklem de çözer, makale de yazar, sınıf da yönetir — ama aynı anda sadece 1-2 iş yapabilir.</p>
+        </div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent-1);">
+        <h3 style="margin-top:0; color: var(--accent-1);">⚡ GPU (Ekran Kartı)</h3>
+        <p><strong>Graphics Processing Unit</strong> — Grafik İşlem Birimi</p>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Binlerce küçük çekirdek (1000-16000+)</li>
+          <li>Her çekirdek daha basit ama çoğu aynı anda çalışır</li>
+          <li>Paralel, tekrarlayan, birbirinden bağımsız işler için ideal</li>
+          <li>Piksel rengi hesaplama, vertex dönüşümü, shader çalıştırma</li>
+          <li>Aynı işlemi aynı anda binlerce veri üzerinde uygulayabilir (SIMD)</li>
+        </ul>
+        <div class="info-box note" style="margin-bottom: 0;">
+          <p style="margin: 0; font-size: 0.85rem;">Analoji: <strong>10.000 kişilik bir fabrika</strong> — her işçi sadece basit bir işlem yapar (bir vidayı sıkmak gibi) ama hepsi aynı anda çalışır → muazzam üretim kapasitesi.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Neden İkisine de İhtiyaç Var?</h3>
+    <p>Bir oyun çalışırken hem CPU hem GPU aynı anda çalışır, farklı görevleri paylaşırlar:</p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <h3 style="margin-top: 0;">Bir Oyun Karesinde (Frame) Neler Olur?</h3>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>CPU — Oyun Mantığı:</strong> Oyuncu input'u oku, karakteri hareket ettir, düşman AI'ını çalıştır, çarpışma kontrolü yap, skor güncelle...</li>
+        <li><strong>CPU → GPU'ya Komut:</strong> "Bu objeleri, bu pozisyonlarda, bu kamerayla çiz" diye GPU'ya talimat gönder (draw call)</li>
+        <li><strong>GPU — Geometri:</strong> 3D modellerin köşe noktalarını (vertex) kamera perspektifine göre dönüştür</li>
+        <li><strong>GPU — Rasterizasyon:</strong> Üçgenleri piksel haline getir</li>
+        <li><strong>GPU — Piksel:</strong> Her pikselin rengini hesapla (texture, ışık, gölge, efektler)</li>
+        <li><strong>GPU → Ekran:</strong> Hesaplanan renkleri ekrana gönder</li>
+      </ol>
+      <p style="margin-top: 1rem;"><strong>Tüm bu süreç saniyede 60 kez tekrarlanır!</strong> (60 FPS hedefinde)</p>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 FPS Nedir?</div>
+      <p><strong>FPS (Frames Per Second)</strong> = saniyede kaç kare üretildiği. İnsan gözü ~24 FPS'te akıcı hareket algılar, ama oyunlarda 30 FPS minimum, 60 FPS standart, 120-144 FPS ise "ultra akıcı" kabul edilir. Her kare için tüm pipeline baştan sona çalışır. FPS düştüğünde oyun "kasıyor" hissini verir — CPU veya GPU yetişemiyordur.</p>
+    </div>
+
+    <!-- İNTERAKTİF DEMO: CPU vs GPU -->
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">⚡ İnteraktif Demo: CPU vs GPU Çalışma Farkı</div>
+      </div>
+      <div class="demo-body">
+        <p style="font-size: 0.9rem; margin-bottom: 1rem;">
+          Aşağıda 1024 pikselin renginin hesaplanmasını simüle ediyoruz.
+          <strong>CPU</strong> pikselleri teker teker (sıralı), <strong>GPU</strong> ise hepsini aynı anda (paralel) işler.
+          Butona basarak farkı görün:
+        </p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div style="text-align: center;">
+            <h4 style="color: var(--accent-4);">🧠 CPU (Sıralı)</h4>
+            <canvas id="cpuCanvas" width="320" height="320" style="border: 2px solid var(--border-color); border-radius: 8px;"></canvas>
+            <p id="cpuTime" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-4); margin-top: 0.5rem;">Bekleniyor...</p>
+          </div>
+          <div style="text-align: center;">
+            <h4 style="color: var(--accent-1);">⚡ GPU (Paralel)</h4>
+            <canvas id="gpuCanvas" width="320" height="320" style="border: 2px solid var(--border-color); border-radius: 8px;"></canvas>
+            <p id="gpuTime" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-1); margin-top: 0.5rem;">Bekleniyor...</p>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <button class="btn primary" onclick="startCpuGpuDemo()">▶️ Simülasyonu Başlat</button>
+          <button class="btn" onclick="resetCpuGpuDemo()">↩️ Sıfırla</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Neden GPU Var?</div>
+      <p>Full HD bir ekranda <strong>~2 milyon piksel</strong> var. Her pikselin rengini saniyede 60 kez hesaplamak = saniyede <strong>~120 milyon renk hesabı</strong>. CPU bunu tek başına yapamaz çünkü sadece birkaç çekirdeği var. GPU'nun binlerce küçük çekirdeği bu işi paralel olarak anında halleder. Bu yüzden ekran kartı olmadan modern oyun oynayamazsınız!</p>
+    </div>
+
+    <h3>Popüler GPU'lar ve Tarihi</h3>
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🎮 Oyun Dünyasında GPU Markaları</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+            <li><strong>NVIDIA:</strong> GeForce serisi — RTX 4090, RTX 4070 vb. Ray tracing (ışın izleme) teknolojisini popülerleştirdi. CUDA ile yapay zeka alanında da baskın.</li>
+            <li><strong>AMD:</strong> Radeon serisi — RX 7900 XT vb. Fiyat/performans odaklı. PS5 ve Xbox Series X'te AMD GPU var!</li>
+            <li><strong>Intel:</strong> Arc serisi ile GPU pazarına yeni girdi. Entegre grafikleri (iGPU) çoğu laptop'ta var.</li>
+            <li><strong>Apple:</strong> M1/M2/M3 çiplerinde CPU ve GPU aynı çipte (SoC). Metal API ile optimizasyon.</li>
+          </ul>
+          <p>İlk GPU: NVIDIA GeForce 256 (1999) — "dünyanın ilk GPU'su" olarak pazarlandı. Ondan önce "3D hızlandırıcı" kartlar vardı (3dfx Voodoo gibi).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 5: PIPELINE -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="pipeline">5. Grafik Pipeline'a Kuş Bakışı 🔄</h2>
+
+    <p>
+      Bir oyunda "ekranda bir karakter görüyorum" dediğinizde, arka planda birçok adım gerçekleşir.
+      Bu adımların sırasına <strong>grafik pipeline (boru hattı)</strong> denir. "Pipeline" kelimesi bir fabrika bandı gibi düşünülebilir — her aşama kendi işini yapar ve sonucu bir sonraki aşamaya iletir.
+    </p>
+
+    <div class="interactive-demo">
+      <div class="demo-header">
+        <div class="demo-title">🔄 Grafik Pipeline Aşamaları</div>
+      </div>
+      <div class="demo-body">
+        <div id="pipelineSteps" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🤿 Daha Detaylı: Her Aşama Ne Yapar?</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <h4>1. Uygulama Aşaması (CPU)</h4>
+          <p>Oyun motoru burada çalışır. Karakter hareket etti mi? Düşman nerede? Fizik hesapları, yapay zeka kararları, ses yönetimi, ağ (multiplayer) iletişimi... Sonuç olarak "şu objeleri şu pozisyonlarda çiz" komutu GPU'ya gönderilir. Bu komutlara <strong>"draw call"</strong> denir.</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">Programlama dili: C++, C#, Java, Python vb. — siz oyun geliştiriciler genellikle bu aşamada çalışırsınız!</p>
+
+          <h4>2. Geometri İşleme (GPU — Vertex Shader)</h4>
+          <p>3D modeller <strong>üçgenlerden (triangle)</strong> oluşur — binlerce, hatta milyonlarca üçgen. Bu aşamada her üçgenin köşe noktaları (vertex) 3D dünya koordinatlarından 2D ekran koordinatlarına dönüştürülür. Kamera açısı, objenin pozisyonu, dönüşü ve ölçeği burada hesaplanır. <strong>Vertex shader</strong> denilen küçük programlar bu işi yapar.</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">Bir oyun karakteri 10.000+ üçgenden oluşabilir. Her kare'de hepsi yeniden hesaplanır!</p>
+
+          <h4>3. Rasterizasyon (GPU)</h4>
+          <p>Matematiksel üçgenler, ekrandaki piksellere dönüştürülür. "Bu üçgen ekranda hangi pikselleri kaplıyor?" sorusu cevaplanır. Bu adıma <strong>"rasterizasyon"</strong> denir — vektörel (matematiksel) bilgiyi raster (piksel) bilgiye çevirme.</p>
+
+          <h4>4. Piksel/Fragment İşleme (GPU — Fragment/Pixel Shader)</h4>
+          <p>En ağır ve en eğlenceli aşama! Her pikselin son rengi hesaplanır: texture (doku) rengini al, ışık etkisini hesapla, gölge var mı kontrol et, yansıma ekle, sis efekti uygula... <strong>Fragment shader (pixel shader)</strong> denilen programlar bu işi yapar. Shader'ları ilerideki haftalarda detaylı öğreneceğiz!</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">Modern efektlerin çoğu (bloom, motion blur, HDR, ambient occlusion) bu aşamada shader ile yapılır.</p>
+
+          <h4>5. Çıktı Birleştirme ve Ekrana Gönderim</h4>
+          <p>Hesaplanan piksel renkleri <strong>framebuffer</strong>'a (ekran belleğine) yazılır. Derinlik testi (z-buffer), saydam objelerin karıştırılması (blending) ve anti-aliasing (kenar yumuşatma) gibi son işlemler burada yapılır. Sonuç monitörde görüntülenir.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Şimdilik Bilmeniz Gereken</div>
+      <p>Pipeline'ın her aşamasını derinlemesine bilmenize şimdilik gerek yok. Önemli olan şu: <strong>ekranda bir şey görmek basit bir iş değil, arka planda çok karmaşık bir süreç var.</strong> Bu derste bu süreci adım adım öğreneceğiz. Ama şu ana fikri kavrayın: <strong>CPU oyunu yönetir, GPU çizer.</strong></p>
+    </div>
+
+    <h3>2D Oyunlarda da Pipeline Var mı?</h3>
+    <div class="info-box note">
+      <div class="info-title">📌 Evet!</div>
+      <p>2D oyunlarda pipeline daha basit olsa da yine çalışır. 2D sprite'lar aslında iki üçgenden oluşan düz bir dikdörtgen (quad) üzerine texture kaplamadır. GPU yine vertex ve fragment shader çalıştırır. 2D oyunlarda genellikle: sprite'ın pozisyonunu belirle → texture'u kap → ekrana çiz. Unity ve diğer motorlarda 2D oyun yaparkende arka planda GPU pipeline çalışır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 6: TARİHÇE -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="tarihce">6. Kısa Tarihçe: Pong'dan Bugüne 🕹️</h2>
+
+    <p>Bilgisayar grafiklerinin gelişimi inanılmaz bir yolculuk. Bakalım nereden nereye gelmişiz. Bu tarihçeyi bilmek, mevcut teknolojilerin neden var olduğunu anlamak için önemli:</p>
+
+    <div id="timelineContainer" style="position: relative; padding-left: 30px; margin: 2rem 0;">
+      <!-- Timeline items will be rendered by JS -->
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🎮 Grafik Nesilleri: Detaylı Bakış</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <h4>🟤 1. Nesil: Vektör ve Basit Pikseller (1970-1985)</h4>
+          <p>İlk oyunlar ya vektörel çizgilerle (Asteroids) ya da çok düşük çözünürlükte pikseller ile çalışıyordu. Renk paleti çok sınırlıydı (2-16 renk). Atari 2600 sadece 160×192 çözünürlük ve 128 renkle çalışıyordu. Grafik donanımı çok basitti — özel GPU yoktu.</p>
+
+          <h4>🟡 2. Nesil: 2D Sprite'lar ve Scroll (1985-1995)</h4>
+          <p>NES, SNES, Mega Drive dönemi. Sprite tabanlı 2D grafikler olgunlaştı. Paralaks kaydırma (parallax scrolling), daha zengin renk paletleri (256+ renk), döndürme/ölçekleme (Mode 7) gibi teknikler gelişti. Sonic, Mario, Zelda gibi ikonik oyunlar bu dönemde çıktı.</p>
+
+          <h4>🟢 3. Nesil: İlk 3D Denemeleri (1993-2000)</h4>
+          <p>Doom (1993) "2.5D" ile devrim yaptı. Quake (1996) tam 3D motoru olan ilk popüler oyun oldu. PlayStation 1, Nintendo 64 ile 3D konsol oyunları başladı. İlk GPU'lar ortaya çıktı (3dfx Voodoo, NVIDIA GeForce 256). Düşük poligon, bulanık texture'lar ama devrim niteliğinde.</p>
+
+          <h4>🔵 4. Nesil: Shader Devrimi (2001-2010)</h4>
+          <p>Programlanabilir shader'lar geldi! Artık geliştiriciler GPU'ya "her pikseli nasıl renklendir" diye talimat verebiliyordu. Normal mapping, gölge haritaları (shadow maps), HDR, bloom efektleri gibi teknikler yaygınlaştı. PS2/PS3, Xbox/Xbox 360 dönemi. Grafik kalitesinde muazzam sıçrama.</p>
+
+          <h4>🟣 5. Nesil: Fotorealizm ve Ray Tracing (2018-Bugün)</h4>
+          <p>NVIDIA RTX serisi ile gerçek zamanlı ray tracing (ışın izleme) mümkün oldu. Fizik tabanlı render (PBR), global illumination, DLSS/FSR (yapay zeka ile upscaling). Unreal Engine 5'in Nanite ve Lumen teknolojileri. Oyun grafikleri neredeyse filmlerle yarışır hale geldi.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Tartışma Sorusu</div>
+      <p>50 yılda Pong'dan fotorealistik grafiklere geldik. Sizce önümüzdeki 10 yılda grafikler nasıl olacak? Yapay zeka grafik oluşturmayı nasıl değiştirecek? Neural rendering, AI upscaling (DLSS), prosedürel içerik üretimi... Bunlar geleceğin teknolojileri mi?</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 7: LAB -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="lab">7. 💻 Lab: Piksel Atölyesi</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Lab Hedefleri</div>
+      <p>Bu haftanın lab çalışmasında:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>Farklı oyun/uygulamaların grafiklerini analiz edeceksiniz</li>
+        <li>Raster vs Vektör farkını bizzat deneyeceksiniz</li>
+        <li>GIMP veya Photopea ile piksel düzeyinde çalışacaksınız</li>
+        <li>Çözünürlük ve piksel yoğunluğu kavramlarını uygulamalı keşfedeceksiniz</li>
+      </ul>
+    </div>
+
+    <h3>Lab Aktivite 1: Grafik Analizi</h3>
+    <div class="card">
+      <p>Aşağıdaki oyunlardan <strong>birini</strong> seçin ve grafik özelliklerini analiz edin:</p>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Celeste</strong> — Pixel art 2D platformer</li>
+        <li><strong>Hollow Knight</strong> — El çizimi 2D metroidvania</li>
+        <li><strong>Stardew Valley</strong> — Pixel art simülasyon</li>
+        <li><strong>Cuphead</strong> — 1930'lar animasyon stili</li>
+        <li><strong>Ori and the Blind Forest</strong> — Boyalı arka planlar</li>
+      </ul>
+      <p style="margin-top: 1rem;">Cevaplayın:</p>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>Raster mı vektör mü kullanıyor? Nereden anladınız?</li>
+        <li>Tahmini çözünürlüğü ne olabilir? (İpucu: Steam sayfasındaki sistem gereksinimlerine bakın)</li>
+        <li>Grafik stili nedir? (pixel art, el çizimi, vektörel, fotorealistik vb.)</li>
+        <li>Renk paleti nasıl? Kaç ana renk kullanılmış? Sıcak mı soğuk mu?</li>
+        <li>GPU'yu ne kadar zorlayabilir? Neden?</li>
+      </ol>
+    </div>
+
+    <h3>Lab Aktivite 2: Piksel Boyama</h3>
+    <div class="card">
+      <p><strong>GIMP</strong> veya <a href="https://www.photopea.com/" target="_blank">Photopea</a> (tarayıcıda çalışır, kurulum gerektirmez) açın:</p>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>16×16 piksel boyutunda yeni bir dosya oluşturun (File → New → 16×16 px)</li>
+        <li>Zoom yaparak her pikseli görecek kadar yakınlaştırın (%800-1600)</li>
+        <li>Kalem (Pencil) aracını seçin, boyutu 1px yapın</li>
+        <li>Basit bir karakter çizin (smiley, uzaylı, kalp, kılıç, kalkan...)</li>
+        <li>Aynı karakteri 32×32'de daha detaylı çizin — farkı gözlemleyin</li>
+        <li>Her iki versiyonu PNG olarak kaydedin (File → Export As → PNG)</li>
+        <li>Dosya boyutlarını karşılaştırın — hangisi daha büyük? Neden?</li>
+      </ol>
+      <div class="info-box tip" style="margin-top: 1rem; margin-bottom: 0;">
+        <div class="info-title">💡 İpucu</div>
+        <p>Photopea'da "Nearest Neighbor" interpolasyon kullanın (Edit → Preferences → General → Image Interpolation → Nearest Neighbor). Bu, büyütme sırasında piksellerin yumuşatılmamasını sağlar — pixel art için şarttır!</p>
+      </div>
+    </div>
+
+    <h3>Lab Aktivite 3: Raster vs Vektör Deneyi</h3>
+    <div class="card">
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>GIMP/Photopea'da 64×64 px boyutunda bir daire çizin → PNG olarak kaydedin</li>
+        <li>Bu PNG'yi 512×512'ye büyütün (Image → Scale Image veya Image → Image Size). Ne oldu? Kenarlar neden pürüzlü/bulanık?</li>
+        <li>Şimdi herhangi bir SVG ikon indirin (örn: <a href="https://heroicons.com/" target="_blank">heroicons.com</a> veya <a href="https://www.svgrepo.com/" target="_blank">svgrepo.com</a>)</li>
+        <li>SVG'yi tarayıcıda açın ve zoom yapın (Ctrl/Cmd + Plus). Ne oldu? Neden hâlâ keskin?</li>
+        <li>SVG dosyasını bir metin editöründe açın — içinde ne görüyorsunuz? (Pikseller mi yoksa matematiksel tanımlar mı?)</li>
+        <li>Farkı bir cümleyle özetleyin ve sınıfla paylaşın.</li>
+      </ol>
+    </div>
+
+    <h3>Lab Aktivite 4: Ekran İnceleme (Bonus)</h3>
+    <div class="card">
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>Telefonunuzun veya monitörünüzün çözünürlüğünü ve PPI değerini öğrenin (Ayarlar → Ekran veya internet'te araştırın)</li>
+        <li>Telefonunuzun ekranına çok yakından bakın (varsa büyüteçle). Alt pikselleri (sub-pixel) görebiliyor musunuz? RGB mi AMOLED mi?</li>
+        <li>Sınıfta farklı cihazları karşılaştırın: kim en yüksek PPI'ya sahip?</li>
+      </ol>
+    </div>
+
+    <!-- QUİZ -->
+    <h2>🧪 Kendini Test Et</h2>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 1</div>
+      <p>Full HD (1920×1080) bir ekranda toplam kaç piksel vardır?</p>
+      <div class="quiz-option" data-correct="false">Yaklaşık 1 milyon</div>
+      <div class="quiz-option" data-correct="true">Yaklaşık 2 milyon</div>
+      <div class="quiz-option" data-correct="false">Yaklaşık 4 milyon</div>
+      <div class="quiz-option" data-correct="false">Yaklaşık 8 milyon</div>
+      <div class="quiz-feedback" data-explanation="1920 × 1080 = 2.073.600 ≈ 2 milyon piksel."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 2</div>
+      <p>Bir logoyu büyütmek istiyorsunuz ve kalitesinin bozulmamasını istiyorsunuz. Hangi format kullanmalısınız?</p>
+      <div class="quiz-option" data-correct="false">PNG (Raster)</div>
+      <div class="quiz-option" data-correct="false">JPG (Raster)</div>
+      <div class="quiz-option" data-correct="true">SVG (Vektör)</div>
+      <div class="quiz-option" data-correct="false">GIF (Raster)</div>
+      <div class="quiz-feedback" data-explanation="SVG vektörel bir format olduğu için ne kadar büyütürseniz büyütün keskin kalır. Logolar için idealdir."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 3</div>
+      <p>GPU'nun CPU'dan farkı nedir?</p>
+      <div class="quiz-option" data-correct="false">GPU daha akıllıdır</div>
+      <div class="quiz-option" data-correct="false">GPU sadece oyunlarda kullanılır</div>
+      <div class="quiz-option" data-correct="true">GPU binlerce basit işi aynı anda yapabilir (paralel)</div>
+      <div class="quiz-option" data-correct="false">GPU ve CPU aynı şeydir</div>
+      <div class="quiz-feedback" data-explanation="GPU'nun gücü paralel işlemedir. Binlerce küçük çekirdek aynı anda çalışarak milyonlarca pikselin rengini hesaplayabilir."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 4</div>
+      <p>Bilgisayar grafiğinde Y ekseni hangi yöne doğru artar?</p>
+      <div class="quiz-option" data-correct="false">Yukarı (matematikte olduğu gibi)</div>
+      <div class="quiz-option" data-correct="true">Aşağı (sol üst köşe 0,0)</div>
+      <div class="quiz-option" data-correct="false">Sola doğru</div>
+      <div class="quiz-option" data-correct="false">Yön yok, rastgele</div>
+      <div class="quiz-feedback" data-explanation="Bilgisayar grafiklerinde koordinat sistemi sol üst köşeden başlar. X sağa, Y aşağı doğru artar. Bu, ekranın yazı yönüne uygundur."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 5</div>
+      <p>24-bit (True Color) bir pikselde toplam kaç farklı renk mümkündür?</p>
+      <div class="quiz-option" data-correct="false">256</div>
+      <div class="quiz-option" data-correct="false">65.536</div>
+      <div class="quiz-option" data-correct="true">16.777.216 (yaklaşık 16,7 milyon)</div>
+      <div class="quiz-option" data-correct="false">1 milyar</div>
+      <div class="quiz-feedback" data-explanation="24-bit = 3 kanal × 8 bit = 3 × 256 değer. 256 × 256 × 256 = 16.777.216 farklı renk."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 6</div>
+      <p>Grafik pipeline'da "rasterizasyon" aşaması ne yapar?</p>
+      <div class="quiz-option" data-correct="false">Oyun mantığını hesaplar</div>
+      <div class="quiz-option" data-correct="false">Texture'ları bellekten yükler</div>
+      <div class="quiz-option" data-correct="true">Üçgenleri (geometriyi) piksellere dönüştürür</div>
+      <div class="quiz-option" data-correct="false">Ses efektlerini işler</div>
+      <div class="quiz-feedback" data-explanation="Rasterizasyon, matematiksel üçgen tanımlarını (vektörel) piksel haline getirme (raster) sürecidir. İsmi de buradan gelir: raster + ize = rasterize."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 7</div>
+      <p>SVG formatı hakkında hangisi <strong>yanlıştır</strong>?</p>
+      <div class="quiz-option" data-correct="false">Metin tabanlıdır, herhangi bir editörde açılabilir</div>
+      <div class="quiz-option" data-correct="false">Ne kadar büyütürseniz büyütün keskin kalır</div>
+      <div class="quiz-option" data-correct="true">Fotoğrafları saklamak için en uygun formattır</div>
+      <div class="quiz-option" data-correct="false">CSS ve JavaScript ile manipüle edilebilir</div>
+      <div class="quiz-feedback" data-explanation="SVG vektörel bir formattır ve şekiller, çizgiler, metinler için idealdir. Fotoğraflar milyonlarca renk noktası içerir ve bunları matematiksel formüllerle ifade etmek pratik değildir — fotoğraflar için JPEG veya PNG kullanılır."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 8</div>
+      <p>JPEG sıkıştırması neden fotoğraflar için uygundur ama pixel art için değildir?</p>
+      <div class="quiz-option" data-correct="false">JPEG dosyaları çok büyüktür</div>
+      <div class="quiz-option" data-correct="true">Kayıplı sıkıştırma keskin kenarları bozar ve blok artefaktları oluşturur</div>
+      <div class="quiz-option" data-correct="false">JPEG sadece siyah-beyaz görüntüleri destekler</div>
+      <div class="quiz-option" data-correct="false">JPEG formatı çok yenidir ve desteklenmez</div>
+      <div class="quiz-feedback" data-explanation="JPEG'in kayıplı sıkıştırması yumuşak renk geçişlerinde (fotoğraflarda) iyi çalışır ama keskin kenarları (metin, pixel art) bozar. Bu yüzden sprite'lar ve pixel art için PNG (kayıpsız) tercih edilir."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-title">❓ Soru 9</div>
+      <p>BMP formatında 100×100 piksellik 24-bit bir görüntü yaklaşık kaç byte yer kaplar?</p>
+      <div class="quiz-option" data-correct="false">~100 byte</div>
+      <div class="quiz-option" data-correct="false">~10.000 byte</div>
+      <div class="quiz-option" data-correct="true">~30.000 byte (+ başlıklar)</div>
+      <div class="quiz-option" data-correct="false">~1.000.000 byte</div>
+      <div class="quiz-feedback" data-explanation="24-bit = 3 byte/piksel. 100 × 100 × 3 = 30.000 byte. BMP sıkıştırma yapmadığı için her pikselin renk değeri aynen saklanır."></div>
+    </div>
+
+    <!-- KAYNAKLAR -->
+    <h2 id="kaynaklar">📚 Kaynaklar ve Okumalar</h2>
+
+    <h3>🎬 Videolar</h3>
+    <div class="resources-list">
+      <a href="https://www.youtube.com/watch?v=C8YtdC8mxTU" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How do Video Game Graphics Work?</h4>
+          <p>Branch Education — Grafik pipeline'ın harika görsel açıklaması. GPU'nun içini 3D animasyonlarla gösteriyor. Mutlaka izleyin!</p>
+          <span class="resource-tag">YouTube · 15 dk · İngilizce · ⭐ Tavsiye</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=cvcAjgMUPUA" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How Rendering Graphics Works in Games!</h4>
+          <p>TheCherno — C++ oyun geliştirici perspektifinden render süreci. Vertex, fragment shader, rasterizasyon gibi kavramları anlaşılır şekilde açıklıyor. Teknik ama erişilebilir.</p>
+          <span class="resource-tag">YouTube · 20 dk · İngilizce · ⭐ Tavsiye</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/playlist?list=PLplnkTzzqsZTfYh4UbhLGpI5kGd5oW_Hh" target="_blank" class="resource-card">
+        <div class="resource-icon">📚</div>
+        <div class="resource-info">
+          <h4>Computer Graphics — Cem Yüksel (Utah Üniversitesi)</h4>
+          <p>Akademik düzeyde bilgisayar grafiği dersi. Matematiksel temellerden başlayarak ray tracing, rasterizasyon, shading konularını derinlemesine işliyor. İleri düzey ama bu dersin konularıyla birebir örtüşüyor — meraklılar için harika bir kaynak!</p>
+          <span class="resource-tag">YouTube Playlist · İngilizce · Akademik · ⭐ Tavsiye</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=7qFIjOzarPg" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>Piksel Nedir? Ekranlar Nasıl Çalışır?</h4>
+          <p>Barış Özcan — Türkçe, piksel ve ekran teknolojisi. Alt pikseller, OLED vs LCD farkları.</p>
+          <span class="resource-tag">YouTube · 10 dk · 🇹🇷 Türkçe</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=3LMnVPOIqhQ" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>A Brief History of Video Game Graphics</h4>
+          <p>Ahoy — Oyun grafiklerinin tarihi, Pong'dan bugüne. Sinematik kalitede belgesel.</p>
+          <span class="resource-tag">YouTube · 30 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=2NGjx1wEXfY" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How do GPUs work?</h4>
+          <p>Branch Education — GPU'nun iç yapısını ve neden paralel hesaplama yaptığını görsel olarak anlatan mükemmel video.</p>
+          <span class="resource-tag">YouTube · 25 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=KdyvizaygyY" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>The Evolution of Video Game Graphics (1952-2023)</h4>
+          <p>Yıl yıl oyun grafiklerinin gelişimini gösteren harika bir derleme.</p>
+          <span class="resource-tag">YouTube · 20 dk · Görsel Ağırlıklı</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=6-9XFm7XAT8" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How PNG Works — Computerphile</h4>
+          <p>PNG sıkıştırma algoritmasının detaylı açıklaması. Filtreleme ve DEFLATE nasıl çalışır?</p>
+          <span class="resource-tag">YouTube · 12 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=Kv1Hiv3ox8I" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>How JPEG Works — Computerphile</h4>
+          <p>JPEG sıkıştırmasının matematiksel arka planı: DCT, kuantizasyon ve neden bloklu artefaktlar oluşur?</p>
+          <span class="resource-tag">YouTube · 15 dk · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=EFUYNoFRHQI" target="_blank" class="resource-card">
+        <div class="resource-icon">🎬</div>
+        <div class="resource-info">
+          <h4>SVG Explained in 100 Seconds — Fireship</h4>
+          <p>SVG formatının hızlı ve eğlenceli bir özeti. Fireship'in ünlü "100 Seconds" formatında.</p>
+          <span class="resource-tag">YouTube · 2 dk · İngilizce</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>📖 Okumalar</h3>
+    <div class="resources-list">
+      <a href="https://www.scratchapixel.com/lessons/digital-imaging/colors/introduction.html" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Scratchapixel: Digital Imaging</h4>
+          <p>Bilgisayar grafiğinin temel kavramlarını sıfırdan anlatan ücretsiz kaynak. Piksel, renk, ışık teorisi detaylıca işleniyor.</p>
+          <span class="resource-tag">Web · İngilizce · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://gabrielgambetta.com/computer-graphics-from-scratch/" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Computer Graphics from Scratch</h4>
+          <p>Gabriel Gambetta — Sıfırdan bilgisayar grafiği. Raytracer ve rasterizer nasıl yazılır? Çok pedagojik, adım adım.</p>
+          <span class="resource-tag">Kitap/Web · İngilizce · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>MDN SVG Tutorial</h4>
+          <p>Mozilla'nın kapsamlı SVG rehberi. Temel şekillerden path komutlarına, filtrelerden animasyonlara kadar her şey.</p>
+          <span class="resource-tag">Web · İngilizce · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://en.wikipedia.org/wiki/Raster_graphics" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>Wikipedia: Raster Graphics</h4>
+          <p>Raster grafik hakkında detaylı bilgi. Terminolojiye hakim olmak için referans.</p>
+          <span class="resource-tag">Wikipedia · İngilizce</span>
+        </div>
+      </a>
+      <a href="https://learnopengl.com/Getting-started/Hello-Triangle" target="_blank" class="resource-card">
+        <div class="resource-icon">📖</div>
+        <div class="resource-info">
+          <h4>LearnOpenGL — Getting Started</h4>
+          <p>Grafik pipeline'ı OpenGL üzerinden öğrenmek isteyenler için başlangıç noktası. Şimdilik sadece göz gezdirin!</p>
+          <span class="resource-tag">Web · İngilizce · Ücretsiz</span>
+        </div>
+      </a>
+    </div>
+
+    <h3>🛠️ Araçlar</h3>
+    <div class="resources-list">
+      <a href="https://www.photopea.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Photopea</h4>
+          <p>Tarayıcıda çalışan ücretsiz Photoshop alternatifi — kurulum gerektirmez! PSD dosyalarını bile açar. Lab'da kullanacağız.</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://www.gimp.org/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>GIMP</h4>
+          <p>Açık kaynak, güçlü görüntü düzenleme programı. Photoshop'a bedava alternatif. Bilgisayarınıza yükleyin!</p>
+          <span class="resource-tag">Desktop · Ücretsiz · Açık Kaynak</span>
+        </div>
+      </a>
+      <a href="https://krita.org/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Krita</h4>
+          <p>Profesyonel dijital boyama programı. Konsept art, illüstrasyon, texture boyama için mükemmel. Açık kaynak ve tamamen ücretsiz!</p>
+          <span class="resource-tag">Desktop · Ücretsiz · Açık Kaynak</span>
+        </div>
+      </a>
+      <a href="https://inkscape.org/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Inkscape</h4>
+          <p>Açık kaynak vektör grafik editörü. SVG formatında çalışır. Logo, ikon ve vektör illüstrasyon için ideal.</p>
+          <span class="resource-tag">Desktop · Ücretsiz · Açık Kaynak</span>
+        </div>
+      </a>
+      <a href="https://www.piskelapp.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Piskel</h4>
+          <p>Tarayıcıda pixel art yapabileceğiniz ücretsiz araç. Animasyonlu sprite yapmak için de harika. Hafta 4'te çok kullanacağız!</p>
+          <span class="resource-tag">Web App · Ücretsiz</span>
+        </div>
+      </a>
+      <a href="https://heroicons.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>Heroicons (SVG İkonlar)</h4>
+          <p>Güzel, ücretsiz SVG ikonlar. Lab Aktivite 3'te raster vs vektör karşılaştırması için kullanın.</p>
+          <span class="resource-tag">Web · Ücretsiz · MIT Lisans</span>
+        </div>
+      </a>
+      <a href="https://www.svgrepo.com/" target="_blank" class="resource-card">
+        <div class="resource-icon">🛠️</div>
+        <div class="resource-info">
+          <h4>SVG Repo</h4>
+          <p>500.000+ ücretsiz SVG ikon ve vektör koleksiyonu. SVG dosya yapısını incelemek için de harika kaynak.</p>
+          <span class="resource-tag">Web · Ücretsiz</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- HAFTALAR ARASI NAVİGASYON -->
+    <div class="week-nav">
+      <a href="../index.html">← Ana Sayfa</a>
+      <a href="../hafta2/index.html">Bölüm 2: Renk Teorisi →</a>
+    </div>
+
+    <footer class="site-footer">
+      Bilgisayar Grafiği • Oyun Geliştirme ve Programlama Bölümü • 2025-2026 Bahar
+    </footer>
+  </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="../shared.js"></script>
+  <script src="./hafta1.js"></script>
+</body>
+</html>

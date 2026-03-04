@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bilgisayar Grafiği - Ders Notları</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="index.html" class="active"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+    </div>
+    <div class="sidebar-toc">
+      <!-- Auto-populated by JS -->
+    </div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Ana Sayfa</a>
+      <a href="hafta1/index.html">Bölüm 1</a>
+      <a href="hafta2/index.html">Bölüm 2</a>
+      <a href="hafta3/index.html">Bölüm 3</a>
+      <a href="hafta4/index.html">Bölüm 4</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>🎨 Bilgisayar Grafiği</h1>
+    <p class="subtitle">Oyun Geliştirme ve Programlama Bölümü • 2. Dönem</p>
+    <p class="subtitle" style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.6;">2+2 (Teori + Uygulama) • 4 AKTS</p>
+  </div>
+
+  <div class="container">
+
+    <div class="info-box note">
+      <div class="info-title">📌 Ders Hakkında</div>
+      <p>Bu derste bilgisayar grafiklerinin temellerini öğrenecek, 2D ve 3D grafik oluşturma araçlarını tanıyacak ve oyun geliştirmede kullanılan grafik kavramlarını pratiğe dökeceksiniz. Ödevler ve uygulamalar için <strong>GitHub Classroom</strong> kullanılacaktır.</p>
+    </div>
+
+    <!-- ══════ TENTATIVE SYLLABUS ══════ -->
+    <h2>📅 Dönemlik Ders Planı (Tentative)</h2>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Bu plan taslaktır (tentative) ve dönem içinde değişebilir!</div>
+      <p>Aşağıdaki plan, dersin genel gidişatını göstermek amacıyla hazırlanmıştır. Öğrenci ihtiyaçlarına, ilerleme hızına ve güncel gelişmelere bağlı olarak konu sıralaması ve içeriklerde değişiklikler yapılabilir. Sınav haftalarında ders işlenmez.</p>
+    </div>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Hafta</th>
+          <th>Konu</th>
+          <th>Teori</th>
+          <th>Uygulama / Lab</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Bilgisayar Grafiğine Giriş</td><td>Piksel, Raster vs Vektör, GPU vs CPU, Grafik Pipeline</td><td>GIMP ile piksel atölyesi</td></tr>
+        <tr><td>2</td><td>Renk Teorisi</td><td>RGB, HSB, Alpha, Renk Paletleri, Erişilebilirlik</td><td>GIMP / Coolors.co ile renk çalışması</td></tr>
+        <tr><td>3</td><td>Dijital Görüntü Temelleri</td><td>Çözünürlük, DPI/PPI, Dosya Formatları, Sıkıştırma</td><td>Sprite hazırlama</td></tr>
+        <tr><td>4</td><td>2D Dönüşümler ve Koordinat Sistemleri</td><td>Translation, Rotation, Scaling, Pivot, Matris Temelleri</td><td>Dönüşüm uygulamaları</td></tr>
+        <tr><td>5</td><td>Pixel Art ve 2D Asset Oluşturma</td><td>Pixel Art İlkeleri, Dithering, Karakter Tasarımı</td><td>Sprite Sheet oluşturma</td></tr>
+        <tr><td>6</td><td>2D Animasyon Temelleri</td><td>Frame-by-frame, Tweening, Easing, Animasyon İlkeleri</td><td>Animasyon uygulaması</td></tr>
+        <tr><td>7</td><td>Tilemap ve Seviye Tasarımı</td><td>Tile Sistemi, Tileset Tasarımı, Parallax</td><td>Tiled Map Editor</td></tr>
+        <tr style="background: rgba(255, 214, 0, 0.08);"><td><strong>8</strong></td><td><strong>📝 ARA SINAV</strong></td><td colspan="2">Bu hafta ders işlenmez — tüm süre sınava ayrılmıştır</td></tr>
+        <tr><td>9</td><td>3D Grafik Temelleri</td><td>3D Koordinatlar, Mesh, Vertex, Polygon</td><td>Blender'a giriş</td></tr>
+        <tr><td>10</td><td>3D Modelleme</td><td>Box Modeling, Extrude, Modifier</td><td>Prop Modelleme</td></tr>
+        <tr><td>11</td><td>Materyal, Texture ve UV Mapping</td><td>Texture, UV Mapping, Normal Map, PBR Temelleri</td><td>Blender UV workshop</td></tr>
+        <tr><td>12</td><td>Işık ve Render</td><td>Işık Türleri, Gölgeler, Ambient Occlusion</td><td>Render uygulaması</td></tr>
+        <tr><td>13</td><td>Shader ve Post-Processing</td><td>Shader Kavramı, Post-Process Efektleri</td><td>Shadertoy</td></tr>
+        <tr><td>14</td><td>Grafik Optimizasyonu ve Pipeline</td><td>Draw Call, Batching, LOD, Atlas, Profiling</td><td>Profiling uygulaması</td></tr>
+        <tr><td>15</td><td>Final Proje Sunumları</td><td colspan="2">Proje Sunumları + Akran Değerlendirmesi</td></tr>
+        <tr style="background: rgba(255, 214, 0, 0.08);"><td><strong>Final</strong></td><td><strong>📝 FİNAL SINAVI</strong></td><td colspan="2">Ders işlenmez — tüm dönem konularından sınav</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ AKADEMİK DÜRÜSTLÜK ══════ -->
+    <h2>⚖️ Yasal Mevzuat ve Akademik Dürüstlük</h2>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Kopya ve İntihal Uyarısı</div>
+      <p>Bu ders kapsamındaki tüm sınavlar, ödevler ve projeler <strong>2547 sayılı Yükseköğretim Kanunu</strong> ve ilgili yönetmelikler çerçevesinde değerlendirilir. Sınavlarda kopya çekmek, kopya vermek veya buna teşebbüs etmek disiplin suçudur.</p>
+      <ul style="margin-top: 0.75rem; padding-left: 1.25rem; color: var(--text-secondary);">
+        <li>📌 Kopya fiili tespit edildiğinde ilgili sınav <strong>geçersiz sayılır</strong> ve tutanak tutulur.</li>
+        <li>📌 Kınama veya daha ağır disiplin cezalarına yol açabilir; tekrarlayan durumlarda <strong>uzaklaştırma cezası</strong> uygulanabilir.</li>
+        <li>📌 Ödev ve projelerde <strong>intihal (plagiarism)</strong> de aynı kapsamda değerlendirilir.</li>
+      </ul>
+      <p style="margin-top: 0.75rem;">📄 <strong>2547 Sayılı Yükseköğretim Kanunu:</strong> <a href="https://cdn.anadolu.edu.tr/files/anadolu-cms/7gldkYw1/file/2547-sayili-yuksekogretim-kanunu-3befcc7ff61806b0.pdf" target="_blank">PDF İndir</a></p>
+      <p>⚠️ Tüm öğrenciler, kayıtlı oldukları üniversitenin <strong>öğrenci disiplin yönetmeliğini</strong> okumakla yükümlüdür.</p>
+    </div>
+
+    <!-- ══════ DERS NOTLARI ══════ -->
+    <h2>📖 Ders Notları</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+
+      <a href="hafta1/index.html" class="card" style="text-decoration: none;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--accent-1); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Bilgisayar Grafiğine Giriş</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Piksel, Raster vs Vektör, GPU vs CPU, Grafik Pipeline</p>
+          </div>
+          <div style="margin-left: auto; color: var(--accent-green); font-size: 0.8rem; font-weight: 600;">GIMP / Tartışma</div>
+        </div>
+      </a>
+
+      <a href="hafta2/index.html" class="card" style="text-decoration: none;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--accent-1); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Renk Teorisi</h3>
+            <p style="margin: 0; font-size: 0.9rem;">RGB, HSB, Alpha, Renk Paletleri, Oyunlarda Renk, Erişilebilirlik</p>
+          </div>
+          <div style="margin-left: auto; color: var(--accent-green); font-size: 0.8rem; font-weight: 600;">GIMP / Coolors.co</div>
+        </div>
+      </a>
+
+      <a href="hafta3/index.html" class="card" style="text-decoration: none;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--accent-1); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">3</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">GIMP ile Dijital Görüntü İşleme</h3>
+            <p style="margin: 0; font-size: 0.9rem;">GIMP Arayüzü, Ölçekleme, Kırpma, Katmanlar, Maskeler, Renk Eğrileri</p>
+          </div>
+          <div style="margin-left: auto; color: var(--accent-green); font-size: 0.8rem; font-weight: 600;">GIMP</div>
+        </div>
+      </a>
+
+      <a href="hafta4/index.html" class="card" style="text-decoration: none;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--accent-1); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">4</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Inkscape ile Vektör Grafik</h3>
+            <p style="margin: 0; font-size: 0.9rem;">SVG Temelleri, Inkscape Arayüzü, Şekiller, Yollar, Boolean, Metin, Dışa Aktarma</p>
+          </div>
+          <div style="margin-left: auto; color: var(--accent-green); font-size: 0.8rem; font-weight: 600;">Inkscape</div>
+        </div>
+      </a>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">5</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Pixel Art ve 2D Asset Oluşturma</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Pixel Art İlkeleri, Dithering, Karakter Tasarımı, Sprite Sheet</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">6</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">2D Animasyon Temelleri</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Frame-by-frame, Tweening, Easing, Animasyon İlkeleri</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">7</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Tilemap ve Seviye Tasarımı</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Tile Sistemi, Tileset Tasarımı, Parallax, Tiled Map Editor</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">8</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">3D Grafik Temelleri</h3>
+            <p style="margin: 0; font-size: 0.9rem;">3D Koordinatlar, Mesh, Vertex, Polygon, Blender'a Giriş</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">9</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">3D Modelleme</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Box Modeling, Extrude, Modifier, Prop Modelleme</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">10</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Materyal, Texture ve UV Mapping</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Texture, UV Mapping, Normal Map, PBR Temelleri</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">11</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Işık ve Render</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Işık Türleri, Gölgeler, Ambient Occlusion, Render</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">12</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Shader ve Post-Processing</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Shader Kavramı, Post-Process Efektleri, Shadertoy</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">13</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Grafik Optimizasyonu ve Pipeline</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Draw Call, Batching, LOD, Atlas, Profiling</p>
+          </div>
+          <div style="margin-left: auto; color: var(--text-secondary); font-size: 0.8rem;">Yakında</div>
+        </div>
+      </div>
+
+      <div class="card" style="opacity: 0.5;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="background: var(--border-color); color: var(--text-secondary); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">14</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">Final Proje Sunumları</h3>
+            <p style="margin: 0; font-size: 0.9rem;">Proje Sunumları + Akran Değerlendirmesi</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <h2>📊 Değerlendirme</h2>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Etkinlik</th>
+          <th>Adet</th>
+          <th>Katkı %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Haftalık Lab Katılım & Çalışmalar</td><td>~10</td><td>15%</td></tr>
+        <tr><td>Ödevler (GitHub Classroom)</td><td>3</td><td>20%</td></tr>
+        <tr><td>Ara Sınav (Teori + Uygulama)</td><td>1</td><td>25%</td></tr>
+        <tr><td>Final Projesi</td><td>1</td><td>40%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>🛠️ Kullanılacak Araçlar</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top: 0;">🖼️ GIMP / Photopea</h3>
+        <p>Dijital görüntü düzenleme, renk çalışmaları, texture işlemleri</p>
+        <a href="https://www.gimp.org/" target="_blank">gimp.org</a> · <a href="https://www.photopea.com/" target="_blank">photopea.com</a>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🎮 Aseprite / Piskel</h3>
+        <p>Pixel art, sprite sheet oluşturma, 2D animasyon</p>
+        <a href="https://www.aseprite.org/" target="_blank">aseprite.org</a> · <a href="https://www.piskelapp.com/" target="_blank">piskelapp.com</a>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🗺️ Tiled Map Editor</h3>
+        <p>Tilemap tasarımı, seviye editörü</p>
+        <a href="https://www.mapeditor.org/" target="_blank">mapeditor.org</a>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🧊 Blender</h3>
+        <p>3D modelleme, texture, ışıklandırma, render</p>
+        <a href="https://www.blender.org/" target="_blank">blender.org</a>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      Bilgisayar Grafiği • Oyun Geliştirme ve Programlama Bölümü • 2025-2026 Bahar
+    </footer>
+  </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="./shared.js"></script>
+</body>
+</html>
