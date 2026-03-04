@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bölüm 4 - Inkscape ile Vektör Grafik</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .ink-img-container { text-align: center; margin: 1.5rem 0; }
+    .ink-img-container img {
+      max-width: 100%; border-radius: 12px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .ink-img-container .img-caption {
+      font-size: 0.85rem; color: var(--text-secondary);
+      margin-top: 0.5rem; font-style: italic;
+    }
+    .ink-img-container .img-credit {
+      font-size: 0.75rem; color: var(--text-secondary); opacity: 0.7;
+    }
+    .ink-menu-path {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-secondary); padding: 4px 10px; border-radius: 6px;
+      font-size: 0.9rem; display: inline-block; margin: 4px 0;
+      border-left: 3px solid var(--accent-1);
+    }
+    .jargon-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-1); font-weight: 600; white-space: nowrap;
+    }
+    .tutorial-card {
+      display: block; text-decoration: none; color: inherit;
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 1.5rem; margin: 1rem 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tutorial-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    .tutorial-card h4 { margin: 0 0 0.5rem; color: var(--accent-1); }
+    .tutorial-card p { margin: 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .step-box {
+      background: var(--bg-secondary); border-left: 4px solid var(--accent-1);
+      padding: 1rem 1.25rem; margin: 1rem 0; border-radius: 0 8px 8px 0;
+    }
+    .step-box .step-num {
+      font-weight: 800; color: var(--accent-1); font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    .shortcut-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-2); font-weight: 600; white-space: nowrap;
+    }
+    .svg-demo-container {
+      background: var(--bg-secondary); border: 2px solid var(--border-color);
+      border-radius: 12px; margin: 1rem 0; overflow: hidden;
+    }
+    .svg-demo-container .demo-header {
+      background: var(--bg-tertiary, var(--bg-secondary)); padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 700; font-size: 0.9rem; color: var(--accent-1);
+    }
+    .svg-demo-container .demo-content {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 200px;
+    }
+    .svg-demo-container .demo-preview {
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; background: #ffffff; min-height: 200px;
+    }
+    .svg-demo-container .demo-code {
+      padding: 1rem; overflow-x: auto; border-left: 1px solid var(--border-color);
+    }
+    .svg-demo-container .demo-code pre {
+      margin: 0; font-size: 0.8rem; line-height: 1.5;
+    }
+    @media (max-width: 700px) {
+      .svg-demo-container .demo-content { grid-template-columns: 1fr; }
+      .svg-demo-container .demo-code { border-left: none; border-top: 1px solid var(--border-color); }
+    }
+    .comparison-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;
+    }
+    @media (max-width: 600px) { .comparison-row { grid-template-columns: 1fr; } }
+    .kbd {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 4px; padding: 2px 6px; font-size: 0.85rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body class="has-sidebar">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html" class="active"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+    </div>
+    <div class="sidebar-toc"></div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- PAGE WRAPPER -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html" class="active">Bölüm 4</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header" style="background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #533483);">
+    <span class="week-number">📅 BÖLÜM 4</span>
+    <h1>Inkscape ile Vektör Grafik</h1>
+    <p class="week-desc">SVG temelleri, Inkscape arayüzü, temel şekiller, yollar ve düğümler, dolgular, Boolean işlemleri, metin ve dışa aktarım</p>
+    <div class="week-meta">
+      <div class="meta-item">📖 Teori: 2 saat</div>
+      <div class="meta-item">💻 Uygulama: 2 saat</div>
+      <div class="meta-item">🛠️ Araç: Inkscape 1.4+</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="info-box tip">
+      <div class="info-title">🌍 Türkçe Uyarlama Hakkında</div>
+      <p>Bu sayfadaki içeriklerin önemli bir kısmı, <a href="https://inkscape.org/learn/tutorials/" target="_blank">Inkscape'in resmi öğreticilerinden</a>
+      ve <a href="https://inkscape-manuals.readthedocs.io/en/latest/" target="_blank">Inkscape Manuals (readthedocs)</a> kaynağından Türkçe'ye uyarlanmıştır.
+      Her bölümde orijinal kaynağa ait bağlantı bulunmaktadır. Orijinal içerikler <strong>Creative Commons / GPL</strong> lisansı altında yayınlanmıştır.</p>
+    </div>
+
+    <!-- İÇİNDEKİLER -->
+    <div class="toc">
+      <h3>📑 Bu Bölümün İçeriği</h3>
+      <ol>
+        <li><a href="#inkscape-nedir">Inkscape Nedir? Vektör vs Raster</a></li>
+        <li><a href="#svg-temelleri">SVG Nedir? — Kod Olarak Grafik</a></li>
+        <li><a href="#inkscape-jargon">Inkscape Terimleri Sözlüğü (Jargon)</a></li>
+        <li><a href="#arayuz">Inkscape Arayüzü</a></li>
+        <li><a href="#temel-sekiller">Temel Şekiller (Shapes)</a></li>
+        <li><a href="#secme-donusturme">Seçme ve Dönüştürme (Select &amp; Transform)</a></li>
+        <li><a href="#dolgu-kontur">Dolgu ve Kontur (Fill &amp; Stroke)</a></li>
+        <li><a href="#renkler-degradeler">Renkler ve Degradeler (Colors &amp; Gradients)</a></li>
+        <li><a href="#yollar-dugumler">Yollar ve Düğümler (Paths &amp; Nodes)</a></li>
+        <li><a href="#boolean-islemleri">Boolean İşlemleri (Path Operations)</a></li>
+        <li><a href="#metin">Metin Araçları (Text)</a></li>
+        <li><a href="#izleme">Bitmap İzleme (Trace Bitmap)</a></li>
+        <li><a href="#kirpma-maskeleme">Kırpma ve Maskeleme (Clip &amp; Mask)</a></li>
+        <li><a href="#kaydetme-disa-aktarma">Kaydetme ve Dışa Aktarma (Export)</a></li>
+        <li><a href="#svg-kodu-inceleme">SVG Kodunu İnceleme — XML Editörü</a></li>
+        <li><a href="#kaynaklar">Kaynaklar ve Öğreticiler</a></li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 1: INKSCAPE NEDİR -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="inkscape-nedir">1. Inkscape Nedir? Vektör vs Raster 🖊️</h2>
+
+    <p>
+      <strong>Inkscape</strong>, açık kaynaklı ve <strong>tamamen ücretsiz</strong> bir <em>vektör grafik</em> (vector graphics) düzenleme yazılımıdır.
+      Adobe Illustrator'a en güçlü ücretsiz alternatif olarak kabul edilir. Windows, macOS ve Linux üzerinde çalışır.
+      Yerel dosya formatı <strong>SVG</strong> (Scalable Vector Graphics — Ölçeklenebilir Vektör Grafikleri) açık standardıdır.
+    </p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bölüm 1 Hatırlatma: Raster vs Vektör</div>
+      <p>Bölüm 1'de öğrendiğimiz gibi: <strong>Raster</strong> (bitmap) görüntüler piksellerden oluşur — büyütünce bulanıklaşır.
+      <strong>Vektör</strong> grafikleri ise matematiksel denklemlerle (noktalar, çizgiler, eğriler) tanımlanır — sonsuz büyütülebilir, kalite kaybı olmaz!</p>
+    </div>
+
+    <div class="comparison-row">
+      <div class="card" style="border-top: 3px solid #e74c3c;">
+        <h3 style="margin-top: 0; color: #e74c3c;">🖼️ Raster (GIMP, Photoshop)</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.9rem;">
+          <li>Piksellerden oluşur (ızgara)</li>
+          <li>Büyütünce bulanıklaşır</li>
+          <li>Fotoğraf, texture, painting için ideal</li>
+          <li>Dosya formatları: PNG, JPEG, TIFF, PSD, XCF</li>
+          <li>Çözünürlüğe bağımlı (resolution-dependent)</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top: 3px solid #3498db;">
+        <h3 style="margin-top: 0; color: #3498db;">✏️ Vektör (Inkscape, Illustrator)</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.9rem;">
+          <li>Matematiksel eğrilerden oluşur</li>
+          <li>Sonsuz büyütülebilir — kalite kaybı yok</li>
+          <li>Logo, ikon, illüstrasyon, UI için ideal</li>
+          <li>Dosya formatları: SVG, AI, EPS, PDF</li>
+          <li>Çözünürlükten bağımsız (resolution-independent)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card" style="border-top: 3px solid var(--accent-1);">
+        <h3 style="margin-top: 0; color: var(--accent-1);">✅ Inkscape ile Neler Yapılabilir?</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Logo ve ikon tasarımı</li>
+          <li>UI/UX mockup ve wireframe</li>
+          <li>Poster, broşür, infografik</li>
+          <li>Oyun için vektör asset (SVG sprite)</li>
+          <li>Teknik çizim ve diyagram</li>
+          <li>Tipografi ve yazı sanatı (kaligrafi)</li>
+          <li>Bitmap izleme (fotoğraf → vektör)</li>
+          <li>Web için SVG grafikler</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent-2);">
+        <h3 style="margin-top: 0; color: var(--accent-2);">📥 İndirme ve Kurulum</h3>
+        <p>Inkscape'i resmi sitesinden indirin:</p>
+        <p style="font-size: 1.1rem; text-align: center; margin: 1rem 0;">
+          <a href="https://inkscape.org/release/" target="_blank" style="color: var(--accent-1); font-weight: 700;">🔗 inkscape.org/release</a>
+        </p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+          Mevcut kararlı sürüm: <strong>Inkscape 1.4</strong><br>
+          Platformlar: Windows, macOS, Linux, AppImage<br>
+          Alternatif (tarayıcıda): <a href="https://boxy-svg.com/" target="_blank">Boxy SVG</a> — tarayıcıda çalışan SVG editör
+        </p>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Neden Inkscape?</div>
+      <p>Bu derste Inkscape kullanıyoruz çünkü: <strong>(1)</strong> Tamamen ücretsiz ve açık kaynak. <strong>(2)</strong> Endüstri standardı SVG formatını yerel olarak destekler. <strong>(3)</strong> Illustrator kavramlarını (path, node, boolean, stroke, fill) öğretir — Illustrator'a geçiş kolaydır. <strong>(4)</strong> SVG, web ve oyun geliştirmede yaygın kullanılır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 2: SVG TEMELLERİ -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="svg-temelleri">2. SVG Nedir? — Kod Olarak Grafik 📐</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape.org/doc/tutorials/basic/tutorial-basic.html" target="_blank">Inkscape Basic Tutorial</a> ve
+      <a href="https://developer.mozilla.org/en-US/docs/Web/SVG" target="_blank">MDN SVG Referansı</a>'ndan derlenmiştir.</p>
+    </div>
+
+    <p>
+      <strong>SVG</strong> (Scalable Vector Graphics — Ölçeklenebilir Vektör Grafikleri), W3C tarafından geliştirilen
+      <strong>XML tabanlı</strong> açık bir grafik standardıdır. Bir SVG dosyası aslında <em>metin</em> dosyasıdır —
+      herhangi bir metin editörüyle açabilir, okuyabilir ve düzenleyebilirsiniz!
+    </p>
+
+    <p>İşte basit bir SVG dosyasının içeriği:</p>
+
+    <div class="svg-demo-container">
+      <div class="demo-header">🎯 SVG Kod Örneği — Basit Şekiller</div>
+      <div class="demo-content">
+        <div class="demo-preview">
+          <svg viewBox="0 0 200 150" width="200" height="150" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="80" height="60" fill="#3498db" rx="8"/>
+            <circle cx="150" cy="40" r="30" fill="#e74c3c"/>
+            <line x1="10" y1="120" x2="190" y2="120" stroke="#2ecc71" stroke-width="3"/>
+            <text x="100" y="145" text-anchor="middle" font-size="12" fill="#9b59b6">Merhaba SVG!</text>
+          </svg>
+        </div>
+        <div class="demo-code">
+<pre><code>&lt;svg viewBox="0 0 200 150"
+     xmlns="http://www.w3.org/2000/svg"&gt;
+
+  &lt;!-- Dikdörtgen (Rectangle) --&gt;
+  &lt;rect x="10" y="10"
+        width="80" height="60"
+        fill="#3498db" rx="8"/&gt;
+
+  &lt;!-- Daire (Circle) --&gt;
+  &lt;circle cx="150" cy="40" r="30"
+          fill="#e74c3c"/&gt;
+
+  &lt;!-- Çizgi (Line) --&gt;
+  &lt;line x1="10" y1="120"
+        x2="190" y2="120"
+        stroke="#2ecc71"
+        stroke-width="3"/&gt;
+
+  &lt;!-- Metin (Text) --&gt;
+  &lt;text x="100" y="145"
+        text-anchor="middle"
+        font-size="12"
+        fill="#9b59b6"&gt;
+    Merhaba SVG!
+  &lt;/text&gt;
+&lt;/svg&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <h3>🏗️ SVG'nin Temel Yapı Taşları</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>SVG Elemanı</th><th>Türkçe</th><th>Açıklama</th><th>Örnek Nitelik</th></tr></thead>
+      <tbody>
+        <tr><td><code>&lt;rect&gt;</code></td><td>Dikdörtgen</td><td>Dikdörtgen veya kare çizer. <code>rx</code>/<code>ry</code> ile köşe yuvarlama.</td><td><code>width, height, x, y, rx</code></td></tr>
+        <tr><td><code>&lt;circle&gt;</code></td><td>Daire</td><td>Merkez (cx, cy) ve yarıçap (r) ile daire çizer.</td><td><code>cx, cy, r</code></td></tr>
+        <tr><td><code>&lt;ellipse&gt;</code></td><td>Elips</td><td>Yatay (rx) ve dikey (ry) yarıçaplara sahip elips.</td><td><code>cx, cy, rx, ry</code></td></tr>
+        <tr><td><code>&lt;line&gt;</code></td><td>Çizgi</td><td>İki nokta arasına düz çizgi çeker.</td><td><code>x1, y1, x2, y2</code></td></tr>
+        <tr><td><code>&lt;polyline&gt;</code></td><td>Çoklu Çizgi</td><td>Birden fazla noktayı birleştiren açık çizgi dizisi.</td><td><code>points</code></td></tr>
+        <tr><td><code>&lt;polygon&gt;</code></td><td>Çokgen</td><td>Kapalı şekil oluşturan çoklu nokta dizisi.</td><td><code>points</code></td></tr>
+        <tr><td><code>&lt;path&gt;</code></td><td>Yol</td><td>En güçlü eleman — her türlü şekli çizebilir (Bézier eğrileri dahil).</td><td><code>d</code> (path data)</td></tr>
+        <tr><td><code>&lt;text&gt;</code></td><td>Metin</td><td>Metin yerleştirir. Font, boyut, hizalama kontrol edilebilir.</td><td><code>x, y, font-size</code></td></tr>
+        <tr><td><code>&lt;g&gt;</code></td><td>Grup</td><td>Elemanları gruplar. Gruba dönüşüm (transform) uygulanabilir.</td><td><code>transform</code></td></tr>
+        <tr><td><code>&lt;defs&gt;</code></td><td>Tanımlar</td><td>Yeniden kullanılabilir bileşenler (gradient, pattern, filter) tanımlar.</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🔄 <code>&lt;path&gt;</code> Elemanı — SVG'nin Kalbi</h3>
+
+    <p>
+      <code>&lt;path&gt;</code> elemanı, SVG'nin en güçlü ve en esnek yapı taşıdır. <code>d</code> (data) niteliği
+      bir dizi <strong>komut</strong>tan oluşur. Inkscape'te çizdiğiniz her eğri, sonuçta bir <code>&lt;path&gt;</code> elemanına dönüşür.
+    </p>
+
+    <table class="comparison-table shortcut-table">
+      <thead><tr><th>Komut</th><th>Adı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>M x y</td><td>MoveTo (Taşı)</td><td>Kalemi kaldırıp (x, y) konumuna taşır. Çizim başlangıcı.</td></tr>
+        <tr><td>L x y</td><td>LineTo (Çizgi)</td><td>Mevcut noktadan (x, y) noktasına düz çizgi çeker.</td></tr>
+        <tr><td>H x</td><td>Horizontal (Yatay)</td><td>Yatay düz çizgi çeker, sadece x değişir.</td></tr>
+        <tr><td>V y</td><td>Vertical (Dikey)</td><td>Dikey düz çizgi çeker, sadece y değişir.</td></tr>
+        <tr><td>C x1 y1 x2 y2 x y</td><td>CurveTo (Kübik Bézier)</td><td>İki kontrol noktasıyla eğri çizer. En yaygın eğri türü.</td></tr>
+        <tr><td>S x2 y2 x y</td><td>Smooth Curve</td><td>Önceki C'nin simetrik devamı — pürüzsüz eğri.</td></tr>
+        <tr><td>Q x1 y1 x y</td><td>Quadratic Bézier</td><td>Tek kontrol noktalı eğri (daha basit).</td></tr>
+        <tr><td>A rx ry ...</td><td>Arc (Yay)</td><td>Eliptik yay çizer. Parametreleri karmaşıktır.</td></tr>
+        <tr><td>Z</td><td>ClosePath (Kapat)</td><td>Yolu başlangıç noktasına bağlayarak kapatır.</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 0.85rem; color: var(--text-secondary);">
+      💡 <strong>Büyük harf</strong> (M, L, C) = mutlak (absolute) koordinat. <strong>Küçük harf</strong> (m, l, c) = göreceli (relative) koordinat — mevcut noktaya göre yer değiştirme.
+    </p>
+
+    <div class="svg-demo-container">
+      <div class="demo-header">🎯 Path Komutu Örneği — Kalp Şekli</div>
+      <div class="demo-content">
+        <div class="demo-preview">
+          <svg viewBox="0 0 100 100" width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 50 90 C 25 70, 0 50, 10 30 C 20 10, 40 10, 50 30 C 60 10, 80 10, 90 30 C 100 50, 75 70, 50 90 Z"
+                  fill="#e74c3c" stroke="#c0392b" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="demo-code">
+<pre><code>&lt;path d="
+  M 50 90        &lt;!-- Başlangıç: alt uç --&gt;
+  C 25 70, 0 50, 10 30   &lt;!-- Sol eğri --&gt;
+  C 20 10, 40 10, 50 30  &lt;!-- Sol tepe --&gt;
+  C 60 10, 80 10, 90 30  &lt;!-- Sağ tepe --&gt;
+  C 100 50, 75 70, 50 90 &lt;!-- Sağ eğri --&gt;
+  Z                      &lt;!-- Kapat --&gt;
+"
+fill="#e74c3c"
+stroke="#c0392b"
+stroke-width="1"/&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">💡 Neden SVG kodunu bilmeli?</div>
+      <p>SVG kodunu anlamak, Inkscape'te <strong>XML Editörü</strong> ile hassas düzenlemeler yapmanızı, web projelerinizde SVG'yi doğrudan kullanmanızı ve hata ayıklamanızı kolaylaştırır. Oyun geliştirmede SVG, UI elemanları ve ölçeklenebilir asset'ler için kullanılır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 3: INKSCAPE JARGON -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="inkscape-jargon">3. Inkscape Terimleri Sözlüğü (Jargon) 📖</h2>
+
+    <p>
+      Inkscape (ve genel olarak vektör grafik yazılımları) birçok İngilizce terim kullanır. Bu terimleri anlamak,
+      hem Inkscape'i etkin kullanmak hem de diğer vektör araçlarına (Adobe Illustrator, Figma, Affinity Designer) geçiş yapmak için çok önemlidir.
+    </p>
+
+    <h3 id="jargon-arayuz-ink">🖥️ Arayüz Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Canvas</td><td>Tuval</td><td>Çizim yaptığınız ana alan. Beyaz dikdörtgen sayfa alanını, etrafı ise "taşma" (bleed) alanını gösterir.</td></tr>
+        <tr><td>Toolbox</td><td>Araç Kutusu</td><td>Sol taraftaki dikey çubuk. Seçim, çizim, şekil araçları burada bulunur.</td></tr>
+        <tr><td>Tool Controls Bar</td><td>Araç Kontrol Çubuğu</td><td>Seçili aracın parametrelerini gösteren yatay çubuk (üstte, menü altında).</td></tr>
+        <tr><td>Commands Bar</td><td>Komut Çubuğu</td><td>Sık kullanılan komutlara (kaydet, geri al, yakınlaştır) hızlı erişim çubuğu.</td></tr>
+        <tr><td>Color Palette</td><td>Renk Paleti</td><td>Ekranın altındaki renk örnekleri şeridi. Tıklayarak dolgu (fill) rengi değiştirilir.</td></tr>
+        <tr><td>Status Bar</td><td>Durum Çubuğu</td><td>En altta: seçili nesne bilgileri, köşe koordinatları, yakınlaştırma, ipuçları.</td></tr>
+        <tr><td>Docking Area</td><td>Yerleştirme Alanı</td><td>Sağ tarafta diyalogların (Fill & Stroke, Layers, vb.) yapıştığı panel alanı.</td></tr>
+        <tr><td>Snap Controls</td><td>Yapışma Kontrolleri</td><td>Mıknatıs simgesi — nesnelerin birbirine, kılavuzlara veya ızgaraya yapışmasını kontrol eder. Kısayol: <span class="kbd">%</span></td></tr>
+        <tr><td>Rulers</td><td>Cetveller</td><td>Tuvalin üstünde ve solundaki ölçü cetvelleri. Sürükleyerek kılavuz çizgisi (guide) oluşturulur.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="jargon-nesne-ink">📐 Nesne ve Çizim Terimleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Object</td><td>Nesne</td><td>Tuval üzerindeki herhangi bir öğe: şekil, yol, metin, grup, görüntü.</td></tr>
+        <tr><td>Shape</td><td>Şekil</td><td>Parametrik (düzenlenebilir) geometrik nesne — dikdörtgen, elips, yıldız, spiral.</td></tr>
+        <tr><td>Path</td><td>Yol</td><td>Düğümler (node) ve segmentlerden oluşan eğri/çizgi. En temel vektör yapı taşı.</td></tr>
+        <tr><td>Node</td><td>Düğüm</td><td>Yol üzerindeki kontrol noktası. Gri kare olarak görünür. Sürükleyerek şekil değiştirilir.</td></tr>
+        <tr><td>Handle</td><td>Tutamaç / Kol</td><td>Düğümden çıkan Bézier kontrol çubukları. Eğrinin yönünü ve keskinliğini belirler.</td></tr>
+        <tr><td>Segment</td><td>Parça / Segment</td><td>İki düğüm arasındaki çizgi veya eğri parçası.</td></tr>
+        <tr><td>Fill</td><td>Dolgu</td><td>Nesnenin iç rengi veya deseni. Düz renk, gradient veya desen olabilir.</td></tr>
+        <tr><td>Stroke</td><td>Kontur / Çizgi</td><td>Nesnenin dış çizgisi (kenar). Renk, kalınlık, çizgi stili ayarlanır.</td></tr>
+        <tr><td>Gradient</td><td>Degradé / Renk Geçişi</td><td>Bir renkten diğerine kademeli geçiş. Doğrusal (linear) veya dairesel (radial).</td></tr>
+        <tr><td>Pattern</td><td>Desen</td><td>Tekrarlayan motif ile dolgu. Inkscape'te hazır desenler ve özel desen desteği var.</td></tr>
+        <tr><td>Group</td><td>Grup</td><td>Birden fazla nesnenin tek birim olarak taşınıp düzenlenebilmesi. <span class="kbd">Ctrl+G</span></td></tr>
+        <tr><td>Clone</td><td>Klon</td><td>Orijinal nesneyle bağlantılı kopya. Orijinal değişince klon da değişir. <span class="kbd">Alt+D</span></td></tr>
+        <tr><td>Boolean Operation</td><td>Boolean İşlemi</td><td>İki yolu birleştirme, çıkarma, kesişim vb. işlemlerle birleştirme (Birleşim, Fark, Kesişim...).</td></tr>
+        <tr><td>Z-order</td><td>Z-sırası / Yığın Sırası</td><td>Nesnelerin üst üste sıralanma düzeni. Üstteki alttakini örter.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="jargon-dugum-ink">🔗 Düğüm Türleri</h3>
+    <table class="comparison-table jargon-table">
+      <thead><tr><th>İngilizce Terim</th><th>Türkçe Karşılığı</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Cusp Node</td><td>Köşe Düğümü</td><td>Tutamaçlar bağımsız hareket eder → keskin köşe. Kısayol: <span class="kbd">Shift+C</span></td></tr>
+        <tr><td>Smooth Node</td><td>Pürüzsüz Düğüm</td><td>Tutamaçlar aynı doğru üzerinde → pürüzsüz eğri. Kısayol: <span class="kbd">Shift+S</span></td></tr>
+        <tr><td>Symmetric Node</td><td>Simetrik Düğüm</td><td>Tutamaçlar aynı doğru + aynı uzunluk → mükemmel simetri. Kısayol: <span class="kbd">Shift+Y</span></td></tr>
+        <tr><td>Auto-smooth Node</td><td>Otomatik Pürüzsüz</td><td>Düğüm konumuna göre tutamaçlar otomatik ayarlanır. Kısayol: <span class="kbd">Shift+A</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 4: ARAYÜZ -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="arayuz">4. Inkscape Arayüzü 🖥️</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape-manuals.readthedocs.io/en/latest/interface.html" target="_blank">Inkscape Manuals — User Interface</a> ve
+      <a href="https://inkscape.org/doc/tutorials/basic/tutorial-basic.html" target="_blank">Inkscape Basic Tutorial</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/interface_areas.png"
+           alt="Inkscape arayüz alanları" loading="lazy">
+      <div class="img-caption">Inkscape arayüzünün temel alanları (Wide Screen görünümü)</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <p>Inkscape'in arayüzü şu ana bölümlerden oluşur:</p>
+
+    <div class="step-box">
+      <div class="step-num">① Menü Çubuğu (Menu Bar)</div>
+      <p>En üstte: <span class="ink-menu-path">File</span> <span class="ink-menu-path">Edit</span> <span class="ink-menu-path">View</span> <span class="ink-menu-path">Layer</span> <span class="ink-menu-path">Object</span> <span class="ink-menu-path">Path</span> <span class="ink-menu-path">Text</span> <span class="ink-menu-path">Filters</span> <span class="ink-menu-path">Extensions</span> <span class="ink-menu-path">Help</span> — Tüm komutlara buradan erişilir.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">② Araç Kontrol Çubuğu (Tool Controls Bar)</div>
+      <p>Menünün altındaki yatay çubuk. Seçili araca özgü ayarları içerir — örneğin dikdörtgen aracında köşe yuvarlaklığı (Rx, Ry), yıldız aracında köşe sayısı.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">③ Araç Kutusu (Toolbox)</div>
+      <p>Sol taraftaki dikey çubuk. Seçim aracı, şekil araçları, kalem, metin, degradé ve daha fazlası. Aynı anda yalnızca bir araç aktif olabilir.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">④ Tuval (Canvas)</div>
+      <p>Merkezdeki geniş çalışma alanı. Beyaz dikdörtgen = sayfa sınırları. Sayfa dışına da çizim yapabilirsiniz ancak dışa aktarımda (export) sayfa alanı baz alınır.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">⑤ Renk Paleti (Color Palette)</div>
+      <p>Alt kısımdaki renk örnekleri şeridi. Bir nesne seçiliyken renk örneklerine tıklayarak <strong>dolgu (fill)</strong> rengini, <span class="kbd">Shift</span>+tıklayarak <strong>kontur (stroke)</strong> rengini değiştirebilirsiniz.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">⑥ Durum Çubuğu (Status Bar)</div>
+      <p>En altta: seçili nesnenin dolgu/kontur renkleri, katman bilgisi, imleç koordinatları, zoom seviyesi ve anlık ipuçları (hint) gösterilir.</p>
+    </div>
+
+    <h3>🧭 Tuval Gezinme (Canvas Navigation)</h3>
+    <table class="comparison-table shortcut-table">
+      <thead><tr><th>Eylem</th><th>Kısayol</th></tr></thead>
+      <tbody>
+        <tr><td>Kaydırma (Pan)</td><td>Orta tuş sürükleme veya <span class="kbd">Ctrl</span>+Ok tuşları</td></tr>
+        <tr><td>Yakınlaştırma (Zoom In)</td><td><span class="kbd">+</span> veya <span class="kbd">Ctrl</span>+Tekerlek yukarı</td></tr>
+        <tr><td>Uzaklaştırma (Zoom Out)</td><td><span class="kbd">-</span> veya <span class="kbd">Ctrl</span>+Tekerlek aşağı</td></tr>
+        <tr><td>Sayfaya Sığdır</td><td><span class="kbd">5</span> (sayfa) veya <span class="kbd">3</span> (çizim)</td></tr>
+        <tr><td>Seçime Yakınlaş</td><td><span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">E</span></td></tr>
+        <tr><td>1:1 (Gerçek Piksel)</td><td><span class="kbd">1</span></td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 5: TEMEL ŞEKİLLER -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="temel-sekiller">5. Temel Şekiller (Shapes) 🔷</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape.org/doc/tutorials/shapes/tutorial-shapes.html" target="_blank">Inkscape Shapes Tutorial</a> ve
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/shape-tools.html" target="_blank">Inkscape Manuals — Shape Tools</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      Inkscape'te dört temel şekil aracı bulunur. Her biri <strong>parametrik</strong> nesneler oluşturur — yani
+      çizildikten sonra tutamaçlarla (handle) şekil düzenlenebilir, yola (path) dönüştürülmedikçe orijinal parametreler korunur.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/shape_tools_icons.png"
+           alt="Şekil araçları ikonları" loading="lazy" style="max-width: 300px;">
+      <div class="img-caption">Şekil araçları: Dikdörtgen, Yıldız/Çokgen, Elips, Spiral</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <h3>🟦 Dikdörtgen Aracı (Rectangle Tool) — <span class="kbd">R</span></h3>
+    <p>En yaygın kullanılan şekil. Tuval üzerine sürükleyerek oluşturulur.</p>
+
+    <ul>
+      <li><strong>Çizim kısayolları:</strong> <span class="kbd">Ctrl</span> = kare veya tam oran; <span class="kbd">Shift</span> = merkezden çiz</li>
+      <li><strong>Tutamaçlar:</strong> 2 adet <em>yuvarlama tutamacı</em> (rounding handle — sağ üst köşe), 2 adet <em>boyutlandırma tutamacı</em> (resize handle — sol üst ve sağ alt)</li>
+      <li><strong>Köşe yuvarlama:</strong> Yuvarlama tutamacını aşağı sürükleyin → dairesel köşeler. İkinci tutamacı hareket ettirin → eliptik köşeler. <span class="kbd">Ctrl</span>+sürükleme = dairesel kalır. <span class="kbd">Shift</span>+tıklama = yuvarlama sıfırlanır.</li>
+      <li><strong>Rx / Ry:</strong> Araç Kontrol Çubuğu'nda köşe yarıçaplarını sayısal olarak girebilirsiniz.</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">💡 "Scale rounded corners" seçeneği</div>
+      <p>Seçim aracındaki bu onay kutusu: <strong>KAPALI</strong> = ölçeklerken köşe yarıçapı sabit kalır (UI butonları için ideal). <strong>AÇIK</strong> = köşeler dikdörtgenle birlikte büyür/küçülür.</p>
+    </div>
+
+    <h3>🔵 Elips Aracı (Ellipse Tool) — <span class="kbd">E</span></h3>
+    <p>Elips, daire, yay (arc) ve dilim (segment) oluşturur.</p>
+
+    <ul>
+      <li><strong>Çizim kısayolları:</strong> <span class="kbd">Ctrl</span> = daire; <span class="kbd">Shift</span> = merkezden çiz</li>
+      <li><strong>Tutamaçlar:</strong> 2 adet boyutlandırma tutamacı + 2 adet "açık tutamaç" (üst üste biner)</li>
+      <li><strong>Segment (dilim):</strong> Açık tutamacı elipsin <em>dışına</em> doğru sürükleyin → pasta dilimi şekli</li>
+      <li><strong>Yay (arc):</strong> Açık tutamacı elipsin <em>içine</em> doğru sürükleyin → açık yay (stroke uçları birleşmez)</li>
+      <li><span class="kbd">Ctrl</span>+sürükleme = 15° adımlarla yakalama. <span class="kbd">Shift</span>+tıklama = tam elipse dönüş.</li>
+    </ul>
+
+    <h3>⭐ Yıldız / Çokgen Aracı (Star Tool) — <span class="kbd">*</span></h3>
+    <p>Inkscape'in en karmaşık ve yaratıcı şekil aracı. İki mod sunar: <strong>yıldız</strong> ve <strong>çokgen (polygon)</strong>.</p>
+
+    <ul>
+      <li><strong>Köşe sayısı (Corners):</strong> Araç Kontrol Çubuğu'nda: yıldız için 2–1024, çokgen için 3–1024</li>
+      <li><strong>Yıldız modu:</strong> 2 tutamaç — <em>tepe tutamacı</em> (vertex → ışın uzunluğu, döndürme) ve <em>içbükey tutamaç</em> (concave → içe çökme, eğrilik)</li>
+      <li><strong>Spoke ratio (Işın oranı):</strong> İçbükey/tepe tutamaç mesafe oranı. Kontrol çubuğunda ayarlanabilir.</li>
+      <li><strong>Yuvarlama (Rounding):</strong> <span class="kbd">Shift</span>+sürükleme (teğetsel). 0.2–0.4 arası normal yuvarlama, daha yüksek değerler ilginç desenler oluşturur.</li>
+      <li><strong>Rastgeleleştirme (Randomization):</strong> <span class="kbd">Alt</span>+sürükleme. Her konum benzersiz bir rastgele sonuç verir. <span class="kbd">Alt</span>+tıklama = sıfırla.</li>
+    </ul>
+
+    <h3>🌀 Spiral Aracı (Spiral Tool) — <span class="kbd">I</span></h3>
+    <p>Merkezden dışarı doğru spiral çizer.</p>
+
+    <ul>
+      <li><strong>Dış tutamaç:</strong> Sürükleme = sarma/açma. <span class="kbd">Shift</span>+sürükleme = ölçekleme+döndürme. <span class="kbd">Alt</span>+sürükleme = yarıçapı kilitleyerek sarma.</li>
+      <li><strong>İç tutamaç:</strong> <span class="kbd">Alt</span>+dikey sürükleme = yakınsama/ıraksama. <span class="kbd">Shift</span>+tıklama = merkeze taşı.</li>
+      <li><strong>Divergence (Sapma):</strong> 1 = düzgün; &lt;1 = çevrede yoğun; &gt;1 = merkezde yoğun.</li>
+      <li><strong>Maks. tur:</strong> 1024'e kadar. Noktalı kontur stili ile moiré desenleri oluşturulabilir.</li>
+    </ul>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/create_shapes.png"
+           alt="Oluşturulan şekiller ve tutamaçları" loading="lazy" style="max-width: 500px;">
+      <div class="img-caption">Elips, dikdörtgen ve yıldız — tutamaçlar (handle) görünür durumda</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 6: SEÇME VE DÖNÜŞTÜRME -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="secme-donusturme">6. Seçme ve Dönüştürme (Select & Transform) ↕️</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape.org/doc/tutorials/basic/tutorial-basic.html" target="_blank">Inkscape Basic Tutorial</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      <strong>Seçim Aracı (Selector Tool)</strong> — kısayol: <span class="kbd">S</span> veya <span class="kbd">F1</span> — Inkscape'te en çok kullanılan araçtır.
+      Nesneleri seçmek, taşımak, ölçeklemek, döndürmek ve eğmek için kullanılır.
+    </p>
+
+    <h3>🖱️ Seçme Yöntemleri</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Yöntem</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Tıklama</td><td>Nesneye tıklayarak seçin. Önceki seçim kalkar.</td></tr>
+        <tr><td><span class="kbd">Shift</span>+tıklama</td><td>Çoklu seçim — seçime ekle veya seçimden çıkar.</td></tr>
+        <tr><td>Lastik bant (Rubberband)</td><td>Boş alandan sürükleyerek dikdörtgen seçim alanı oluşturun.</td></tr>
+        <tr><td><span class="kbd">Alt</span>+tıklama</td><td>Üst üste yığılmış nesnelerde aşağıdakine seçim geçişi.</td></tr>
+        <tr><td><span class="kbd">Ctrl</span>+<span class="kbd">A</span></td><td>Tümünü seç (tüm katmanlardaki tüm nesneler).</td></tr>
+        <tr><td><span class="kbd">Tab</span></td><td>Z-sırasında bir sonraki nesneye geç. <span class="kbd">Shift+Tab</span> = bir önceki.</td></tr>
+        <tr><td><span class="kbd">Esc</span></td><td>Seçimi tamamen kaldır.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>↔️ Taşıma, Ölçekleme, Döndürme</h3>
+    <p>Bir nesne seçildiğinde etrafında <strong>8 adet ok tutamacı</strong> belirir:</p>
+
+    <div class="step-box">
+      <div class="step-num">İlk tıklama → Ölçekleme (Scale) Modu</div>
+      <p>Köşe ve kenar tutamaçlarını sürükleyerek boyut değiştirin. <span class="kbd">Ctrl</span> = oranı koru. Araç Kontrol Çubuğu'nda sayısal genişlik/yükseklik değerleri görünür.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">İkinci tıklama → Döndürme (Rotate) ve Eğme (Skew) Modu</div>
+      <p>Köşe tutamaçları → döndürme (<span class="kbd">Ctrl</span> = 15° adım). Kenar tutamaçları → eğme (skew). Merkezdeki artı işareti = döndürme merkezi (pivot) — sürüklenebilir.</p>
+    </div>
+
+    <h3>⌨️ Klavye ile Dönüşüm</h3>
+    <table class="comparison-table shortcut-table">
+      <thead><tr><th>Kısayol</th><th>İşlem</th></tr></thead>
+      <tbody>
+        <tr><td>Ok tuşları</td><td>2 px taşıma (<span class="kbd">Shift</span> = 20 px)</td></tr>
+        <tr><td><span class="kbd">&lt;</span> / <span class="kbd">&gt;</span></td><td>Küçült / Büyüt (<span class="kbd">Alt</span> = 1 piksel hassasiyet)</td></tr>
+        <tr><td><span class="kbd">[</span> / <span class="kbd">]</span></td><td>Saat yönünün tersine / yönünde 15° döndür (<span class="kbd">Alt</span> = 1 piksel hassasiyet)</td></tr>
+        <tr><td><span class="kbd">Ctrl</span>+<span class="kbd">D</span></td><td>Kopyala (Duplicate) — aynı konumda üste kopyalar</td></tr>
+        <tr><td><span class="kbd">Home</span></td><td>En üste çıkar (Raise to top)</td></tr>
+        <tr><td><span class="kbd">End</span></td><td>En alta indir (Lower to bottom)</td></tr>
+        <tr><td><span class="kbd">PgUp</span></td><td>Bir üste çıkar (Raise)</td></tr>
+        <tr><td><span class="kbd">PgDn</span></td><td>Bir alta indir (Lower)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🔗 Gruplama (Grouping)</h3>
+    <p>
+      Birden fazla nesneyi seçip <span class="kbd">Ctrl</span>+<span class="kbd">G</span> ile grup yapın — artık tek birim gibi taşınır ve dönüştürülür.
+      <span class="kbd">Ctrl</span>+<span class="kbd">U</span> ile grubu çözün (Ungroup).
+      <span class="kbd">Ctrl</span>+tıklama veya çift tıklama ile grubun içine "girerek" tek bir öğeyi seçebilirsiniz.
+    </p>
+
+    <h3>📐 Hizalama ve Dağıtma (Align & Distribute)</h3>
+    <p>
+      <span class="ink-menu-path">Object → Align and Distribute...</span> veya <span class="kbd">Shift+Ctrl+A</span> diyaloğu açılır.
+      Seçili nesneleri yatay/dikey olarak ortalayabilir, eşit aralıklı dağıtabilirsiniz. Referans noktası olarak
+      "İlk seçilen", "Son seçilen", "En büyük nesne" veya "Sayfa" seçilebilir.
+    </p>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 7: DOLGU VE KONTUR -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="dolgu-kontur">7. Dolgu ve Kontur (Fill & Stroke) 🎨</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape-manuals.readthedocs.io/en/latest/fill-and-stroke-dialog.html" target="_blank">Inkscape Manuals — Fill and Stroke Dialog</a> ve
+      <a href="https://inkscape.org/doc/tutorials/basic/tutorial-basic.html" target="_blank">Inkscape Basic Tutorial</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      Her Inkscape nesnesinin iki görsel bileşeni vardır: <strong>Dolgu (Fill)</strong> — iç alan; ve <strong>Kontur (Stroke)</strong> — dış kenar çizgisi.
+      Bunları kontrol eden ana diyalog: <span class="ink-menu-path">Object → Fill and Stroke...</span> veya <span class="kbd">Shift+Ctrl+F</span>.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/fill_and_stroke_dialog-fill_tab.png"
+           alt="Fill and Stroke diyaloğu — Dolgu sekmesi" loading="lazy" style="max-width: 400px;">
+      <div class="img-caption">Fill and Stroke diyaloğu — Dolgu (Fill) sekmesi ile düz renk seçimi</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <h3>🖌️ Dolgu Türleri (Paint Types)</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Simge</th><th>İngilizce</th><th>Türkçe</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>✕</td><td>No Paint</td><td>Dolgu Yok</td><td>Nesnenin iç alanı tamamen boş (şeffaf).</td></tr>
+        <tr><td>■</td><td>Flat/Solid Color</td><td>Düz Renk</td><td>Tek renk ile doldurma. RGB, HSL, CMYK veya Tekerlek seçicilerden biri kullanılır.</td></tr>
+        <tr><td>▬</td><td>Linear Gradient</td><td>Doğrusal Degradé</td><td>Bir çizgi boyunca renkten renge geçiş. Tutamaçlarla yön ve konum ayarlanır.</td></tr>
+        <tr><td>◉</td><td>Radial Gradient</td><td>Dairesel Degradé</td><td>Merkezden dışa doğru renkten renge geçiş (güneş ışığı etkisi).</td></tr>
+        <tr><td>◆</td><td>Mesh Gradient</td><td>Ağ Degradési</td><td>4 köşeli ızgara ile çok noktalı karmaşık renk geçişi. İleri seviye.</td></tr>
+        <tr><td>▦</td><td>Pattern</td><td>Desen</td><td>Tekrarlayan motifle doldurma. Inkscape'te hazır desenler mevcut.</td></tr>
+        <tr><td>▣</td><td>Swatch</td><td>Renk Kartelası</td><td>Belge genelinde yeniden kullanılabilir renk tanımı (değiştirince tümü güncellenir).</td></tr>
+      </tbody>
+    </table>
+
+    <h3>✏️ Kontur Stili (Stroke Style)</h3>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/fill_and_stroke_dialog-stroke_style_tab.png"
+           alt="Stroke Style sekmesi" loading="lazy" style="max-width: 400px;">
+      <div class="img-caption">Kontur stili sekmesi — genişlik, çizgi deseni, köşe ve uç tipi ayarları</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <p>Kontur stili sekmesinde ayarlayabileceğiniz özellikler:</p>
+    <ul>
+      <li><strong>Width (Genişlik):</strong> Kontur kalınlığı (px, mm, pt, vb. birimlerle)</li>
+      <li><strong>Dash Pattern (Çizgi Deseni):</strong> Düz, kesikli, noktalı, kesik-noktalı gibi çizgi stilleri</li>
+      <li><strong>Join (Köşe Tipi):</strong> Miter (sivri), Round (yuvarlak), Bevel (pahlanmış) — iki çizginin köşede buluşma şekli</li>
+      <li><strong>Cap (Uç Tipi):</strong> Butt (düz), Round (yuvarlak), Square (kare) — açık yolların uç biçimi</li>
+      <li><strong>Markers (İşaretçiler):</strong> Yolun başına, ortasına veya sonuna ok ucu, daire, kare gibi semboller ekler</li>
+    </ul>
+
+    <h3>🎯 Hızlı Renk Değiştirme</h3>
+    <ul>
+      <li><strong>Renk paleti (altta):</strong> Nesne seçili → renk örneğine tıkla = dolgu değişir. <span class="kbd">Shift</span>+tıkla = kontur değişir.</li>
+      <li><strong>Damlalık (Dropper) — <span class="kbd">D</span>:</strong> Tuval üzerindeki herhangi bir renkten örnek alır.</li>
+      <li><strong>Renk tekerleği:</strong> Fill & Stroke diyaloğu → HSL sekmesi → "Wheel" renk seçici ile sezgisel renk seçimi.</li>
+      <li><strong>Alpha (Saydamlık):</strong> Her renk seçicide en alttaki <strong>A</strong> kaydırıcısı = saydamlık (0 = şeffaf, 255 = opak). Diyaloğun altındaki <strong>Opacity</strong> ise tüm nesne saydamlığı.</li>
+    </ul>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 8: RENKLER VE DEGRADELER -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="renkler-degradeler">8. Renkler ve Degradeler (Colors & Gradients) 🌈</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape-manuals.readthedocs.io/en/latest/creating-gradients.html" target="_blank">Inkscape Manuals — Creating Gradients</a> ve
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/color.html" target="_blank">Inkscape Manuals — Colors</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <p>Renkler, vektör grafiklerin görsel etkisinin en önemli unsurudur. Inkscape'te renk seçimi için çeşitli yöntemler kullanılır:</p>
+
+    <h3>🎨 Renk Seçiciler (Color Pickers)</h3>
+    <p>Fill & Stroke diyaloğundaki renk seçici sekmeleri:</p>
+    <ul>
+      <li><strong>RGB:</strong> Kırmızı (Red), Yeşil (Green), Mavi (Blue) — 0–255 arası değerler. Web'de en yaygın.</li>
+      <li><strong>HSL:</strong> Renk Tonu (Hue), Doygunluk (Saturation), Parlaklık (Lightness) — sezgisel renk seçimi için ideal.</li>
+      <li><strong>CMYK:</strong> Baskı renk modeli — Cyan, Magenta, Yellow, Key (siyah). Baskı için.</li>
+      <li><strong>Wheel:</strong> HSL'nin tekerlek versiyonu — tonu daire üzerinden, doygunluk ve parlaklığı üçgenden seçersiniz.</li>
+      <li><strong>Hex kodu:</strong> Alt kısımdaki <code>RRGGBBAA</code> giriş kutusu — web renk kodlarını doğrudan yapıştırabilirsiniz.</li>
+    </ul>
+
+    <h3>🔀 Degradé Aracı (Gradient Tool) — <span class="kbd">G</span></h3>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/gradient_tool_linear.png"
+           alt="Doğrusal degradé tutamaçları" loading="lazy" style="max-width: 500px;">
+      <div class="img-caption">Doğrusal degradé — kare tutamaç (başlangıç) ve daire tutamaç (bitiş) mavi çizgiyle bağlı</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 1: Degradé Oluşturma</div>
+      <p>Nesne seçili → <span class="kbd">G</span> tuşuyla Degradé Aracı'na geçin → nesne üzerinde sürükleyin. Varsayılan: 2 duraklı (stop) doğrusal degradé — opaktan şeffafa.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 2: Tutamaçları Düzenleme</div>
+      <p>Kare tutamaç = başlangıç rengi, daire tutamaç = bitiş rengi. Tutamaçları sürükleyerek yön ve konum değiştirin. Tutamaca tıklayıp Fill & Stroke'ta rengini değiştirin.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 3: Ara Duraklar (Stops) Ekleme</div>
+      <p>Mavi çizgi üzerinde çift tıklayın → yeni durak noktası (elmas şekilli tutamaç) eklenir. Her durağa farklı renk atayabilirsiniz.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">Adım 4: Doğrusal ↔ Dairesel Dönüşüm</div>
+      <p>Fill & Stroke diyaloğundaki "Linear Gradient" / "Radial Gradient" düğmeleriyle tür değiştirin. Dairesel degradéde merkez, odak ve yarıçap tutamaçları belirir.</p>
+    </div>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/gradient_tool_radial_fill.png"
+           alt="Dairesel degradé örneği" loading="lazy" style="max-width: 400px;">
+      <div class="img-caption">Dairesel (radial) degradé — merkez kare, iki kolda daire tutamaçları</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 9: YOLLAR VE DÜĞÜMLER -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="yollar-dugumler">9. Yollar ve Düğümler (Paths & Nodes) ✏️</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html" target="_blank">Inkscape Advanced Tutorial</a>,
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/pen-tool.html" target="_blank">Pen Tool</a> ve
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/pencil-tool.html" target="_blank">Pencil Tool</a> belgelerinden uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      <strong>Yol (Path)</strong>, vektör grafiğin temel yapı taşıdır — düz çizgiler ve/veya Bézier eğrilerinden oluşan bir seridir.
+      Inkscape'te çizdiğiniz şekiller sonuçta birer yola dönüştürülebilir (<span class="ink-menu-path">Path → Object to Path</span> → <span class="kbd">Shift+Ctrl+C</span>).
+      Yol düzenleme çok güçlü ve esnektir — her düğümü, tutamacı ve segmenti tek tek kontrol edebilirsiniz.
+    </p>
+
+    <h3>✒️ Kalem Aracı (Pen / Bézier Tool) — <span class="kbd">B</span></h3>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/pen_tool_usage.png"
+           alt="Kalem aracı kullanımı" loading="lazy" style="max-width: 500px;">
+      <div class="img-caption">Kalem (Pen) aracı ile düğüm yerleştirme — tıklama + sürükleme ile eğri oluşturma</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <ul>
+      <li><strong>Tıklama:</strong> Keskin düğüm (sharp node) oluşturur — düz çizgi segmentleri.</li>
+      <li><strong>Tıklama + sürükleme:</strong> Pürüzsüz Bézier düğümü oluşturur — eğri segmentleri. Sürükleme yönü eğrinin yönünü belirler.</li>
+      <li><span class="kbd">Shift</span>+sürükleme: Sadece bir tutamacı döndürür (diğerinden bağımsız).</li>
+      <li><span class="kbd">Ctrl</span>: Yönü 15° adımlarla sınırlar.</li>
+      <li><span class="kbd">Enter</span>: Yolu sonlandır. <span class="kbd">Esc</span>: İptal. <span class="kbd">Backspace</span>: Son segmenti sil.</li>
+      <li>Yol uçlarına tıklayarak devam edebilir veya yolu kapatabilirsiniz.</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">💡 Stratejik Düğüm Yerleştirme</div>
+      <p>Çok fazla düğüm → düzenlenmesi zor. Çok az düğüm → şeklin ince detayları eksik.
+      İdeal yaklaşım: <strong>önce kaba şekli az düğümle oluşturun → ardından düğümleri hassas konumlara taşıyın → segmentleri eğriye dönüştürün → son ayarlamalar.</strong></p>
+    </div>
+
+    <h3>✏️ Kurşunkalem Aracı (Pencil / Freehand Tool) — <span class="kbd">P</span></h3>
+    <p>Serbest çizim aracı — fareyi basılı tutarak sürükleyin, serbest bırakınca yol oluşur.</p>
+
+    <ul>
+      <li><strong>Smoothing (Yumuşatma):</strong> Araç kontrollerindeki kaydırıcı — yüksek değer = daha az düğüm, daha pürüzsüz çizgi.</li>
+      <li><strong>Shape (Şekil):</strong> Açılır menüde: None, Triangle in/out, Ellipse, From clipboard. Çizgiye otomatik kalınlık/şekil verir.</li>
+      <li><strong>3 çizim modu:</strong> Bézier yolu, Spiro yolu (akıcı S-eğrileri), B-Spline yolu.</li>
+    </ul>
+
+    <h3>🔧 Düğüm Aracı (Node Tool) — <span class="kbd">N</span></h3>
+    <p>Mevcut yolların düğümlerini ve segmentlerini düzenlemek için kullanılır. <strong>Vektör düzenlemenin en güçlü aracı.</strong></p>
+
+    <table class="comparison-table shortcut-table">
+      <thead><tr><th>Kısayol</th><th>İşlem</th></tr></thead>
+      <tbody>
+        <tr><td>Tıklama</td><td>Düğüm seç (gri kare). <span class="kbd">Shift</span>+tıklama = çoklu seçim.</td></tr>
+        <tr><td>Çift tıklama (yol üzeri)</td><td>Yeni düğüm ekle.</td></tr>
+        <tr><td><span class="kbd">Del</span></td><td>Seçili düğümleri sil (şekli korumaya çalışır).</td></tr>
+        <tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Del</span></td><td>Düğüm sil, her zaman şekli koru.</td></tr>
+        <tr><td><span class="kbd">Shift</span>+<span class="kbd">D</span></td><td>Düğümü çoğalt (duplicate).</td></tr>
+        <tr><td><span class="kbd">Shift</span>+<span class="kbd">B</span></td><td>Yolu seçili düğümde kır (break).</td></tr>
+        <tr><td><span class="kbd">Shift</span>+<span class="kbd">J</span></td><td>İki uç düğümü birleştir (join).</td></tr>
+        <tr><td><span class="kbd">Shift</span>+<span class="kbd">C</span></td><td>Seçili düğümü köşe (cusp) yap.</td></tr>
+        <tr><td><span class="kbd">Shift</span>+<span class="kbd">S</span></td><td>Seçili düğümü pürüzsüz (smooth) yap.</td></tr>
+        <tr><td><span class="kbd">Shift</span>+<span class="kbd">Y</span></td><td>Seçili düğümü simetrik (symmetric) yap.</td></tr>
+        <tr><td><span class="kbd">Shift</span>+<span class="kbd">A</span></td><td>Seçili düğümü otomatik pürüzsüz (auto-smooth) yap.</td></tr>
+        <tr><td><span class="kbd">Ctrl</span>+tıklama (tutamaç)</td><td>Tutamacı geri çek (retract).</td></tr>
+        <tr><td><span class="kbd">Shift</span>+sürükleme (düğümden)</td><td>Tutamacı dışarı çek (pull out).</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🔄 Şekilden Yola Dönüştürme</h3>
+    <p>
+      <span class="ink-menu-path">Path → Object to Path</span> (<span class="kbd">Shift+Ctrl+C</span>) — dikdörtgen, elips, yıldız gibi şekilleri yola dönüştürür.
+      <strong>Dikkat:</strong> Bu işlem geri alınamaz (undo hariç) — şekil parametrik düzenleme yeteneğini kaybeder, ancak düğüm bazında tam kontrol kazanır.
+    </p>
+
+    <p>
+      <span class="ink-menu-path">Path → Stroke to Path</span> — konturun kendisini dolgulu bir yola dönüştürür. Metin efektleri ve özel kontur şekilleri için kullanışlıdır.
+    </p>
+
+    <div class="svg-demo-container">
+      <div class="demo-header">🎯 Bézier Eğri Türleri — Düğüm Karşılaştırması</div>
+      <div class="demo-content">
+        <div class="demo-preview" style="flex-direction: column; gap: 0.5rem;">
+          <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Cusp Node Example -->
+            <path d="M 30 150 C 30 50, 80 50, 100 100 C 120 150, 170 150, 170 50" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+            <circle cx="100" cy="100" r="5" fill="#e74c3c"/>
+            <text x="100" y="195" text-anchor="middle" font-size="11" fill="#e74c3c" font-weight="bold">Cusp (Köşe)</text>
+
+            <!-- Smooth Node Example -->
+            <path d="M 200 150 C 200 50, 230 80, 250 100 S 300 150, 300 50" fill="none" stroke="#3498db" stroke-width="2.5"/>
+            <circle cx="250" cy="100" r="5" fill="#3498db"/>
+            <text x="250" y="195" text-anchor="middle" font-size="11" fill="#3498db" font-weight="bold">Smooth (Pürüzsüz)</text>
+          </svg>
+        </div>
+        <div class="demo-code">
+<pre><code>&lt;!-- Köşe (Cusp) düğüm:
+     Tutamaçlar BAĞIMSIZ hareket eder.
+     Keskin geçişler için kullanılır.
+     Kısayol: Shift+C --&gt;
+
+&lt;path d="M 30 150
+  C 30 50, 80 50, 100 100
+  C 120 150, 170 150, 170 50"
+  stroke="#e74c3c"/&gt;
+
+&lt;!-- Pürüzsüz (Smooth) düğüm:
+     Tutamaçlar AYNI DOĞRU üzerinde.
+     Akıcı eğriler için kullanılır.
+     Kısayol: Shift+S --&gt;
+
+&lt;path d="M 200 150
+  C 200 50, 230 80, 250 100
+  S 300 150, 300 50"
+  stroke="#3498db"/&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 10: BOOLEAN İŞLEMLERİ -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="boolean-islemleri">10. Boolean İşlemleri (Path Operations) ⚙️</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html" target="_blank">Inkscape Advanced Tutorial</a> ve
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/boolean-operations.html" target="_blank">Inkscape Manuals — Boolean Operations</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      Boolean işlemleri, iki veya daha fazla yolu birleştirerek yeni şekiller oluşturmanızı sağlar.
+      <strong>Z-sırası önemlidir</strong> — en alttaki nesne "hedef" (base) olur, üstteki "araç" (tool) olur.
+      Sonuçta oluşan yol, alt nesnenin dolgu ve kontur stilini alır.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/boolean_union.png"
+           alt="Boolean Union örneği" loading="lazy" style="max-width: 500px;">
+      <div class="img-caption">Boolean Birleşim (Union) — iki daire birleşerek tek şekil oluşturur</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <table class="comparison-table">
+      <thead><tr><th>İşlem</th><th>Kısayol</th><th>Türkçe</th><th>Ne Yapar?</th></tr></thead>
+      <tbody>
+        <tr><td>Union</td><td><span class="kbd">Ctrl</span>+<span class="kbd">+</span></td><td>Birleşim</td><td>Tüm nesnelerin alanını birleştirir → tek şekil. Küme birleşimi (A ∪ B).</td></tr>
+        <tr><td>Difference</td><td><span class="kbd">Ctrl</span>+<span class="kbd">-</span></td><td>Fark</td><td>Üst nesneyi alt nesneden çıkarır. Küme farkı (A − B). Yalnızca 2 nesne.</td></tr>
+        <tr><td>Intersection</td><td><span class="kbd">Ctrl</span>+<span class="kbd">*</span></td><td>Kesişim</td><td>Sadece nesnelerin ortak alanını bırakır. Küme kesişimi (A ∩ B).</td></tr>
+        <tr><td>Exclusion</td><td><span class="kbd">Ctrl</span>+<span class="kbd">^</span></td><td>Dışlama</td><td>Ortak alan hariç tüm alanı bırakır. Simetrik fark (A △ B). Yalnızca 2 nesne.</td></tr>
+        <tr><td>Division</td><td><span class="kbd">Ctrl</span>+<span class="kbd">/</span></td><td>Bölme</td><td>Üst nesne alt nesneyi keser — iki parçaya ayırır. Her iki parça da kalır.</td></tr>
+        <tr><td>Cut Path</td><td><span class="kbd">Ctrl</span>+<span class="kbd">Alt</span>+<span class="kbd">/</span></td><td>Yol Kesme</td><td>Sadece konturu keser (dolguyu kaldırır). Sonuç: açık yol parçaları.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/boolean_difference.png"
+           alt="Boolean Difference örneği" loading="lazy" style="max-width: 500px;">
+      <div class="img-caption">Boolean Fark (Difference) — üstteki nesne (araç) alttakinden çıkarılır → delik oluşur</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <h3>🔗 Birleştirme ve Parçalama (Combine & Break Apart)</h3>
+
+    <p>
+      <span class="ink-menu-path">Path → Combine</span> (<span class="kbd">Ctrl+K</span>) — birden fazla yolu tek bir <em>bileşik yol</em> (compound path) haline getirir.
+      Boolean'dan farkı: şekiller kesilmez, sadece tek XML nesnesine dönüşür. Çakışan dolgulu alanlar şeffaf olur (delik etkisi).
+    </p>
+    <p>
+      <span class="ink-menu-path">Path → Break Apart</span> (<span class="kbd">Ctrl+Shift+K</span>) — bileşik yolu alt yollarına (subpath) ayırır.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/boolean_combine_break_apart.png"
+           alt="Combine ve Break Apart" loading="lazy" style="max-width: 500px;">
+      <div class="img-caption">Combine: çakışan alan şeffaf olur (sol). Break Apart: ayrı nesnelere bölünür (sağ).</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <h3>📏 İçe / Dışa Kaydırma (Inset & Outset)</h3>
+    <p>
+      <span class="ink-menu-path">Path → Inset</span> (<span class="kbd">Ctrl+(</span>) ve <span class="ink-menu-path">Path → Outset</span> (<span class="kbd">Ctrl+)</span>) —
+      yolu her noktada dik yönde içe veya dışa kaydırır. Benzer ama daha esnek versiyonlar:
+    </p>
+    <ul>
+      <li><strong>Dynamic Offset</strong> (<span class="kbd">Ctrl+J</span>): Sürüklenebilir tutamaçla ayarlanır, orijinal yol hatırlanır.</li>
+      <li><strong>Linked Offset:</strong> Kaynak yol düzenlenebilir kalır, offset ona bağlı olarak güncellenir.</li>
+    </ul>
+
+    <h3>🧹 Sadeleştirme (Simplify) — <span class="kbd">Ctrl+L</span></h3>
+    <p>
+      Seçili yolun düğüm sayısını azaltır, ancak şekli korumaya çalışır. Hızlıca art arda <span class="kbd">Ctrl+L</span> basılırsa
+      eşik değeri artar — köşeler "erir", organik şekiller oluşur. Belirli bir süre durursanız eşik sıfırlanır.
+    </p>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 11: METİN -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="metin">11. Metin Araçları (Text) 🔤</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html" target="_blank">Inkscape Advanced Tutorial</a> ve
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/text.html" target="_blank">Inkscape Manuals — Text</a>'ten uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      <strong>Metin Aracı (Text Tool)</strong> — kısayol: <span class="kbd">T</span>. Tuval üzerine tıklayıp yazmaya başlayın.
+      Inkscape'te iki tür metin nesnesi vardır:
+    </p>
+
+    <div class="comparison-row">
+      <div class="card" style="border-top: 3px solid var(--accent-1);">
+        <h3 style="margin-top: 0; color: var(--accent-1);">📝 Normal Metin</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Tuval üzerine tıklayıp yazın. Satır uzunluğu sınırsız — sadece <code>Enter</code> ile yeni satır.</p>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent-2);">
+        <h3 style="margin-top: 0; color: var(--accent-2);">📦 Akış Metni (Flow Text)</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Sürükleyerek metin kutusu oluşturun. Metin otomatik olarak kutu genişliğinde satır sarar (word wrap).</p>
+      </div>
+    </div>
+
+    <h3>⚙️ Metin Biçimlendirme</h3>
+    <p>
+      <span class="ink-menu-path">Text → Text and Font...</span> (<span class="kbd">Shift+Ctrl+T</span>) diyaloğu ile yazı tipi (font), boyut, kalınlık, stil (italic, bold) ayarlanır.
+    </p>
+
+    <h3>✨ İleri Metin Teknikleri</h3>
+
+    <table class="comparison-table shortcut-table">
+      <thead><tr><th>Kısayol</th><th>İşlem</th></tr></thead>
+      <tbody>
+        <tr><td><span class="kbd">Alt</span>+<span class="kbd">&lt;</span> / <span class="kbd">&gt;</span></td><td>Harf aralığını (letter spacing) daralt/genişlet (zoom seviyesine göre 1 px).</td></tr>
+        <tr><td><span class="kbd">Alt</span>+Ok tuşları</td><td>İmleç konumunda elle kerning — harfler arası mikro boşluk ayarı.</td></tr>
+        <tr><td><span class="kbd">Ctrl</span>+<span class="kbd">Alt</span>+<span class="kbd">&lt;</span> / <span class="kbd">&gt;</span></td><td>Satır aralığını (line spacing) daralt/genişlet.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📐 Metin → Yola Dönüştürme</h3>
+    <p>
+      <span class="ink-menu-path">Path → Object to Path</span> (<span class="kbd">Shift+Ctrl+C</span>) — metni düğümlerden oluşan bir yola dönüştürür.
+      Bu sayede her harfin şeklini düğüm bazında düzenleyebilirsiniz. <strong>Dikkat:</strong> Bu işlemden sonra metin artık metin olarak düzenlenemez!
+      Logo tasarımında, özel tipografide ve metin deformasyonlarında kullanılır.
+    </p>
+
+    <h3>🔄 Yol Üzerinde Metin (Text on Path)</h3>
+    <p>
+      Önce bir yol çizin (kalem veya şekil aracıyla), ardından metni ve yolu birlikte seçin ve
+      <span class="ink-menu-path">Text → Put on Path</span> komutunu uygulayın. Metin yolun şeklini takip eder!
+      Daire, dalga veya herhangi bir eğriye metin yazabilirsiniz.
+    </p>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 12: BİTMAP İZLEME -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="izleme">12. Bitmap İzleme (Trace Bitmap) 🖼️→✏️</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape-manuals.readthedocs.io/en/latest/tracing-an-image.html" target="_blank">Inkscape Manuals — Tracing an Image</a> ve
+      <a href="https://inkscape.org/doc/tutorials/tracing/tutorial-tracing.html" target="_blank">Inkscape Bitmap Tracing Tutorial</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      <strong>Bitmap İzleme (Trace Bitmap)</strong>, bir raster görüntüyü (JPEG, PNG) otomatik olarak vektör yollarına dönüştürme işlemidir.
+      İngilizce'de "vectorization" (vektörleştirme) da denir.
+      <span class="ink-menu-path">Path → Trace Bitmap...</span> veya <span class="kbd">Shift+Alt+B</span>.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/tracing_outline_centerline.png"
+           alt="İzleme türleri: dış hat ve merkez çizgi" loading="lazy" style="max-width: 450px;">
+      <div class="img-caption">İki temel izleme yaklaşımı: dış hat (outline) ve merkez çizgi (centerline)</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <h3>🔍 Tekli Tarama Modları (Single Scan)</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Mod</th><th>Türkçe</th><th>Ne Yapar?</th></tr></thead>
+      <tbody>
+        <tr><td>Brightness Cutoff</td><td>Parlaklık Eşiği</td><td>Belirli bir parlaklık değerinden koyu/açık bölerek siyah-beyaz vektör üretir. En basit mod.</td></tr>
+        <tr><td>Edge Detection</td><td>Kenar Algılama</td><td>Renk/parlaklık geçişlerindeki kenarları bularak ince çizgi haritası çıkarır.</td></tr>
+        <tr><td>Color Quantization</td><td>Renk Nicemleme</td><td>Renkleri belirli sayıda gruba indirgeyerek her renk grubu için yol oluşturur.</td></tr>
+        <tr><td>Autotrace</td><td>Otomatik İzleme</td><td>Autotrace kütüphanesi kullanarak otomatik vektör oluşturur.</td></tr>
+        <tr><td>Centerline Tracing</td><td>Merkez Çizgi İzleme</td><td>Çizgilerin kenarını değil ortasını takip eder — el çizimi tarama için ideal.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/trace_bitmap_result_brightness_cutoff.png"
+           alt="Brightness Cutoff sonucu" loading="lazy" style="max-width: 300px;">
+      <div class="img-caption">Brightness Cutoff (Parlaklık Eşiği) ile oluşturulan siyah-beyaz vektör izleme sonucu</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <h3>🎨 Çoklu Tarama Modu (Multiple Scans)</h3>
+    <p>
+      Renkli görüntüler için <strong>Multiple Scans</strong> (Çoklu Tarama) seçilir — görüntüyü birden fazla renk katmanına ayırarak
+      üst üste yığılmış yollar oluşturur. Renk sayısını artırdıkça detay artar, ancak dosya boyutu da büyür.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/trace_bitmap_result_multi_colors.png"
+           alt="Çoklu renk izleme sonucu" loading="lazy" style="max-width: 400px;">
+      <div class="img-caption">Multiple Scans — Colors modu ile renkli bitmap izleme sonucu (üst üste yığılmış renkli yollar)</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ İzleme Sınırlamaları</div>
+      <p>Bitmap izleme, fotoğrafları mükemmel vektöre dönüştürmez — en iyi sonuç <strong>yüksek kontrastlı, temiz kenarlı</strong> görüntülerde alınır (logolar, çizimler, siluetler).
+      Karmaşık fotoğraflarda binlerce düğüm oluşur ve dosya boyutu şişer. Bu durumda raster formatı korumak daha mantıklıdır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 13: KIRPMA VE MASKELEME -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="kirpma-maskeleme">13. Kırpma ve Maskeleme (Clip & Mask) ✂️</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape-manuals.readthedocs.io/en/latest/clipping-and-masking.html" target="_blank">Inkscape Manuals — Clipping and Masking</a>'den uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      Hem kırpma (clip) hem de maskeleme (mask), üstteki nesneyi kullanarak alttaki nesnenin görünürlüğünü kontrol eder.
+      İki nesneyi seçin (üstteki = kırpma/maske şekli) ve komutu uygulayın.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/clip_mask_2.png"
+           alt="Clip ve Mask karşılaştırması" loading="lazy" style="max-width: 500px;">
+      <div class="img-caption">Solda orijinal, ortada kırpma (clip), sağda maskeleme (mask) sonucu</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <div class="comparison-row">
+      <div class="card" style="border-top: 3px solid #e74c3c;">
+        <h3 style="margin-top: 0; color: #e74c3c;">✂️ Kırpma (Clip)</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">
+          <span class="ink-menu-path">Object → Clip → Set</span><br>
+          Kırpma şeklinin <strong>dışında kalan her şeyi gizler</strong> — saydam yapar. Sadece şeklin içindeki alan görünür kalır.
+          Şeklin rengi veya konturü önemsizdir — sadece geometrisi kullanılır.
+        </p>
+      </div>
+      <div class="card" style="border-top: 3px solid #3498db;">
+        <h3 style="margin-top: 0; color: #3498db;">🎭 Maskeleme (Mask)</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">
+          <span class="ink-menu-path">Object → Mask → Set</span><br>
+          Maske nesnesinin <strong>parlaklığı</strong> opaklığı belirler. Beyaz = tam görünür, siyah = tam gizli, gri tonları = yarı saydam.
+          Degrade maskeyle kademeli şeffaflık efekti oluşturulabilir.
+        </p>
+      </div>
+    </div>
+
+    <p>
+      Kırpma/maskelemeyi kaldırmak için: seçili nesne → <span class="ink-menu-path">Object → Clip → Release</span> veya
+      <span class="ink-menu-path">Object → Mask → Release</span>.
+    </p>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 14: KAYDETME VE DIŞA AKTARMA -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="kaydetme-disa-aktarma">14. Kaydetme ve Dışa Aktarma (Export) 💾</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape-manuals.readthedocs.io/en/latest/export-png.html" target="_blank">Inkscape Manuals — Exporting a PNG</a> ve
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/export-other-formats.html" target="_blank">Exporting to Other Formats</a>'tan uyarlanmıştır.</p>
+    </div>
+
+    <h3>📁 Kaydetme Formatları</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Format</th><th>Tür</th><th>Ne Zaman Kullanılır?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Inkscape SVG (.svg)</strong></td><td>Kayıpsız, Inkscape'e özel</td><td>Çalışma dosyanız. Tüm Inkscape bilgilerini (kılavuzlar, katmanlar, metadata) korur. Her zaman bu formatta kaydedin.</td></tr>
+        <tr><td><strong>Plain SVG (.svg)</strong></td><td>Kayıpsız, standart</td><td>Web'de kullanım veya başka SVG editörlere aktarım için. Inkscape'e özel ek bilgiler kaldırılır.</td></tr>
+        <tr><td><strong>Optimized SVG (.svg)</strong></td><td>Kayıpsız, küçültülmüş</td><td>Web performansı için — gereksiz boşluklar, metadata ve tanımlar kaldırılır.</td></tr>
+        <tr><td><strong>PDF (.pdf)</strong></td><td>Vektör + raster</td><td>Baskı, sunum, belge paylaşımı. Metin ve vektörler korunur.</td></tr>
+        <tr><td><strong>EPS (.eps)</strong></td><td>Vektör</td><td>Baskı endüstrisi standardı. Eski yazılımlarla uyumluluk.</td></tr>
+        <tr><td><strong>DXF (.dxf)</strong></td><td>CAD format</td><td>CNC, lazer kesim, 3D modelleme yazılımlarına aktarım.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🖼️ PNG Olarak Dışa Aktarma</h3>
+    <p>
+      <span class="ink-menu-path">File → Export PNG Image...</span> (<span class="kbd">Shift+Ctrl+E</span>) — SVG'yi raster görüntüye dönüştürür.
+    </p>
+
+    <div class="ink-img-container">
+      <img src="https://inkscape-manuals.readthedocs.io/en/latest/_images/export_png.png"
+           alt="PNG Export diyaloğu" loading="lazy" style="max-width: 400px;">
+      <div class="img-caption">PNG dışa aktarma diyaloğu — alan seçimi, boyut ve DPI ayarları</div>
+      <div class="img-credit">Kaynak: inkscape-manuals.readthedocs.io — CC BY-SA</div>
+    </div>
+
+    <p>Dışa aktarma alanı seçenekleri:</p>
+    <ul>
+      <li><strong>Page (Sayfa):</strong> Sayfa sınırları içindeki tüm alan (en yaygın kullanım).</li>
+      <li><strong>Drawing (Çizim):</strong> Tüm nesneleri kapsayan en küçük alan.</li>
+      <li><strong>Selection (Seçim):</strong> Yalnızca seçili nesnelerin kapladığı alan.</li>
+      <li><strong>Custom (Özel):</strong> Koordinatları elle belirleyerek alan tanımlama.</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">💡 Saydam Arka Plan</div>
+      <p>PNG dışa aktarımda arka plan varsayılan olarak <strong>saydamdır</strong> (alpha = 0). Beyaz arka plan istiyorsanız:
+      <span class="ink-menu-path">File → Document Properties</span> → <strong>Background color</strong> → alpha değerini 255 yapın.
+      Oyun asset'leri için genellikle saydam arka plan tercih edilir.</p>
+    </div>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Her Zaman Orijinali Saklayın</div>
+      <p>PNG veya PDF'ye aktarmadan önce <strong>orijinal Inkscape SVG dosyasını mutlaka kaydedin</strong>. Raster formatlara dönüştürme geri alınamaz bir kalite kaybına yol açar. Orijinal SVG dosyası her zaman kaynak dosyanız olmalıdır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 15: SVG KODU İNCELEME -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="svg-kodu-inceleme">15. SVG Kodunu İnceleme — XML Editörü 🔬</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">📖 Kaynak</div>
+      <p>Bu bölüm <a href="https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html" target="_blank">Inkscape Advanced Tutorial</a>'dan uyarlanmıştır.</p>
+    </div>
+
+    <p>
+      Inkscape'in en güçlü öğrenme araçlarından biri <strong>XML Editörü</strong>'dür: <span class="ink-menu-path">Edit → XML Editor...</span> (<span class="kbd">Shift+Ctrl+X</span>).
+      Bu editör, SVG dosyasının ham XML ağacını gerçek zamanlı olarak gösterir. Tuval üzerinde bir nesne seçtiğinizde, o nesnenin XML temsili otomatik olarak vurgulanır.
+    </p>
+
+    <h3>🧪 XML Editörü ile Neler Yapılabilir?</h3>
+    <ul>
+      <li>Herhangi bir SVG niteliğini (attribute) doğrudan düzenleyebilirsiniz — <code>fill</code>, <code>stroke</code>, <code>transform</code>, vb.</li>
+      <li>Inkscape arayüzünden erişilemeyen SVG özelliklerini (örneğin <code>filter</code> detayları, <code>clip-path</code> parametreleri) ayarlayabilirsiniz.</li>
+      <li>SVG'nin nasıl çalıştığını interaktif olarak öğrenebilirsiniz — bir değer değiştirin, tuvalde anında sonucu görün!</li>
+      <li>Web projeleri için SVG kodunu optimize edebilir veya özel nitelikler (data attributes, CSS sınıfları) ekleyebilirsiniz.</li>
+    </ul>
+
+    <div class="svg-demo-container">
+      <div class="demo-header">🔬 XML Editöründe Bir Dikdörtgenin Görünümü</div>
+      <div class="demo-content">
+        <div class="demo-preview">
+          <svg viewBox="0 0 200 120" width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+            <rect
+              x="20" y="10" width="160" height="80" rx="12"
+              fill="#3498db" fill-opacity="0.8"
+              stroke="#2c3e50" stroke-width="3"
+              transform="rotate(5 100 50)"
+            />
+          </svg>
+        </div>
+        <div class="demo-code">
+<pre><code>&lt;svg:rect
+  id="rect42"
+  style="fill:#3498db;
+         fill-opacity:0.8;
+         stroke:#2c3e50;
+         stroke-width:3"
+  width="160"
+  height="80"
+  x="20"
+  y="10"
+  rx="12"
+  transform="rotate(5 100 50)"
+/&gt;
+
+&lt;!-- Inkscape, stil bilgilerini genellikle
+     style niteliği içinde CSS formatında
+     tutar. XML editöründe bu değerleri
+     doğrudan düzenleyebilirsiniz. --&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">💡 Pratiğe Dökün!</div>
+      <p>Inkscape'te basit bir şekil çizin → <span class="kbd">Shift+Ctrl+X</span> ile XML editörünü açın → nitelikleri (fill, rx, stroke-width vb.) değiştirin ve tuval üzerindeki anlık etkisini gözlemleyin. Bu yöntem, SVG standardını ve web grafik programlamayı öğrenmenin en hızlı yoludur!</p>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- BÖLÜM 16: KAYNAKLAR -->
+    <!-- ═══════════════════════════════════ -->
+    <h2 id="kaynaklar">16. Kaynaklar ve Öğreticiler 📚</h2>
+
+    <h3>📖 Resmi Öğreticiler (İngilizce)</h3>
+    <div class="resources-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <a href="https://inkscape.org/doc/tutorials/basic/tutorial-basic.html" target="_blank" class="tutorial-card">
+        <h4>🟢 Basic Tutorial — Temel Öğretici</h4>
+        <p>Canvas navigasyonu, şekil oluşturma, seçme, taşıma, ölçekleme, döndürme, dolgu/kontur, gruplama, z-sırası. İlk durağınız!</p>
+      </a>
+      <a href="https://inkscape.org/doc/tutorials/shapes/tutorial-shapes.html" target="_blank" class="tutorial-card">
+        <h4>🟢 Shapes Tutorial — Şekiller Öğreticisi</h4>
+        <p>Dikdörtgen, elips, yıldız, spiral araçlarının tüm parametreleri ve tutamaç detayları.</p>
+      </a>
+      <a href="https://inkscape.org/doc/tutorials/advanced/tutorial-advanced.html" target="_blank" class="tutorial-card">
+        <h4>🟡 Advanced Tutorial — İleri Öğretici</h4>
+        <p>Yol çizme (Kalem/Kurşunkalem), düğüm düzenleme, boolean işlemleri, metin, XML editörü. Adına aldanmayın — gerçekten "ileri" değil!</p>
+      </a>
+      <a href="https://inkscape.org/doc/tutorials/calligraphy/tutorial-calligraphy.html" target="_blank" class="tutorial-card">
+        <h4>🟡 Calligraphy Tutorial — Kaligrafi Öğreticisi</h4>
+        <p>Kaligrafi aracı ile yazı sanatı — açı, titreme, küçülme parametreleri. Sanatsal projeler için.</p>
+      </a>
+      <a href="https://inkscape.org/doc/tutorials/tracing/tutorial-tracing.html" target="_blank" class="tutorial-card">
+        <h4>🟡 Bitmap Tracing — Bitmap İzleme</h4>
+        <p>Raster görüntüleri vektöre dönüştürme teknikleri — tekli ve çoklu tarama modları.</p>
+      </a>
+      <a href="https://inkscape.org/doc/tutorials/interpolate/tutorial-interpolate.html" target="_blank" class="tutorial-card">
+        <h4>🔴 Interpolate Tutorial — Enterpolasyon</h4>
+        <p>İki şekil arasında ara adımlar oluşturma (morphing). İleri düzey efektler.</p>
+      </a>
+      <a href="https://inkscape.org/doc/tutorials/elements/tutorial-elements.html" target="_blank" class="tutorial-card">
+        <h4>🔴 Elements of Design — Tasarım Elemanları</h4>
+        <p>Görsel tasarımın temel ilkeleri: çizgi, şekil, renk, doku, boşluk, denge, uyum, kontrast.</p>
+      </a>
+    </div>
+
+    <h3>📘 Kapsamlı Kılavuz</h3>
+    <div class="resources-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <a href="https://inkscape-manuals.readthedocs.io/en/latest/" target="_blank" class="tutorial-card">
+        <h4>📘 Inkscape Manuals (readthedocs)</h4>
+        <p>Eksiksiz kullanım kılavuzu — arayüz, tüm araçlar, renkler, metin, dışa aktarma, filtreler, eklentiler, kısayollar.</p>
+      </a>
+    </div>
+
+    <h3>🎬 YouTube Kaynakları</h3>
+    <div class="resources-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <a href="https://www.youtube.com/c/LogosByNick" target="_blank" class="tutorial-card">
+        <h4>🎬 Logos By Nick</h4>
+        <p>Inkscape ile logo tasarımı, ikon oluşturma ve vektör illüstrasyon öğreticileri. Başlangıç dostu.</p>
+      </a>
+      <a href="https://www.youtube.com/c/InkscapeTutorials" target="_blank" class="tutorial-card">
+        <h4>🎬 Inkscape Tutorials</h4>
+        <p>Resmi ve topluluk katkılı detaylı Inkscape öğreticileri.</p>
+      </a>
+      <a href="https://www.youtube.com/playlist?list=PLqazFFzUAPc5lOQwDoZ4Dw2YSXtO7lWNv" target="_blank" class="tutorial-card">
+        <h4>🎬 TJ FREE — Inkscape Beginner Tutorials</h4>
+        <p>Yeni başlayanlar için adım adım Inkscape dersleri serisi.</p>
+      </a>
+    </div>
+
+    <h3>🛠️ İlgili Araçlar</h3>
+    <div class="resources-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <a href="https://inkscape.org/release/" target="_blank" class="tutorial-card">
+        <h4>🛠️ Inkscape — İndir</h4>
+        <p>Windows, macOS, Linux için Inkscape 1.4. Ücretsiz, açık kaynak vektör grafik editörü.</p>
+      </a>
+      <a href="https://boxy-svg.com/" target="_blank" class="tutorial-card">
+        <h4>🛠️ Boxy SVG — Çevrimiçi SVG Editör</h4>
+        <p>Tarayıcıda çalışan minimal SVG editör. Kurulum gerektirmez. Basit vektör çizimler için.</p>
+      </a>
+      <a href="https://jakearchibald.github.io/svgomg/" target="_blank" class="tutorial-card">
+        <h4>🛠️ SVGOMG — SVG Optimizasyon Aracı</h4>
+        <p>SVG dosyalarını web için optimize eder — gereksiz metadata ve boş nitelikleri kaldırır, dosya boyutunu küçültür.</p>
+      </a>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/SVG" target="_blank" class="tutorial-card">
+        <h4>📖 MDN Web Docs — SVG Referansı</h4>
+        <p>SVG elemanları, nitelikleri ve CSS ile stil verme hakkında en kapsamlı web referansı.</p>
+      </a>
+    </div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- İNTERAKTİF SVG DEMOSU -->
+    <!-- ═══════════════════════════════════ -->
+    <h2>🧪 İnteraktif SVG Demosu</h2>
+
+    <p>Aşağıdaki demoyu kullanarak SVG path komutlarını deneyimleyebilirsiniz. Kaydırıcıları hareket ettirerek eğrinin şeklinin nasıl değiştiğini gözlemleyin:</p>
+
+    <div class="svg-demo-container">
+      <div class="demo-header">🎮 Bézier Eğri Demosu — Kübik Bézier (C komutu)</div>
+      <div style="padding: 1.5rem;">
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 300px;">
+            <svg id="bezierSvg" viewBox="0 0 400 300" width="100%" style="background: #ffffff; border-radius: 8px; border: 1px solid var(--border-color);" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid -->
+              <defs>
+                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#eee" stroke-width="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="400" height="300" fill="url(#grid)"/>
+              <!-- Control lines -->
+              <line id="ctrl1Line" x1="50" y1="250" x2="100" y2="50" stroke="#e74c3c" stroke-width="1" stroke-dasharray="5,5" opacity="0.6"/>
+              <line id="ctrl2Line" x1="300" y1="50" x2="350" y2="250" stroke="#3498db" stroke-width="1" stroke-dasharray="5,5" opacity="0.6"/>
+              <!-- Curve -->
+              <path id="bezierPath" d="M 50 250 C 100 50, 300 50, 350 250" fill="none" stroke="#2c3e50" stroke-width="3"/>
+              <!-- Points -->
+              <circle cx="50" cy="250" r="6" fill="#2ecc71"/>
+              <circle id="cp1" cx="100" cy="50" r="6" fill="#e74c3c" style="cursor:pointer"/>
+              <circle id="cp2" cx="300" cy="50" r="6" fill="#3498db" style="cursor:pointer"/>
+              <circle cx="350" cy="250" r="6" fill="#2ecc71"/>
+              <!-- Labels -->
+              <text x="50" y="275" text-anchor="middle" font-size="10" fill="#2ecc71" font-weight="bold">P0</text>
+              <text id="cp1Label" x="100" y="40" text-anchor="middle" font-size="10" fill="#e74c3c" font-weight="bold">CP1</text>
+              <text id="cp2Label" x="300" y="40" text-anchor="middle" font-size="10" fill="#3498db" font-weight="bold">CP2</text>
+              <text x="350" y="275" text-anchor="middle" font-size="10" fill="#2ecc71" font-weight="bold">P1</text>
+            </svg>
+          </div>
+          <div style="flex: 0 0 240px;">
+            <div style="margin-bottom: 1rem;">
+              <label style="font-size: 0.85rem; font-weight: 600; color: #e74c3c;">🔴 Kontrol Noktası 1 (CP1)</label><br>
+              <label style="font-size: 0.8rem;">X: <input type="range" id="cp1x" min="0" max="400" value="100" style="width: 120px;"> <span id="cp1xVal">100</span></label><br>
+              <label style="font-size: 0.8rem;">Y: <input type="range" id="cp1y" min="0" max="300" value="50" style="width: 120px;"> <span id="cp1yVal">50</span></label>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="font-size: 0.85rem; font-weight: 600; color: #3498db;">🔵 Kontrol Noktası 2 (CP2)</label><br>
+              <label style="font-size: 0.8rem;">X: <input type="range" id="cp2x" min="0" max="400" value="300" style="width: 120px;"> <span id="cp2xVal">300</span></label><br>
+              <label style="font-size: 0.8rem;">Y: <input type="range" id="cp2y" min="0" max="300" value="50" style="width: 120px;"> <span id="cp2yVal">50</span></label>
+            </div>
+            <div style="background: var(--bg-secondary); padding: 0.75rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; word-break: break-all;">
+              <strong>SVG Path:</strong><br>
+              <code id="bezierCode">M 50 250 C 100 50, 300 50, 350 250</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <h2>🧩 Mini Quiz</h2>
+
+    <div class="quiz-container">
+      <div class="quiz-question">SVG'de <code>&lt;path&gt;</code> elemanının <code>d</code> niteliğindeki "M" komutu ne anlama gelir?</div>
+      <div class="quiz-option" data-correct="false">Mark — İşaretle</div>
+      <div class="quiz-option" data-correct="true">MoveTo — Kalemi taşı (çizmeden)</div>
+      <div class="quiz-option" data-correct="false">Merge — Birleştir</div>
+      <div class="quiz-option" data-correct="false">Mirror — Aynala</div>
+      <div class="quiz-feedback" data-explanation="M (MoveTo) komutu kalemi kaldırıp belirtilen (x,y) koordinatına taşır. Çizim yapılmaz, sadece başlangıç noktası belirlenir."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">Inkscape'te iki nesneyi seçip Ctrl+– (Difference) uyguladığınızda ne olur?</div>
+      <div class="quiz-option" data-correct="false">İki nesne birleşir (union)</div>
+      <div class="quiz-option" data-correct="true">Üstteki nesne alttakinden çıkarılır (delik oluşur)</div>
+      <div class="quiz-option" data-correct="false">Sadece ortak alan kalır (intersection)</div>
+      <div class="quiz-option" data-correct="false">İki nesne yer değiştirir</div>
+      <div class="quiz-feedback" data-explanation="Difference (Fark) işlemi küme farkıdır: A − B. Z-sırasında üstteki nesne, alttaki nesneden çıkarılır. Sonuçta alt nesnenin stili korunur ve üstteki nesnenin şekli orada bir 'delik' oluşturur."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">Vektör grafiğin raster grafiğe göre en büyük avantajı nedir?</div>
+      <div class="quiz-option" data-correct="false">Dosya boyutu her zaman daha küçüktür</div>
+      <div class="quiz-option" data-correct="false">Fotoğrafik gerçekçilik sağlar</div>
+      <div class="quiz-option" data-correct="true">Kalite kaybı olmadan sonsuz büyütülebilir</div>
+      <div class="quiz-option" data-correct="false">Daha hızlı render edilir</div>
+      <div class="quiz-feedback" data-explanation="Vektör grafikler matematiksel eğrilerle tanımlandığı için, herhangi bir boyutta yeniden çizilir — kalite kaybı olmaz. Bu özellik özellikle logo, ikon ve UI tasarımında kritiktir. Ancak fotoğraf gibi karmaşık görseller için raster daha uygundur."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">Inkscape'te bir şekli yola (path) dönüştürmek için hangi kısayol kullanılır?</div>
+      <div class="quiz-option" data-correct="false">Ctrl+P</div>
+      <div class="quiz-option" data-correct="false">Ctrl+Shift+P</div>
+      <div class="quiz-option" data-correct="true">Shift+Ctrl+C (Object to Path)</div>
+      <div class="quiz-option" data-correct="false">Alt+P</div>
+      <div class="quiz-feedback" data-explanation="Path → Object to Path (Shift+Ctrl+C) komutu, parametrik şekilleri ve metni düğümlerden oluşan yollara dönüştürür. Bu sayede düğüm bazında düzenleme yapılabilir, ancak parametrik düzenleme yeteneği kaybolur."></div>
+    </div>
+
+    <div class="quiz-container">
+      <div class="quiz-question">Fill & Stroke diyaloğunda bir nesnenin dolgusu olarak "Radial Gradient" seçildiğinde ne olur?</div>
+      <div class="quiz-option" data-correct="false">Nesne düz kırmızı renge dönüşür</div>
+      <div class="quiz-option" data-correct="true">Merkezden dışa doğru kademeli renk geçişi uygulanır</div>
+      <div class="quiz-option" data-correct="false">Nesnenin kenarları yumuşar (blur)</div>
+      <div class="quiz-option" data-correct="false">Nesne yuvarlak şekle dönüşür</div>
+      <div class="quiz-feedback" data-explanation="Radial gradient (dairesel degradé), bir merkez noktadan dışa doğru kademeli renk geçişi sağlar. Tutamaçlarla merkez, yön ve yarıçap ayarlanabilir. Güneş ışığı, parlama gibi efektler için idealdir."></div>
+    </div>
+
+    <!-- NAVİGASYON -->
+    <div class="week-nav">
+      <a href="../hafta3/index.html">← Bölüm 3: GIMP ile Görüntü İşleme</a>
+      <a href="#" style="opacity: 0.5; pointer-events: none;">Bölüm 5: Yakında →</a>
+    </div>
+
+    <footer class="site-footer">
+      Bilgisayar Grafiği • Oyun Geliştirme ve Programlama Bölümü • 2025-2026 Bahar
+    </footer>
+  </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="../shared.js"></script>
+  <script src="./hafta4.js"></script>
+</body>
+</html>
