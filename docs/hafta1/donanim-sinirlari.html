@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erken Dönem Grafik Donanım Sınırlamaları — Bilgisayar Grafiği</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+    </div>
+    <div class="sidebar-toc">
+      <!-- Auto-populated by JS -->
+    </div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header">
+    <span class="week-number">📚 EK OKUMA</span>
+    <h1>Erken Dönem Grafik Donanım Sınırlamaları ve Yaratıcı Çözümler</h1>
+    <p class="week-desc">Atari 2600'den SNES'e: 128 byte RAM ile nasıl oyun yapılır? Kısıtlamalar yaratıcılığı nasıl tetikledi?</p>
+    <div class="week-meta">
+      <div class="meta-item">🕹️ 1977–1995 Dönemi</div>
+      <div class="meta-item">📖 Ek Okuma Materyali</div>
+      <div class="meta-item">🔗 Bölüm 1 ile İlişkili</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu Sayfa Hakkında</div>
+      <p>Bu sayfa, <strong>Bölüm 1: Bilgisayar Grafiğine Giriş</strong> dersinin ek okuma materyalidir. Erken dönem oyun konsolları ve bilgisayarların grafik donanım sınırlamalarını ve programcıların bu kısıtlamalar karşısında geliştirdikleri yaratıcı teknikleri detaylı olarak ele alır. Bu konular, modern grafik programlamanın <em>neden</em> bugünkü haliyle var olduğunu anlamanız için kritik öneme sahiptir.</p>
+    </div>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Neden Eski Donanım Sınırlarını Öğrenmeliyiz?</div>
+      <p>Bugün bir oyun motoru size saniyede milyarlarca piksel işleyebilen GPU'lar sunuyor. Ama <strong>kısıtlama altında çalışma becerisi</strong> her zaman geçerli: mobil oyunlar, web grafikleri, gömülü sistemler, VR (düşük gecikme zorunluluğu)... Ayrıca bu tarihsel teknikler — tile tabanlı render, sprite atlas, palet döngüsü, dithering — modern oyun geliştirmede hâlâ aktif olarak kullanılıyor. Kısıtlama, yaratıcılığın anasıdır.</p>
+    </div>
+
+    <!-- İÇİNDEKİLER -->
+    <div class="toc">
+      <h3>📑 Bu Sayfanın İçeriği</h3>
+      <ol>
+        <li><a href="#atari2600">Atari 2600 ve "Racing the Beam"</a></li>
+        <li><a href="#nes">NES/Famicom Grafik Sınırlamaları</a>
+          <ol style="margin-top: 0.3rem;">
+            <li><a href="#nes-ppu">PPU — Picture Processing Unit</a></li>
+            <li><a href="#nes-sprites">Sprite Sınırlamaları ve Titreşim (Flickering) Hilesi</a></li>
+            <li><a href="#nes-mario">Mario'nun Tasarım Hikâyesi</a></li>
+            <li><a href="#nes-mapper">Mapper Çipleri ve Bank Switching</a></li>
+          </ol>
+        </li>
+        <li><a href="#c64">Commodore 64 ve VIC-II</a></li>
+        <li><a href="#gameboy">Game Boy: 4 Ton Yeşil ile Devrim</a></li>
+        <li><a href="#snes-mode7">SNES Mode 7: Sahte 3D Devrimi</a></li>
+        <li><a href="#palet-dongusu">Palet Döngüsü (Color Cycling)</a></li>
+        <li><a href="#dithering">Dithering: Zorunluluktan Doğan Sanat</a></li>
+        <li><a href="#sprite-flicker">Sprite Flickering: Kısıtlamadan Özelliğe</a></li>
+        <li><a href="#parallax">Parallax Scrolling: 2D'de Derinlik İllüzyonu</a></li>
+        <li><a href="#karsilastirma">Teknik Karşılaştırma Tablosu</a></li>
+        <li><a href="#kaynaklar">Kaynaklar ve YouTube Kanalları</a></li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 1: ATARI 2600 -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="atari2600">1. Atari 2600 ve "Racing the Beam" 🏎️</h2>
+
+    <p>
+      <strong>Atari 2600</strong> (1977), ev oyun konsolları tarihinin en önemli cihazlarından biridir ve grafik programlamanın
+      en <em>aşırı</em> kısıtlama örneklerinden birini sunar. Bugün bir web sayfası bile megabyte'larca RAM kullanırken,
+      Atari 2600 programcıları <strong>sadece 128 byte (evet, byte — kilobyte değil!) RAM</strong> ile oyun yapmak zorundaydı.
+    </p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-1);">
+      <h3 style="margin-top: 0; color: var(--accent-1);">📊 Atari 2600 Teknik Özellikleri</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>CPU:</strong> MOS 6507 @ 1.19 MHz (6502'nin ucuz versiyonu, 13 adres pin'i — sadece 8 KB adresleme)</li>
+        <li><strong>RAM:</strong> 128 byte (RIOT çipinde — 6532). Bu bir yazım hatası değil. 128 byte.</li>
+        <li><strong>Grafik çipi:</strong> TIA (Television Interface Adaptor) — Jay Miner tarafından tasarlandı</li>
+        <li><strong>Çözünürlük:</strong> 160×192 piksel (NTSC). Aslında TIA bireysel pikselleri adresleyemez bile!</li>
+        <li><strong>Renk:</strong> 128 renk paleti (NTSC), ama aynı anda çok az kullanılabilir</li>
+        <li><strong>Ses:</strong> 2 kanal, çok sınırlı dalga formları</li>
+        <li><strong>Kartuş boyutu:</strong> Genellikle 2-4 KB ROM (bazı geç dönem oyunlar bank switching ile 32 KB'a kadar)</li>
+      </ul>
+    </div>
+
+    <h3 id="tia-chip">TIA Çipi: Frame Buffer Yok!</h3>
+
+    <p>
+      Modern grafik sistemlerinde bir <strong>frame buffer</strong> (çerçeve arabelleği) vardır — ekrandaki her pikselin renk değerini
+      tutan bir bellek alanı. GPU bu belleğe yazar, ekran kartı bu bellekten okur ve görüntüyü ekrana gönderir. Ama Atari 2600'ün
+      TIA çipinde <strong>frame buffer diye bir şey yoktu</strong>. Neden? Çünkü 160×192 piksellik bir ekranı saklamak için bile
+      yaklaşık 30 KB bellek gerekirdi — oysa sistemin toplam RAM'i 128 <em>byte</em>'dı!
+    </p>
+
+    <p>Bunun yerine TIA, <strong>her satırı (scanline) tek tek, gerçek zamanlı olarak</strong> televizyonun elektron ışını o satırı çizerken üretiyordu. Programcının işi, elektron ışınının her satırına yetişmekti.</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ CRT Televizyonların Çalışma Prensibi</div>
+      <p>Bunu anlamak için CRT (katot ışınlı tüp) televizyonları bilmek gerekir: CRT'de bir elektron ışını ekranı <strong>soldan sağa, yukarıdan aşağıya</strong> tarar. Her yatay satır (scanline) soldan sağa çizilir, sonra ışın sağ kenardan sol kenara geri döner (<strong>horizontal blank — HBLANK</strong>), ardından sonraki satır çizilir. Ekranın en altına ulaşıldığında ışın tekrar en üste döner (<strong>vertical blank — VBLANK</strong>). NTSC'de bu süreç saniyede ~60 kez tekrarlanır (60 Hz). Tüm süreç: 262 satır × 228 CPU döngüsü/satır.</p>
+    </div>
+
+    <h3>TIA'nın Grafik Nesneleri (Bir Scanline'da Neler Var?)</h3>
+
+    <p>TIA çipi herhangi bir bitmap saklayamadığı için, her scanline'da sabit sayıda <strong>grafik nesnesi</strong> üretebiliyordu:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Nesne</th><th>Genişlik</th><th>Açıklama</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Playfield (PF)</strong></td><td>40 "piksel" (20-bit pattern, yansıtılabilir)</td><td>Arka plan. 20-bit'lik bir değer sol yarıyı tanımlar; sağ yarı ya kopyalanır ya yansıtılır. Her "piksel" aslında 4 CPU piksel genişliğinde.</td></tr>
+        <tr><td><strong>Player 0 (P0)</strong></td><td>8 piksel genişliğinde sprite</td><td>Birinci oyuncu sprite'ı. 8-bit register ile tanımlanır. 1x, 2x, 4x ölçeklenebilir.</td></tr>
+        <tr><td><strong>Player 1 (P1)</strong></td><td>8 piksel genişliğinde sprite</td><td>İkinci oyuncu sprite'ı. P0 ile aynı yetenekler.</td></tr>
+        <tr><td><strong>Missile 0 (M0)</strong></td><td>1, 2, 4 veya 8 piksel</td><td>P0'a bağlı mermi nesnesi. Tek renk, ayarlanabilir genişlik.</td></tr>
+        <tr><td><strong>Missile 1 (M1)</strong></td><td>1, 2, 4 veya 8 piksel</td><td>P1'e bağlı mermi nesnesi.</td></tr>
+        <tr><td><strong>Ball (BL)</strong></td><td>1, 2, 4 veya 8 piksel</td><td>Playfield'a bağlı top nesnesi. Pong'daki top için tasarlandı!</td></tr>
+      </tbody>
+    </table>
+
+    <p>Yani <strong>bir scanline'da toplamda sadece 2 sprite + 2 mermi + 1 top + 1 arka plan</strong>. Hepsi bu. Bugünkü oyunlarda tek bir karede binlerce nesne olabilir — Atari 2600'de 6 taneyle yetinmek zorundasınız.</p>
+
+    <h3>"Racing the Beam" Tekniği</h3>
+
+    <p>
+      İşte Atari 2600 programcılığının özü burada: <strong>"Racing the Beam"</strong> (Işınla Yarışmak). Bu terim, 
+      Nick Montfort ve Ian Bogost'un 2009 tarihli aynı adlı kitabından popülerleşmiştir. Teknik şöyle çalışır:
+    </p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <h3 style="margin-top: 0; color: var(--accent-4);">⚡ Racing the Beam — Adım Adım</h3>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>VBLANK başlar</strong> — Elektron ışını ekranın altından üstüne dönüyor. Programcının ~37 scanline'lık boş zamanı var. Oyun mantığı (joystick okuma, çarpışma kontrolü, skor güncelleme) burada yapılır.</li>
+        <li><strong>Görünür alan başlar</strong> — 192 scanline boyunca, programcı <strong>her satır için</strong> TIA register'larını doğru zamanda güncellemek zorundadır.</li>
+        <li><strong>Her scanline ~76 CPU döngüsü sürer</strong> — Bu süre içinde programcı sprite pozisyonlarını, renklerini, playfield pattern'ini değiştirebilir. Ama zaman çok kısıtlı!</li>
+        <li><strong>Kernel</strong> — Görünür alandaki satır satır grafik üretim koduna "kernel" denir. İyi bir kernel yazmak Atari 2600 programlamanın en zor kısmıdır.</li>
+        <li><strong>HBLANK (yatay blanking)</strong> — Her satır sonundaki kısa boşluk. Sonraki satır için register'lar burada güncellenir.</li>
+      </ol>
+    </div>
+
+    <p>
+      Her scanline'da CPU'nun yalnızca ~76 döngüsü vardı ve bir 6507 talimatı 2-7 döngü arasında sürer.
+      Yani <strong>bir satır başına yaklaşık 15-30 CPU talimatı</strong> çalıştırabilirsiniz. İşte bu yüzden her döngü, her talimat hesaplanırdı.
+      Programcılar kodlarını <em>döngü sayarak</em> (cycle counting) yazardı.
+    </p>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🏆 Efsanevi Atari 2600 Hileleri ve Oyunları</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <h4>Adventure (1979) — Warren Robinett</h4>
+          <p><strong>Oyun geliştirme tarihinin ilk "Easter Egg"i</strong> bu oyundadır. Ama grafik açıdan da ilginçtir: oyuncunuz ekranda sadece bir karedir (bir dikdörtgen!). Ejderhalar? Ördek gibi görünen şekiller. Kısıtlama o kadar büyüktü ki tasarımcı "iyi görünen" şeyler yerine "anlaşılabilir" şeyler yapmak zorunda kaldı. Player sprite'ı sadece 8 piksel genişliğinde olduğu için ejderhanın ağzı, gövdesi ve kanatları hep 8-piksellik bantlarla oluşturulmuştur.</p>
+
+          <h4>Pitfall! (1982) — David Crane</h4>
+          <p>Activision'ın efsanevi oyunu. David Crane, ormandaki ağaçları, lianlardaki sallanmayı ve koşan karakteri 128 byte RAM'de oluşturmak için playfield register'larını <strong>her birkaç scanline'da bir değiştiriyordu</strong>. Arka plan detayı oluşturmak için "asymmetric playfield" tekniğini kullanarak sol ve sağ yarımı farklı pattern'lerle doldurdu — bu normalde TIA'nın desteklemediği bir şeydi ama HBLANK sırasında register'ı değiştirerek başardı.</p>
+
+          <h4>Yars' Revenge (1982) — Howard Scott Warshaw</h4>
+          <p>Ekranın ortasındaki "nötr bölge" aslında oyunun kendi ROM verisinin ham byte'larının piksel olarak ekrana basılmasıydı! Yani <strong>oyunun kendi kodu görsel efekt</strong> olarak kullanıldı. Bu, bellek tasarrufu için inanılmaz yaratıcı bir çözümdü.</p>
+
+          <h4>Kaynak Sınırlaması Zorluğu — Sayılarla</h4>
+          <p>Karşılaştırma: Bu paragrafı okuduğunuz web sayfası tarayıcınızda muhtemelen <strong>100+ MB RAM</strong> kullanıyor. Atari 2600'ün toplam RAM'i 128 byte — yani bu web sayfası Atari 2600'ün RAM'ının yaklaşık <strong>800.000 katı</strong> bellek kullanıyor. Bu kısıtlamada Pitfall gibi bir oyun yapmak, bugünkü perspektiften bakıldığında neredeyse imkânsız görünür.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Günümüzle Bağlantı</div>
+      <p>"Racing the beam" mantığı aslında tamamen ölmedi. Modern GPU'lar da scanline bazlı işlemeye benzer teknikler kullanır: <strong>tile-based rendering</strong> (özellikle mobil GPU'larda — ARM Mali, Qualcomm Adreno, Apple GPU) ekranı küçük dörtgenlere böler ve her birini sırayla işler — tıpkı Atari'nin satır satır çalışması gibi, ama çok daha sofistike. Ayrıca shader programlama da aslında "her piksel/vertex için çalışacak kodu yaz" felsefesiyle çalışır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 2: NES/FAMICOM -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="nes">2. NES/Famicom Grafik Sınırlamaları 🎮</h2>
+
+    <p>
+      <strong>Nintendo Entertainment System</strong> (NES, Japonya'da <strong>Famicom</strong> — Family Computer, 1983)
+      ev konsollarını diriltmiş ve modern oyun endüstrisinin temellerini atmıştır. Grafik yetenekleri Atari 2600'e göre
+      devasa bir sıçramaydı, ama günümüz standartlarıyla baktığımızda hâlâ çok kısıtlıydı. NES, bu kısıtlamalar
+      içinde üretilen oyunlarla (Super Mario Bros., The Legend of Zelda, Mega Man) oyun tarihinin en ikonik eserlerini çıkardı.
+    </p>
+
+    <h3 id="nes-ppu">2.1. PPU — Picture Processing Unit</h3>
+
+    <p>NES'in grafik işlemcisi olan <strong>PPU (Ricoh 2C02)</strong>, CPU'dan bağımsız çalışan özel bir grafik çipiydi. Bu, Atari 2600'e kıyasla büyük bir gelişmeydi — artık CPU her scanline'ı elle oluşturmak zorunda değildi.</p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-1);">
+      <h3 style="margin-top: 0; color: var(--accent-1);">📊 NES/Famicom Teknik Özellikleri</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>CPU:</strong> Ricoh 2A03 (MOS 6502 tabanlı) @ 1.79 MHz (NTSC) / 1.66 MHz (PAL)</li>
+        <li><strong>CPU RAM:</strong> 2 KB (2048 byte) — Atari'nin 16 katı, ama yine de çok az</li>
+        <li><strong>PPU (Grafik Çipi):</strong> Ricoh 2C02</li>
+        <li><strong>VRAM:</strong> 2 KB (PPU'ya ait) — nametable verileri için</li>
+        <li><strong>OAM (Sprite Belleği):</strong> 256 byte — 64 sprite'ın konum/özellik verisi</li>
+        <li><strong>Çözünürlük:</strong> 256×240 piksel (NTSC'de görünür alan ~256×224)</li>
+        <li><strong>Ana palet:</strong> 54 benzersiz renk üretebilir (64 giriş, 10'u tekrar/siyah)</li>
+        <li><strong>Ekranda aynı anda:</strong> 25 renk — 4 arka plan paleti (her biri 3 renk + ortak arka plan rengi) + 4 sprite paleti (her biri 3 renk + şeffaflık)</li>
+        <li><strong>Kartuş ROM:</strong> 8-512 KB (mapper'a bağlı)</li>
+      </ul>
+    </div>
+
+    <h4>Tile Tabanlı Grafik Sistemi</h4>
+
+    <p>
+      NES, ekranı doğrudan piksel piksel adreslemez. Bunun yerine <strong>tile (karo/döşeme) tabanlı</strong> bir sistem kullanır.
+      Tüm grafikler 8×8 piksellik tile'lardan oluşur. Bu tile'lar <strong>Pattern Table</strong> (CHR-ROM veya CHR-RAM) adı verilen
+      bir bellekte saklanır ve kartuş üzerindeki ROM'dan gelir.
+    </p>
+
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; color: var(--accent-4);">🗺️ Arka Plan (Background)</h3>
+        <p>Ekran 32×30 = <strong>960 tile</strong>'dan oluşur. Her tile'ın hangi pattern'i kullanacağı <strong>Nametable</strong>'da belirtilir. Her 2×2 (16×16 piksel) tile bloğu bir <strong>attribute byte</strong> paylaşır — bu byte hangi 4 renklik paletin kullanılacağını söyler.</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Sonuç: 16×16 piksellik bloklar aynı renk paletini paylaşmak zorunda. İnce detaylı arka planlar bu yüzden zordur.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-green);">
+        <h3 style="margin-top: 0; color: var(--accent-green);">👾 Sprite'lar (Ön Plan)</h3>
+        <p><strong>64 sprite</strong> aynı anda bellekte tutulabilir (OAM — Object Attribute Memory, 256 byte). Her sprite 4 byte kullanır: Y pozisyonu, tile index, attribute (palet, yansıtma), X pozisyonu.</p>
+        <p>Her sprite <strong>8×8</strong> veya <strong>8×16</strong> piksel boyutundadır. Her sprite 4 renk paletinden birini kullanır ve her paletten <strong>3 renk + şeffaflık</strong> (transparent) seçilebilir.</p>
+      </div>
+    </div>
+
+    <h4>Renk Sistemi — 54 Renkten 25'ini Seçin</h4>
+
+    <p>NES'in master paleti <strong>54 benzersiz renk</strong> içerir (teknik olarak 64 giriş vardır ama yaklaşık 10 tanesi birebir siyah veya uyumsuz renk tekrarlarıdır). Bu renkler donanımda sabittir — değiştirilemez. Oyun geliştiricisi bu 54 renkten seçim yaparak paletlerini oluşturur:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Palet Türü</th><th>Adet</th><th>Renk/Palet</th><th>Toplam</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Arka plan paletleri</td><td>4 palet</td><td>3 renk + 1 ortak arka plan rengi</td><td>12 benzersiz + 1 ortak = 13</td></tr>
+        <tr><td>Sprite paletleri</td><td>4 palet</td><td>3 renk + şeffaflık</td><td>12 benzersiz</td></tr>
+        <tr><td colspan="3"><strong>Toplam ekranda aynı anda</strong></td><td><strong>25 renk</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>Karşılaştırma için: bugün RGB renk uzayında <strong>16.7 milyon renk</strong> (24-bit, 2²⁴) kullanabilirsiniz. NES'te 25. Bu kısıtlama altında renkli, canlı ve tanınabilir oyun dünyaları yaratmak büyük ustalık gerektiriyordu.</p>
+
+    <h3 id="nes-sprites">2.2. Sprite Sınırlamaları ve Titreşim (Flickering) Hilesi</h3>
+
+    <p>NES PPU'sunun en bilinen kısıtlamalarından biri <strong>"scanline başına 8 sprite"</strong> sınırıdır. PPU, herhangi bir yatay scanline boyunca <strong>en fazla 8 sprite</strong> çizebilir. 9. ve sonraki sprite'lar o satırda görünmez hale gelir.</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ 8 Sprite Sınırı Pratikte Ne Demek?</div>
+      <p>Ekranda yatay olarak hizalanmış 8'den fazla düşman veya obje olduğunda bazıları <strong>kaybolur</strong>. Bu, özellikle aksiyon oyunlarında ciddi bir sorundu — bir sürü düşman aynı yatay çizgide durabilir!</p>
+    </div>
+
+    <p>
+      Geliştiriciler bu soruna akıllıca bir çözüm buldular: <strong>sprite titreşimi (flickering)</strong>.
+      Her karede (frame), hangi 8 sprite'ın o scanline'da gösterileceğini <strong>değiştirerek</strong> (rotate ederek),
+      tüm sprite'ların saniyede 30 kez görünmesini sağlıyorlardı. İnsan gözü bunu hızlı bir titreşim olarak algılar —
+      sprite kaybolmak yerine "yarı saydam" görünür. Mükemmel değil ama hiç görünmemekten çok daha iyi!
+    </p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top: 0;">🔫 Mega Man (1987)</h3>
+        <p>Mega Man serisi, sprite flickering'in en bilinen örneklerinden biridir. Ekranda çok sayıda düşman ve mermi olduğunda bazı sprite'lar titrer. Capcom bu sorunu minimize etmek için sprite öncelik rotasyonu (priority cycling) uyguladı — böylece her zaman <em>rastgele</em> bir sprite kaybolur, aynısı sürekli kaybolmaz.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🗡️ The Legend of Zelda (1986)</h3>
+        <p>Zelda'da bir odada çok fazla düşman olduğunda flickering görülür. Ama ilginç olan şu: tasarımcılar düşman sayısını ve yerleşimini bu sınıra <strong>göre</strong> tasarladılar. Düşmanlar genellikle farklı yatay çizgilere dağıtılarak sorun minimize edildi. Seviye tasarımı donanım kısıtlamasıyla doğrudan bağlantılıydı.</p>
+      </div>
+    </div>
+
+    <h4>Nametable Yansılama (Mirroring) ve Kaydırma</h4>
+
+    <p>
+      NES'in 2 KB VRAM'i iki nametable (32×30 tile = 960 byte + 64 byte attribute = 1024 byte) için yeterlidir.
+      Ama kaydırmalı (scrolling) oyunlar genellikle <strong>dört nametable</strong>'a ihtiyaç duyar (256×240'ın 2 katı alan).
+      Yetersiz VRAM'i telafi etmek için <strong>nametable mirroring</strong> kullanılır:
+    </p>
+
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-yellow);">
+        <h3 style="margin-top: 0; color: var(--accent-yellow);">↔️ Yatay Yansılama (Horizontal Mirroring)</h3>
+        <p>İki fiziksel nametable <strong>üst-alt</strong> olarak düzenlenir. <strong>Dikey kaydırma</strong> (vertical scrolling) yapan oyunlar için idealdir — örn: shoot-em-up oyunları (1942, Gun.Smoke). Yatay yönde kaydırma yapıldığında nametable sınırında grafik hataları ("seam") oluşabilir.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; color: var(--accent-4);">↕️ Dikey Yansılama (Vertical Mirroring)</h3>
+        <p>İki fiziksel nametable <strong>yan yana</strong> düzenlenir. <strong>Yatay kaydırma</strong> (horizontal scrolling) yapan oyunlar için idealdir — örn: Super Mario Bros., Castlevania. Dikey yönde ek bellek yoktur; çoğu platformer bu modeli kullanır.</p>
+      </div>
+    </div>
+
+    <h3 id="nes-mario">2.3. Mario'nun Tasarım Hikâyesi — Kısıtlamadan Doğan İkon</h3>
+
+    <p>
+      <strong>Shigeru Miyamoto</strong>'nun Super Mario Bros. (1985) için Mario karakterini nasıl tasarladığı, donanım kısıtlamalarının
+      yaratıcılığı nasıl yönlendirebileceğinin en ünlü örneğidir. Mario'nun ikonik görünümünün <em>her detayı</em> bir teknik sınırlamanın çözümüdür:
+    </p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Tasarım Öğesi</th><th>Teknik Neden</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>🧢 Şapka (Kep)</strong></td>
+          <td>Saç animasyonu son derece zordur — 8×8 veya 8×16 sprite'larda saç detayı çizmek ve koşarken doğal görünmesini sağlamak çok fazla tile gerektirir. Şapka bu sorunu ortadan kaldırdı. Tek renkli düz bir alan yeter.</td>
+        </tr>
+        <tr>
+          <td><strong>👨 Bıyık</strong></td>
+          <td>Ağız animasyonu (konuşma, gülümseme) çok sayıda sprite frame'i gerektirir. <strong>Bıyık, ağzı gizleyerek yüz animasyonu ihtiyacını ortadan kaldırdı.</strong> Ayrıca bıyık, ten rengi ile yüz arasında kontrast oluşturarak burunu belirginleştirdi — 8×8'lik tile'da yüz hatlarını ayırt etmek başka türlü çok zordu.</td>
+        </tr>
+        <tr>
+          <td><strong>👕 Tulum (Overalls)</strong></td>
+          <td>Koşma animasyonunda kollar ileri-geri hareket eder. Tulum, kol hareketinin gövdeyle birleştiği noktada <strong>renk kontrastı</strong> sağlar ve kolun ayrı göründüğü, az tile ile çizilebilmesini sağlar. Tulum ile gömlek farklı renkler olmasaydı, kol ve gövde ayrıştırılamazdı.</td>
+        </tr>
+        <tr>
+          <td><strong>🟤 Büyük Burun</strong></td>
+          <td>16×16 piksellik (2×2 tile) bir sprite'ta yüz ifadesi vermek neredeyse imkânsız. Büyük burun, karaktere <em>kişilik</em> vermenin en etkili yoluydu — 2-3 pikselle bile algılanabilir bir burun.</td>
+        </tr>
+        <tr>
+          <td><strong>🎨 Renk Seçimi (Kırmızı/Mavi)</strong></td>
+          <td>NES sprite paleti 3 renk + şeffaflıktan oluşur. Mario'nun kırmızı-mavi-ten rengi kombinasyonu, <strong>minimum renk sayısıyla maksimum kontrast</strong> sağlar. Kırmızı arka planlardan (tuğla, boru) ayrışır, mavi tulum vücudu tanımlar.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Düşünün</div>
+      <p>Shigeru Miyamoto bir röportajında şöyle demiştir: <em>"Donanım sınırlamalarını seviyorum çünkü bizi yaratıcı olmaya zorluyorlar."</em> Mario'nun bugün dünya genelinde tanınan ikonik görünümü, aslında tamamen teknik zorunlulukların ürünüdür. Eğer NES sınırsız renk ve çözünürlük sunsaydı, Mario muhtemelen bu kadar <strong>sade, temiz ve akılda kalıcı</strong> tasarlanmazdı. Kısıtlama → Basitlik → Evrensellik.</p>
+    </div>
+
+    <h3 id="nes-mapper">2.4. Mapper Çipleri ve Bank Switching</h3>
+
+    <p>
+      NES'in CPU'su <strong>16-bit adres yolu</strong> ile çalışır — yani toplamda 64 KB adreslenebilir bellek. Bunun bir kısmı RAM'e,
+      bir kısmı PPU register'larına, bir kısmı da I/O'ya ayrılmıştır. Kartuş ROM'u için kalan alan <strong>PRG-ROM: 32 KB, CHR-ROM: 8 KB</strong>'dır.
+      Erken dönem oyunlar (Donkey Kong, Ice Climber) bu sınırlar içinde kaldı.
+    </p>
+
+    <p>
+      Ama oyunlar büyüdükçe bu alan yetmedi. Çözüm: kartuşların içine özel <strong>mapper çipleri</strong> yerleştirmek.
+      Bu çipler <strong>bank switching</strong> yaparak, büyük ROM'un farklı bölümlerini CPU'nun görebildiği 32 KB'lık (veya 8 KB'lık CHR) pencereye eşlerdi.
+    </p>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🔧 Önemli NES Mapper Çipleri</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <h4>MMC1 (Mapper 1) — Nintendo, 1987</h4>
+          <p>En yaygın mapper'lardan biri. <strong>The Legend of Zelda, Metroid, Mega Man 2</strong> gibi oyunlarda kullanıldı. 256 KB'a kadar PRG-ROM ve 128 KB'a kadar CHR-ROM destekler. Nametable mirroring'i yazılımla değiştirebilir — bu, oyun sırasında yatay ve dikey kaydırma arasında geçiş yapmayı mümkün kılar. 4-bit seri register üzerinden kontrol edilir (yavaş ama işlevsel).</p>
+
+          <h4>MMC3 (Mapper 4) — Nintendo, 1988</h4>
+          <p>En güçlü ve popüler mapper. <strong>Super Mario Bros. 3, Kirby's Adventure, Mega Man 3-6</strong> ve yüzlerce başka oyunda kullanıldı. 512 KB PRG-ROM, 256 KB CHR-ROM destekler. En önemli özelliği <strong>scanline counter</strong>: PPU'nun hangi satırda olduğunu takip edebilir ve belirli bir satırda otomatik olarak <strong>IRQ (interrupt)</strong> tetikleyebilir. Bu, ekranın farklı bölümlerinde farklı scroll pozisyonları kullanmayı (split-screen efektleri), durum çubuğu (status bar) göstermeyi ve daha karmaşık grafik hileleri yapmayı mümkün kılar.</p>
+
+          <h4>MMC5 (Mapper 5) — Nintendo, 1990</h4>
+          <p>En gelişmiş resmi Nintendo mapper'ı. <strong>Castlevania III, Just Breed</strong> gibi oyunlarda kullanıldı. Ek RAM (8 KB), geliştirilmiş nametable kontrolü, sprite başına ayrı CHR bank seçimi ve çarpma donanımı (multiplication) gibi özellikler sunar. Çok güçlü ama üretim maliyeti yüksek olduğu için az kullanılmıştır.</p>
+
+          <h4>VRC6 (Konami, Japonya)</h4>
+          <p><strong>Castlevania III (Japon versiyonu — Akumajō Densetsu)</strong> ve <strong>Madara</strong>'da kullanıldı. Ekstra ses kanalları (3 ek kanal!) ekleyerek müzik kalitesini dramatik şekilde artırdı. Japon Famicom kartuşlarında ses hatları CPU'ya bağlandığı için bu mümkündü; NES'in farklı kartuş pin yapısı bu ek sesi desteklemiyordu. Bu yüzden Castlevania III'ün Japon ve Amerikan versiyonlarının müziği çok farklıdır!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Bank Switching Kavramı</div>
+      <p><strong>Bank switching</strong>, modern programlamanın "virtual memory" (sanal bellek) kavramının atası sayılabilir. Aynı adres aralığına farklı veri blokları eşlenebilir. CPU 32 KB'lık bir pencereden bakıyor gibi görür ama mapper çipi arka planda hangi 32 KB'lık dilimi göstereceğini seçer. Bu, kilobyte'larla ölçülen ROM boyutunu megabyte'lara çıkaran bir dahice çözümdü. Bugünkü GPU'lardaki texture streaming ve bellek yönetimi de aslında aynı temel fikri kullanır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 3: COMMODORE 64 -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="c64">3. Commodore 64 ve VIC-II 💻</h2>
+
+    <p>
+      <strong>Commodore 64</strong> (1982), tarihin en çok satan kişisel bilgisayarıdır (~17 milyon adet).
+      Oyun konsollarından farklı olarak tam bir bilgisayardı (BASIC programlama dili, klavye, disk sürücü desteği),
+      ama grafik ve ses yetenekleri dönemin oyun konsollarıyla yarışacak düzeydeydi — hatta çoğunu aşıyordu.
+    </p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-3);">
+      <h3 style="margin-top: 0; color: var(--accent-3);">📊 Commodore 64 Teknik Özellikleri</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>CPU:</strong> MOS 6510 @ 1.023 MHz (NTSC) / 0.985 MHz (PAL) — 6502 tabanlı</li>
+        <li><strong>RAM:</strong> 64 KB — dönemin ev bilgisayarları için çok cömert</li>
+        <li><strong>Grafik çipi:</strong> VIC-II (MOS 6569 PAL / MOS 6567 NTSC)</li>
+        <li><strong>Ses çipi:</strong> SID (MOS 6581 / 8580) — efsanevi ses yongası</li>
+        <li><strong>Video modları:</strong>
+          <ul>
+            <li><strong>Hi-Res:</strong> 320×200, 2 renk per 8×8 karakter bloğu</li>
+            <li><strong>Multicolor:</strong> 160×200, 4 renk per 8×8 karakter bloğu (yatay çözünürlük yarıya düşer — dikdörtgen pikseller!)</li>
+            <li><strong>Karakter modu:</strong> 40×25 karakter (her biri 8×8 piksel)</li>
+          </ul>
+        </li>
+        <li><strong>Renk paleti:</strong> 16 sabit renk</li>
+        <li><strong>Donanım sprite'ları:</strong> 8 adet, 24×21 piksel (hi-res) veya 12×21 piksel multicolor (çift genişlik)</li>
+        <li><strong>Sprite renkleri:</strong> Hi-res: 2 renk. Multicolor: 4 renk (2 ortak + 1 bireysel + şeffaflık)</li>
+      </ul>
+    </div>
+
+    <h3>VIC-II Grafik Modları: Hi-Res vs Multicolor</h3>
+
+    <p>C64'ün <strong>dikdörtgen piksel</strong> kavramı önemlidir: Multicolor modunda yatay çözünürlük 160'a düşer ama pikseller gerçek kare değil, <strong>yatayda iki kat geniş dikdörtgenler</strong> olur. Bu, her 8×8 karakter bloğunda 4 renk kullanım hakkı verir (hi-res modunda sadece 2). Sanatçılar bu dikdörtgen pikselleri "geniş piksel" olarak kullan mak zorundaydı — bu da özel bir estetik yarattı.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top: 0;">🎨 Hi-Res Modu (320×200)</h3>
+        <p>Tam çözünürlük, ama her 8×8 karakter hücresinde sadece <strong>2 renk</strong> — bir arka plan, bir ön plan. Detaylı çizimler yapılabilir ama renk çeşitliliği çok kısıtlı. Grafik programları (Koala Painter gibi) genellikle multicolor'u tercih ederdi.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🌈 Multicolor Modu (160×200)</h3>
+        <p>Yarı yatay çözünürlük, ama her 8×8 blokta <strong>4 renk</strong>: 1 arka plan (global), 2 ortak renk (tüm bloklar paylaşır), 1 bireysel renk. Renkli görüntüler için tercih edilir. Dikdörtgen pikseller karakteristik "retro" görünümü oluşturur.</p>
+      </div>
+    </div>
+
+    <h3>Raster Interrupt Hileleri</h3>
+
+    <p>
+      VIC-II çipinin en güçlü özelliklerinden biri <strong>raster interrupt</strong> desteğidir. Belirli bir scanline'a ulaşıldığında
+      otomatik olarak CPU'ya interrupt (kesme) gönderir. Bu, programcılara inanılmaz güç verir:
+    </p>
+
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem; margin-bottom: 1rem;">
+      <li><strong>Sprite Multiplexing:</strong> C64'ün 8 donanım sprite'ı vardır. Raster interrupt ile, ekranın üst kısmında kullanılan sprite'lar alt kısma ulaşıldığında yeniden konumlandırılarak <strong>16, 24 veya daha fazla</strong> görünür sprite elde edilir. Shoot-em-up oyunlarında (Armalyte, Delta) onlarca düşman bu teknikle ekrana sığdırılırdı.</li>
+      <li><strong>Renk Geçişleri:</strong> Ekranın farklı bölümlerinde farklı arka plan renkleri kullanarak renk limitini "aşmak". Üst kısım mavi gökyüzü, alt kısım yeşil çim gibi — donanım normalde tüm ekran için tek renk desteklese de raster interrupt ile satır satır değiştirilir.</li>
+      <li><strong>FLI (Flexible Line Interpretation):</strong> Her 8 piksellik satırda karakter belleği pointer'ını değiştirerek, normalde 8 satırlık blokların paylaştığı renk bilgisini <strong>her satır için ayrı</strong> hale getirmek. Sonuç: fotoğraf kalitesine yaklaşan görüntüler — ama CPU süresinin neredeyse tamamını tüketir!</li>
+      <li><strong>Kenarlık Hileleri:</strong> Normalde ekranın etrafındaki kenarlık (border) alanı grafik içeremez. Ama VIC-II'nin border'ı kapatıp açma register'larını tam doğru zamanda (cycle-exact) değiştirerek, kenarlık alanında da sprite ve hatta grafik göstermek mümkün olur. Bu, demo sahnesi (demoscene) tarafından keşfedilmiş bir tekniktir.</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">📌 SID Chip — Ses Konusunda Devrim</div>
+      <p>Grafik konumuz olsa da C64'ün <strong>SID (Sound Interface Device — MOS 6581)</strong> çipini anmamak olmaz. Bob Yannes tarafından tasarlanan SID, 3 bağımsız ses kanalı, 4 dalga formu (sawtooth, triangle, pulse, noise), ADSR zarfı, ring modülasyon ve filtre desteği sunar. Ev bilgisayarlarında/konsollarında daha önce görülmemiş bir ses kalitesi sağladı ve bugün hâlâ müzisyenler tarafından "chiptune" müzik yapmak için kullanılır. SID, C64'ün oyun ve demo sahnesindeki başarısının en büyük nedenlerinden biridir — grafik ve ses birlikte güçlü bir deneyim yaratıyordu.</p>
+    </div>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🌟 C64 Demoscene: Donanım Sınırlarını Aşma Sanatı</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <p>C64 <strong>"demoscene"</strong> kültürünün doğum yerlerinden biridir. Demo sahnesi, görsel-işitsel sunumlar (demo'lar) yaratan, donanımın ne yaptığının ötesinde neler yapabileceğini gösteren bir alt kültürdür. 2024'te UNESCO tarafından <strong>somut olmayan kültürel miras</strong> olarak tescil edilmiştir.</p>
+          <p>Demoscene programcıları (scener'lar):</p>
+          <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+            <li>8 sprite sınırını sprite multiplexing ile aşarak yüzlerce hareketli nesne gösterdiler</li>
+            <li>Border alanında grafik gösterdiler (donanım bunu "desteklemiyordu")</li>
+            <li>FLI, IFLI, AFLI gibi tekniklerle neredeyse fotoğraf kalitesinde durağan görüntüler ürettiler</li>
+            <li>VIC-II'yi CPU veriyolu ile "badline" zamanlamalarını manipüle ederek normalde imkânsız efektler yaptılar</li>
+            <li>1 MHz'lik bir işlemci üzerinde gerçek zamanlı 3D döndürme, plasma efektleri, sinüs kaydırma metinleri çalıştırdılar</li>
+          </ul>
+          <p>Demo sahnesi, donanım sınırlamalarını sanat biçimine dönüştürmenin en saf örneğidir. Grafik bir zorunluluktan "ne kadar ileri gidebiliriz?" sorusuna dönüşmüştür.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 4: GAME BOY -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="gameboy">4. Game Boy: 4 Ton Yeşil ile Devrim 🟢</h2>
+
+    <p>
+      <strong>Nintendo Game Boy</strong> (1989), teknik olarak çıktığında bile eski teknoloji kullanıyordu — ama düşük maliyet,
+      uzun pil ömrü ve mükemmel oyun kütüphanesi sayesinde 118 milyon adetten fazla sattı (Game Boy Color dahil).
+      Grafik açıdan en belirgin özelliği: <strong>sadece 4 ton yeşilimsi gri</strong>.
+    </p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-green);">
+      <h3 style="margin-top: 0; color: var(--accent-green);">📊 Game Boy (DMG-01) Teknik Özellikleri</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>CPU:</strong> Sharp LR35902 (Intel 8080 + Zilog Z80 karışımı özel tasarım) @ 4.19 MHz</li>
+        <li><strong>RAM:</strong> 8 KB</li>
+        <li><strong>Video RAM:</strong> 8 KB</li>
+        <li><strong>Ekran:</strong> 160×144 piksel, dot-matrix LCD</li>
+        <li><strong>Renkler:</strong> 4 ton (en koyu → en açık). Orijinal DMG'de yeşilimsi tonlar. Pocket'ta gerçek gri tonlar.</li>
+        <li><strong>Tile sistemi:</strong> 8×8 piksel tile'lar (maksimum 256 benzersiz tile aynı anda)</li>
+        <li><strong>Sprite'lar:</strong> 40 adet (8×8 veya 8×16), scanline başına en fazla 10</li>
+        <li><strong>Arka plan:</strong> 256×256 piksel harita, 160×144 pencere ile görüntülenir (scroll)</li>
+        <li><strong>Window katmanı:</strong> Arka planın üstüne çizilebilen ikinci bir tile haritası (HUD/skor için)</li>
+        <li><strong>Pil ömrü:</strong> ~30 saat (4 adet AA pil ile) — bu stratejik bir tasarım kararıydı</li>
+      </ul>
+    </div>
+
+    <h3>Tile Tabanlı Render Sistemi</h3>
+
+    <p>
+      Game Boy, NES gibi <strong>tile tabanlı</strong> render sistemi kullanır. Tüm grafikler 8×8 piksellik tile'lardan oluşur.
+      Her piksel 2-bit (4 olası değer: 0, 1, 2, 3 — en açık ton → en koyu ton). VRAM'de en fazla
+      <strong>256 benzersiz tile</strong> (0-255 numaralı) saklanabilir ve arka plan haritası (32×32 tile = 256×256 piksel)
+      bu tile numaralarından oluşur.
+    </p>
+
+    <h3>4 Ton ile Sanat Yaratmak — Pokémon Örneği</h3>
+
+    <p>
+      <strong>Pokémon Red/Blue/Green</strong> (1996), Game Boy'un en başarılı oyunlarındandır ve 4 tonluk grafik kısıtlamasının
+      ne kadar yaratıcı kullanılabileceğini gösterir. Ken Sugimori ve ekibi <strong>151 farklı yaratık</strong> tasarlarken
+      ellerinde sadece 4 ton vardı.
+    </p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-yellow);">
+      <h3 style="margin-top: 0; color: var(--accent-yellow);">🎨 4 Tonla 151 Pokémon Nasıl Tasarlandı?</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Siluet önceliği:</strong> Her Pokémon'un dış hatı tanınabilir olmalıydı. Tasarımcılar önce siluet çizdi, sonra iç detayları ekledi. Pikachu'yu siyah siluetinden bile tanırsınız — bu bir tesadüf değil.</li>
+        <li><strong>Kontrastlı detay:</strong> 4 tondan en açığı genellikle parlak/aydınlık alanlar, en koyusu dış hat ve gölgeler için kullanıldı. Orta tonlar hacim ve doku oluşturmak için.</li>
+        <li><strong>Dithering desenleri:</strong> 4 tonun arasındaki geçişleri yumuşatmak için küçük pixel desenleri (dithering) kullanıldı — checkerboard (dama tahtası) patterniyle 4 ton'dan 6-7 algılanan ton elde edildi.</li>
+        <li><strong>Bellek sınırlaması:</strong> Her Pokémon sprite'ı kartuşta sınırlı yer kaplar. İlk nesil Pokémon'd a front sprite ve back sprite'lar farklı boyutlardaydı — bazıları 40×40, bazıları 56×56 piksel. Bu bellek optimizasyonu kararıydı.</li>
+        <li><strong>Stratejik basitleştirme:</strong> Detaylı bir yaratık yerine <em>ikonik</em> bir yaratık tasarlamak — her Pokémon'un bir veya iki belirgin özelliği (Charmander'ın kuyruk alevi, Bulbasaur'un sırt soğanı) minimal pikselle ifade edildi.</li>
+      </ul>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Game Boy Color (1998)</div>
+      <p>Game Boy Color, çözünürlüğü aynı tutarak (160×144) renk desteği ekledi: <strong>32.768 renklik paletten aynı anda 56 renk</strong> (arka plan: 8 palet × 4 renk = 32 + sprite: 8 palet × 3 renk + şeffaflık = 24). Bu, orijinal Game Boy oyunlarına otomatik renk ekleme ("colorize") özelliği de dahil olmak üzere büyük bir sıçramaydı. Ama aynı tile tabanlı mimari korundu — yani temel kısıtlamalar ve tasarım prensipleri aynen geçerliydi.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 5: SNES MODE 7 -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="snes-mode7">5. SNES Mode 7: Sahte 3D Devrimi 🌀</h2>
+
+    <p>
+      <strong>Super Nintendo Entertainment System</strong> (SNES/Super Famicom, 1990) neslin en güçlü konsollarından biriydi
+      ve grafik açıdan en dikkat çekici özelliği <strong>Mode 7</strong> adı verilen özel bir arka plan moduydu.
+      Mode 7, bir arka plan katmanına <strong>döndürme (rotation), ölçekleme (scaling), eğme (skewing)</strong> ve perspektif
+      dönüşümü uygulayarak <strong>sahte 3D (pseudo-3D)</strong> efektler yaratabiliyordu.
+    </p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-1);">
+      <h3 style="margin-top: 0; color: var(--accent-1);">📊 SNES Teknik Özellikleri</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>CPU:</strong> Ricoh 5A22 (65C816 tabanlı) @ 3.58 MHz (erişim hızına göre 2.68/3.58 MHz)</li>
+        <li><strong>RAM:</strong> 128 KB</li>
+        <li><strong>Video RAM:</strong> 64 KB</li>
+        <li><strong>PPU:</strong> Çift PPU sistemi (PPU1 + PPU2)</li>
+        <li><strong>Çözünürlük:</strong> 256×224 (standart) veya 512×448 (interlaced, nadiren kullanıldı)</li>
+        <li><strong>Renkler:</strong> 32.768 renklik paletten aynı anda <strong>256 renk</strong></li>
+        <li><strong>Arka plan katmanları:</strong> 4'e kadar (moda bağlı)</li>
+        <li><strong>Sprite'lar:</strong> 128 adet, 8×8 ile 64×64 arasında, scanline başına 32</li>
+        <li><strong>Özel modul:</strong> Mode 7 — afin dönüşüm desteği</li>
+      </ul>
+    </div>
+
+    <h3>Mode 7 Nasıl Çalışır?</h3>
+
+    <p>
+      Mode 7, matematiksel olarak bir <strong>afin dönüşüm (affine transformation)</strong> matris çarpımı uygular.
+      Her scanline için, SNES PPU'su bir 2D arka plan haritasını (1024×1024 piksellik bir tile haritası, her tile 8×8 piksel)
+      şu parametrelere göre dönüştürür:
+    </p>
+
+    <div style="text-align: center; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; color: var(--accent-4);">
+      <p>[ x' ] = [ A  B ] × [ x - x₀ ] + [ x₀ ]</p>
+      <p>[ y' ] &nbsp; [ C  D ] &nbsp; [ y - y₀ ] &nbsp; [ y₀ ]</p>
+    </div>
+
+    <p>
+      A, B, C, D parametreleri her scanline için ayrı ayrı ayarlanabilir. <strong>Hdma (H-Blank DMA)</strong> kullanarak
+      her scanline'da bu parametreleri otomatik olarak değiştirmek, <strong>perspektif efekti</strong> yaratmanın anahtarıdır:
+      ekranın üst kısmıiçin küçük ölçek (uzak), alt kısmı için büyük ölçek (yakın) → 3D zemin illüzyonu!
+    </p>
+
+    <h3>Mode 7 Kullanan İkonik Oyunlar</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top: 0;">🏎️ F-Zero (1990)</h3>
+        <p>SNES'in lansman oyunlarından biri ve Mode 7'nin en ikonik kullanımı. Yarış pisti düz bir 2D haritadır ve Mode 7 bu haritayı perspektif projeksiyon ile 3D zemin gibi gösterir. Virajlarda döndürme, rampada ölçekleme kullanılır. 60 fps'de akıcı sahte 3D yarış — 1990'da bu gerçekten etkileyiciydi. 3D modelleme veya poligon yok — hepsi 2D texture dönüşümü.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🏁 Super Mario Kart (1992)</h3>
+        <p>Mode 7'yi yol yüzeyi için kullanır, ama inovasyonu <strong>sprite scaling</strong> ile karakterlerin (diğer yarışçıların) uzaklığa göre büyütülüp küçültülmesidir. Aslında diğer araçlar 3D model değil, farklı açılardan önceden çizilmiş 2D sprite'lardır. Mode 7 zemin + ölçeklenmiş sprite'lar = ikna edici 3D yarış. Nintendo'nun dahice tasarım kararlarıyla dünyanın en ikonik yarış oyunlarından biri doğdu.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">✈️ Pilotwings (1990)</h3>
+        <p>Uçak ve paraşüt simülasyonu. Mode 7, arazinin kuşbakışı görünümünü oluşturur; alçaldıkça/yükseldikçe ölçeklendirme, dönüşte döndürme efektleri kullanılır. Mode 7'nin rotasyon ve ölçeklendirme yeteneklerinin en kapsamlı kullanımlarından biri.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🔮 Final Fantasy VI (1994)</h3>
+        <p>Dünya haritasını Mode 7 ile döndürülerek ve ölçeklenerek gösterir — karakteriniz hareket ettikçe tüm dünya dönüyor gibi görünür. Airship (hava gemisi) sahneleri de Mode 7 ile üstten perspektif görünüm sağlar.</p>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Mode 7'nin Sınırlamaları</div>
+      <p>Mode 7 her ne kadar etkileyici olsa da önemli kısıtlamaları vardı: <strong>sadece tek bir arka plan katmanı</strong> Mode 7 efekti kullanabilir (diğer katmanlar devre dışı kalırdı). Sprite'lar Mode 7'den etkilenmez — dönüşüm sadece arka plana uygulanır. Ayrıca texture yakınlaştığında <strong>pikselleşme</strong> çok belirgin olurdu çünkü filtre yoktu (bilinear/trilinear yoktu). Yine de bu sınırlamalarla bile 2D donanımda 3D illüzyonu yaratmak büyük bir başarıydı.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 6: PALET DÖNGÜSÜ -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="palet-dongusu">6. Palet Döngüsü (Color Cycling) 🎨</h2>
+
+    <p>
+      <strong>Palet döngüsü (color cycling / palette rotation)</strong>, erken dönem bilgisayar grafiğinin en zarif animasyon tekniklerinden biridir.
+      Piksel verileri hiç değiştirilmeden, sadece <strong>renk paletindeki değerler kaydırılarak</strong> görüntüde hareket illüzyonu yaratılır.
+      Bu teknik neredeyse sıfır işlem gücü ve sıfır ek bellek kullanır — çünkü değişen şey pikseller değil, renklerin kendisidir.
+    </p>
+
+    <h3>Nasıl Çalışır?</h3>
+
+    <p>
+      İndeksli renk (indexed color) sistemlerinde —ki Amiga, C64, VGA bilgisayarlar hep bunu kullanır — her piksel doğrudan RGB değeri tutmaz.
+      Bunun yerine bir <strong>palet indeksi</strong> (0-255 arası bir sayı) tutar ve bu indeks renk paletinde karşılık gelen RGB değerine bakar.
+      Palet döngüsü bu tabloyu manipüle eder:
+    </p>
+
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <h3 style="margin-top: 0; color: var(--accent-4);">⚙️ Palet Döngüsü Adımları</h3>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>Sanatçı bir görüntü çizer. Belirli alanları (su, ateş, ışık) <strong>ardışık palet indeksleri</strong> ile boyar (örn: #10, #11, #12, #13, #14 — giderek açılan mavi tonları).</li>
+        <li>Her karede (veya belirli aralıklarla), bu ardışık indekslerdeki renk değerleri <strong>bir pozisyon kaydırılır</strong> (rotate): #10'un rengi #11'e, #11'inki #12'ye... ve #14'ünki #10'a gider.</li>
+        <li>Pikseller hiç değişmedi — ama piksellerin "baktığı" renkler kaydı. Sonuç olarak su akar, ateş yanar, ışıklar parlar gibi görünür.</li>
+      </ol>
+    </div>
+
+    <h3>Mark Ferrari — Color Cycling Ustası</h3>
+
+    <p>
+      <strong>Mark J. Ferrari</strong>, palet döngüsü tekniğinin en usta uygulayıcılarından biridir.
+      LucasArts macera oyunları (<strong>Loom, The Secret of Monkey Island, Thimbleweed Park</strong>) ve kendi kişisel çalışmalarıyla tanınır.
+      Ferrari'nin <strong>Deluxe Paint (DPaint)</strong> ile Amiga'da yaptığı çalışmalar, statik bir pikseli sanat yapıtına
+      dönüştürmenin şaheser örnekleridir.
+    </p>
+
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span>🖌️ Mark Ferrari'nin Palet Döngüsü Teknikleri — Detaylı</span>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="collapsible-content">
+        <div class="collapsible-content-inner">
+          <h4>🌊 Su Animasyonu</h4>
+          <p>Su efekti için Ferrari 6-8 ardışık palet girişi kullanır: koyu mavi → orta mavi → açık mavi → beyaz (ışık yansıması). Bu girdiler döngüsel olarak kaydırıldığında, su yüzeyindeki ışık yansımaları kayıyor gibi görünür. Üstelik bunu birden fazla hızda yaparak — yüzeydeki dalgalar hızlı, derin sudaki tonlar yavaş — çok katmanlı bir su illüzyonu elde eder.</p>
+
+          <h4>🔥 Ateş ve Lav Animasyonu</h4>
+          <p>Ateş için kırmızı → turuncu → sarı → beyaz gradyanında palet döngüsü. Lavlar genellikle daha yavaş bir döngü ile koyu kırmızı → parlak turuncu arasında kaydırılır. Ferrari, aynı görüntüde farklı döngü hızları ve yönleri kullanarak birden fazla bağımsız hareket oluşturur.</p>
+
+          <h4>💎 Mücevher ve Parıltı</h4>
+          <p>Mücevherlerde 4-5 palet girişi beyaz bir "specular highlight" (yansıma parlıltısı) oluşturmak üzere döndürülür. Parlak nokta mücevherin yüzeyinde kayar gibi görünür. Aynı teknik metal yüzeylerdeki yansımalar için de kullanılır.</p>
+
+          <h4>🌅 Gündüz/Gece Geçişi</h4>
+          <p>Ferrari'nin en etkileyici çalışmalarından biri: <strong>tüm palet</strong> yavaşça değiştirilir (döngü değil, gradyan geçiş). Gökyüzü mavisinden turuncu gün batımına, oradan gece lacivertine ve tekrar şafak gülüne — tüm görüntü canlı bir gündüz/gece döngüsü yaşar. Hiçbir piksel değişmez, sadece renkler.</p>
+
+          <h4>🎨 Deluxe Paint (DPaint)</h4>
+          <p>Electronic Arts tarafından 1985'te Dan Silva tarafından yaratılan Deluxe Paint, Amiga platformunun en önemli grafik programıydı. DPaint, döngüsel renk aralıkları tanımlama özelliği ile palet döngüsü sanatını doğrudan destekliyordu. Ferrari, DPaint IV'ü ana aracı olarak kullanmıştır. DPaint, retro grafik topluluğu tarafından hâlâ saygıyla anılır — birçok retro-stil oyun ve piksel sanatı hâlâ DPaint'ten ilham alır.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Günümüzle Bağlantı: Palet Döngüsü Hâlâ Yaşıyor</div>
+      <p>Palet döngüsü tekniği, Unity ve Godot gibi modern oyun motorlarında <strong>shader</strong> olarak uygulanabilir: bir renk arama tablosu (LUT) oluşturup bunu zamana göre kaydırmak, temelde aynı tekniktir. Retro-stil oyunlarda (Shovel Knight, Celeste) palet swap efektleri aktif olarak kullanılır. Ayrıca <strong>gif animasyonları</strong> bile palet döngüsü prensibini kullanır — GIF formatı indeksli renk tabanlıdır!</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 7: DITHERING -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="dithering">7. Dithering: Zorunluluktan Doğan Sanat 🔳</h2>
+
+    <p>
+      <strong>Dithering</strong>, az sayıda renkle daha fazla renk/ton <em>illüzyonu</em> yaratma tekniğidir.
+      Farklı renklerdeki pikseller belirli desenlerde (pattern) yan yana yerleştirilerek, insan gözünün
+      bu pikselleri ortalama bir ton olarak algılaması sağlanır. Baskı tekniklerindeki <strong>halftone</strong>
+      (yarım ton) ile aynı prensiptir — gazetelerdeki siyah-beyaz fotoğraflar da aslında farklı boyutlarda
+      siyah noktalardan oluşarak gri ton illüzyonu yaratır.
+    </p>
+
+    <h3>Sega Genesis/Mega Drive ve Dithering Zorunluluğu</h3>
+
+    <p>
+      <strong>Sega Genesis/Mega Drive</strong> (1988), rakibi SNES'e kıyasla <strong>daha sınırlı bir renk paletine</strong> sahipti:
+    </p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Özellik</th><th>Sega Genesis</th><th>SNES</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Toplam palet</td><td>512 renk (9-bit: 3-bit R, 3-bit G, 3-bit B)</td><td>32.768 renk (15-bit: 5-bit per kanal)</td></tr>
+        <tr><td>Aynı anda ekranda</td><td>61 renk (4 palet × 15 renk + 1 arka plan)</td><td>256 renk</td></tr>
+        <tr><td>Avantaj</td><td>Daha hızlı CPU (Motorola 68000 @ 7.67 MHz)</td><td>Daha zengin renk, Mode 7, özel ses</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      Genesis'in 512 renklik paleti, SNES'in 32.768'ine kıyasla oldukça kısıtlıydı. Bu fark özellikle
+      <strong>gradyan geçişlerde</strong> (gökyüzü, su, gölgeler) belirginleşiyordu: SNES pürüzsüz
+      tonlama yapabilirken, Genesis'te renk bantlaması (color banding) oluşuyordu. Sanatçıların
+      çözümü: <strong>sistematik dithering</strong>.
+    </p>
+
+    <h3>Sonic the Hedgehog'da Dithering</h3>
+
+    <div class="card" style="border-left: 3px solid var(--accent-4);">
+      <h3 style="margin-top: 0; color: var(--accent-4);">🦔 Sonic Serisindeki Dithering Kullanımları</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Şelale efektleri:</strong> Sonic 1'in Green Hill Zone'ndaki şelaleler, açık mavi ve beyaz piksellerin checkerboard düzeninde sıralanmasıyla oluşturulmuş saydam su illüzyonudur. CRT televizyonların piksel karıştırma (blending) özelliği bu dithering'i yumuşatarak pürüzsüz bir görünüm sağlıyordu.</li>
+        <li><strong>Yer altı bölümleri:</strong> Marble Zone'daki lav ve mağara duvarlarında dithering, sınırlı palet ile doku ve derinlik oluşturmak için kullanılır.</li>
+        <li><strong>Special Stage:</strong> Dönen labirent sahnelerinde dithering özellikle yoğundur — arka plan gradyanları dithering olmadan çok kaba bantlar halinde görünürdü.</li>
+        <li><strong>CRT avantajı:</strong> Genesis sanatçıları, oyunların <strong>CRT televizyonlarda</strong> oynanacağını biliyordu. CRT'nin analog sinyal işleme yapısı yan yana pikselleri doğal olarak ayırt ederdi — bu da dithering pattern'lerini gözle görülebilir piksel desenleri yerine pürüzsüz gradyanlara dönüştürüyordu. <strong>Dithering, CRT için "tasarlanmış" bir teknikti.</strong></li>
+      </ul>
+    </div>
+
+    <h3>Dithering Türleri</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top: 0;">🔲 Ordered Dithering (Bayer Matrix)</h3>
+        <p>Sabit bir eşik matrisi (genellikle 2×2, 4×4 veya 8×8) kullanılarak piksellerin hangi rengi alacağı belirlenir. Düzenli, tekrarlayan bir desen oluşturur. Oyunlarda en yaygın kullanılan tür — hafif ve öngörülebilir.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">📊 Error Diffusion (Floyd-Steinberg)</h3>
+        <p>Bir pikselin "hatası" (istenen renk ile mevcut palet arasındaki fark) komşu piksellere dağıtılır. Daha doğal, düzensiz bir desen üretir ama hesaplama maliyeti yüksektir. Genellikle baskı ve fotoğraf dönüşümlerinde kullanılır, gerçek zamanlı oyunlarda nadirdir.</p>
+      </div>
+    </div>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Düşünün: Dithering Modern Dünyada</div>
+      <p>Dithering hâlâ çok yaygın: GIF formatı (256 renk sınırı), video sıkıştırma (bantlamayı gizleme), CSS/web gradyanları (düşük kalite ekranlarda), ve hatta <strong>oyun motorlarındaki post-processing</strong> (film grain, banding azaltma) dithering kullanır. Bir sonraki bölümde göreceğiniz <strong>pixel art</strong> çalışmalarında da dithering temel bir tekniktir!</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 8: SPRITE FLICKERING -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="sprite-flicker">8. Sprite Flickering: Kısıtlamadan Özelliğe 👻</h2>
+
+    <p>
+      NES bölümünde kısaca değindik; şimdi sprite flickering'in <strong>teknik detayını ve kültürel etkisini</strong> daha
+      yakından inceleyelim. Bu konu, "bir hatanın nasıl bir özelliğe dönüştürülebileceğinin" ders kitabıdır.
+    </p>
+
+    <h3>Teknik Açıklama</h3>
+
+    <p>
+      NES PPU'su bir scanline'ı render ederken, <strong>sprite evaluation</strong> aşamasında o satırda hangi sprite'ların
+      görünür olduğunu belirler. OAM'deki 64 sprite'dan o scanline ile kesişenleri bulur ve ilk 8'ini seçer.
+      OAM sırasına göre (düşük index = yüksek öncelik) seçim yapılır. Eğer 8'den fazla sprite aynı satırdaysa,
+      9. ve sonrakiler o karede <strong>render edilmez</strong>.
+    </p>
+
+    <p>PPU ayrıca <strong>sprite overflow flag</strong> (Status Register bit 5) set eder — ama bu flag donanım hatası nedeniyle tam güvenilir değildir (false positive/negative üretebilir).</p>
+
+    <h3>Geliştiricilerin Çözümleri</h3>
+
+    <div class="card" style="border-left: 3px solid var(--accent-3);">
+      <h3 style="margin-top: 0; color: var(--accent-3);">🔄 OAM Döndürme (Rotation) Tekniği</h3>
+      <ol style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li>Her karede (1/60 saniye), OAM'deki sprite'ların sırasını <strong>döndür</strong> (rotate)</li>
+        <li>Kare 1: Sprite A, B, C, D, E, F, G, H görünür → I, J, K kayıp</li>
+        <li>Kare 2: Sprite D, E, F, G, H, I, J, K görünür → A, B, C kayıp</li>
+        <li>Sonuç: Her sprite 60 fps'nin yaklaşık 40-50 fps'inde görünür → hızlı bir titreşim (flicker)</li>
+        <li>İnsan gözü bunu "yarı saydam" veya "hafif titreyen" olarak algılar — tamamen kaybolmaktan çok daha iyi</li>
+      </ol>
+    </div>
+
+    <h4>Flickering'i "Özelliğe" Dönüştürme</h4>
+
+    <p>Bazı oyunlar flickering'i <strong>bilinçli bir tasarım aracı</strong> olarak kullandı:</p>
+
+    <ul style="color: var(--text-secondary); padding-left: 1.2rem; margin-bottom: 1rem;">
+      <li><strong>Hasar görseli:</strong> Hit alan düşmanlar veya oyuncu karakteri "flickering" ile yanıp söner — hem sprite limitinden tasarruf sağlar (fleeing sprite daha az scanline'da görünür) hem de hit edildiğini görsel olarak bildirir.</li>
+      <li><strong>Saydamlık efekti:</strong> NES donanımında gerçek alfa saydamlığı yoktur, ama flickering ile %50 saydamlık simüle edilir. Hayalet düşmanlar, güç kalkanları, geçiş efektleri bu teknikle yapılmıştır.</li>
+      <li><strong>Dokunulmazlık (invincibility):</strong> Mario yıldız aldığında veya hasar aldıktan sonra flickering yapar — bu hem görsel geri bildirim hem de sprite yönetimi açısından faydalı bir tasarım kararıdır.</li>
+    </ul>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Retro Estetiğin Parçası</div>
+      <p>Bugün retro-stil oyunlar (Shovel Knight, Celeste, Undertale) bazen <strong>kasıtlı olarak</strong> sprite flickering efekti ekler — teknik bir gereklilik olmadığı halde. Bu, NES kuşağının nostaljik "hissini" yaratmak için yapılır. Kısıtlamanın zorunlu sonucu olan bir teknik artefakt, zamanla <strong>estetiğin doğal bir parçası</strong> haline gelmiştir.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 9: PARALLAX SCROLLING -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="parallax">9. Parallax Scrolling: 2D'de Derinlik İllüzyonu 🏔️</h2>
+
+    <p>
+      <strong>Parallax scrolling (paralaks kaydırma)</strong>, ekrandaki arka plan katmanlarını farklı hızlarda kaydırarak
+      <strong>derinlik (depth) illüzyonu</strong> yaratma tekniğidir. Yakındaki nesneler hızlı, uzaktaki nesneler yavaş hareket eder —
+      tıpkı gerçek hayatta bir arabadan dışarı baktığınızda yol kenarındaki ağaçların hızla geçerken uzaktaki dağların
+      neredeyse yerinde durması gibi. Bu, <strong>hareket paralaksı (motion parallax)</strong> olarak bilinen bir derinlik algısı ipucudur.
+    </p>
+
+    <h3>Paralaksın Kısa Tarihi</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="margin-top: 0;">🌙 Moon Patrol (1982)</h3>
+        <p><strong>Irem</strong> tarafından geliştirilen Moon Patrol, parallax scrolling kullanan <strong>ilk arcade oyunu</strong> olarak kabul edilir. Ay yüzeyinde ilerlenen bu side-scroller'da üç arka plan katmanı farklı hızlarda kayar: yakındaki tepeler hızlı, uzaktaki dağlar yavaş, yıldızlı gökyüzü çok yavaş. Bu basit teknik anında "dünya" hissini güçlendirdi.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top: 0;">🌴 Jungle Hunt (1982)</h3>
+        <p><strong>Taito</strong>'nun Jungle Hunt'ı da aynı yıl parallax scrolling kullandı. Orman sahnelerinde ağaç katmanları farklı hızlarda kayarak ormanın derinliğini hissettirir. Moon Patrol ile birlikte parallax scrolling'in arcade dünyasında yayılmasını başlatan öncülerdir.</p>
+      </div>
+    </div>
+
+    <h3>Teknik Uygulama</h3>
+
+    <p>2D donanımda parallax scrolling birkaç yöntemle uygulanabilir:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Yöntem</th><th>Mekanizma</th><th>Örnek Platform</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Çoklu arka plan katmanı</strong></td>
+          <td>Donanım birden fazla bağımsız kaydırılabilir arka plan katmanı destekliyorsa (SNES: 4'e kadar, Genesis: 2), her katman farklı hızda kaydırılır.</td>
+          <td>SNES, Genesis, GBA</td>
+        </tr>
+        <tr>
+          <td><strong>Raster efektleri / Scanline tricks</strong></td>
+          <td>Tek arka plan katmanı olan sistemlerde, her scanline'da scroll register'ı değiştirilerek farklı satırlar farklı hızlarda kayar. Donanım 1 katman desteklese bile yazılımla çok katmanlı parallax yapılabilir.</td>
+          <td>NES, C64, Game Boy</td>
+        </tr>
+        <tr>
+          <td><strong>Sprite tabanlı</strong></td>
+          <td>Arka plan katmanı olmayan veya yetersiz olan sistemlerde, yatay şeritler halinde sprite'lar kullanılır.</td>
+          <td>Atari 2600 (çok sınırlı), erken arcade</td>
+        </tr>
+        <tr>
+          <td><strong>HDMA (Horizontal DMA)</strong></td>
+          <td>SNES'e özel: H-Blank sırasında DMA ile register değerleri otomatik olarak her satır için tablo dan güncellenir. Yazılım döngüsü gerektirmez, CPU serbest kalır.</td>
+          <td>SNES</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Parallax'ın Etkisi ve Mirası</h3>
+
+    <p>
+      Parallax scrolling, 1980'ler ve 1990'ların <strong>tüm</strong> 2D oyunlarında standart hale geldi:
+      <strong>Sonic the Hedgehog</strong> (Genesis — 3-4 parallax katmanı), <strong>Donkey Kong Country</strong>
+      (SNES — çok katmanlı, sahne sahneden değişen parallax), <strong>Street Fighter II</strong> (arka plan detayları),
+      <strong>Metroid</strong> serisi ve sayısız platformer.
+    </p>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Günümüzde Parallax</div>
+      <p>Parallax scrolling bugün <strong>web tasarımında</strong> da yaygındır — scroll yaparken arka plan resimlerinin farklı hızlarda kayması (CSS <code>background-attachment: fixed</code> veya scroll-linked JavaScript animasyonları). 2D oyunlarda (Hollow Knight, Celeste, Ori) parallax hâlâ aktif olarak kullanılır. CSS ve Canvas/WebGL tabanlı parallax efektleri, aslında 1982'deki Moon Patrol'un doğrudan mirasçısıdır.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 10: KARŞILAŞTIRMA TABLOSU -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="karsilastirma">10. Teknik Karşılaştırma Tablosu 📊</h2>
+
+    <p>Aşağıdaki tablo, bu sayfada ele aldığımız tüm platformları yan yana karşılaştırmaktadır. Bu tablo, her platformun güçlü ve zayıf yanlarını bir bakışta görmenizi sağlar:</p>
+
+    <div style="overflow-x: auto;">
+    <table class="comparison-table" style="font-size: 0.85rem;">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Atari 2600</th>
+          <th>NES/Famicom</th>
+          <th>Commodore 64</th>
+          <th>Game Boy</th>
+          <th>Sega Genesis</th>
+          <th>SNES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Yıl</strong></td>
+          <td>1977</td>
+          <td>1983</td>
+          <td>1982</td>
+          <td>1989</td>
+          <td>1988</td>
+          <td>1990</td>
+        </tr>
+        <tr>
+          <td><strong>CPU</strong></td>
+          <td>MOS 6507 @ 1.19 MHz</td>
+          <td>Ricoh 2A03 @ 1.79 MHz</td>
+          <td>MOS 6510 @ ~1 MHz</td>
+          <td>Sharp LR35902 @ 4.19 MHz</td>
+          <td>Motorola 68000 @ 7.67 MHz</td>
+          <td>Ricoh 5A22 @ 3.58 MHz</td>
+        </tr>
+        <tr>
+          <td><strong>RAM</strong></td>
+          <td><strong>128 byte</strong></td>
+          <td>2 KB</td>
+          <td>64 KB</td>
+          <td>8 KB</td>
+          <td>64 KB</td>
+          <td>128 KB</td>
+        </tr>
+        <tr>
+          <td><strong>Video RAM</strong></td>
+          <td>—</td>
+          <td>2 KB</td>
+          <td>Paylaşımlı (16 KB video alanı)</td>
+          <td>8 KB</td>
+          <td>64 KB</td>
+          <td>64 KB</td>
+        </tr>
+        <tr>
+          <td><strong>Çözünürlük</strong></td>
+          <td>160×192</td>
+          <td>256×240</td>
+          <td>320×200 / 160×200</td>
+          <td>160×144</td>
+          <td>320×224</td>
+          <td>256×224 (512×448 interlaced)</td>
+        </tr>
+        <tr>
+          <td><strong>Toplam palet</strong></td>
+          <td>128 renk</td>
+          <td>54 renk</td>
+          <td>16 renk</td>
+          <td>4 ton (DMG)</td>
+          <td>512 renk</td>
+          <td>32.768 renk</td>
+        </tr>
+        <tr>
+          <td><strong>Aynı anda ekranda</strong></td>
+          <td>~4-5 (scanline'a bağlı)</td>
+          <td>25 renk</td>
+          <td>16 renk</td>
+          <td>4 ton</td>
+          <td>61 renk</td>
+          <td>256 renk</td>
+        </tr>
+        <tr>
+          <td><strong>Sprite sayısı</strong></td>
+          <td>2 Player + 2 Missile + 1 Ball</td>
+          <td>64 (8 per scanline)</td>
+          <td>8 donanım sprite</td>
+          <td>40 (10 per scanline)</td>
+          <td>80 (20 per scanline)</td>
+          <td>128 (32 per scanline)</td>
+        </tr>
+        <tr>
+          <td><strong>Sprite boyutu</strong></td>
+          <td>8px genişlik (1x/2x/4x)</td>
+          <td>8×8 veya 8×16</td>
+          <td>24×21 (hi-res) / 12×21 (mc)</td>
+          <td>8×8 veya 8×16</td>
+          <td>8×8 ile 32×32 arası</td>
+          <td>8×8 ile 64×64 arası</td>
+        </tr>
+        <tr>
+          <td><strong>Arka plan katmanı</strong></td>
+          <td>1 Playfield (20-bit)</td>
+          <td>1 (+ nametable scroll)</td>
+          <td>1 (karakter/bitmap)</td>
+          <td>1 BG + 1 Window</td>
+          <td>2 scroll katmanı</td>
+          <td>4'e kadar (mod bağlı)</td>
+        </tr>
+        <tr>
+          <td><strong>Özel yetenek</strong></td>
+          <td>—</td>
+          <td>Mapper çipleri</td>
+          <td>Raster interrupt, SID ses</td>
+          <td>Taşınabilirlik</td>
+          <td>Hızlı CPU, "Blast Processing"</td>
+          <td>Mode 7, HDMA, ses (SPC700)</td>
+        </tr>
+        <tr>
+          <td><strong>Frame buffer</strong></td>
+          <td style="color: var(--accent-1); font-weight: 600;">❌ Yok!</td>
+          <td>Tile tabanlı</td>
+          <td>Bitmap veya Karakter</td>
+          <td>Tile tabanlı</td>
+          <td>Tile tabanlı</td>
+          <td>Tile tabanlı</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="info-box think">
+      <div class="info-title">🧠 Tabloya Bakarak Düşünün</div>
+      <p>Atari 2600'ün 128 byte RAM'i ile SNES'in 128 KB RAM'ini karşılaştırın: <strong>1000 kat fark</strong>. Ama aralarında sadece 13 yıl var! 1977'den 1990'a görkemli bir sıçrama. Şimdi SNES'in 128 KB'ını bugünkü bir bilgisayarın 16-64 GB RAM'iyle karşılaştırın: <strong>125.000 - 500.000 kat</strong> daha fazla. Bu katlanarak büyüme, <strong>Moore Kanunu</strong>'nun (yaklaşık her 2 yılda transistor yoğunluğunun ikiye katlanması) doğrudan sonucudur.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BÖLÜM 11: KAYNAKLAR -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="kaynaklar">11. Kaynaklar ve YouTube Kanalları 📺</h2>
+
+    <h3 id="youtube-kanallari">Önerilen YouTube Kanalları</h3>
+
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-1);">
+        <h3 style="margin-top: 0; color: var(--accent-1);">🎬 The 8-Bit Guy</h3>
+        <p><strong>David Murray</strong> tarafından yürütülen kanal (~1.3M abone), retro bilgisayar donanımı ve grafik teknolojilerine odaklanır.</p>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.9rem;">
+          <li><strong>"How Old School Graphics Worked"</strong> serisi — CGA, EGA, VGA grafik donanımlarının nasıl çalıştığını, renk paletlerinin nasıl oluşturulduğunu, karakter/bitmap modlarını detaylıca anlatan çok bölümlük bir seri. <em>Bu dersin konularıyla doğrudan ilişkili.</em></li>
+          <li><strong>Commodore 64 grafikleri</strong> — VIC-II çipinin çalışma mantığını, karakter setlerini ve multicolor modunu görsel olarak açıklayan videolar.</li>
+          <li><strong>"How Oldschool Sound/Music Worked"</strong> — SID çipi, NES APU ve FM sentez dahil retro ses donanımlarını kapsar.</li>
+          <li><strong>CRT vs LCD karşılaştırmaları</strong> — Dithering ve palet döngüsü tekniklerinin CRT'de neden daha iyi göründüğünü anlamanız için önemli.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-4);">
+        <h3 style="margin-top: 0; color: var(--accent-4);">🔬 Retro Game Mechanics Explained</h3>
+        <p>Retro oyunların teknik altyapısını inanılmaz detayda açıklayan bir kanal.</p>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.9rem;">
+          <li><strong>NES PPU açıklama videoları</strong> — Nametable mirroring, sprite evaluation, scanline rendering sürecini adım adım açıklar. OAM'in nasıl çalıştığını, sprite overflow flag'inin donanım hatasını ve flickering mekanizmasını gösterir.</li>
+          <li><strong>SNES grafik analizi</strong> — Mode 7'nin matematiksel temellerini, HDMA'nın nasıl kullanıldığını, DMA transfer mekanizmasını teknik diyagramlarla açıklar.</li>
+          <li><strong>Mapper ve bank switching videoları</strong> — MMC1, MMC3 çiplerinin çalışma prensiplerini, scanline counter'ın split-screen efektleri için nasıl kullanıldığını gösterir.</li>
+          <li><strong>Ses donanımı videoları</strong> — NES APU'dan SNES SPC700'e ses altyapısının evrimini kapsar.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card" style="border-left: 3px solid var(--accent-green);">
+        <h3 style="margin-top: 0; color: var(--accent-green);">🎮 Diğer Önerilen Kaynaklar</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.9rem;">
+          <li><strong>Displaced Gamers</strong> — NES ve SNES grafik pipeline'ı hakkında çok detaylı teknik videolar. PPU iç yapısını register seviyesinde açıklar.</li>
+          <li><strong>Modern Vintage Gamer</strong> — Konsol donanım analizleri, emülatör geliştirme hikayeleri ve "impossible ports" (imkânsız portlar) videoları.</li>
+          <li><strong>Morphcat Games</strong> — NES homebrew geliştirici. NES'in donanım sınırlarını itme konusunda pratik deneyim paylaşır. Micro Mages oyunları standart NES kartuşunda çıkmıştır.</li>
+          <li><strong>Coding Secrets (YouTube/Blog)</strong> — Genesis/Mega Drive geliştirme tekniklerini, VDP çipini ve Sonic oyunlarının teknik altyapısını açıklar.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent-3);">
+        <h3 style="margin-top: 0; color: var(--accent-3);">📚 Kitaplar ve Makaleler</h3>
+        <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.9rem;">
+          <li><strong>"Racing the Beam"</strong> — Nick Montfort & Ian Bogost (MIT Press, 2009). Atari 2600'ün TIA donanımını ve üzerindeki yaratıcı programlamayı detaylıca anlatan akademik çalışma.</li>
+          <li><strong>"I Am Error"</strong> — Nathan Altice (MIT Press, 2015). NES/Famicom platformunun teknik ve kültürel tarihini kapsayan kapsamlı kitap.</li>
+          <li><strong>NESDev Wiki</strong> (nesdev.org/wiki) — NES donanım ve yazılım geliştirme konusunda en kapsamlı teknik referans. PPU, APU, mapper'lar hakkında her detay burada.</li>
+          <li><strong>"The Commodore 64 Programmer's Reference Guide"</strong> — Commodore (1982). VIC-II ve SID register'larını, bellek haritasını ve programlama tekniklerini içerir.</li>
+          <li><strong>Copetti.org (Rodrigo Copetti)</strong> — "Architecture of Consoles" yazı serisi. NES, SNES, Genesis, Game Boy ve birçok konsolu detaylı mimari diyagramlarla açıklayan harika bir online kaynak.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>İnteraktif Web Kaynakları</h3>
+
+    <div class="card" style="border-left: 3px solid var(--accent-orange);">
+      <h3 style="margin-top: 0; color: var(--accent-orange);">🌐 Tarayıcıda Deneyin</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.9rem;">
+        <li><strong>effectgames.com/demos/canvascycle</strong> — Mark Ferrari'nin palet döngüsü çalışmalarını tarayıcıda canlı olarak deneyimleyebileceğiniz interaktif demo. Su, ateş, gündüz/gece geçişlerini görün.</li>
+        <li><strong>famitracker.com</strong> — NES ses donanımını simüle eden bir müzik oluşturma aracı. Chiptune müzik yapmayı deneyin.</li>
+        <li><strong>nesdev.org/wiki</strong> — NES geliştirme topluluğunun wiki'si. PPU, APU ve mapper'lar hakkında en detaylı teknik bilgiler burada.</li>
+        <li><strong>lospec.com/palette-list</strong> — NES, Game Boy, C64, Genesis gibi eski platformların renk paletlerini indirip kendi pixel art'ınızda kullanabileceğiniz kaynak.</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- ÖZET -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <h2 id="ozet">12. Sonuç: Kısıtlama Yaratıcılığın Anasıdır 🎯</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu Sayfanın Ana Mesajı</div>
+      <p>Bu sayfada gördüğünüz her teknik — racing the beam, sprite flickering, dithering, palet döngüsü, parallax scrolling, tile tabanlı rendering — <strong>bir kısıtlamaya verilen yaratıcı bir yanıttır</strong>. Bu tekniklerin birçoğu sadece tarihsel değil; modern oyun geliştirmede, web grafiklerinde ve shader programlamada hâlâ aktif olarak kullanılıyor.</p>
+      <p style="margin-top: 0.75rem;">Bir sonraki derste (Bölüm 5: Pixel Art) bu tarihsel bilgileri pratiğe dökeceğiz: kendi 4 renkli Game Boy sprite'ınızı çizecek, dithering tekniklerini uygulayacak ve NES renk kısıtlamasıyla çalışacaksınız.</p>
+    </div>
+
+    <div class="card" style="border-left: 3px solid var(--accent-green); margin-bottom: 2rem;">
+      <h3 style="margin-top: 0; color: var(--accent-green);">🔑 Anahtar Çıkarımlar</h3>
+      <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+        <li><strong>Frame buffer yokluğu</strong> → "Racing the beam" ile satır satır gerçek zamanlı grafik üretimi (Atari 2600)</li>
+        <li><strong>Renk paleti sınırlaması</strong> → Dithering, palet döngüsü, stratejik renk kullanımı</li>
+        <li><strong>Sprite sınırlaması</strong> → Flickering tekniği, multiplexing, seviye tasarımını donanıma göre planlama</li>
+        <li><strong>Bellek sınırlaması</strong> → Tile tabanlı rendering, bank switching ile mapper çipleri</li>
+        <li><strong>2D donanım sınırlaması</strong> → Mode 7 ile sahte 3D, parallax scrolling ile derinlik illüzyonu</li>
+        <li><strong>Karakter tasarımı sınırlaması</strong> → Mario'nun bıyığı, şapkası, tulumu — her detay bir çözüm</li>
+        <li><strong>Genel ilke:</strong> Kısıtlama altında çalışmak, daha sade, daha akılda kalıcı ve daha optimize çözümler üretmeye zorlar. Bu ilke <em>her zaman</em> geçerlidir.</li>
+      </ul>
+    </div>
+
+    <!-- ══════════════════════════ -->
+    <div style="text-align: center; padding: 2rem 0; color: var(--text-secondary); font-size: 0.9rem;">
+      <p>← <a href="../hafta1/index.html">Bölüm 1'e Dön</a> · <a href="../index.html">Ana Sayfa</a></p>
+    </div>
+
+  </div><!-- /container -->
+  </div><!-- /page-wrapper -->
+
+  <script src="../shared.js"></script>
+</body>
+</html>

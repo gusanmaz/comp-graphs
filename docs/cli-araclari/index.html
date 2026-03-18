@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLI Araçları ile Bilgisayar Grafiği — Bilgisayar Grafiği</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .tool-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+    .tool-table th { background: var(--bg-secondary); color: var(--accent-4); padding: 8px 12px; text-align: left; }
+    .tool-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-color); }
+    .tool-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold; }
+    .badge-cli { background: rgba(0,255,100,0.15); color: var(--accent-green, #4caf50); }
+    .badge-python { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .badge-rust { background: rgba(255,140,0,0.15); color: #ff9800; }
+    .badge-node { background: rgba(139,195,74,0.15); color: #8bc34a; }
+    .pipeline-step { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
+    .pipeline-step .step-num { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--accent-4); color: var(--bg-primary); border-radius: 50%; font-weight: bold; font-size: 0.9em; flex-shrink: 0; }
+    .pipeline-arrow { text-align: center; color: var(--text-secondary); font-size: 1.2em; margin: 0; }
+    .img-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 15px 0; }
+    .img-row figure { text-align: center; }
+    .img-row img { max-height: 250px; margin: 0; border: 2px solid var(--border-color); border-radius: 6px; }
+    .img-row figcaption { font-size: 0.78em; color: var(--text-secondary); margin-top: 5px; }
+    .img-caption { text-align: center; font-size: 0.8em; color: var(--text-secondary); margin-top: -8px; margin-bottom: 15px; }
+    .tool-logo-row { display: flex; justify-content: center; align-items: center; gap: 25px; flex-wrap: wrap; margin: 20px 0; }
+    .tool-logo-row img { max-height: 70px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+  </style>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+      <a href="../pixel-art/index.html"><span class="section-num">🎮</span> Pixel Art</a>
+      <a href="../tipografi/index.html"><span class="section-num">🔤</span> Tipografi</a>
+      <a href="../cli-araclari/index.html" class="active"><span class="section-num">⌨️</span> CLI Araçları</a>
+      <a href="../eski-donanim/index.html"><span class="section-num">🕹️</span> Eski Donanım Grafikleri</a>
+    </div>
+    <div class="sidebar-toc"></div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+      <a href="../pixel-art/index.html">Pixel Art</a>
+      <a href="../tipografi/index.html">Tipografi</a>
+      <a href="../cli-araclari/index.html" class="active">CLI</a>
+      <a href="../eski-donanim/index.html">Retro HW</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header">
+    <span class="week-number">⌨️ EK BÖLÜM</span>
+    <h1>CLI Araçları ile Bilgisayar Grafiği</h1>
+    <p class="week-desc">Komut satırından görüntü işleme, format dönüşümü, sprite sheet oluşturma, video işleme, optimizasyon ve AI araçları</p>
+    <div class="week-meta">
+      <div class="meta-item">🛠️ ImageMagick, FFmpeg, ExifTool</div>
+      <div class="meta-item">🐍 Python / Bash Otomasyon</div>
+      <div class="meta-item">🤖 AI CLI Araçları</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu Bölüm Hakkında</div>
+      <p>Grafik işlemleri her zaman GUI (görsel arayüz) ile yapılmak zorunda değildir. Komut satırı araçları, özellikle <strong>toplu işlemler</strong>, <strong>otomasyon</strong> ve <strong>pipeline oluşturma</strong> gibi senaryolarda çok daha hızlı ve güçlüdür. Oyun geliştirmede yüzlerce asset'i tek seferde dönüştürmek, optimize etmek veya sprite sheet oluşturmak CLI araçlarıyla dakikalar içinde yapılabilir.</p>
+    </div>
+
+    <!-- ═══════ 1. GENEL BAKIŞ ═══════ -->
+    <h2 id="genel-bakis">1. Genel Bakış: Neden CLI Araçları? 🤔</h2>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 GUI vs CLI</div>
+      <p><strong>GUI:</strong> İnteraktif çalışma, tek dosya düzenleme, görsel kontrol.<br>
+      <strong>CLI:</strong> Toplu işlem (batch), otomasyon (pipeline), tekrarlanabilirlik, betik yazma, CI/CD entegrasyonu.</p>
+    </div>
+
+    <p>CLI araçları özellikle şu durumlar için idealdir:</p>
+    <ul>
+      <li><strong>Toplu dönüşüm:</strong> 500 PNG dosyasını WebP'ye çevirme</li>
+      <li><strong>Asset pipeline:</strong> Kaynak → boyutlandır → optimize et → farklı platformlar için dışa aktar</li>
+      <li><strong>Otomasyon:</strong> Sprite sheet oluşturma, metadata temizleme, video→GIF</li>
+      <li><strong>CI/CD:</strong> Build sürecinde otomatik asset işleme</li>
+      <li><strong>Tekrarlanabilirlik:</strong> Betiği bir kez yaz, her zaman aynı sonucu al</li>
+    </ul>
+
+    <div class="tool-logo-row">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/ImageMagick_logo.svg/250px-ImageMagick_logo.svg.png" alt="ImageMagick logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/FFmpeg_Logo_new.svg/250px-FFmpeg_Logo_new.svg.png" alt="FFmpeg logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/The_GIMP_icon_-_gnome.svg/120px-The_GIMP_icon_-_gnome.svg.png" alt="GIMP logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Inkscape_Logo.svg/120px-Inkscape_Logo.svg.png" alt="Inkscape logo">
+    </div>
+    <p class="img-caption">Bu derste kullanacağımız temel CLI araçlarının logoları</p>
+
+    <h3 id="populer-araclar">Popüler CLI Araçları</h3>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Araç</th>
+          <th>Alan</th>
+          <th>Dil</th>
+          <th>Lisans</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>ImageMagick</strong></td><td>Görüntü işleme (her şey)</td><td>C</td><td>Apache 2.0</td></tr>
+        <tr><td><strong>FFmpeg</strong></td><td>Video / ses işleme</td><td>C</td><td>LGPL/GPL</td></tr>
+        <tr><td><strong>ExifTool</strong></td><td>Metadata okuma/yazma</td><td>Perl</td><td>GPL</td></tr>
+        <tr><td><strong>Potrace</strong></td><td>Bitmap → Vektör</td><td>C</td><td>GPL</td></tr>
+        <tr><td><strong>OptiPNG / oxipng</strong></td><td>PNG optimizasyon</td><td>C / Rust</td><td>zlib / MIT</td></tr>
+        <tr><td><strong>pngquant</strong></td><td>PNG kayıplı sıkıştırma</td><td>C</td><td>GPL</td></tr>
+        <tr><td><strong>gifski</strong></td><td>Yüksek kalite GIF</td><td>Rust</td><td>AGPL</td></tr>
+        <tr><td><strong>svgo</strong></td><td>SVG optimizasyon</td><td>Node.js</td><td>MIT</td></tr>
+        <tr><td><strong>rembg</strong></td><td>AI arka plan kaldırma</td><td>Python</td><td>MIT</td></tr>
+        <tr><td><strong>Real-ESRGAN</strong></td><td>AI süper çözünürlük</td><td>Python</td><td>BSD</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════ 2. IMAGEMAGICK ═══════ -->
+    <h2 id="imagemagick">2. ImageMagick — İsviçre Çakısı 🔧</h2>
+
+    <div style="text-align:center; margin: 15px 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/ImageMagick_logo.svg/330px-ImageMagick_logo.svg.png" alt="ImageMagick Logo" style="max-width: 280px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));">
+    </div>
+
+    <p><strong>ImageMagick</strong>, 200'den fazla görüntü formatını destekleyen, komut satırından neredeyse her türlü görüntü işlemi yapabilen en kapsamlı araçtır. 1990'dan beri geliştiriliyor ve endüstri standardıdır.</p>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 magick vs convert</div>
+      <p>ImageMagick 7'de tüm komutlar <code>magick</code> altında birleşti. Eski sürümlerdeki <code>convert</code>, <code>mogrify</code>, <code>montage</code> gibi komutlar artık <code>magick convert</code>, <code>magick mogrify</code> şeklinde kullanılır. Yeni kurulumda doğrudan <code>magick</code> yeterlidir.</p>
+    </div>
+
+    <h3 id="im-kurulum">Kurulum</h3>
+    <pre><code># Ubuntu / Debian
+sudo apt install imagemagick
+
+# macOS (Homebrew)
+brew install imagemagick
+
+# Windows (winget)
+winget install ImageMagick.ImageMagick
+
+# Doğrulama
+magick --version</code></pre>
+
+    <h3 id="im-boyutlandirma">Boyutlandırma (Resize)</h3>
+    <pre><code># Sabit boyut (en-boy oranını koru)
+magick input.png -resize 800x600 output.png
+
+# Yüzde ile küçült
+magick input.png -resize 50% output.png
+
+# Tam boyuta zorla (en-boy bozulabilir!)
+magick input.png -resize 800x600! output.png
+
+# Sadece küçült (büyütme)
+magick input.png -resize 800x600\> output.png
+
+# Pixel art için nearest neighbor (piksel keskinliğini korur)
+magick input.png -filter Point -resize 400% output.png</code></pre>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Pixel Art İçin Önemli</div>
+      <p>Pixel art büyütürken <strong>mutlaka</strong> <code>-filter Point</code> kullanın! Varsayılan bicubic filtre pikselleri bulanıklaştırır.</p>
+    </div>
+
+    <h3 id="im-kirpma">Kırpma ve Döndürme</h3>
+    <pre><code># Kırpma: 300x200 boyutunda, sol üst köşeden (50,50) başla
+magick input.png -crop 300x200+50+50 +repage output.png
+
+# Otomatik kırp (boş kenarları kes)
+magick input.png -trim +repage output.png
+
+# Döndürme
+magick input.png -rotate 90 output.png
+magick input.png -rotate -45 -background none output.png
+
+# Yatay / dikey aynalama
+magick input.png -flip output.png    # Dikey
+magick input.png -flop output.png    # Yatay</code></pre>
+
+    <h3 id="im-renk">Renk İşlemleri</h3>
+    <pre><code># Gri tonlama
+magick input.png -colorspace Gray output.png
+
+# Renk sayısını sınırla (retro efekt)
+magick input.png -colors 16 output.png
+
+# Dithering ile renk azaltma
+magick input.png -colors 8 -dither FloydSteinberg output.png
+
+# Parlaklık ve kontrast
+magick input.png -brightness-contrast 10x20 output.png
+
+# Rengi değiştir (hue shift)
+magick input.png -modulate 100,100,150 output.png
+
+# Sepya tonu
+magick input.png -sepia-tone 80% output.png
+
+# Negatif (ters çevir)
+magick input.png -negate output.png</code></pre>
+
+    <h3 id="im-format">Format Dönüşümü</h3>
+    <pre><code># PNG → JPEG (kalite ayarıyla)
+magick input.png -quality 85 output.jpg
+
+# PNG → WebP
+magick input.png -quality 80 output.webp
+
+# JPEG → PNG (kayıpsız)
+magick photo.jpg output.png
+
+# Toplu dönüşüm (tüm PNG'leri WebP'ye)
+magick mogrify -format webp -quality 80 *.png
+
+# BMP → PNG
+magick input.bmp output.png</code></pre>
+
+    <h3 id="im-efekt">Efekt ve Filtreler</h3>
+    <pre><code># Bulanıklaştırma (Gaussian Blur)
+magick input.png -blur 0x5 output.png
+
+# Keskinleştirme (Sharpen)
+magick input.png -sharpen 0x2 output.png
+
+# Kenar algılama (Edge Detection)
+magick input.png -edge 1 output.png
+
+# Kabartma (Emboss)
+magick input.png -emboss 1 output.png
+
+# Yağlı boya efekti
+magick input.png -paint 4 output.png
+
+# Karakalem çizim efekti
+magick input.png -colorspace Gray -sketch 0x20+120 output.png
+
+# Filigran (watermark) ekleme
+magick input.png \
+  -gravity SouthEast \
+  -fill "rgba(255,255,255,0.3)" \
+  -pointsize 24 \
+  -annotate +10+10 "© 2025" \
+  output.png</code></pre>
+
+    <h3 id="im-gif">GIF Animasyon Oluşturma</h3>
+    <pre><code># Karelerden GIF
+magick -delay 10 -loop 0 frame_*.png animation.gif
+
+# GIF hızını ayarla (delay = 1/100 saniye)
+magick -delay 5 -loop 0 frame_*.png fast.gif   # Hızlı
+magick -delay 20 -loop 0 frame_*.png slow.gif   # Yavaş
+
+# GIF'i optimize et (boyutu küçült)
+magick animation.gif -layers Optimize optimized.gif
+
+# GIF'ten kareleri çıkar
+magick animation.gif frame_%03d.png</code></pre>
+
+    <h3 id="im-spritesheet">Sprite Sheet ve Montaj</h3>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Sprite Sheet Nedir?</div>
+      <p>Oyun motorlarında tüm karakter animasyon karelerini tek bir büyük görüntüde birleştirmeye sprite sheet denir. Bu sayede GPU tek bir texture yükler ve draw call sayısı azalır.</p>
+    </div>
+
+    <div style="text-align:center; margin: 15px 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Sprite-example.gif" alt="Sprite sheet örneği" style="max-width: 384px; width: 100%; border: 2px solid var(--border-color); border-radius: 8px; image-rendering: pixelated;">
+      <p class="img-caption">Bir sprite sheet örneği — tüm animasyon kareleri tek görüntüde</p>
+    </div>
+
+    <pre><code># Sprite sheet (8 sütunluk)
+magick montage frame_*.png \
+  -geometry 64x64+0+0 \
+  -tile 8x \
+  -background none \
+  spritesheet.png
+
+# Thumbnail tablosu (5x4)
+magick montage *.jpg \
+  -geometry 200x150+5+5 \
+  -tile 5x4 \
+  thumbnails.png
+
+# Sprite sheet'ten tek kare çıkarma
+magick spritesheet.png -crop 64x64+128+0 +repage frame3.png</code></pre>
+
+    <h3 id="im-toplu">Toplu (Batch) İşlemler</h3>
+    <pre><code># Tüm görüntüleri 800px genişliğe küçült
+magick mogrify -resize 800x *.png
+
+# Tüm JPEG'leri %85 kaliteyle yeniden sıkıştır
+magick mogrify -quality 85 *.jpg
+
+# Tüm PNG'lere çerçeve ekle
+for f in *.png; do
+  magick "$f" -bordercolor "#333" -border 5 "framed_$f"
+done
+
+# Klasördeki her görüntüyü farklı boyutlarda kaydet
+for f in *.png; do
+  base=$(basename "$f" .png)
+  magick "$f" -resize 256x256 "sm_${base}.png"
+  magick "$f" -resize 512x512 "md_${base}.png"
+  magick "$f" -resize 1024x1024 "lg_${base}.png"
+done</code></pre>
+
+    <h3 id="im-ileri">İleri Düzey İşlemler</h3>
+    <pre><code># Bileşik (composite) - iki görüntüyü birleştir
+magick background.png overlay.png -gravity Center -composite result.png
+
+# Alpha kanalı işlemleri
+magick input.png -alpha set -channel A -evaluate set 50% +channel semi_transparent.png
+
+# Histogramdan baskın renkleri çıkar
+magick input.png -colors 5 -unique-colors -scale 100x20! palette.png
+
+# Renk paleti oluştur (oyun geliştirmede kullanışlı)
+magick input.png -colors 16 -unique-colors txt:- | tail -n +2
+
+# Procedural texture: Plasma
+magick -size 256x256 plasma: plasma_texture.png
+
+# Procedural texture: Noise
+magick -size 256x256 xc: +noise Random noise_texture.png
+
+# Procedural texture: Checkerboard
+magick -size 256x256 pattern:checkerboard checkerboard.png
+
+# Tileable (döşenebilir) noise
+magick -size 256x256 xc: +noise Gaussian -virtual-pixel tile -blur 0x5 tileable.png</code></pre>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ ImageMagick Güvenlik Notu</div>
+      <p>ImageMagick'te <code>/etc/ImageMagick-6/policy.xml</code> dosyası bazı işlemleri güvenlik nedeniyle kısıtlayabilir. SVG, PDF gibi formatlarla sorun yaşarsanız bu dosyayı kontrol edin.</p>
+    </div>
+
+    <!-- ═══════ 3. FFMPEG ═══════ -->
+    <h2 id="ffmpeg">3. FFmpeg — Video İşlemenin Kralı 🎬</h2>
+
+    <div style="text-align:center; margin: 15px 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/FFmpeg_Logo_new.svg/330px-FFmpeg_Logo_new.svg.png" alt="FFmpeg Logo" style="max-width: 280px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));">
+    </div>
+
+    <p><strong>FFmpeg</strong>, video/ses dönüştürme, kare çıkarma, GIF oluşturma ve daha fazlası için endüstri standardı araçtır. YouTube, Netflix gibi platformlar bile arka planda FFmpeg kullanır.</p>
+
+    <h3 id="ff-kurulum">Kurulum</h3>
+    <pre><code># Ubuntu / Debian
+sudo apt install ffmpeg
+
+# macOS
+brew install ffmpeg
+
+# Doğrulama
+ffmpeg -version</code></pre>
+
+    <h3 id="ff-kare">Kare Çıkarma (Video → Görüntü)</h3>
+    <pre><code># Tüm kareleri PNG olarak çıkar
+ffmpeg -i video.mp4 frame_%04d.png
+
+# Saniyede 2 kare çıkar (fps filtresi)
+ffmpeg -i video.mp4 -vf "fps=2" frame_%04d.png
+
+# Belirli bir anın karesini çıkar (ss = zaman)
+ffmpeg -ss 00:01:30 -i video.mp4 -frames:v 1 screenshot.png
+
+# Her 10. saniyede bir kare
+ffmpeg -i video.mp4 -vf "fps=1/10" thumb_%03d.jpg</code></pre>
+
+    <h3 id="ff-video">Karelerden Video / GIF Oluşturma</h3>
+    <pre><code># PNG karelerden MP4 video
+ffmpeg -framerate 24 -i frame_%04d.png \
+  -c:v libx264 -pix_fmt yuv420p output.mp4
+
+# Karelerden GIF
+ffmpeg -framerate 12 -i frame_%04d.png \
+  -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
+  output.gif
+
+# Videodan yüksek kalite GIF (palette optimizasyonu)
+ffmpeg -i video.mp4 \
+  -vf "fps=15,scale=480:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
+  output.gif</code></pre>
+
+    <h3 id="ff-efekt">Video Ölçekleme ve Efektler</h3>
+    <pre><code># Videoyu ölçekle
+ffmpeg -i input.mp4 -vf "scale=1280:720" output.mp4
+
+# Video kırpma (crop)
+ffmpeg -i input.mp4 -vf "crop=640:480:100:50" output.mp4
+
+# Hız değiştirme (2x hızlı)
+ffmpeg -i input.mp4 -vf "setpts=0.5*PTS" fast.mp4
+
+# Ters oynatma
+ffmpeg -i input.mp4 -vf reverse reversed.mp4
+
+# Siyah-beyaz filtre
+ffmpeg -i input.mp4 -vf "hue=s=0" bw.mp4
+
+# Video döndürme
+ffmpeg -i input.mp4 -vf "transpose=1" rotated.mp4  # 90° saat yönünde
+
+# Metin ekleme (filigran)
+ffmpeg -i input.mp4 \
+  -vf "drawtext=text='© 2025':fontsize=24:fontcolor=white:x=w-tw-10:y=h-th-10" \
+  watermarked.mp4</code></pre>
+
+    <h3 id="ff-format">Format Dönüşümü</h3>
+    <pre><code># MP4 → WebM
+ffmpeg -i input.mp4 -c:v libvpx-vp9 -crf 30 output.webm
+
+# MOV → MP4
+ffmpeg -i input.mov -c:v libx264 -crf 23 output.mp4
+
+# Video → sadece ses
+ffmpeg -i video.mp4 -vn -acodec libmp3lame audio.mp3
+
+# Timelapse (her 30. kareyi al)
+ffmpeg -i video.mp4 -vf "select='not(mod(n\,30))',setpts=N/FRAME_RATE/TB" timelapse.mp4</code></pre>
+
+    <h3 id="ff-probe">ffprobe — Video Bilgisi</h3>
+    <pre><code># Video bilgisi (JSON)
+ffprobe -v quiet -print_format json -show_streams video.mp4
+
+# Sadece çözünürlük
+ffprobe -v error -select_streams v -show_entries stream=width,height \
+  -of csv=s=x:p=0 video.mp4
+
+# Video süresi (saniye)
+ffprobe -v error -show_entries format=duration \
+  -of default=noprint_wrappers=1:nokey=1 video.mp4</code></pre>
+
+    <!-- ═══════ 4. EXIFTOOL ═══════ -->
+    <h2 id="exiftool">4. ExifTool — Metadata Uzmanı 📋</h2>
+
+    <p>Fotoğraf ve görüntü dosyalarındaki metadata'yı (EXIF, IPTC, XMP) okumak, yazmak ve düzenlemek için en güçlü araçtır.</p>
+
+    <h3 id="exif-kurulum">Kurulum</h3>
+    <pre><code># Ubuntu / Debian
+sudo apt install libimage-exiftool-perl
+
+# macOS
+brew install exiftool</code></pre>
+
+    <h3 id="exif-oku">Metadata Okuma ve Yazma</h3>
+    <pre><code># Tüm metadata'yı göster
+exiftool photo.jpg
+
+# Sadece belirli alanlar
+exiftool -Make -Model -DateTimeOriginal -ImageSize photo.jpg
+
+# CSV formatında rapor (toplu)
+exiftool -csv -r -Make -Model -DateTimeOriginal photos/ > report.csv
+
+# Metadata yaz
+exiftool -Artist="İsim Soyisim" -Copyright="© 2025" photo.jpg
+
+# GPS bilgisini sil (gizlilik!)
+exiftool -GPS:all= -overwrite_original photo.jpg
+
+# TÜM metadata'yı sil
+exiftool -all= -overwrite_original photo.jpg
+
+# Klasördeki tüm dosyalardaki GPS bilgisini toplu sil
+exiftool -GPS:all= -overwrite_original -r photos/</code></pre>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Gizlilik Uyarısı</div>
+      <p>Fotoğrafları internette paylaşmadan önce <strong>GPS metadata'sını mutlaka kaldırın</strong>! Akıllı telefonlarla çekilen fotoğraflar tam konum bilgisi içerebilir.</p>
+    </div>
+
+    <!-- ═══════ 5. OPTİMİZASYON ═══════ -->
+    <h2 id="optimizasyon">5. Görüntü Optimizasyon Araçları ⚡</h2>
+
+    <p>Oyun ve web projelerinde dosya boyutu kritiktir. Bu araçlar görüntüleri kaliteden fazla ödün vermeden küçültür.</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Araç</th>
+          <th>Format</th>
+          <th>Tür</th>
+          <th>Açıklama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>OptiPNG</strong></td><td>PNG</td><td>Kayıpsız</td><td>PNG sıkıştırmayı optimize eder</td></tr>
+        <tr><td><strong>oxipng</strong></td><td>PNG</td><td>Kayıpsız</td><td>Rust ile yazılmış, çok hızlı OptiPNG alternatifi</td></tr>
+        <tr><td><strong>pngquant</strong></td><td>PNG</td><td>Kayıplı</td><td>24-bit → 8-bit dönüşüm, %60-80 küçülme</td></tr>
+        <tr><td><strong>jpegoptim</strong></td><td>JPEG</td><td>Kayıpsız/Kayıplı</td><td>JPEG optimizasyonu</td></tr>
+        <tr><td><strong>mozjpeg</strong></td><td>JPEG</td><td>Kayıplı</td><td>Mozilla'nın gelişmiş JPEG encoder'ı</td></tr>
+        <tr><td><strong>gifski</strong></td><td>GIF</td><td>Kayıplı</td><td>En yüksek kalite GIF encoder</td></tr>
+        <tr><td><strong>cwebp</strong></td><td>WebP</td><td>Kayıplı/Kayıpsız</td><td>Google'ın WebP encoder'ı</td></tr>
+        <tr><td><strong>avifenc</strong></td><td>AVIF</td><td>Kayıplı/Kayıpsız</td><td>AVIF encoder (en modern format)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="opt-kurulum">Kurulum</h3>
+    <pre><code># Ubuntu / Debian
+sudo apt install optipng pngquant jpegoptim webp libavif-bin
+
+# macOS
+brew install optipng pngquant jpegoptim oxipng gifski webp libavif
+
+# Rust araçları
+cargo install oxipng gifski</code></pre>
+
+    <h3 id="opt-kullanim">Kullanım Örnekleri</h3>
+    <pre><code># PNG kayıpsız optimizasyon
+optipng -o5 image.png
+oxipng -o 4 --strip all image.png          # Daha hızlı alternatif
+
+# PNG kayıplı sıkıştırma (%65-80 küçülme!)
+pngquant --quality=65-80 --output small.png image.png
+
+# JPEG optimizasyon
+jpegoptim -m85 --strip-all photo.jpg       # %85 kalite, metadata sil
+
+# WebP encode
+cwebp -q 80 input.png -o output.webp      # Kayıplı
+cwebp -lossless input.png -o output.webp   # Kayıpsız
+
+# AVIF encode (en küçük dosya boyutu)
+avifenc -q 30 --speed 6 input.png output.avif
+
+# Yüksek kalite GIF (gifski)
+gifski --fps 15 --width 480 -o output.gif frame_*.png
+
+# Toplu PNG optimizasyon
+find . -name "*.png" -exec oxipng -o 4 --strip all {} \;
+
+# Toplu JPEG optimizasyon
+find . -name "*.jpg" -exec jpegoptim -m85 --strip-all {} \;</code></pre>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Format Seçim Rehberi</div>
+      <p><strong>Pixel art / Sprite:</strong> PNG (kayıpsız, şeffaflık)<br>
+      <strong>Fotoğraf (web):</strong> WebP > AVIF > JPEG<br>
+      <strong>Fotoğraf (arşiv):</strong> PNG veya TIFF<br>
+      <strong>Kısa animasyon:</strong> GIF (gifski ile) veya WebP animasyonlu<br>
+      <strong>Vektör:</strong> SVG (web), PDF (baskı)</p>
+    </div>
+
+    <!-- ═══════ 6. POTRACE ═══════ -->
+    <h2 id="potrace">6. Potrace — Bitmap'ten Vektöre 🖊️</h2>
+
+    <div style="text-align:center; margin: 15px 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Bitmap_VS_SVG.svg/500px-Bitmap_VS_SVG.svg.png" alt="Bitmap vs SVG karşılaştırması" style="max-width: 450px; width: 100%; background: white; padding: 10px; border-radius: 8px; border: 2px solid var(--border-color);">
+      <p class="img-caption">Bitmap (raster) ve vektör grafik karşılaştırması — Potrace bu dönüşümü otomatik yapar</p>
+    </div>
+
+    <p><strong>Potrace</strong>, bitmap (raster) görüntüleri vektör grafiğe (SVG, PDF, EPS) dönüştürür. El çizimleri, logolar ve siyah-beyaz görsellerde mükemmel sonuç verir.</p>
+
+    <h3 id="potrace-kurulum">Kurulum</h3>
+    <pre><code># Ubuntu / Debian
+sudo apt install potrace
+
+# macOS
+brew install potrace</code></pre>
+
+    <h3 id="potrace-kullanim">Kullanım</h3>
+    <pre><code># Temel vektörizasyon (BMP/PBM → SVG)
+potrace input.pbm -s -o output.svg
+
+# PNG → SVG (önce bitmap'e dönüştür)
+magick input.png -threshold 50% pbm:- | potrace -s -o output.svg
+
+# Daha pürüzsüz çıktı (tolerance ayarı)
+potrace input.pbm -s -a 1.5 -t 5 -o smooth.svg
+
+# Renkli vektörizasyon (farklı eşik seviyeleri)
+for level in 30 50 70 90; do
+  magick input.png -threshold ${level}% pbm:- | potrace -s -o "layer_${level}.svg"
+done
+
+# mkbitmap ile ön işleme (daha iyi sonuç)
+mkbitmap input.png -f 2 -s 2 -t 0.48 -o preprocessed.pbm
+potrace preprocessed.pbm -s -o output.svg</code></pre>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 El Çizimi → Vektör Pipeline</div>
+      <p>Kağıda çizdiğiniz bir karakteri vektöre dönüştürmek için: <strong>Fotoğrafla</strong> → <code>magick</code> ile kontrastı artır → <code>-threshold</code> ile siyah-beyaza çevir → <code>potrace</code> ile vektörize et → <code>svgo</code> ile SVG'yi optimize et.</p>
+    </div>
+
+    <!-- ═══════ 7. GIMP & INKSCAPE CLI ═══════ -->
+    <h2 id="gimp-inkscape-cli">7. GIMP ve Inkscape CLI Modu 🖥️</h2>
+
+    <div class="tool-logo-row">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/The_GIMP_icon_-_gnome.svg/120px-The_GIMP_icon_-_gnome.svg.png" alt="GIMP logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Inkscape_Logo.svg/120px-Inkscape_Logo.svg.png" alt="Inkscape logo">
+    </div>
+
+    <p>GIMP ve Inkscape sadece GUI araçları değildir — komut satırından toplu işlem yapabilirsiniz.</p>
+
+    <h3 id="gimp-cli">GIMP Script-Fu ve Python-Fu</h3>
+    <pre><code># GIMP ile toplu işlem (Script-Fu)
+gimp -i -b '(let* (
+    (image (car (gimp-file-load RUN-NONINTERACTIVE "input.png" "input.png")))
+    (drawable (car (gimp-image-get-active-drawable image)))
+  )
+  (gimp-image-scale image 512 512)
+  (file-png-save RUN-NONINTERACTIVE image drawable "output.png" "output.png" 0 9 1 1 1 1 1)
+  (gimp-image-delete image)
+)' -b '(gimp-quit 0)'
+
+# GIMP Python-Fu ile toplu filtre uygulama
+gimp -i -b '
+import glob, os
+for f in glob.glob("input_dir/*.png"):
+    image = pdb.gimp_file_load(f, f)
+    drawable = pdb.gimp_image_get_active_drawable(image)
+    pdb.plug_in_cartoon(image, drawable, 7.0, 1.0)
+    out = os.path.join("output_dir", os.path.basename(f))
+    pdb.file_png_save(image, drawable, out, out, 0, 9, 1, 1, 1, 1, 1)
+    pdb.gimp_image_delete(image)
+pdb.gimp_quit(0)
+'</code></pre>
+
+    <h3 id="inkscape-cli">Inkscape CLI</h3>
+    <pre><code># SVG → PNG dışa aktarma
+inkscape input.svg -o output.png -w 512
+
+# SVG → PDF
+inkscape input.svg -o output.pdf
+
+# Toplu SVG → PNG (farklı boyutlar)
+for size in 16 32 48 64 128 256 512; do
+  inkscape icon.svg -o "icon_${size}.png" -w $size -h $size
+done
+
+# Inkscape Actions (zincirleme komutlar)
+inkscape input.svg \
+  --actions="select-all;object-align:center x;object-align:center y;export-filename:centered.svg;export-do"</code></pre>
+
+    <!-- ═══════ 8. MODERN CLI ARAÇLARI ═══════ -->
+    <h2 id="modern-araclar">8. Modern CLI Araçları 🚀</h2>
+
+    <h3 id="terminal-goruntu">Terminalde Görüntü Görüntüleme</h3>
+
+    <p>Terminalde çalışırken görüntüleri hızlıca önizlemek için:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Araç</th>
+          <th>Dil</th>
+          <th>Özellik</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>chafa</strong></td><td>C</td><td>Unicode/sixel ile yüksek kalite terminal gösterimi</td></tr>
+        <tr><td><strong>viu</strong></td><td>Rust</td><td>Hızlı terminal görüntüleyici</td></tr>
+        <tr><td><strong>catimg</strong></td><td>C</td><td>Basit terminal görüntüleyici</td></tr>
+        <tr><td><strong>timg</strong></td><td>C++</td><td>Terminal image viewer, video desteği</td></tr>
+      </tbody>
+    </table>
+
+    <pre><code># Kurulum
+brew install chafa viu timg    # macOS
+sudo apt install chafa timg    # Ubuntu
+cargo install viu              # Rust
+
+# Kullanım
+chafa image.png                         # Terminalde göster
+chafa image.png -s 40x20               # Boyut belirt
+chafa image.png --symbols block         # Blok karakterleri kullan
+viu image.png                           # Rust tabanlı gösterici
+timg image.png                          # Video da destekler
+timg video.mp4                          # Video terminalde!</code></pre>
+
+    <h3 id="pastel">pastel — Renk Aracı 🎨</h3>
+    <pre><code># Kurulum
+brew install pastel    # macOS
+cargo install pastel   # Rust ile
+
+# Renk bilgisi
+pastel color "#FF6B35"
+pastel color "rgb(59,130,246)"
+
+# Renk paleti (tamamlayıcı, analojik, vb.)
+pastel complement "#FF6B35"
+pastel saturate 0.2 "#FF6B35"
+pastel lighten 0.1 "#FF6B35"
+
+# Gradient (geçiş) oluştur
+pastel gradient -n 10 "#FF0000" "#0000FF"
+
+# Farklı renk uzaylarında göster
+pastel format hsl "#FF6B35"
+pastel format rgb "#FF6B35"</code></pre>
+
+    <h3 id="svg-opt">SVG Optimizasyon</h3>
+    <pre><code># svgo (Node.js)
+npm install -g svgo
+svgo input.svg -o output.svg
+svgo -f icons/                     # Klasördeki tüm SVG'leri optimize et
+
+# svgcleaner (Rust — daha agresif)
+cargo install svgcleaner
+svgcleaner input.svg output.svg</code></pre>
+
+    <h3 id="modern-format">Modern Format Araçları</h3>
+    <pre><code># sharp-cli (Node.js — çok hızlı)
+npm install -g sharp-cli
+sharp -i input.png -o output.webp --format webp --quality 80
+sharp -i input.png -o output.avif --format avif --quality 30
+
+# sharp ile toplu boyutlandırma
+sharp -i input.png -o sm.png resize 256 256
+sharp -i input.png -o md.png resize 512 512
+
+# Lottie araçları (JSON animasyon)
+npm install -g lottie-web puppeteer-lottie-cli
+puppeteer-lottie -i animation.json -o animation.gif
+puppeteer-lottie -i animation.json -o animation.mp4</code></pre>
+
+    <!-- ═══════ 9. GRAPHICSMAGICK ═══════ -->
+    <h2 id="graphicsmagick">9. GraphicsMagick — Hızlı Alternatif 🏎️</h2>
+
+    <p><strong>GraphicsMagick</strong>, ImageMagick'in bir fork'udur. Daha kararlı, daha hızlı (özellikle sunucu tarafında) ve daha az bellek tüketir. API neredeyse aynıdır.</p>
+
+    <pre><code># Kurulum
+sudo apt install graphicsmagick   # Ubuntu
+brew install graphicsmagick        # macOS
+
+# Kullanım (gm komutu ile)
+gm convert input.png -resize 800x600 output.png
+gm convert input.png -quality 85 output.jpg
+gm montage *.png -geometry 64x64+0+0 -tile 8x sheet.png
+gm mogrify -resize 50% *.png</code></pre>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Özellik</th><th>ImageMagick</th><th>GraphicsMagick</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hız</td><td>Orta</td><td>Genellikle daha hızlı</td></tr>
+        <tr><td>Bellek kullanımı</td><td>Yüksek</td><td>Daha düşük</td></tr>
+        <tr><td>Format desteği</td><td>200+ format</td><td>88+ format</td></tr>
+        <tr><td>Aktif geliştirme</td><td>Çok aktif</td><td>Kararlı, yavaş güncelleme</td></tr>
+        <tr><td>Yeni özellikler</td><td>Sürekli ekleniyor</td><td>Kararlılığa odaklı</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════ 10. AI CLI ARAÇLARI ═══════ -->
+    <h2 id="ai-araclari">10. AI Destekli CLI Araçları 🤖</h2>
+
+    <p>Yapay zeka ile güçlendirilmiş CLI araçları, daha önce elle yapılması gereken karmaşık işlemleri otomatikleştiriyor.</p>
+
+    <h3 id="ai-rembg">rembg — Arka Plan Kaldırma</h3>
+    <pre><code># Kurulum
+pip install rembg[cli]
+
+# Tek dosya
+rembg i input.jpg output.png
+
+# Toplu işlem (klasör)
+rembg p input_folder/ output_folder/
+
+# Özel model ile
+rembg i -m u2net_human_seg input.jpg output.png</code></pre>
+
+    <h3 id="ai-esrgan">Real-ESRGAN — AI Süper Çözünürlük</h3>
+    <pre><code># Kurulum
+pip install realesrgan
+
+# 4x büyütme (genel)
+realesrgan-ncnn-vulkan -i low_res.png -o high_res.png -n realesrgan-x4plus
+
+# Anime/çizim için özel model
+realesrgan-ncnn-vulkan -i anime.png -o anime_hd.png -n realesrgan-x4plus-anime
+
+# Python ile
+python -c "
+from realesrgan import RealESRGANer
+from PIL import Image
+import numpy as np
+model = RealESRGANer(scale=4, model_path='RealESRGAN_x4plus.pth')
+img = np.array(Image.open('input.png'))
+output, _ = model.enhance(img)
+Image.fromarray(output).save('output.png')
+"</code></pre>
+
+    <h3 id="ai-diger">Diğer AI Araçları</h3>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Araç</th>
+          <th>İşlev</th>
+          <th>GPU?</th>
+          <th>Boyut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>rembg</strong></td><td>Arka plan kaldırma</td><td>Hayır (CPU yeterli)</td><td>~170 MB</td></tr>
+        <tr><td><strong>Real-ESRGAN</strong></td><td>Süper çözünürlük (4x büyütme)</td><td>Önerilir</td><td>~65 MB</td></tr>
+        <tr><td><strong>waifu2x</strong></td><td>Anime/çizim büyütme</td><td>Önerilir</td><td>~20 MB</td></tr>
+        <tr><td><strong>GFPGAN</strong></td><td>Yüz onarma / restorasyonu</td><td>Evet</td><td>~330 MB</td></tr>
+        <tr><td><strong>Stable Diffusion</strong></td><td>Görüntü üretme (txt2img)</td><td>Evet (>4GB VRAM)</td><td>~4 GB</td></tr>
+        <tr><td><strong>SAM (Meta)</strong></td><td>Otomatik segmentasyon</td><td>Evet</td><td>~2.5 GB</td></tr>
+        <tr><td><strong>Depth Anything</strong></td><td>Derinlik haritası çıkarma</td><td>Önerilir</td><td>~350 MB</td></tr>
+      </tbody>
+    </table>
+
+    <pre><code># waifu2x (anime/çizim büyütme)
+pip install waifu2x-ncnn-vulkan-python
+waifu2x-ncnn-vulkan -i anime.png -o anime_2x.png -s 2 -n 3
+
+# Stable Diffusion (komut satırından görüntü üretme)
+pip install diffusers
+python -c "
+from diffusers import StableDiffusionPipeline
+import torch
+pipe = StableDiffusionPipeline.from_pretrained(
+    'runwayml/stable-diffusion-v1-5', torch_dtype=torch.float16
+).to('cuda')
+image = pipe('pixel art sword, 32x32, game asset').images[0]
+image.save('sword.png')
+"
+
+# GFPGAN (yüz onarma)
+pip install gfpgan
+codeformer -i blurry_face.png -o restored.png
+
+# style_transfer (stil transferi)
+pip install style_transfer
+style_transfer content.png style.png -o stylized.png</code></pre>
+
+    <!-- ═══════ 11. OTOMASYON ═══════ -->
+    <h2 id="otomasyon">11. Otomasyon ve Pipeline Oluşturma 🔄</h2>
+
+    <p>CLI araçlarının gerçek gücü, onları birleştirerek otomatik iş akışları (pipeline) oluşturmakta yatar. Aşağıda oyun geliştirmede sıklıkla kullanılan pipeline örnekleri bulunmaktadır.</p>
+
+    <h3 id="oto-sprite">Sprite Sheet Pipeline (Bash)</h3>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Pipeline Akışı</div>
+      <p>Ayrı kareler → Boyutlandır → Montaj → Optimize → JSON metadata oluştur</p>
+    </div>
+
+    <pre><code>#!/bin/bash
+# sprite_pipeline.sh — Bireysel karelerden sprite sheet oluştur
+# Kullanım: ./sprite_pipeline.sh &lt;kareler_klasörü&gt; &lt;sprite_boyutu&gt; &lt;sütun_sayısı&gt;
+
+set -e
+FRAMES_DIR="${1:?Kullanım: $0 &lt;kareler_klasörü&gt; &lt;sprite_boyutu&gt; &lt;sütun_sayısı&gt;}"
+SPRITE_SIZE="${2:-64}"
+COLUMNS="${3:-8}"
+OUTPUT_DIR="output"
+mkdir -p "$OUTPUT_DIR"
+
+# 1. Tüm kareleri aynı boyuta getir
+for frame in "$FRAMES_DIR"/*.png; do
+    base=$(basename "$frame")
+    magick "$frame" \
+        -resize "${SPRITE_SIZE}x${SPRITE_SIZE}" \
+        -gravity Center -background none \
+        -extent "${SPRITE_SIZE}x${SPRITE_SIZE}" \
+        "$OUTPUT_DIR/resized_$base"
+done
+
+# 2. Sprite sheet oluştur
+magick montage "$OUTPUT_DIR"/resized_*.png \
+    -geometry "${SPRITE_SIZE}x${SPRITE_SIZE}+0+0" \
+    -tile "${COLUMNS}x" -background none \
+    "$OUTPUT_DIR/spritesheet.png"
+
+# 3. Optimize et
+if command -v oxipng &amp;&gt; /dev/null; then
+    oxipng -o 4 --strip all "$OUTPUT_DIR/spritesheet.png"
+fi
+
+# 4. JSON metadata oluştur (oyun motoru için)
+FRAME_COUNT=$(ls "$OUTPUT_DIR"/resized_*.png 2&gt;/dev/null | wc -l)
+ROWS=$(( (FRAME_COUNT + COLUMNS - 1) / COLUMNS ))
+
+cat &gt; "$OUTPUT_DIR/spritesheet.json" &lt;&lt; EOF
+{
+  "image": "spritesheet.png",
+  "frameWidth": $SPRITE_SIZE,
+  "frameHeight": $SPRITE_SIZE,
+  "columns": $COLUMNS,
+  "rows": $ROWS,
+  "totalFrames": $FRAME_COUNT
+}
+EOF
+
+echo "✅ Sprite sheet: $OUTPUT_DIR/spritesheet.png ($FRAME_COUNT kare)"
+rm -f "$OUTPUT_DIR"/resized_*.png</code></pre>
+
+    <h3 id="oto-asset">Toplu Asset Dönüştürme Pipeline</h3>
+    <pre><code>#!/bin/bash
+# asset_converter.sh — Oyun asset'lerini farklı platformlar için hazırla
+set -e
+SOURCE_DIR="${1:?Kullanım: $0 &lt;kaynak_klasör&gt;}"
+
+# Platform hedefleri: Platform:Format:Kalite:MaxBoyut
+TARGETS=(
+    "web:webp:80:1024"
+    "mobile:webp:70:512"
+    "desktop:png:_:2048"
+    "thumbnail:jpg:75:256"
+)
+
+for target in "${TARGETS[@]}"; do
+    IFS=':' read -r platform format quality maxsize &lt;&lt;&lt; "$target"
+    OUTDIR="build/${platform}"
+    mkdir -p "$OUTDIR"
+
+    echo "🎯 Platform: $platform (${format}, max:${maxsize}px)"
+
+    for file in "$SOURCE_DIR"/*.png; do
+        [ -f "$file" ] || continue
+        base=$(basename "$file" .png)
+        case $format in
+            webp) magick "$file" -resize "${maxsize}x${maxsize}&gt;" -quality "$quality" "$OUTDIR/${base}.webp" ;;
+            png)  magick "$file" -resize "${maxsize}x${maxsize}&gt;" "$OUTDIR/${base}.png" ;;
+            jpg)  magick "$file" -resize "${maxsize}x${maxsize}&gt;" -background white -flatten -quality "$quality" "$OUTDIR/${base}.jpg" ;;
+        esac
+    done
+
+    SIZE=$(du -sh "$OUTDIR" | cut -f1)
+    echo "   → $(ls "$OUTDIR" | wc -l) dosya, toplam $SIZE"
+done
+
+echo "✅ Tüm platformlar hazır!"</code></pre>
+
+    <h3 id="oto-video-sprite">Video → Sprite Sheet Pipeline</h3>
+    <pre><code>#!/bin/bash
+# video_to_spritesheet.sh — Videodan otomatik sprite sheet oluştur
+set -e
+VIDEO="${1:?Kullanım: $0 &lt;video&gt; &lt;fps&gt; &lt;sprite_boyutu&gt; &lt;sütun&gt;}"
+FPS="${2:-12}"; SIZE="${3:-64}"; COLS="${4:-8}"
+TEMP_DIR=$(mktemp -d)
+
+# 1. Videodan kareleri çıkar
+ffmpeg -i "$VIDEO" -vf "fps=$FPS" "$TEMP_DIR/frame_%04d.png" -y -loglevel error
+FRAME_COUNT=$(ls "$TEMP_DIR"/frame_*.png | wc -l)
+echo "$FRAME_COUNT kare çıkarıldı"
+
+# 2. Arka planı kaldır (rembg varsa)
+if command -v rembg &amp;&gt; /dev/null; then
+    rembg p "$TEMP_DIR/" "$TEMP_DIR/nobg/"
+    FRAMES_DIR="$TEMP_DIR/nobg"
+else
+    FRAMES_DIR="$TEMP_DIR"
+fi
+
+# 3. Sprite sheet oluştur
+magick montage "$FRAMES_DIR"/frame_*.png \
+    -geometry "${SIZE}x${SIZE}+0+0" -tile "${COLS}x" \
+    -background none -resize "${SIZE}x${SIZE}" \
+    spritesheet_from_video.png
+
+# 4. Optimize et
+command -v oxipng &amp;&gt; /dev/null &amp;&amp; oxipng -o 4 --strip all spritesheet_from_video.png
+echo "✅ spritesheet_from_video.png oluşturuldu ($FRAME_COUNT kare)"
+rm -rf "$TEMP_DIR"</code></pre>
+
+    <h3 id="oto-ikon">Otomatik İkon Seti Oluşturma</h3>
+    <pre><code>#!/bin/bash
+# icon_generator.sh — Tek bir kaynak görüntüden tüm platform ikonları oluştur
+set -e
+SOURCE="${1:?Kullanım: $0 &lt;kaynak_görüntü.png&gt;}"
+OUTPUT_DIR="icons"
+mkdir -p "$OUTPUT_DIR"/{android,ios,web,windows}
+
+# Android (mipmap)
+for entry in "48:mdpi" "72:hdpi" "96:xhdpi" "144:xxhdpi" "192:xxxhdpi"; do
+    IFS=':' read -r size dpi &lt;&lt;&lt; "$entry"
+    magick "$SOURCE" -resize "${size}x${size}" "$OUTPUT_DIR/android/ic_launcher_${dpi}.png"
+done
+
+# iOS
+for size in 20 29 40 58 60 76 80 87 120 152 167 180 1024; do
+    magick "$SOURCE" -resize "${size}x${size}" "$OUTPUT_DIR/ios/icon_${size}.png"
+done
+
+# Web (favicon)
+magick "$SOURCE" -resize 16x16   "$OUTPUT_DIR/web/favicon-16x16.png"
+magick "$SOURCE" -resize 32x32   "$OUTPUT_DIR/web/favicon-32x32.png"
+magick "$SOURCE" -resize 192x192 "$OUTPUT_DIR/web/android-chrome-192x192.png"
+magick "$SOURCE" -resize 512x512 "$OUTPUT_DIR/web/android-chrome-512x512.png"
+magick "$SOURCE" -define icon:auto-resize=256,128,64,48,32,16 "$OUTPUT_DIR/web/favicon.ico"
+
+echo "✅ İkon seti oluşturuldu!"
+find "$OUTPUT_DIR" -type f | wc -l
+echo "dosya oluşturuldu"</code></pre>
+
+    <h3 id="oto-makefile">Makefile ile Asset Pipeline</h3>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Neden Makefile?</div>
+      <p>Makefile, <strong>sadece değişen dosyaları</strong> yeniden işler. 500 asset'ten sadece 3'ü değiştiyse, sadece o 3'ünü dönüştürür. Büyük projelerde bu ciddi zaman kazandırır.</p>
+    </div>
+
+    <pre><code># Makefile — Oyun asset pipeline'ı
+# Kullanım: make all / make sprites / make textures / make clean
+
+SPRITE_SIZE := 64
+SPRITE_COLS := 8
+WEB_QUALITY := 80
+SOURCE_DIR := raw_assets
+BUILD_DIR := build
+
+RAW_TEXTURES := $(wildcard $(SOURCE_DIR)/textures/*.png)
+WEBP_TEXTURES := $(patsubst $(SOURCE_DIR)/textures/%.png,$(BUILD_DIR)/textures/%.webp,$(RAW_TEXTURES))
+
+.PHONY: all sprites textures clean
+
+all: sprites textures
+
+sprites: $(BUILD_DIR)/sprites/spritesheet.png
+
+$(BUILD_DIR)/sprites/spritesheet.png: $(wildcard $(SOURCE_DIR)/sprites/*.png)
+	@mkdir -p $(BUILD_DIR)/sprites
+	magick montage $^ -geometry $(SPRITE_SIZE)x$(SPRITE_SIZE)+0+0 \
+		-tile $(SPRITE_COLS)x -background none $@
+	oxipng -o 4 --strip all $@ 2>/dev/null || true
+
+textures: $(WEBP_TEXTURES)
+
+$(BUILD_DIR)/textures/%.webp: $(SOURCE_DIR)/textures/%.png
+	@mkdir -p $(BUILD_DIR)/textures
+	cwebp -q $(WEB_QUALITY) $&lt; -o $@
+
+clean:
+	rm -rf $(BUILD_DIR)</code></pre>
+
+    <h3 id="oto-python">Python ile Asset Pipeline</h3>
+    <pre><code>#!/usr/bin/env python3
+"""asset_pipeline.py — Python ile kapsamlı asset pipeline"""
+import os, json
+from pathlib import Path
+from PIL import Image
+
+class AssetPipeline:
+    def __init__(self, source_dir, build_dir="build"):
+        self.source_dir = Path(source_dir)
+        self.build_dir = Path(build_dir)
+
+    def create_spritesheet(self, frames_dir, output_name,
+                           frame_size=64, columns=8):
+        """Karelerden sprite sheet oluştur"""
+        frames = sorted((self.source_dir / frames_dir).glob("*.png"))
+        if not frames:
+            return
+
+        rows = (len(frames) + columns - 1) // columns
+        sheet = Image.new("RGBA",
+            (columns * frame_size, rows * frame_size), (0,0,0,0))
+        metadata = {"frames": [], "frameWidth": frame_size,
+                     "frameHeight": frame_size, "columns": columns}
+
+        for i, fp in enumerate(frames):
+            img = Image.open(fp).convert("RGBA")
+            img = img.resize((frame_size, frame_size), Image.NEAREST)
+            x = (i % columns) * frame_size
+            y = (i // columns) * frame_size
+            sheet.paste(img, (x, y))
+            metadata["frames"].append(
+                {"name": fp.stem, "x": x, "y": y,
+                 "w": frame_size, "h": frame_size})
+
+        out = self.build_dir / "sprites"
+        out.mkdir(parents=True, exist_ok=True)
+        sheet.save(out / f"{output_name}.png", "PNG")
+        with open(out / f"{output_name}.json", "w") as f:
+            json.dump(metadata, f, indent=2)
+
+    def batch_convert(self, input_dir, fmt="webp",
+                      quality=80, max_size=None):
+        """Toplu format dönüşümü"""
+        dst = self.build_dir / input_dir
+        dst.mkdir(parents=True, exist_ok=True)
+        for p in (self.source_dir / input_dir).glob("*.png"):
+            img = Image.open(p)
+            if max_size:
+                img.thumbnail((max_size, max_size), Image.LANCZOS)
+            out = dst / f"{p.stem}.{fmt}"
+            if fmt == "webp":
+                img.save(out, "WEBP", quality=quality)
+            elif fmt == "jpg":
+                img.convert("RGB").save(out, "JPEG", quality=quality)
+            else:
+                img.save(out)
+
+# Kullanım
+if __name__ == "__main__":
+    pipeline = AssetPipeline("raw_assets")
+    pipeline.create_spritesheet("walk_frames", "walk_cycle",
+                                 frame_size=64, columns=8)
+    pipeline.batch_convert("textures", "webp", quality=80, max_size=1024)</code></pre>
+
+    <!-- ═══════ 12. PRATİK PROJELER ═══════ -->
+    <h2 id="projeler">12. Pratik Proje Fikirleri 🎯</h2>
+
+    <h3 id="proje-kolay">Başlangıç Seviyesi</h3>
+
+    <div class="two-col">
+      <div class="card">
+        <h4 style="margin-top:0; color: var(--accent-1);">⭐ CLI Görüntü Galerisi</h4>
+        <p><strong>Araçlar:</strong> ImageMagick</p>
+        <p>Bir klasördeki fotoğraflardan otomatik thumbnail sayfası oluşturun. Her fotoğraf için 150x150 küçük resim ve montaj görüntüsü.</p>
+        <pre><code>magick mogrify -path thumbs/ \
+  -thumbnail 150x150^ \
+  -gravity Center -extent 150x150 \
+  photos/*.jpg
+magick montage thumbs/*.jpg \
+  -geometry 150x150+5+5 -tile 5x \
+  gallery.png</code></pre>
+      </div>
+      <div class="card">
+        <h4 style="margin-top:0; color: var(--accent-1);">⭐ Retro Pixel Art Filtre</h4>
+        <p><strong>Araçlar:</strong> ImageMagick</p>
+        <p>Normal fotoğrafları retro pixel art tarzına dönüştürün: küçült → sınırlı palet → nearest neighbor büyüt.</p>
+        <pre><code>magick photo.jpg \
+  -resize 64x64 \
+  -colors 16 \
+  -dither FloydSteinberg \
+  -filter Point -resize 512x512 \
+  retro_photo.png</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0; color: var(--accent-1);">⭐ Metadata Temizleyici ve Raporlayıcı</h4>
+      <p><strong>Araçlar:</strong> ExifTool</p>
+      <p>Bir klasördeki tüm fotoğrafların metadata'sını analiz edin: kamera modelleri, GPS konumları, çekim tarihleri. CSV raporu oluşturun, gizlilik için GPS bilgisini temizleyin.</p>
+      <pre><code># Rapor oluştur
+exiftool -csv -r -Make -Model -DateTimeOriginal -GPSPosition photos/ > report.csv
+# GPS temizle
+exiftool -GPS:all= -overwrite_original -r photos/</code></pre>
+    </div>
+
+    <h3 id="proje-orta">Orta Seviye</h3>
+
+    <div class="two-col">
+      <div class="card">
+        <h4 style="margin-top:0; color: var(--accent-2);">⭐⭐ Animasyonlu GIF Kartpostal</h4>
+        <p><strong>Araçlar:</strong> ImageMagick, gifski</p>
+        <p>Renk geçişli arka plan kareleri oluştur, metin ekle, yüksek kalite GIF olarak birleştir.</p>
+        <pre><code>for i in $(seq 0 29); do
+  HUE=$((i * 12))
+  magick -size 480x320 \
+    "xc:hsl($HUE,100%,50%)" \
+    -gravity Center -fill white \
+    -pointsize 48 \
+    -annotate +0+0 "Merhaba!" \
+    frame_$i.png
+done
+gifski --fps 15 -o postcard.gif \
+  frame_*.png</code></pre>
+      </div>
+      <div class="card">
+        <h4 style="margin-top:0; color: var(--accent-2);">⭐⭐ Format Karşılaştırma Raporu</h4>
+        <p><strong>Araçlar:</strong> ImageMagick, cwebp, avifenc</p>
+        <p>Aynı görüntüyü farklı formatlarda ve kalite seviyelerinde kaydedin. Dosya boyutlarıyla CSV rapor oluşturun.</p>
+        <pre><code>for q in 30 50 70 85 95; do
+  magick img.png -quality $q "q${q}.jpg"
+  cwebp -q $q img.png -o "q${q}.webp"
+  avifenc -q $q img.png "q${q}.avif"
+done</code></pre>
+      </div>
+    </div>
+
+    <h3 id="proje-ileri">İleri Seviye</h3>
+
+    <div class="two-col">
+      <div class="card">
+        <h4 style="margin-top:0; color: var(--accent-4);">⭐⭐⭐ AI Asset Pipeline</h4>
+        <p><strong>Araçlar:</strong> rembg, Real-ESRGAN, ImageMagick</p>
+        <p>Düşük kaliteli referans görüntülerden tam otomatik: arka plan kaldır → AI büyüt → sprite sheet oluştur.</p>
+      </div>
+      <div class="card">
+        <h4 style="margin-top:0; color: var(--accent-4);">⭐⭐⭐ Procedural Texture</h4>
+        <p><strong>Araçlar:</strong> ImageMagick, Python (Pillow)</p>
+        <p>Komut satırından parametrik, tile-able texture'lar oluşturun: noise, plasma, tuğla, altıgen desen.</p>
+        <pre><code>magick -size 256x256 plasma: plasma.png
+magick -size 256x256 pattern:bricks bricks.png
+magick -size 256x256 pattern:hexagons hex.png</code></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4 style="margin-top:0; color: var(--accent-4);">⭐⭐⭐ El Çizimi → Vektör Pipeline</h4>
+      <p><strong>Araçlar:</strong> ImageMagick, Potrace, Inkscape, svgo</p>
+      <p>Kağıda çizilen oyun karakterini fotoğrafla → kontrastı artır → bitmap'e dönüştür → vektörize et → SVG optimize et → farklı boyutlarda PNG dışa aktar.</p>
+      <pre><code># 1. Kontrastı artır
+magick sketch.jpg -colorspace Gray -auto-level -contrast-stretch 5%x5% enhanced.png
+# 2. Bitmap'e dönüştür
+magick enhanced.png -threshold 45% sketch.pbm
+# 3. Vektörize et
+potrace sketch.pbm -s -a 1.0 -t 3 -o sketch.svg
+# 4. SVG optimize et
+svgo sketch.svg -o sketch_opt.svg
+# 5. PNG dışa aktar
+inkscape sketch_opt.svg -o sketch_512.png -w 512</code></pre>
+    </div>
+
+    <h3 id="proje-matris">Proje Zorluk-Araç Matrisi</h3>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Proje</th>
+          <th>Zorluk</th>
+          <th>Ana Araçlar</th>
+          <th>Ders Konusu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>CLI Galeri</td><td>⭐</td><td>ImageMagick</td><td>Dosya Formatları</td></tr>
+        <tr><td>Retro Pixel Art</td><td>⭐</td><td>ImageMagick</td><td>2D Grafik</td></tr>
+        <tr><td>Metadata Raporu</td><td>⭐</td><td>ExifTool</td><td>Dosya Formatları</td></tr>
+        <tr><td>GIF Kartpostal</td><td>⭐⭐</td><td>ImageMagick, gifski</td><td>Animasyon</td></tr>
+        <tr><td>Sprite Sheet</td><td>⭐⭐</td><td>ImageMagick, Python</td><td>2D Grafik</td></tr>
+        <tr><td>Format Karşılaştırma</td><td>⭐⭐</td><td>Çoklu araç</td><td>Optimizasyon</td></tr>
+        <tr><td>Vektörizasyon</td><td>⭐⭐</td><td>Potrace, Inkscape, svgo</td><td>Raster/Vektör</td></tr>
+        <tr><td>AI Asset Pipeline</td><td>⭐⭐⭐</td><td>rembg, Real-ESRGAN</td><td>İleri Teknikler</td></tr>
+        <tr><td>Procedural Texture</td><td>⭐⭐⭐</td><td>ImageMagick, Python</td><td>2D/3D Grafik</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════ 13. HIZLI REFERANS ═══════ -->
+    <h2 id="hizli-referans">13. Hızlı Referans Kartı 📌</h2>
+
+    <h3 id="ref-komutlar">En Sık Kullanılan Komutlar</h3>
+    <pre><code># ═══ BOYUTLANDIRMA ═══
+magick in.png -resize 800x600 out.png          # Sabit boyut
+magick in.png -resize 50% out.png              # Yüzde ile
+magick in.png -filter Point -resize 400% out.png # Pixel art büyütme
+
+# ═══ FORMAT DÖNÜŞÜM ═══
+magick in.png out.jpg                           # PNG → JPEG
+magick in.png out.webp                          # PNG → WebP
+cwebp -q 80 in.png -o out.webp                # WebP (cwebp)
+avifenc -q 30 in.png out.avif                  # AVIF
+
+# ═══ GRİ TONLAMA & RENK ═══
+magick in.png -colorspace Gray out.png          # Gri tonlama
+magick in.png -colors 16 out.png               # Renk sınırla
+magick in.png -sepia-tone 80% out.png          # Sepya
+
+# ═══ KIRPMA ═══
+magick in.png -crop 300x200+50+50 out.png      # Kırp
+magick in.png -trim +repage out.png            # Otomatik kırp
+
+# ═══ GIF ═══
+magick -delay 10 -loop 0 f_*.png anim.gif      # GIF oluştur
+gifski --fps 24 -o hq.gif frame_*.png          # Yüksek kalite GIF
+
+# ═══ VİDEO ═══
+ffmpeg -i video.mp4 frame_%04d.png             # Video → kareler
+ffmpeg -framerate 24 -i f_%04d.png -c:v libx264 -pix_fmt yuv420p out.mp4
+
+# ═══ SPRITE SHEET ═══
+magick montage *.png -geometry 64x64+0+0 -tile 8x -background none sheet.png
+
+# ═══ OPTİMİZASYON ═══
+oxipng -o 4 --strip all image.png              # PNG optimizasyon
+pngquant --quality=65-80 image.png             # PNG kayıplı sıkıştır
+jpegoptim -m85 --strip-all image.jpg           # JPEG optimizasyon
+
+# ═══ ARKA PLAN KALDIRMA ═══
+rembg i in.jpg out.png                         # AI arka plan kaldır
+
+# ═══ METADATA ═══
+exiftool photo.jpg                              # Metadata oku
+exiftool -all= photo.jpg                       # Metadata sil
+
+# ═══ VEKTÖRİZASYON ═══
+magick in.png -threshold 50% pbm:- | potrace -s -o out.svg
+
+# ═══ SVG ═══
+inkscape in.svg -o out.png -w 512              # SVG → PNG
+svgo in.svg -o optimized.svg                   # SVG optimize</code></pre>
+
+    <h3 id="ref-kurulum">Kurulum Komutları Özeti</h3>
+    <pre><code># ═══ Ubuntu / Debian ═══
+sudo apt install imagemagick ffmpeg libimage-exiftool-perl \
+  optipng pngquant jpegoptim potrace gimp inkscape \
+  graphicsmagick webp libavif-bin chafa timg
+
+# ═══ macOS (Homebrew) ═══
+brew install imagemagick ffmpeg exiftool \
+  optipng pngquant jpegoptim potrace graphicsmagick \
+  webp libavif chafa viu pastel timg gifski oxipng
+brew install --cask gimp inkscape
+
+# ═══ pip (Python) ═══
+pip install rembg[cli] realesrgan Pillow
+
+# ═══ cargo (Rust) ═══
+cargo install oxipng gifski pastel viu svgcleaner
+
+# ═══ npm (Node.js) ═══
+npm install -g svgo sharp-cli</code></pre>
+
+    <!-- ═══════ KAYNAKLAR ═══════ -->
+    <h2 id="kaynaklar">14. Kaynaklar ve Bağlantılar 📚</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <h4 style="margin-top:0;">📖 Resmi Dokümantasyonlar</h4>
+        <ul>
+          <li><a href="https://imagemagick.org/" target="_blank">ImageMagick</a> — imagemagick.org</li>
+          <li><a href="https://ffmpeg.org/" target="_blank">FFmpeg</a> — ffmpeg.org</li>
+          <li><a href="https://exiftool.org/" target="_blank">ExifTool</a> — exiftool.org</li>
+          <li><a href="https://potrace.sourceforge.net/" target="_blank">Potrace</a> — potrace.sourceforge.net</li>
+          <li><a href="https://inkscape.org/learn/" target="_blank">Inkscape Öğreticileri</a></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4 style="margin-top:0;">🔧 Modern Araçlar (GitHub)</h4>
+        <ul>
+          <li><a href="https://github.com/danielgatis/rembg" target="_blank">rembg</a> — AI arka plan kaldırma</li>
+          <li><a href="https://github.com/xinntao/Real-ESRGAN" target="_blank">Real-ESRGAN</a> — AI süper çözünürlük</li>
+          <li><a href="https://github.com/ImageOptim/gifski" target="_blank">gifski</a> — Yüksek kalite GIF</li>
+          <li><a href="https://github.com/sharkdp/pastel" target="_blank">pastel</a> — Renk aracı</li>
+          <li><a href="https://github.com/hpjansson/chafa" target="_blank">chafa</a> — Terminal görüntüleyici</li>
+          <li><a href="https://github.com/svg/svgo" target="_blank">svgo</a> — SVG optimizasyon</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      Bilgisayar Grafiği • Oyun Geliştirme ve Programlama Bölümü • 2025-2026 Bahar
+    </footer>
+  </div>
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="../shared.js"></script>
+</body>
+</html>

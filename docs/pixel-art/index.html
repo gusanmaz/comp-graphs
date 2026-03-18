@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art Temelleri — Bilgisayar Grafiği</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .img-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 15px 0; }
+    .img-row figure { text-align: center; }
+    .img-row img { max-height: 250px; margin: 0; border: 2px solid var(--border-color); border-radius: 6px; }
+    .img-row figcaption { font-size: 0.78em; color: var(--text-secondary); margin-top: 5px; }
+    .tool-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+    .tool-table th { background: var(--bg-secondary); color: var(--accent-4); padding: 8px 12px; text-align: left; }
+    .tool-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-color); }
+    .tool-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold; }
+    .badge-free { background: rgba(0,255,100,0.2); color: var(--accent-green); }
+    .badge-paid { background: rgba(255,215,0,0.2); color: var(--accent-yellow); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .step-number { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--accent-4); color: var(--bg-primary); border-radius: 50%; font-weight: bold; margin-right: 8px; font-size: 0.9em; }
+    .pixel-img { image-rendering: pixelated; }
+    .content-img { max-width: 100%; height: auto; border: 2px solid var(--border-color); border-radius: 6px; display: block; margin: 15px auto; }
+    .img-caption { text-align: center; font-size: 0.8em; color: var(--text-secondary); margin-top: -8px; margin-bottom: 15px; }
+  </style>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+      <a href="../pixel-art/index.html" class="active"><span class="section-num">🎮</span> Pixel Art</a>
+      <a href="../tipografi/index.html"><span class="section-num">🔤</span> Tipografi</a>
+      <a href="../cli-araclari/index.html"><span class="section-num">⌨️</span> CLI Araçları</a>
+      <a href="../eski-donanim/index.html"><span class="section-num">🕹️</span> Eski Donanım Grafikleri</a>
+    </div>
+    <div class="sidebar-toc"></div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+      <a href="../pixel-art/index.html" class="active">Pixel Art</a>
+      <a href="../tipografi/index.html">Tipografi</a>
+      <a href="../cli-araclari/index.html">CLI</a>
+      <a href="../eski-donanim/index.html">Retro HW</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header">
+    <span class="week-number">🎮 EK BÖLÜM</span>
+    <h1>Pixel Art Temelleri</h1>
+    <p class="week-desc">Oyun Geliştirme İçin Sprite Oluşturma — Kapsamlı Ders Notları</p>
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc07.png" class="pixel-img" alt="Tamamlanmış orc sprite" style="display:block; margin:20px auto; max-width:200px; border:3px solid var(--border-color); border-radius:8px;">
+    <div class="week-meta">
+      <div class="meta-item">📖 Derek Yu Tutorial</div>
+      <div class="meta-item">🎨 Pixel Grimoire</div>
+      <div class="meta-item">🛠️ LibreSprite / Aseprite / GIMP</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="info-box note">
+      <div class="info-title">📌 Kaynak</div>
+      <p>Bu ders notları <a href="https://www.derekyu.com/makegames/pixelart.html" target="_blank">Derek Yu'nun Pixel Art Tutorial</a>'ı, <a href="https://www.patreon.com/collection/266583" target="_blank">Pedro Medeiros'un Pixel Grimoire</a> serisi, <a href="https://lospec.com" target="_blank">Lospec</a> kaynakları, <a href="https://2dwillneverdie.com/intro/" target="_blank">2D Will Never Die</a> ve <a href="https://learn.unity.com/tutorial/importing-2d-assets-into-unity-2019-3" target="_blank">Unity Learn</a> temel alınarak hazırlanmıştır.</p>
+    </div>
+
+    <!-- ══════ 1. PIXEL ART NEDİR ══════ -->
+    <h2 id="background">1. Pixel Art Nedir?</h2>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/mslug3.png" class="content-img" alt="Metal Slug 3" style="max-width:600px;">
+    <p class="img-caption">Metal Slug 3 (Arcade). SNK, 2000.</p>
+
+    <p><strong>Pixel art</strong> (Japonya'da "dot art"), düzenlemenin piksel seviyesinde yapıldığı bir dijital sanat formudur. Öncelikle 80'ler ve 90'lar video oyunlarının grafikleriyle ilişkilendirilir; bu dönemde ticari sanatçılar sınırlı bellek ve düşük çözünürlüklere rağmen giderek daha göz alıcı görseller yaratmak için mücadele ediyorlardı.</p>
+
+    <p>Günümüzde, gerçekçi 3D grafiklerin mümkün olmasına rağmen, oyunlarda ve kendi başına bir sanat formu olarak hâlâ popülerdir. Nostalji bir yana, bu kadar sıkı kısıtlamalar içinde canlı sanat eserleri yaratmak eğlenceli ve ödüllendirici bir mücadele olmaya devam ediyor.</p>
+
+    <div class="info-box note">
+      <div class="info-title">Neden hâlâ pixel art?</div>
+      <p>Eğitilmiş bir elin birkaç fırça darbesinin bir formu temsil edip duygu uyandırmasına nasıl hayranlık duyuyorsak, birkaç pikselin aynısını yapmasına da öyle hayranlık duyuyoruz.</p>
+    </div>
+
+    <p><strong>Giriş bariyeri</strong>, boyama veya 3D grafiklere kıyasla nispeten düşüktür, bu da onu indie oyun geliştiricileri için güzel bir seçenek yapar. Ama yanılmayın — bu hiçbir şekilde bir oyunu bitirmenin kolay olduğu anlamına gelmez.</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Uyarı</div>
+      <p>Yüksek seviye pixel art, her karede özenli piksel yerleşimi gerektirir. 3D modelde döndürebilir, deforme edebilir, uzuvları hareket ettirebilirsiniz; ancak pixel art'ta neredeyse her frame elle çizilir. Birçok indie geliştirici pixel art Metroidvania'larını 1 yılda bitireceklerini düşünerek başlar, gerçekte 6 yıl sürer!</p>
+    </div>
+
+    <p>Derek Yu'nun stili hakkında: Öncelikle video oyunları için pixel art kullanır ve ilhamını video oyunlarından alır. Famicom/NES, 16-bit konsollar ve 90'lar arcade oyunları favori kaynaklarıdır. Bu dönemin pixel art'ı "renkli, cesur ve temiz… ama sert veya minimalist olmayacak kadar temiz" olarak tanımlanabilir.</p>
+
+    <!-- ══════ 1B. TARİHÇE ══════ -->
+    <h2 id="history">1b. Pixel Art Tarihçesi</h2>
+
+    <p>Pixel art'ın tarihi, bilgisayar grafiklerinin tarihiyle iç içedir. <a href="https://2dwillneverdie.com/intro/" target="_blank">2D Will Never Die</a>'ın ifadesiyle: "Piksel, ekranın gösterebildiği en küçük yapı taşıdır" — pixel art bu yapı taşlarının bilinçli kontrollü olarak yerleştirilmesidir.</p>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/history-atari.png" class="pixel-img" style="max-width:200px;" alt="Atari 2600"><figcaption>Atari 2600 (1977)</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/history-nes.gif" class="pixel-img" style="max-width:200px;" alt="NES"><figcaption>NES (1985)</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/history-snes.png" class="pixel-img" style="max-width:200px;" alt="SNES"><figcaption>SNES (1991)</figcaption></figure>
+    </div>
+
+    <h3 id="donanim-kisitlari">Donanım Kısıtları Dönemi</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Dönem</th><th>Donanım</th><th>Özellikler</th><th>Önemli Oyunlar</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1977–1982</strong></td><td>Atari 2600, Arcade</td><td>1-bit sprite'lar, çok sınırlı renk, 128 renk ama aynı anda çok az kullanılabilir</td><td>Space Invaders (1978), Pac-Man (1980)</td></tr>
+        <tr><td><strong>1983–1990</strong></td><td>NES / Famicom (8-bit)</td><td>Sadece <strong>54 renk</strong>, ekranda aynı anda <strong>25 renk</strong> (1 arka plan + 4×3 tile rengi + 4×3 sprite rengi), sprite boyutu 8×8 veya 8×16, 256×240</td><td>Super Mario Bros, Mega Man, Zelda, Castlevania</td></tr>
+        <tr><td><strong>1983</strong></td><td>Commodore 64</td><td><strong>Dikdörtgen pikseller!</strong> 320×200 hi-res (tek renk) veya 160×200 multicolor mod, 16 renk</td><td>International Karate, Impossible Mission</td></tr>
+        <tr><td><strong>1989–1998</strong></td><td>Genesis / SNES (16-bit)</td><td>256–512 renk aynı anda, daha büyük sprite'lar, Genesis'te hızlı işlemci, SNES'te Mode 7 efektleri</td><td>Sonic, Street Fighter II, Metal Slug, Chrono Trigger</td></tr>
+        <tr><td><strong>1989–2003</strong></td><td>Game Boy / GBA</td><td>4 yeşil ton → 32K renk (GBA), taşınabilir pixel art</td><td>Pokémon, Advance Wars, Castlevania: SOTN</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="yaratici-cozumler">🎮 Donanım Palet Kısıtlamaları — Yaratıcı Çözümler</h3>
+
+    <p>Donanım sınırlamaları pixel art sanatçılarını inanılmaz yaratıcı çözümler bulmaya zorladı:</p>
+
+    <ul>
+      <li><strong>Mario'nun bıyığı pragmatik bir karardır:</strong> NES'te sprite başına sadece 3+1 renk kullanılabiliyordu. Miyamoto, burnunu yüzünden ayırt etmek için bıyık ekledi — sanatsal değil, teknik bir çözüm! Aynı şekilde şapkası saç animasyonu ihtiyacını ortadan kaldırdı.</li>
+      <li><strong>NES scanline sprite sınırı:</strong> NES bir scanline'da (yatay piksel satırı) sadece <strong>8 sprite</strong> gösterebilirdi. Geliştiriciler bu sınırı aşmak için frame'ler arasında sprite'ları değiştirerek <strong>flickering (titreme)</strong> kullandı — bu yüzden NES oyunlarında yoğun anlarda düşmanlar titrer!</li>
+      <li><strong>Palette cycling:</strong> Renk paletinin kendisini döndürerek (rotate) animasyon efekti yaratma tekniği. Tek bir statik görüntüyle akan su, yanan ateş, parıldayan mücevher efektleri oluşturulurdu — hiç ek bellek kullanmadan! Mark Ferrari bu tekniğin ustasıdır.</li>
+      <li><strong>C64 dikdörtgen pikseller:</strong> Commodore 64'ün multicolor modu 160×200 çözünürlük kullanır ve her piksel yatayda 2:1 oranıyla dikdörtgen görünürdü. Sanatçılar buna uyum sağlayarak benzersiz bir estetik geliştirdi.</li>
+      <li><strong>Game Boy'un 4 tonu:</strong> Orijinal Game Boy sadece 4 yeşil ton gösterebiliyordu. Pokémon'un 151 farklı yaratığının herbiri bu 4 tonla ifade edildi — bu derecede kısıtlamada karakter tasarımı olağanüstü bir beceridir.</li>
+      <li><strong>Dithering zorunluluğu:</strong> Sınırlı renk paletleriyle ara tonlar oluşturmak için dithering hayati önem taşıyordu. Sega Genesis'in "blast processing" pazarlamasının ardında, SNES'e göre daha sınırlı renk paleti olduğu gerçeği yatıyordu — Genesis sanatçıları dithering'e daha çok başvururdu.</li>
+    </ul>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Ders</div>
+      <p>Kısıtlama yaratıcılığın düşmanı değil, ateşleyicisidir. NES'in 25 renk sınırı içinde Super Mario Bros, Mega Man ve Castlevania gibi başyapıtlar doğdu. Bugün bilinçli olarak kısıtlamalar koymak (16 renk paleti gibi) aynı yaratıcılığı tetikler.</p>
+    </div>
+
+    <h3 id="sprite-sheet-evrimi">Sprite Sheet Evrimi</h3>
+
+    <p><a href="https://ensemble.art/blog/the-evolution-of-sprite-sheets-in-video-games" target="_blank">Sprite sheet'ler</a>, bir karakterin tüm animasyon karelerini ve yönlerini tek bir görüntü dosyasında toplama yöntemidir. Bu uygulama 1980'lerin 8-bit konsollarından başlayarak gelişmiştir:</p>
+
+    <ul>
+      <li><strong>8-bit dönem:</strong> Basit sprite sheet'ler — birkaç frame'lik yürüme ve zıplama animasyonları tek satırda diziliydi.</li>
+      <li><strong>16-bit dönem:</strong> Street Fighter II gibi dövüş oyunları <strong>devasa sprite sheet'ler</strong> gerektirdi — her karakter için yüzlerce animasyon karesi. Sonic the Hedgehog'un akıcı animasyonları hız duygusunu pekiştirdi.</li>
+      <li><strong>Arka plan tile sheet'leri:</strong> Level tasarımı için tekrarlayan tile'lar grid düzeninde saklanırdı — verimli bellek kullanımı.</li>
+      <li><strong>3D geçiş sonrası:</strong> Sprite'lar tamamen kaybolmadı — UI elementleri, parçacık efektleri ve 2D overlay'ler hâlâ sprite sheet kullanıyordu.</li>
+      <li><strong>Modern dönem:</strong> TexturePacker gibi araçlarla otomatik sprite atlas oluşturma, Unity/Unreal'da dahili sprite atlas desteği.</li>
+    </ul>
+
+    <h3 id="3d-devrimi">3D Devrimi ve Düşüş (1996–2005)</h3>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/history-3d.jpg" style="max-width:250px;" alt="3D Devrimi"><figcaption>N64 ve 3D Geçişi (1996)</figcaption></figure>
+    </div>
+
+    <p>PlayStation, N64 ve gelişen PC donanımıyla <strong>3D grafiklerin yükselişi</strong>, pixel art'ı "geçmişte kalmış" bir teknik haline getirdi. Oyun stüdyoları 3D'ye geçiş yaparken, piksel düzeyinde çalışma neredeyse tamamen terk edildi. Bu dönemde pixel art ağırlıklı olarak GBA, DS gibi taşınabilir konsollar ile cep telefonu oyunlarında yaşamaya devam etti. Castlevania: Symphony of the Night (1997) gibi başyapıtlar 2D pixel art'ın hâlâ neler yapabildiğini gösterdi.</p>
+
+    <h3 id="indie-ronesans">İndie Rönesans (2008–Günümüz)</h3>
+
+    <p>Dijital dağıtım platformlarının (Steam, itch.io, App Store) yaygınlaşmasıyla bağımsız geliştiriciler pixel art'ı <strong>bilinçli bir estetik tercih</strong> olarak yeniden keşfetti:</p>
+
+    <ul>
+      <li><strong>Cave Story (2004):</strong> Daisuke "Pixel" Amaya'nın tek başına geliştirdiği başyapıt — indie pixel art oyunların öncüsü</li>
+      <li><strong>Shovel Knight (2014):</strong> NES estetiğini modern oyun tasarımıyla birleştiren nostaljik başyapıt</li>
+      <li><strong>Celeste (2018):</strong> Duygusal anlatım + hassas platforming + etkileyici pixel art</li>
+      <li><strong>Stardew Valley (2016):</strong> Tek kişi tarafından tasarlanan SNES tarzı çiftlik simülasyonu — 30M+ satış</li>
+      <li><strong>Dead Cells (2018), Katana ZERO (2019), Sea of Stars (2023):</strong> Modern pixel art'ın sınırlarını zorlayan oyunlar</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Önemli</div>
+      <p>Pixel art bugün artık teknik bir kısıtlama değildir — bilinçli bir sanat tercihidir. Kısıtlama yaratıcılığı besler ve her piksel bir karar gerektirir.</p>
+    </div>
+
+    <!-- ══════ 2. YAZILIMLAR ══════ -->
+    <h2 id="software">2. Yazılımlar & Araçlar</h2>
+
+    <p>Pixel art için gereken temel araçlar: <strong>zoom</strong> ve piksel yerleşimi için <strong>Pencil (kalem)</strong>. Ayrıca çizgi/şekil araçları, seçim/taşıma araçları ve hızlı doldurma için <strong>Paint Bucket</strong> yardımcı olur.</p>
+
+    <table class="tool-table">
+      <thead><tr><th>Yazılım</th><th>Platform</th><th>Fiyat</th><th>Özellikler & Notlar</th></tr></thead>
+      <tbody>
+        <tr><td><strong><a href="https://libresprite.github.io/" target="_blank">LibreSprite</a></strong></td><td>Win/Mac/Linux</td><td><span class="badge badge-free">Ücretsiz</span></td><td>Aseprite'ın açık kaynak fork'u, GPL lisanslı. Animasyon, katmanlar, palet desteği. <strong>Önerilen başlangıç aracı!</strong></td></tr>
+        <tr><td><strong><a href="https://www.aseprite.org/" target="_blank">Aseprite</a></strong></td><td>Win/Mac/Linux</td><td><span class="badge badge-paid">$15</span> / kaynak koddan ücretsiz</td><td>Şu anda en popüler editör. Kaynak kodu açık — derleyerek ücretsiz kullanılabilir.</td></tr>
+        <tr><td><strong><a href="https://www.piskelapp.com/" target="_blank">Piskel</a></strong></td><td>Web (tarayıcı)</td><td><span class="badge badge-free">Ücretsiz</span></td><td>Tarayıcıda çalışan şaşırtıcı derecede sağlam bir editör. PNG, animated GIF export'u.</td></tr>
+        <tr><td><strong><a href="https://www.gimp.org/" target="_blank">GIMP</a></strong></td><td>Win/Mac/Linux</td><td><span class="badge badge-free">Ücretsiz</span></td><td>Zaten biliyorsunuz! Genel amaçlı ama pixel art için yapılandırılabilir.</td></tr>
+        <tr><td><strong><a href="https://graphicsgale.com/us/" target="_blank">GraphicsGale</a></strong></td><td>Windows</td><td><span class="badge badge-free">Ücretsiz</span></td><td>Pixel art için tasarlanmış erken editörlerden. Animasyon araçları güçlü (onion skinning). 2017'den beri ücretsiz.</td></tr>
+        <tr><td><strong><a href="https://krita.org/en/" target="_blank">Krita</a></strong></td><td>Win/Mac/Linux</td><td><span class="badge badge-free">Ücretsiz</span></td><td>Dijital boyama için tasarlanmış ama pixel art için yapılandırılabilir.</td></tr>
+        <tr><td><strong><a href="https://pixieditor.net/" target="_blank">PixiEditor</a></strong></td><td>Windows</td><td><span class="badge badge-free">Ücretsiz</span></td><td>Hafif editör. Lospec Palette List entegrasyonu.</td></tr>
+        <tr><td><strong>MS Paint</strong></td><td>Windows</td><td><span class="badge badge-free">Ücretsiz</span></td><td>En basit araçlarla bile pixel art yapılabilir. Sadece Windows XP sürümü ideal.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Öneri</div>
+      <p>Hızlı denemeler için <strong>Piskel</strong> (tarayıcıda), ciddi çalışma için <strong>LibreSprite</strong> veya <strong>Aseprite</strong> kullanın. GIMP'i zaten bildiğiniz için onu da pixel art modunda yapılandırabilirsiniz — ama özel araçlar çok daha verimli.</p>
+    </div>
+
+    <h3 id="ek-donanim">Ek Donanım</h3>
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/tablet.jpg" class="content-img" alt="Pixel art setup" style="max-width:500px;">
+    <p class="img-caption">Derek Yu'nun pixel art kurulumu</p>
+    <ul>
+      <li><strong>Çizim Tableti:</strong> Tekrarlayan stres yaralanmalarını (RSI) önlemek için şiddetle tavsiye edilir. RSI önlemesi tedavisinden çok daha kolay! Wacom Intuos Pro gibi bir tablet ideal.</li>
+      <li><strong>Bilek Koruması:</strong> Tablet mümkün değilse en azından bir bilek koruması alın.</li>
+    </ul>
+
+    <!-- ══════ 3. LOSPEC ══════ -->
+    <h2 id="lospec">3. Lospec — Palet & Kaynak Merkezi</h2>
+
+    <p><a href="https://lospec.com" target="_blank">Lospec</a>, 2017'de skeddles tarafından kurulmuş, dijital kısıtlı sanat için bağımsız bir platformdur. Pixel art dünyasının en kapsamlı kaynak merkezi olarak kabul edilir.</p>
+
+    <h3>Lospec Araçları</h3>
+    <ul>
+      <li><strong><a href="https://lospec.com/palette-list" target="_blank">Palette List</a></strong> — 4100+ renk paleti veritabanı
+        <ul>
+          <li>Eski donanım paletleri (GameBoy, NES, C64) ve sanatçı paletleri</li>
+          <li>Renk sayısı, etiket, popülerlik ile filtreleme</li>
+          <li>6 farklı formatta indirme (ASE, GPL, PAL, PNG, HEX, vb.)</li>
+          <li>GPL formatı → GIMP'e doğrudan import edilebilir!</li>
+        </ul>
+      </li>
+      <li><strong><a href="https://lospec.com/pixel-art-tutorials" target="_blank">Pixel Art Tutorials</a></strong> — 500+ tutorial, konu/yazar/ortam ile arama</li>
+      <li><strong><a href="https://lospec.com/pixel-art-software-list" target="_blank">Pixel Art Software List</a></strong> — tüm araçların karşılaştırması</li>
+      <li><strong><a href="https://lospec.com/pixel-art-where-to-start" target="_blank">Where to Start</a></strong> — tam yeni başlayanlar için rehber</li>
+      <li><strong><a href="https://lospec.com/dailies" target="_blank">Dailies</a></strong> — her gün yeni bir pratik konusu</li>
+      <li><strong><a href="https://lospec.com/gallery" target="_blank">Gallery</a></strong> — topluluk galerisi, geri bildirim alma</li>
+      <li><strong><a href="https://lospec.com/pixel-school" target="_blank">Pixel School</a></strong> — yapılandırılmış öğrenme yolu</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">🎨 Color Theory bağlantısı</div>
+      <p>Lospec'te palet ararken, renk teorisi bilginizi kullanarak bilinçli seçimler yapabilirsiniz. Complementary, analogous, triadic palet yapıları burada da geçerli. "hardware" etiketiyle gerçek konsol kısıtlamalarını keşfedebilirsiniz.</p>
+    </div>
+
+    <!-- ══════ 4. PALET ══════ -->
+    <h2 id="palette">4. Palet Seçimi & Renk Teorisi</h2>
+
+    <p>Pixel art kısıtlamalarla tanımlanır. Bir piksel, pixel art'ta diğer dijital ortamlardan çok daha fazla anlam taşır ve renkler için de aynısı geçerlidir — sonuçta renkleri de kısıtlamak istersiniz.</p>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/ufo50_palette03.png" class="content-img pixel-img" alt="UFO 50 Palette" style="max-width:500px;">
+    <p class="img-caption">UFO 50 için oluşturulan 32 renklik palet</p>
+
+    <h3>Palet Temelleri</h3>
+    <ul>
+      <li><strong>32 renk</strong> popüler bir seçim, <strong>16 renk</strong> de yaygın</li>
+      <li>UFO 50 paleti: Famicom ile PC Engine arasında hayali bir konsol için tasarlanmış</li>
+      <li>Başlangıçta: Teoriyi düşünmeyi bırakın, mevcut bir palet seçin ve piksellemeye başlayın!</li>
+      <li>Pixel art'ta palet değiştirmek çok kolay — herhangi bir noktada takas edebilirsiniz</li>
+    </ul>
+
+    <h3>Renk Seçiminin Önemi</h3>
+
+    <div class="two-col">
+      <div>
+        <h4>Naive (Saf) Renklendirme ❌</h4>
+        <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/prob_gray.png" class="content-img pixel-img" alt="Naive coloring" style="max-width:250px;">
+        <p>Çizmeye başladığımızda, bir şeyin "ne renk olması gerektiğini" düşünme eğilimindeyiz: yapraklar parlak yeşil, gökyüzü parlak mavi, kayalar saf gri… Gerçekte, renk nadiren saftır ve yansıyan ışık yakındaki nesnelerden gelen renklerin birbirine karışmasına neden olarak karmaşıklık ekler.</p>
+      </div>
+      <div>
+        <h4>Çok Fazla Benzer Renk ❌</h4>
+        <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/prob_similar.png" class="content-img pixel-img" alt="Çok fazla benzer renk" style="max-width:250px;">
+        <p>Her rengin kendi kimliği olmalıdır, böylece mümkün olduğunca çok iş görebilir. Her noktanın verimliliği pixel art'ı dijital sanat formu olarak benzersiz kılar. Renkler çok benzerse pikseller birbirine karışır ve kaybolur.</p>
+      </div>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Color Theory bilginizi burada kullanın</div>
+      <ul>
+        <li><strong>Hue Shifting:</strong> Gölgeler için sadece değer (value) düşürmek yerine, tonu (hue) da kaydırın. Açık tonlar sıcak → koyu tonlar soğuk (veya tersi)</li>
+        <li><strong>Saturation kontrastı:</strong> Gölgelerde saturation artırma veya azaltma ile derinlik katın</li>
+        <li><strong>Complementary kontrast:</strong> Karakter ve arka plan için tamamlayıcı renkler okunabilirliğe katkı sağlar</li>
+        <li><strong>Value kontrastı:</strong> Pixel art'ta en kritik kontrast — doygunluğu sıfırlayıp gölgelemenin hâlâ okunup okunmadığını test edin</li>
+      </ul>
+    </div>
+
+    <!-- ══════ 5. OUTLINE ══════ -->
+    <h2 id="outline">5. Kaba Çizim (Crude Outline)</h2>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/ff.png" style="max-height:200px;" alt="Final Fight scale"><figcaption>Final Fight (Arcade). Capcom, 1989. 96x96 ölçek referansı.</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc01.png" class="pixel-img" style="max-height:200px;" alt="Kaba eskiz"><figcaption>Kalem aracıyla kaba eskiz</figcaption></figure>
+    </div>
+
+    <p>96x96 piksel bir karakter sprite'ı ile başlayalım. Büyük sprite ile başlamak teknikleri göstermeyi kolaylaştırır ve geleneksel sanat formlarına (çizim, boyama) daha yakın hissettirir.</p>
+
+    <p>Sprite'ımıza <strong>Pencil aracını</strong> sürükleyerek, kağıda çizer gibi bir eskiz çizerek başlıyoruz. Pixel art ve geleneksel sanat arasında kesinlikle örtüşme var, özellikle bu büyüklükteki sprite'larda. Güçlü pixel sanatçıları genellikle en azından iyi çizim yapabilir (ve tersi). Çizim becerilerinizi geliştirmek her zaman faydalıdır.</p>
+
+    <!-- ══════ 6. JAGGIES ══════ -->
+    <h2 id="jaggies">6. Jaggies — Çizgi Temizliği</h2>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc02.png" class="content-img pixel-img" alt="Temizlenmiş outline" style="max-width:300px;">
+    <p class="img-caption">Temizlenmiş outline — her çizgi tek piksel kalınlığında</p>
+
+    <p>Şimdi başıboş pikselleri kaldırarak ve her çizgiyi tek piksel kalınlığına indirgeyerek outline'ı temizleyeceğiz.</p>
+
+    <h3>Jaggies Nedir?</h3>
+    <p>Pixel art'ta yapılması gereken iki temel çizgi var: düz ve eğri. <strong>Jaggies:</strong> Bir çizginin tutarlılığını bozan tekil pikseller veya küçük piksel segmentleridir. Pixel art'ta tek bir pikselin genel görüntü üzerinde büyük etkisi olduğundan, jaggies göze batar.</p>
+
+    <h4>Düz Çizgiler</h4>
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/jaggy01.png" class="content-img pixel-img" alt="Düz çizgi jaggies" style="max-width:400px;">
+    <p>Düz çizgilerde segment uzunluklarının tutarlı olması gerekir. Tutarsız segment uzunlukları jaggies yaratır.</p>
+
+    <h4>Eğri Çizgiler</h4>
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/jaggy02.png" class="content-img pixel-img" alt="Eğri çizgi jaggies" style="max-width:400px;">
+    <p>Eğri çizgilerde, çizgi segmentlerinin uzunluğu tutarlı bir şekilde büyümeli veya küçülmelidir. Segment uzunluklarının tutarsız değişimi jaggies yaratır.</p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Not</div>
+      <p>Jaggies'ten tamamen kaçınmak, pixel art'ınız yalnızca en basit şekillerden oluşmadıkça imkansızdır. Favori retro oyunlarınızın herhangi birinde jaggies var. Amaç basitçe ifade etmek istediğinizi ifade ederken bunları <strong>minimize etmektir</strong>.</p>
+    </div>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Inkscape bağlantısı</div>
+      <p>Inkscape'te Bezier eğrilerinin nasıl çalıştığını biliyorsunuz — piksel dünyasında eğriler segment uzunluklarının tutarlı artış ve azalışıyla oluşturulur. Aynı mantık!</p>
+    </div>
+
+    <!-- ══════ 6B. CLUSTER SKETCHING ══════ -->
+    <h2 id="cluster-sketching">6b. Alternatif Teknik: Cluster Sketching (Pixel Grimoire)</h2>
+
+    <p>Pedro Medeiros'un <a href="https://medium.com/pixel-grimoire" target="_blank">Pixel Grimoire</a> serisinden: Outline çizmekle başlamak yerine, doğrudan büyük renk kütleleriyle (<strong>cluster</strong>) başlayıp kademeli olarak rafine etme tekniği.</p>
+
+    <h3>Cluster Nedir?</h3>
+    <p>Bir <strong>cluster</strong> (veya "color cluster", "pixel cluster"), aynı renkteki sürekli piksel grubudur. Pixel art yaparken odak noktanız mümkün olduğunca <strong>az sayıda cluster</strong> kullanmak ve <strong>orphan pixel</strong>'leri (yalnız pikselleri) önlemek olmalıdır.</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Orphan Pixels</div>
+      <p>Aynı renkteki daha büyük grubun parçası olmayan ve anti-alias'ın parçası olmayan tek pikseller. Bu pikseller genellikle görüntüyü gürültülü ve kafa karıştırıcı yapar. Bazen orphan piksel'i komşu cluster'a katarak çözebilirsiniz, bazen küçük bir şekil haline getirebilirsiniz. Ama her zaman kötü değillerdir — dokular ve güçlü detaylar (parıldayan gözler gibi) için kullanılabilirler.</p>
+    </div>
+
+    <h3>Cluster Sketching Adımları</h3>
+    <ol>
+      <li><strong>Adım 1 — Büyük Kütleler:</strong> 2-3 piksel boyutunda fırçayla veya Paint Bucket ile çok kaba bir versiyon çizin. Renklere ve genel atmosfere odaklanın, detay eklemeyin. Arka plandan ön plana doğru çalışın.</li>
+      <li><strong>Adım 2 — Rafine Etme:</strong> Cluster'ları detaylandırın, kontrastı artırın, katmanlar kullanın. Fırça boyutunu 1 piksele düşürün ve kenar düzeltmeleri yapın.</li>
+      <li><strong>Adım 3 — Jaggies Düzeltme & Detay:</strong> Piksel piksel kırıkları düzeltin, anti-alias ekleyin, orphan pikselleri temizleyin.</li>
+    </ol>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 İpucu</div>
+      <p>Bu teknik özellikle manzaralar, doğa ve organik formlar için mükemmeldir. Arka plan pixel art'ı yapıyorsanız, outline'la başlamak yerine cluster sketching'i deneyin. Çizim tableti (Wacom vb.) bu teknik için özellikle faydalıdır.</p>
+    </div>
+
+    <!-- ══════ 7. COLORING ══════ -->
+    <h2 id="coloring">7. İlk Renklendirme</h2>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc03.png" class="content-img pixel-img" alt="İlk renklendirme" style="max-width:300px;">
+    <p class="img-caption">Paint Bucket ile renklendirme ve palet kullanımı</p>
+
+    <p><strong>Paint Bucket</strong> veya başka bir dolgu aracıyla karakterinizi renklendirin! Palet bu kısmı basitleştirir. Paint yazılımınız paletleri desteklemiyorsa, paletinizi her zaman resmin içine yapıştırabilir ve <strong>Eye Dropper</strong> aracını kullanarak renkler seçebilirsiniz.</p>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 GIMP ipucu</div>
+      <p>GIMP'te palet oluşturmayı biliyorsunuz — Windows > Dockable Dialogs > Palettes. Lospec'ten indirdiğiniz <code>.gpl</code> paletleri doğrudan import edebilirsiniz! GIMP'in "Indexed Color" modu da renk sayısını sınırlamak için kullanışlıdır.</p>
+    </div>
+
+    <!-- ══════ 8. SHADING ══════ -->
+    <h2 id="shading">8. Gölgeleme (Shading) & Form</h2>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc04.png" class="pixel-img" style="max-height:250px;" alt="Gölgeleme uygulanmış"><figcaption>Gölgeleme uygulanmış</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc04a.png" class="pixel-img" style="max-height:250px;" alt="Form ve hacim"><figcaption>Form ve hacim düşüncesi</figcaption></figure>
+    </div>
+
+    <p>Gölgeleme zamanı! Temel fikir: sprite'a daha koyu renkler (<strong>shades</strong>) ekleyerek gölge simüle edeceğiz, böylece sprite düz yerine 3D görünecek.</p>
+
+    <p>Bu tutorial için varsayalım ki orkun üstünde ve biraz önünde tek bir ışık kaynağı var — üstte ve/veya önde olan her şey parlak, alt ve arkaya daha koyu renkler ekliyoruz.</p>
+
+    <h3>Form ve Hacim (Form and Volume)</h3>
+    <p>Bu kısımda zorluk yaşıyorsanız, çizimleri basitçe çizgiler ve renk olarak değil, <strong>hacmi olan formlar</strong> olarak düşünme pratiği yapmanız gerekebilir.</p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Not</div>
+      <p>Karakterinizi tüm detayları olmadan, <strong>kilden yapılmış</strong> gibi düşünmeyi deneyin. Gölgeleme yaptığınızda sadece renk eklemiyorsunuz — bir form şekillendiriyorsunuz. İyi tanımlanmış bir karakter, temel formları gizlemeyen detaylara sahiptir — gözünüzü kıssanız, birkaç büyük açık ve koyu küme hâlâ belirmelidir.</p>
+    </div>
+
+    <!-- ══════ 9. ANTI-ALIASING ══════ -->
+    <h2 id="antialiasing">9. Anti-Aliasing (AA)</h2>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/antialias.png" class="pixel-img" style="max-height:200px;" alt="Anti-aliasing temelleri"><figcaption>AA temelleri — "ara" renkler</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/antialias2.png" class="pixel-img" style="max-height:200px;" alt="Anti-aliasing uygulaması"><figcaption>Orc'un üst kolunda AA uygulaması</figcaption></figure>
+    </div>
+
+    <p>Her yeni renk tonu eklediğimde biraz anti-aliasing (AA) yapıyorum. AA, iki çizgi segmentinin buluştuğu köşelere <strong>"ara" renkler</strong> koyarak bloklu pikselleri yumuşatma yöntemidir.</p>
+
+    <p>Gri pikseller çizgimizdeki "kırılmaları" yumuşatır. Çizgi segmenti uzadıkça, onu yumuşatmak için kullandığımız AA segmenti de uzar.</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Dikkat</div>
+      <p>Oyun için kullanılacak bir sprite'ın dışını veya arka plan rengini bilmediğiniz herhangi bir yeri anti-aliase etmeyin! Örneğin, açık bir arka planda AA yaparsanız, o AA koyu bir arka planda göze batacaktır.</p>
+    </div>
+
+    <!-- ══════ 10. SELOUT ══════ -->
+    <h2 id="selout">10. Seçici Dış Çizgi (Selective Outlining / Selout)</h2>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc05.png" class="content-img pixel-img" alt="Selective outlining" style="max-width:300px;">
+    <p class="img-caption">Selout uygulanmış — daha doğal ve yumuşak görünüm</p>
+
+    <p>Şimdiye kadar outline'ımız saf siyahtı, bu sprite'a genel olarak karikatürsü bir görünüm veriyor. Ayrıca çok sert segmentasyon yaratıyor.</p>
+
+    <p>Sprite'a daha doğalcı bir görünüm vermek ve segmentasyonu yumuşatmak için <strong>selective outlining (selout)</strong> tekniğini kullanabiliriz. Selout, siyah outline'ın çoğunu daha açık renklerle değiştirmek demektir:</p>
+
+    <ul>
+      <li><strong>Üst kısım</strong> (ışığın vurduğu yer) → en açık renkler veya tamamen kaldır</li>
+      <li><strong>Segmentasyon çizgileri</strong> (kas, kürk dokusu vb.) → siyah yerine koyu gölge renkleri</li>
+      <li>Bu adımda 3. yeşil ton da eklendi — selout ve ek AA için kullanılır</li>
+    </ul>
+
+    <!-- ══════ 11. DITHERING ══════ -->
+    <h2 id="dithering">11. Dithering</h2>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/dither.png" class="content-img pixel-img" alt="Dithering örneği" style="max-width:500px;">
+    <p class="img-caption">Üst: Yüzlerce ton ile gradient | Orta: 9 renk → banding | Alt: Dithering → 2 renk!</p>
+
+    <p>Şimdiye kadar çoğunlukla büyük, kesintisiz koyu renk kümeleriyle gölgeleme yaptık. Ancak, <strong>dithering</strong> adlı başka bir teknik var — yeni bir ton eklemeden iki farklı renk tonu arasında köprü kurmanızı sağlar.</p>
+
+    <ul>
+      <li>Üstteki gradient yüzlerce farklı mavi tonu kullanıyor</li>
+      <li>Ortada renk sayısı 9'a düşürüldü ama bu hâlâ tek renk için çok fazla ton. Ayrıca <strong>banding</strong> etkisi yarattı</li>
+      <li>Altta dithering uygulandı — banding etkisi giderildi ve sadece <strong>2 renk</strong> kullanıyor!</li>
+    </ul>
+
+    <p>Fikir: Renk geçişini simüle etmek için değişen yoğunluklarda gürültü yaratmak. Baskıda kullanılan "halftone" tekniğine çok benzer.</p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Ne zaman kullanmalı?</div>
+      <p>Dithering büyük tek renkli alanlarda (Metal Slug 3'teki gökyüzüne yakından bakın!) veya pürüzlü/pütürlü görünmesini istediğimiz yerlerde (toprak gibi) en iyi sonucu verir.</p>
+    </div>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/kakyusei.png" class="content-img" alt="Kakyusei PC-98" style="max-width:500px;">
+    <p class="img-caption">Kakyusei (PC-98). Elf, 1996. Bu görselde sadece 16 renk var!</p>
+
+    <p>Dithering'in kapsamlı ve iyi yapıldığını görmek istiyorsanız, 80'lerin İngiliz oyun stüdyosu Bitmap Brothers'ın oyunlarını veya PC-98'deki oyunları inceleyin.</p>
+
+    <!-- ══════ 11B. IŞIK YAPISI ══════ -->
+    <h2 id="light-structure">11b. Işık Yapısı & İleri Gölgeleme (Pixel Grimoire)</h2>
+
+    <p>Pedro Medeiros'un <a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-4-f57f51dcfa02" target="_blank">Pixel Grimoire #4</a> makalesinden: Gölgeleme, ışığın nesnelerle nasıl etkileştiğini simüle etmektir. Her piksel ışık davranışını yansıtmalıdır.</p>
+
+    <h3>Gölgeleme Terimleri</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Terim</th><th>Açıklama</th><th>Pixel Art İpucu</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Volume Shadow</strong></td><td>Nesnenin kendi hacminin oluşturduğu yumuşak gölge</td><td>En yaygın gölge tipi</td></tr>
+        <tr><td><strong>Terminator</strong></td><td>Aydınlık/karanlık arasındaki geçiş bölgesi</td><td>Pixel art'ta keskin tutun — banding'den kaçının</td></tr>
+        <tr><td><strong>Projected Shadow</strong></td><td>Bir nesnenin diğerine düşürdüğü sert gölge</td><td>Genellikle oldukça sert ve keskin</td></tr>
+        <tr><td><strong>Specular Highlight</strong></td><td>En parlak yansıma noktası</td><td>Parlak nesnelerde küçük ve odaklı</td></tr>
+        <tr><td><strong>Rim Light</strong></td><td>Arkadan gelen ışığın yarattığı parlak kontur</td><td>İkincil, daha soluk bir ışık kaynağından</td></tr>
+        <tr><td><strong>Bounce Light</strong></td><td>Yerden yansıyan ışık — gölge içinde hafif aydınlık</td><td>Subtle ama gerçekçilik katar</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Düz vs Eğri Yüzeyler</h3>
+    <p><strong>Düz yüzeyler</strong> genellikle tüm yüzey boyunca tek bir renge sahip olmalıdır, <strong>eğri yüzeyler</strong> ise renk rampası (gradient) gösterebilir. Düz yüzeylerde ramp kullanmak "soft faces" hatasına yol açar.</p>
+
+    <h3>Gölgeleme Adımları</h3>
+    <ol>
+      <li>Temel renkler ve şekillerle başlayın — koyu renklerden açığa doğru çalışın</li>
+      <li>Nesne içinde temel ışık/gölge bölgelerini boyayın — renk sayısını düşük tutun</li>
+      <li>Projected shadow'ları çizin</li>
+      <li>Detayları, oyma desenleri ve küçük parçaları ekleyin</li>
+      <li>Şekilleri düzeltin, gölgeleri ve highlight'ları güçlendirin</li>
+      <li>Ekstra anti-alias ve outline'larla bitirin</li>
+    </ol>
+
+    <h3>Foto Referans Kullanımı</h3>
+    <p><strong>Foto referans kullanmak her zaman iyi bir pratiktir.</strong> Fotoğrafı birebir kopyalamanıza gerek yok, ancak ışığın o durumda nasıl davrandığını anlamak için kullanabilirsiniz.</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Yaygın Gölgeleme Hataları</div>
+      <ul>
+        <li><strong>Soft faces:</strong> Düz alanları yanlış yönde yumuşatmak — düz yüzey = tek renk!</li>
+        <li><strong>Pillow Shading:</strong> Net ışık kaynağı olmadan kenarları karartmak</li>
+        <li><strong>Flat Light:</strong> Gerçek 3D formunu göz ardı etmek — nesneniz 3B obje, 2B şekil değil</li>
+      </ul>
+    </div>
+
+    <!-- ══════ 11C. ANİMASYON ══════ -->
+    <h2 id="animation">11c. Pixel Art Animasyon Temelleri (Pixel Grimoire)</h2>
+
+    <p>Pedro Medeiros'un <a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-3-c9eb70270fa1" target="_blank">Pixel Grimoire #3</a> makalesinden: Animasyon, belirli bir sırada oynatılan görüntü dizisinin yarattığı hareket illüzyonudur.</p>
+
+    <h3>Animasyon Yaklaşımları</h3>
+    <div class="two-col">
+      <div>
+        <h4>Straight-ahead Animasyon</h4>
+        <p>Kareleri sırayla, birinden sonrakine çizme yöntemi. Basit animasyonlar için ideal — zıplayan top, sallanma gibi.</p>
+      </div>
+      <div>
+        <h4>Pose-to-pose Animasyon</h4>
+        <p>Önce anahtar pozları (key frames) çizin, sonra aradaki kareleri doldurun. Karmaşık karakter animasyonları için daha kontrollü.</p>
+      </div>
+    </div>
+
+    <h3>Timing (Zamanlama)</h3>
+    <p>Her karenin ne kadar süre gösterildiği, animasyonun hissini belirler. Aseprite/LibreSprite'da kare numarasına sağ tıklayarak süreyi (milisaniye) ayarlayabilirsiniz.</p>
+
+    <h3>Squash & Stretch (Sıkıştır & Uzat)</h3>
+    <p>Hareket yönünde nesneyi uzatma, çarpma anında sıkıştırma. <strong>Hacmi koruyun:</strong> Dikey uzatırken yatay daralma, yatay sıkıştırırken dikey genişleme olmalı.</p>
+    <ul>
+      <li><strong>Anticipation frame:</strong> Hareket öncesi sıkıştırma — "yüklenme" etkisi</li>
+      <li><strong>Contact frame:</strong> Yere değme anında maksimum sıkıştırma</li>
+      <li><strong>Stretch frame:</strong> En hızlı olduğu anda maksimum uzama</li>
+    </ul>
+
+    <h3>Animasyon Kaydetme</h3>
+    <ul>
+      <li><strong>Web'de paylaşım:</strong> GIF formatında export</li>
+      <li><strong>Oyunlarda kullanım:</strong> Sprite sheet olarak PNG export (File → Export Sprite Sheet)</li>
+      <li><strong>Image sequence:</strong> Frame'leri ayrı dosyalar olarak kaydetme (bounce00.png, bounce01.png...)</li>
+    </ul>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 İlk animasyon egzersizi</div>
+      <p>Zıplayan top! Basit bir 32x32 canvas'ta 4 renkli paletle çalışın. Squash & stretch ekleyin. Sonra klasik en boy çevirme egzersizi olan "animasyonlu un çuvalı"nı deneyin.</p>
+    </div>
+
+    <!-- ══════ 11D. BANDING ══════ -->
+    <h2 id="banding">11d. Banding & Anti-Alias İleri Düzey (Pixel Grimoire)</h2>
+
+    <p>Pedro Medeiros'un <a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-4-ff4bfcd2d085" target="_blank">Pixel Grimoire #5</a> makalesinden: Anti-alias ve banding, pixel art topluluğunda en çok tartışılan konulardandır.</p>
+
+    <h3>Anti-Alias Yapma Yöntemi</h3>
+    <ol>
+      <li>İki piksel veya daha uzun merdiven desenleri arayın</li>
+      <li>Adım bittiğinde halftone (ara renk) ekleyin</li>
+      <li>Halftone uzunluğu, adım uzunluğuyla orantılı olmalı</li>
+      <li>Gerekirse orijinal şekilden 1 piksel "yiyin" — genişlemeyi telafi etmek için</li>
+    </ol>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Halftone renk seçimi</div>
+      <p>Renk tonu (hue) ve doygunluk değişse bile, <strong>value</strong> (parlaklık) doğru şekilde iki renk arasında köprü olmalıdır. Sınırlı paletle çalışırken çok farklı hue'lerle bile doğru halftone'lar oluşturabilirsiniz.</p>
+    </div>
+
+    <h3>Yaygın Anti-Alias Hataları</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Hata</th><th>Açıklama</th><th>Çözüm</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Aşırı AA</strong></td><td>Her şey bulanıklaşır</td><td>Daha az halftone kullanın, 45° ve düz çizgilerde AA yapMAYIN</td></tr>
+        <tr><td><strong>Yetersiz AA</strong></td><td>Adım uzunluğuna kıyasla çok kısa halftone</td><td>Uzun adım = orantılı uzun halftone</td></tr>
+        <tr><td><strong>Yanlış değer</strong></td><td>Halftone çok açık/koyu — köprü olmamış</td><td>Value'nun iki renk arasında olduğundan emin olun</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Banding Sorunu</h3>
+    <p><strong>Banding:</strong> Birden çok renk bandının belirgin şekilde birbirinden ayrışması. Nesneyi düz ve bazen bulanık gösterir.</p>
+    <ul>
+      <li><strong>Band sıkıştırma:</strong> Bantları mümkün olduğunca dar alanlara sıkıştırın</li>
+      <li><strong>Gradient yönünü döndürün:</strong> Yatay slope = yatay AA, dikey slope = dikey AA. Yanlış yön banding yaratır</li>
+      <li>Banding tamamen kaçınılamaz olabilir, ama minimize edilmelidir</li>
+    </ul>
+
+    <!-- ══════ 12. SON DOKUNUŞLAR ══════ -->
+    <h2 id="finaltouches">12. Son Dokunuşlar</h2>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc06.png" class="pixel-img" style="max-height:250px;" alt="Son dokunuşlar"><figcaption>Detaylar ve highlights ekleniyor</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orc07.png" class="pixel-img" style="max-height:250px;" alt="Tamamlanmış sprite"><figcaption>Tamamlanmış orc sprite</figcaption></figure>
+    </div>
+
+    <p>Son olarak <strong>highlights</strong> (sprite'ımızdaki en parlak noktalar), detaylar (küpeler, perçinler, yaralar) ekleyebilir ve mutlu olana kadar ayarlamalar yapmaya devam edebiliriz.</p>
+
+    <h3>Kontrol Teknikleri</h3>
+    <ul>
+      <li><strong>Yatay çevirme:</strong> Dijital sanatta güçlü bir numara — orantı ve gölgelemede hataları sıklıkla ortaya çıkarır</li>
+      <li><strong>Doygunluk sıfırlama:</strong> Sanat eserinizden rengi çıkararak (saturation = 0) gölgelemenin hâlâ iyi okunup okunmadığını görün</li>
+    </ul>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Mükemmeliyetçilik tuzağı</div>
+      <p>Pixel art'ın kısıtlı, grid benzeri doğası yüzünden her şeyi "tam doğru" yapabileceğinizi hissettirmesi kolaydır. Bu bir bulmaca çözme hissi yaratır ve çok bağımlılık yapıcı olabilir. Tek bir sprite üzerinde çok uzun oyalanmamaya dikkat edin! <strong>"Yeterince iyi!"</strong> demeyi ve devam etmeyi öğrenin.</p>
+    </div>
+
+    <!-- ══════ 13. KÜÇÜK SPRITE ══════ -->
+    <h2 id="small-sprites">13. Küçük Sprite: 32x32</h2>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/mario.png" class="pixel-img" style="max-height:150px;" alt="Mario sprite"><figcaption>Super Mario Bros — 2 piksellik göz!</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/pinkyparty.png" class="pixel-img" style="max-height:200px;" alt="Chibi parti"><figcaption>Chibi/super-deformed parti</figcaption></figure>
+    </div>
+
+    <p>96x96 büyük sprite'ta pixel art hâlâ çizim ve boyama gibi hissettiriyordu. Sprite küçüldükçe, temsil etmesi gereken şeye daha az benzer ve <strong>her pikselin sorumluluğu artar</strong>.</p>
+
+    <h3>Mario Dersi</h3>
+    <p>Super Mario Bros.'da Mario'nun gözü sadece iki piksel birbiri üstüne konmuş. Ve yaratıcısı Shigeru Miyamoto, bıyığının burnunu yüzünün geri kalanından ayırt etmek için gerekli olduğunu açıkladı. Yani Mario'nun en ikonik özelliklerinden biri sadece karakter tasarımı değil, pragmatik bir karardı!</p>
+
+    <h3>32x32 Adımları</h3>
+    <ul>
+      <li>Temel adımlar aynı: <strong>eskiz → renk → gölge → cilalama</strong></li>
+      <li><strong>Fark:</strong> İlk eskiz için outline yerine <strong>renkli şekiller</strong> kullanmak — bu boyutta renk, outline'dan daha fazla karakteri tanımlar</li>
+      <li>Mario'ya tekrar bakın — outline'ı yok! Bıyığı, favorileri, kolları, tulumu tüm vücudunu anlaşılır kılar</li>
+    </ul>
+
+    <h3>Ödün Verme Sanatı</h3>
+    <p>Küçük sprite yapmak <strong>ödün vermektir</strong>. Outline eklerseniz gölgeleme alanı daralır. Kol ve bacaklar iyi tanımlanmışsa, yer açmak için kafa küçülmek zorunda kalır.</p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Chibi / Super-Deformed</div>
+      <p>Küçük sprite'lar için karakterlerin sevimli olduğu, büyük kafa ve gözlere sahip chibi tasarımlar tercih edilebilir. Sınırlı alanda ifadeli karakterler yaratmanın harika bir yolu.</p>
+    </div>
+
+    <!-- ══════ 14. HATALAR ══════ -->
+    <h2 id="mistakes">14. Yaygın Hatalar</h2>
+
+    <p>Sanatın en zor kısımlarından biri öz eleştiridir — çoğu zaman sanatımıza objektif bakamayacak kadar yakınız. Başka sanatçılardan düzenleme şeklinde geri bildirim istemek, göremediğiniz sorunları aydınlatmanın harika bir yoludur.</p>
+
+    <div class="img-row">
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/pixelboy01.png" class="pixel-img" style="max-height:200px;" alt="Öncesi"><figcaption>Naive pixel art — düz, sert, okunaksız</figcaption></figure>
+      <figure><img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/pixelboy04.png" class="pixel-img" style="max-height:200px;" alt="Sonrası"><figcaption>Rework — dinamik, hacimli, okunabilir</figcaption></figure>
+    </div>
+
+    <h3>Hata 1: Çok Fazla Benzer Renk</h3>
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/prob_similar.png" class="content-img pixel-img" alt="Çok fazla benzer renk" style="max-width:300px;">
+    <p>Her rengin mümkün olduğunca fazla iş görebilmesi için kendi kimliğine sahip olmasını istiyoruz. <strong>Çözüm:</strong> Renk sayısını azaltın, kontrastı artırın.</p>
+
+    <h3>Hata 2: Pillow Shading</h3>
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/prob_pillow.png" class="content-img pixel-img" alt="Pillow shading" style="max-width:300px;">
+    <p><strong>Pillow shading:</strong> Dıştan içe doğru gölgeleme — "yastık" etkisi yaratır. Bu tür gölgeleme gerçek hayatta neredeyse hiç oluşmaz. <strong>Çözüm:</strong> Tek ışık kaynağı belirleyin, formları basit geometrik şekillere indirgeyin.</p>
+
+    <h3>Hata 3: Karton Tasarımlar</h3>
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/prob_stiff.png" class="content-img pixel-img" alt="Karton tasarımlar" style="max-width:300px;">
+    <p>Grid üzerinde çalışmak bizi düz çizgiler boyunca tasarlamaya zorlar. "Chunky Pixels Rule": Tek piksel kalınlığında çıkıntılar yapmaktan kaçının — gölgelemesi ve 3B form hissi vermesi zor olur. <strong>Çözüm:</strong> Nesnelerin kişiliklerini çıkarın, hareket ediyorlarmış gibi düşünün, kalın formlar kullanın.</p>
+
+    <!-- ══════ 15. DOSYA FORMATLARI ══════ -->
+    <h2 id="fileformats">15. Dosya Formatları</h2>
+
+    <img src="https://raw.githubusercontent.com/gusanmaz/pixel-art/main/docs/images/orcjpg.png" class="content-img pixel-img" alt="JPG olarak kaydedilmiş pixel art" style="max-width:300px;">
+    <p class="img-caption">Herhangi bir pixel sanatçısının belini ürpertecek görüntü — JPG olarak kaydedilmiş pixel art!</p>
+
+    <p>Sanat eserinizi <strong>JPG</strong> olarak kaydettiğinizde olan şey: JPG <strong>kayıplı (lossy)</strong> bir dosya formatıdır — kaydettiğinizde dosya boyutunu küçültmek için sıkıştırma yapılır ve veri kaybedilir. Güzel, keskin pixel art'ınız bulanık görünür.</p>
+
+    <div class="two-col">
+      <div>
+        <h4>✅ PNG (Önerilen)</h4>
+        <ul>
+          <li>Kayıpsız (lossless) sıkıştırma</li>
+          <li>Piksel piksel korunur</li>
+          <li>Transparency (alfa kanalı) desteği</li>
+          <li>Statik pixel art için standart format</li>
+        </ul>
+      </div>
+      <div>
+        <h4>✅ GIF (Animasyon için)</h4>
+        <ul>
+          <li>Animasyonlu pixel art için en popüler format</li>
+          <li>256 renk sınırı var (pixel art için genellikle yeterli)</li>
+        </ul>
+        <h4>❌ JPG (Asla!)</h4>
+        <ul>
+          <li>Kayıplı sıkıştırma — blurlu sonuç</li>
+          <li>Orijinal palet kaybolur</li>
+          <li>Pixel art için kesinlikle uygun değil</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════ 16. UNITY ══════ -->
+    <h2 id="unity">16. Unity'de Sprite Kullanımı</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 C# ve Unity öğreniyorsunuz</div>
+      <p>Oluşturduğunuz sprite'ları doğrudan oyun projelerinizde kullanabilirsiniz!</p>
+    </div>
+
+    <h3>Sprite Import Ayarları</h3>
+    <p><em>Kaynak: <a href="https://learn.unity.com/tutorial/importing-2d-assets-into-unity-2019-3" target="_blank">Unity Learn — Importing 2D Assets</a></em></p>
+    <ol>
+      <li>PNG sprite'ı <strong>Assets</strong> klasörüne sürükleyin</li>
+      <li>Inspector'da <strong>Texture Type = "Sprite (2D and UI)"</strong> seçin</li>
+      <li><strong>Filter Mode = "Point (no filter)"</strong> — piksel keskinliğini korur!</li>
+      <li><strong>Compression = "None"</strong> — kalite kaybı olmasın</li>
+      <li><strong>Pixels Per Unit (PPU):</strong> 32x32 sprite için PPU=32 iyi bir başlangıç</li>
+      <li><strong>Pivot:</strong> Yerde duran karakterler için <strong>Bottom</strong>, genel amaç için <strong>Center</strong></li>
+    </ol>
+
+    <h3 id="pixel-perfect">Pixel Perfect Camera — Kritik Ayar!</h3>
+    <div class="info-box warning">
+      <div class="info-title">⚠️ En yaygın sorun</div>
+      <p>Pixel art oyunlarda pikseller farklı boyutlarda render edilir → "kırık" görünüm oluşur. <strong>Pixel Perfect Camera</strong> bunu çözer!</p>
+    </div>
+    <ol>
+      <li><strong>Package Manager → Unity Registry → "2D Pixel Perfect"</strong> paketini kurun</li>
+      <li>Main Camera'ya <strong>Pixel Perfect Camera</strong> component'i ekleyin</li>
+      <li><strong>Assets PPU:</strong> Sprite'larınızın PPU değeriyle aynı olmalı</li>
+      <li><strong>Reference Resolution:</strong> Oyununuzun mantıksal çözünürlüğü (ör: 320×180 piksel)</li>
+      <li><strong>Upscale Render Texture:</strong> İşaretleyin — temiz upscale</li>
+    </ol>
+
+    <pre><code>// Pixel Perfect Camera ayarı (C#)
+using UnityEngine.U2D;
+var ppc = Camera.main.GetComponent&lt;PixelPerfectCamera&gt;();
+ppc.assetsPPU = 16;
+ppc.refResolutionX = 320;
+ppc.refResolutionY = 180;</code></pre>
+
+    <h3>Sprite Sheet & Animasyon</h3>
+    <ol>
+      <li>Tüm animasyon frame'lerini tek bir PNG dosyasına yan yana dizin</li>
+      <li>Unity'de Sprite Mode = "Multiple" seçin</li>
+      <li><strong>Sprite Editor → "Slice"</strong> ile frame'lere bölün (Automatic, Grid By Cell Size, Grid By Cell Count)</li>
+      <li><strong>Animator Controller</strong> ile state machine animasyonu oluşturun</li>
+      <li><strong>Sprite Atlas:</strong> Birden fazla sprite'ı tek texture'a paketleyerek draw call azaltma</li>
+    </ol>
+
+    <h3>Tilemap Sistemi — Level Tasarımı</h3>
+    <ul>
+      <li><strong>Tilemap:</strong> Grid tabanlı level editörü</li>
+      <li><strong>Tile Palette:</strong> Sprite'lardan "fayans paleti" oluşturun, Paint gibi boyayarak level tasarlayın</li>
+      <li><strong>Rule Tile:</strong> Komşuluk kurallarıyla otomatik tile seçimi</li>
+      <li><strong>Tilemap Collider 2D:</strong> Tile'lara otomatik fizik/çarpışma ekler</li>
+      <li><strong>Sorting Layer & Order in Layer:</strong> Arka plan, zemin, ön plan katmanlarını ayırma</li>
+    </ul>
+
+    <h3>C# ile Sprite Kontrolü</h3>
+    <pre><code>// Sprite'ı runtime'da değiştirme
+SpriteRenderer sr = GetComponent&lt;SpriteRenderer&gt;();
+sr.sprite = newSprite;  // Sprite swap
+sr.flipX = true;        // Yatay çevirme
+sr.color = new Color(1f, 0.5f, 0.5f); // Kırmızımsı tint
+sr.sortingOrder = 10;
+
+// Animator ile animasyon state geçişi
+Animator anim = GetComponent&lt;Animator&gt;();
+anim.SetBool("isRunning", true);
+anim.SetTrigger("attack");</code></pre>
+
+    <h3>2D Light (Universal Render Pipeline)</h3>
+    <ul>
+      <li><strong>Point Light 2D:</strong> Meşale, ateş, sihir efektleri</li>
+      <li><strong>Global Light 2D:</strong> Genel sahne aydınlatması (gece/gündüz döngüsü)</li>
+      <li><strong>Sprite Lit material:</strong> Sprite'ın ışığa tepki vermesini sağlar</li>
+      <li>Normal map'lerle pixel art sprite'lara derinlik duygusu ekleyin</li>
+    </ul>
+
+    <!-- ══════ 17. ÇİZİM YETENEĞİ OLMAYANLAR ══════ -->
+    <h2 id="nonartists">17. Çizim Yeteneği Olmayanlar İçin</h2>
+
+    <p>Herkesin sanatsal yönü kuvvetli olmayabilir — ama oyun projeniz için pixel art elde etmenin birçok yolu var!</p>
+
+    <h3>Yol 1: Hazır Asset Kullanma</h3>
+    <table class="tool-table">
+      <thead><tr><th>Site</th><th>Lisans</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://itch.io/game-assets/tag-pixel-art" target="_blank">itch.io Game Assets</a></td><td>Değişken</td><td>Binlerce pixel art sprite paketi</td></tr>
+        <tr><td><a href="https://opengameart.org" target="_blank">OpenGameArt.org</a></td><td>CC0, CC-BY, GPL</td><td>Açık lisanslı oyun grafikleri arşivi</td></tr>
+        <tr><td><a href="https://kenney.nl" target="_blank">Kenney.nl</a></td><td>CC0 (Public Domain)</td><td>Yüksek kalite, tutarlı stil. Hiçbir atıf gerektirmez</td></tr>
+        <tr><td><a href="https://craftpix.net" target="_blank">CraftPix.net</a></td><td>Ücretsiz & Premium</td><td>Oyun için hazır 2D asset'ler</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Yol 2: Mevcut Görselden Pixel Art'a Çevirme</h3>
+    <p>GIMP'i zaten biliyorsunuz — fotoğrafları pixel art'a dönüştürmek için:</p>
+    <ol>
+      <li><strong>Image → Scale Image:</strong> küçültün (ör: 64x64 veya 32x32)</li>
+      <li><strong>Image → Mode → Indexed Color:</strong> renk sayısını sınırlayın (16 veya 32)</li>
+      <li><strong>Filters → Blur → Pixelize</strong> ile piksel efekti</li>
+      <li>Elle düzenleme yaparak kaliteyi artırın</li>
+    </ol>
+
+    <h3>Yol 3: Basit Şekillerden Başlama</h3>
+    <p>Basit geometrik şekillerden (dikdörtgen, daire) başlayarak sprite oluşturabilirsiniz. Mario'nun bile bıyığı pragmatik bir tasarım kararıyla doğduğunu unutmayın!</p>
+
+    <!-- ══════ 18. AI TOOLS ══════ -->
+    <h2 id="ai-tools">18. AI & Modern Araçlarla Pixel Art</h2>
+
+    <h3>AI Görsel Üretimi</h3>
+    <ul>
+      <li><strong>DALL-E, Midjourney, Stable Diffusion:</strong> "pixel art style, 32x32, limited palette" prompt'larıyla pixel art benzeri çıktılar üretebilir</li>
+      <li><strong>Retrodiffusion:</strong> Pixel art'a özel eğitilmiş AI model</li>
+      <li><strong>PixelLab:</strong> Özel pixel art üretimi için tasarlanmış AI araç</li>
+    </ul>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ AI Pixel Art'ın Sınırlamaları</div>
+      <ul>
+        <li>AI çıktıları genellikle <strong>piksel grid'ine tam uymaz</strong></li>
+        <li>Renk paleti kontrolü zayıf — yüzlerce gereksiz renk üretebilir</li>
+        <li>Anti-aliasing aşırı ve kontrolsüz uygulanır</li>
+        <li>Her pikselin bilinçli yerleştirilmesi pixel art'ın özüdür — AI bunu gerçek anlamda yapamaz</li>
+      </ul>
+    </div>
+
+    <h3>Hibrit Workflow — En İyi Yaklaşım</h3>
+    <ol>
+      <li>AI ile hızlı konsept/referans oluşturun</li>
+      <li>Çıktıyı LibreSprite/Aseprite/GIMP'e aktarın</li>
+      <li>Piksel grid'ine oturtun, gereksiz renkleri temizleyin</li>
+      <li>Elle AA, selout, dithering uygulayın</li>
+      <li>Palet sınırlaması yapın (Indexed Color)</li>
+    </ol>
+
+    <!-- ══════ 19. P5JS ══════ -->
+    <h2 id="p5js">19. p5.js ile Pixel Art</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Not</div>
+      <p>p5.js bilginiz pixel art dünyasında değerli bir avantaj! Programatik yaklaşımlar artist olmayanlar için de kapı açar.</p>
+    </div>
+
+    <h3>Sprite Yükleme & Pixel-Perfect Görüntüleme</h3>
+    <pre><code>// p5.js ile sprite yükleme
+let sprite, spriteSheet;
+let frameW = 32, frameH = 32, currentFrame = 0;
+
+function preload() {
+  sprite = loadImage('hero.png');
+  spriteSheet = loadImage('hero_walk.png');
+}
+
+function setup() {
+  createCanvas(512, 512);
+  noSmooth();  // KRİTİK: Pixel-perfect rendering!
+}
+
+function draw() {
+  background(30);
+  image(sprite, 50, 50, 256, 256);
+
+  // Sprite sheet'ten frame okuma
+  let sx = currentFrame * frameW;
+  let frame = spriteSheet.get(sx, 0, frameW, frameH);
+  image(frame, 320, 50, 128, 128);
+
+  if (frameCount % 8 === 0) currentFrame = (currentFrame + 1) % 6;
+}</code></pre>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Önemli</div>
+      <p><code>noSmooth()</code> pixel art için olmazsa olmazdır! Bu olmadan p5.js sprite'ları büyütürken bilinear filtreleme uygular ve pikseller bulanıklaşır. CSS'de de <code>image-rendering: pixelated;</code> ekleyin.</p>
+    </div>
+
+    <h3>Piksel Düzeyinde Manipülasyon</h3>
+    <pre><code>// Nearest-color palette mapping
+function applyPalette(img, palette) {
+  img.loadPixels();
+  for (let i = 0; i &lt; img.pixels.length; i += 4) {
+    let r = img.pixels[i], g = img.pixels[i+1], b = img.pixels[i+2];
+    let closest = findClosestColor(r, g, b, palette);
+    img.pixels[i] = closest[0];
+    img.pixels[i+1] = closest[1];
+    img.pixels[i+2] = closest[2];
+  }
+  img.updatePixels();
+}
+
+function findClosestColor(r, g, b, palette) {
+  let minDist = Infinity, best = palette[0];
+  for (let c of palette) {
+    let d = (r-c[0])**2 + (g-c[1])**2 + (b-c[2])**2;
+    if (d &lt; minDist) { minDist = d; best = c; }
+  }
+  return best;
+}</code></pre>
+
+    <h3>p5.js ile Yapabileceğiniz Şeyler</h3>
+    <ul>
+      <li><strong>loadPixels() / pixels[]:</strong> Dithering algoritmalarını kodlayın (Floyd-Steinberg vb.)</li>
+      <li><strong>Palet uygulama:</strong> Fotoğraflara programatik renk sınırlama</li>
+      <li><strong>Mini pixel editör:</strong> createGraphics() ile kendi editörünüzü yapın</li>
+      <li><strong>Sprite sheet animasyonu:</strong> Frame bazlı animasyon sistemi</li>
+      <li><strong>Prosedürel içerik:</strong> Rastgele ağaç, bina, uzay gemisi sprite'ları üretimi</li>
+    </ul>
+
+    <!-- ══════ 20. PAYLAŞIM ══════ -->
+    <h2 id="sharing">20. Paylaşım & Topluluk</h2>
+
+    <p>Pixel art'ınızı sosyal medyada paylaşmak geri bildirim almanın ve diğer pixel sanatçılarıyla tanışmanın harika bir yolu. <strong>#pixelart</strong> hashtag'ini kullanmayı unutmayın!</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Dikkat</div>
+      <p>Sosyal medya siteleri sormadan PNG'leri JPG'ye dönüştürme eğilimindedir — eserinizi herkese açarken lekelenir!</p>
+    </div>
+
+    <h3>Paylaşım İpuçları</h3>
+    <table class="tool-table">
+      <thead><tr><th>Platform</th><th>İpucu</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Twitter/X</strong></td><td>PNG kalması için: &lt;256 renk VEYA en uzun kenar &lt;900px. En az 512x512'ye upscale edin. <strong>Nearest Neighbor</strong> ile temiz katlarla büyütün.</td></tr>
+        <tr><td><strong>Instagram</strong></td><td>512x512+ upscale görüntüyü iyileştirir.</td></tr>
+        <tr><td><strong>GIF Animasyon</strong></td><td>Twitter için &lt;15MB. En az 800x800px, döngü 3 kere tekrar.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Topluluklar</h3>
+    <ul>
+      <li><strong><a href="https://lospec.com/gallery" target="_blank">Lospec Gallery & Discord</a></strong> — 107K+ üye</li>
+      <li><strong><a href="https://www.reddit.com/r/pixelart" target="_blank">Reddit r/PixelArt</a></strong> — 100K+ üye</li>
+      <li><strong><a href="http://pixeljoint.com/" target="_blank">PixelJoint</a></strong> — 2004'ten beri, en büyük pixel art galerisi</li>
+      <li><strong><a href="https://pixelation.org/index.php" target="_blank">Pixelation</a></strong> — derinlemesine pixel art tartışmaları</li>
+    </ul>
+
+    <!-- ══════ 21. WORKFLOW ══════ -->
+    <h2 id="workflow">21. Önerilen İş Akışı</h2>
+
+    <table class="tool-table">
+      <thead><tr><th>#</th><th>Adım</th><th>Araç / Detay</th></tr></thead>
+      <tbody>
+        <tr><td><span class="step-number">1</span></td><td>Referans toplama</td><td>Lospec, Pinterest, oyun screenshot'ları — stil belirle</td></tr>
+        <tr><td><span class="step-number">2</span></td><td>Palet seçimi</td><td>Lospec Palette List → GIMP/LibreSprite'a import</td></tr>
+        <tr><td><span class="step-number">3</span></td><td>Kaba eskiz</td><td>LibreSprite / Piskel / GIMP — Pencil tool</td></tr>
+        <tr><td><span class="step-number">4</span></td><td>Outline temizleme</td><td>Jaggies minimize et — tutarlı segment uzunlukları</td></tr>
+        <tr><td><span class="step-number">5</span></td><td>Renklendirme</td><td>Paint Bucket + seçilen palet</td></tr>
+        <tr><td><span class="step-number">6</span></td><td>Gölgeleme</td><td>Tek ışık kaynağı, hue shifting, hacimli formlar</td></tr>
+        <tr><td><span class="step-number">7</span></td><td>AA & Selout</td><td>Yumuşatma, dış çizgi renklendirme</td></tr>
+        <tr><td><span class="step-number">8</span></td><td>Dithering & detaylar</td><td>Gerekirse dithering, highlights, detaylar</td></tr>
+        <tr><td><span class="step-number">9</span></td><td>Kontrol</td><td>Yatay çevir, doygunluk sıfırla → kontrol et</td></tr>
+        <tr><td><span class="step-number">10</span></td><td>Export</td><td><strong>PNG</strong> olarak kaydet (asla JPG değil!)</td></tr>
+        <tr><td><span class="step-number">11</span></td><td>Unity Import</td><td>Point filter, No compression, doğru PPU</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ 22. KAYNAKLAR ══════ -->
+    <h2 id="resources">22. Kaynaklar & Bağlantılar</h2>
+
+    <div class="two-col">
+      <div>
+        <h3>Tutorial & Öğrenme</h3>
+        <ul>
+          <li><a href="https://www.derekyu.com/makegames/pixelart.html" target="_blank">Derek Yu — Pixel Art Basics</a></li>
+          <li><a href="https://www.derekyu.com/makegames/pixelart2.html" target="_blank">Derek Yu — Common Mistakes</a></li>
+          <li><a href="https://www.patreon.com/collection/266583" target="_blank">Pedro Medeiros — Pixel Grimoire (Patreon)</a></li>
+          <li><a href="https://lospec.com/pixel-art-where-to-start" target="_blank">Lospec — Where to Start</a></li>
+          <li><a href="https://lospec.com/pixel-art-tutorials" target="_blank">Lospec — 500+ Tutorial</a></li>
+          <li><a href="https://lospec.com/pixel-school" target="_blank">Lospec — Pixel School</a></li>
+          <li><a href="https://drawabox.com/" target="_blank">Draw a Box — Çizim temelleri</a></li>
+        </ul>
+
+        <h3>Tarihçe & Referans</h3>
+        <ul>
+          <li><a href="https://2dwillneverdie.com/intro/" target="_blank">2D Will Never Die — Pixel Art Tarihçesi</a></li>
+          <li><a href="https://ensemble.art/blog/the-evolution-of-sprite-sheets-in-video-games" target="_blank">Sprite Sheet Evrimi — Ensemble Art</a></li>
+        </ul>
+
+        <h3>Yazılımlar</h3>
+        <ul>
+          <li><a href="https://libresprite.github.io/" target="_blank">LibreSprite</a> — Ücretsiz, açık kaynak</li>
+          <li><a href="https://www.aseprite.org/" target="_blank">Aseprite</a> — En popüler editör</li>
+          <li><a href="https://www.piskelapp.com/" target="_blank">Piskel</a> — Tarayıcıda çalışır</li>
+          <li><a href="https://graphicsgale.com/us/" target="_blank">GraphicsGale</a> — Windows, ücretsiz</li>
+          <li><a href="https://www.gimp.org/" target="_blank">GIMP</a> — Bildiğiniz araç!</li>
+          <li><a href="https://lospec.com/pixel-art-software-list" target="_blank">Lospec Software List</a> — Karşılaştırma</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Palet & Asset Kaynakları</h3>
+        <ul>
+          <li><a href="https://lospec.com/palette-list" target="_blank">Lospec Palette List</a> — 4100+ palet</li>
+          <li><a href="https://itch.io/game-assets/tag-pixel-art" target="_blank">itch.io Game Assets</a> — Hazır sprite'lar</li>
+          <li><a href="https://opengameart.org" target="_blank">OpenGameArt</a> — Açık lisanslı</li>
+          <li><a href="https://kenney.nl" target="_blank">Kenney Assets</a> — CC0</li>
+        </ul>
+
+        <h3>Topluluklar</h3>
+        <ul>
+          <li><a href="https://lospec.com/discord" target="_blank">Lospec Discord</a> — 107K+ üye</li>
+          <li><a href="https://www.reddit.com/r/pixelart" target="_blank">r/PixelArt</a> — Reddit</li>
+          <li><a href="http://pixeljoint.com/" target="_blank">PixelJoint</a> — Galeri</li>
+        </ul>
+
+        <h3>Pixel Grimoire Serisi</h3>
+        <ul>
+          <li><a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-2d1e31a5ceab" target="_blank">#1 — Başlangıç, araçlar, ilk sprite</a></li>
+          <li><a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-2-bcd705cb04d7" target="_blank">#2 — Cluster sketching ve boyama</a></li>
+          <li><a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-3-c9eb70270fa1" target="_blank">#3 — Animasyon temelleri</a></li>
+          <li><a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-4-f57f51dcfa02" target="_blank">#4 — Gölgeleme ve ışık</a></li>
+          <li><a href="https://medium.com/pixel-grimoire/how-to-start-making-pixel-art-4-ff4bfcd2d085" target="_blank">#5 — Anti-alias ve banding</a></li>
+        </ul>
+
+        <h3>Unity ile Pixel Art</h3>
+        <ul>
+          <li><a href="https://learn.unity.com/tutorial/importing-2d-assets-into-unity-2019-3" target="_blank">Unity 2D Asset Import Rehberi</a></li>
+          <li>2D Pixel Perfect Camera paketi</li>
+          <li>Tilemap editörü</li>
+          <li>2D Animation paketi</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════ DÖNEM PROJESİ ══════ -->
+    <h2 id="semester-project">📝 Dönem Projesi: 2D Pixel Art Oyun</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Amaç</div>
+      <p>Bir oyun fikri belirleyip, o oyun için orijinal 2D pixel art sprite'lar tasarlamak ve çalışan bir prototip oluşturmak.</p>
+    </div>
+
+    <h3>Proje Gereksinimleri</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Gereksinim</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Orijinal Sprite'lar</strong></td><td>En az 3 orijinal pixel art sprite (karakter, düşman, nesne, NPC vb.)</td></tr>
+        <tr><td><strong>Animasyon</strong></td><td>En az 1 animasyonlu sprite (yürüme döngüsü, saldırı, patlama vb.)</td></tr>
+        <tr><td><strong>Tilemap / Arka Plan</strong></td><td>Oyun dünyası için tile set veya arka plan tasarımı</td></tr>
+        <tr><td><strong>Çalışan Prototip</strong></td><td>Sprite'ları kullanan oynanabilir bir demo</td></tr>
+        <tr><td><strong>Platform</strong></td><td><strong>Unity, p5.js veya Godot</strong> — birini seçin</td></tr>
+      </tbody>
+    </table>
+
+    <h3>AI Kullanımı</h3>
+    <div class="info-box tip">
+      <div class="info-title">💡 Kodlama mantığını AI'ya yazdırabilirsiniz!</div>
+      <p>Oyun mekaniği, hareket kodu, çarpışma algılama gibi kodlama kısımlarını Copilot, ChatGPT veya Cursor gibi AI asistanları kullanarak oluşturabilirsiniz. Ama <strong>sprite art'ı kendiniz tasarlamalısınız</strong>.</p>
+    </div>
+
+    <h3>Değerlendirme Kriterleri</h3>
+    <table class="comparison-table">
+      <thead><tr><th>Kriter</th><th>Ağırlık</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Sprite Kalitesi</td><td>%30</td><td>Teknik yeterlilik: jaggies, gölgeleme, renk kullanımı, tutarlılık</td></tr>
+        <tr><td>Süreç Dokümantasyonu</td><td>%25</td><td>Aşamaların gösterilmesi, sorunların açıklanması</td></tr>
+        <tr><td>Çalışan Prototip</td><td>%20</td><td>Sprite'ların oyun içinde kullanılması, temel mekanik çalışıyor olmalı</td></tr>
+        <tr><td>Yaratıcılık</td><td>%15</td><td>Özgün oyun fikri, ilginç karakter tasarımı</td></tr>
+        <tr><td>Sunum</td><td>%10</td><td>Net, organize ve anlaşılır sunum</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Örnek Proje Fikirleri</h3>
+    <div class="card-grid">
+      <div class="card">
+        <h4>🎮 Basit Platformer</h4>
+        <p>32×32 karakter, 3 animasyon (idle, run, jump), 16×16 tile set ile level. Unity veya Godot ile.</p>
+      </div>
+      <div class="card">
+        <h4>🗡️ Top-down RPG</h4>
+        <p>4 yönlü karakter sprite'ı, 2-3 düşman, NPC, iç mekan tile set. Unity Tilemap veya p5.js grid ile.</p>
+      </div>
+      <div class="card">
+        <h4>🚀 Space Shooter</h4>
+        <p>16×16 uzay gemisi, düşman çeşitleri, mermi sprite'ları, patlama animasyonu. p5.js ile.</p>
+      </div>
+      <div class="card">
+        <h4>🧩 Puzzle Oyun</h4>
+        <p>Thematik sprite set (taşlar, kutular, anahtarlar), özel mekanik, arka plan tasarımı.</p>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+
+  <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 3rem;">
+    <p>Bu ders notları <a href="https://www.derekyu.com/makegames/pixelart.html" target="_blank">Derek Yu'nun Pixel Art Tutorial</a>'ı, <a href="https://www.patreon.com/collection/266583" target="_blank">Pedro Medeiros'un Pixel Grimoire</a> serisi, <a href="https://lospec.com" target="_blank">Lospec</a>, <a href="https://2dwillneverdie.com/intro/" target="_blank">2D Will Never Die</a> ve <a href="https://learn.unity.com/tutorial/importing-2d-assets-into-unity-2019-3" target="_blank">Unity Learn</a> temel alınarak hazırlanmıştır.</p>
+  </footer>
+
+  </div><!-- /page-wrapper -->
+
+  <script src="../shared.js"></script>
+</body>
+</html>

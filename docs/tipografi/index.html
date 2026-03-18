@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tipografi & Fontlar — Bilgisayar Grafiği</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .font-anatomy { font-family: 'JetBrains Mono', monospace; background: var(--bg-secondary); padding: 20px; border-radius: 8px; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: 0.85em; color: var(--text-primary); border: 1px solid var(--border-color); }
+    .timeline { position: relative; padding-left: 30px; }
+    .timeline::before { content:''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--accent-4); }
+    .timeline-item { position: relative; margin-bottom: 18px; }
+    .timeline-item::before { content:''; position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent-4); border: 2px solid var(--bg-primary); }
+    .timeline-item strong { color: var(--accent-4); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .img-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 15px 0; }
+    .img-row figure { text-align: center; }
+    .img-row img { max-height: 250px; margin: 0; border: 2px solid var(--border-color); border-radius: 6px; }
+    .img-row figcaption { font-size: 0.78em; color: var(--text-secondary); margin-top: 5px; }
+    .img-caption { text-align: center; font-size: 0.8em; color: var(--text-secondary); margin-top: -8px; margin-bottom: 15px; }
+  </style>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+      <a href="../pixel-art/index.html"><span class="section-num">🎮</span> Pixel Art</a>
+      <a href="../tipografi/index.html" class="active"><span class="section-num">🔤</span> Tipografi</a>
+      <a href="../cli-araclari/index.html"><span class="section-num">⌨️</span> CLI Araçları</a>
+      <a href="../eski-donanim/index.html"><span class="section-num">🕹️</span> Eski Donanım Grafikleri</a>
+    </div>
+    <div class="sidebar-toc"></div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+      <a href="../pixel-art/index.html">Pixel Art</a>
+      <a href="../tipografi/index.html" class="active">Tipografi</a>
+      <a href="../cli-araclari/index.html">CLI</a>
+      <a href="../eski-donanim/index.html">Retro HW</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header">
+    <span class="week-number">🔤 EK BÖLÜM</span>
+    <h1>Tipografi & Fontlar</h1>
+    <p class="week-desc">Bilgisayar Grafiğinde Font Teknolojisi, Rendering ve Oyun Tipografisi</p>
+    <div class="week-meta">
+      <div class="meta-item">📜 1968'den Günümüze</div>
+      <div class="meta-item">🔡 Bitmap → Vektör → Variable</div>
+      <div class="meta-item">🎮 Oyun UI Tipografisi</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ══════ 1. TARİH ══════ -->
+    <h2 id="tarih">1. Bilgisayarda Font / Tipografi Tarihi</h2>
+
+    <div class="img-row">
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Xerox_Alto.jpg/250px-Xerox_Alto.jpg" alt="Xerox Alto" style="max-height:220px;"><figcaption>Xerox Alto (1973) — İlk bitmap fontlu PC</figcaption></figure>
+      <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Macintosh_128k_transparency.png/250px-Macintosh_128k_transparency.png" alt="Apple Macintosh 128K" style="max-height:220px;"><figcaption>Apple Macintosh (1984) — Susan Kare fontları</figcaption></figure>
+    </div>
+
+    <p>Bilgisayarlarda tipografi, donanım sınırlamalarından doğmuştur. İlk bilgisayarlarda metin, sabit boyutlu piksel ızgaralarında temsil edilirdi. Bugün kullandığımız vektörel fontlara giden yol, onlarca yıllık teknolojik evrimle şekillenmiştir.</p>
+
+    <h3 id="zaman-cizelgesi">Zaman Çizelgesi: Bitmap Fontlardan Variable Fonts'a</h3>
+
+    <div class="timeline">
+      <div class="timeline-item"><strong>1968</strong> — Douglas Engelbart, "The Mother of All Demos"da ekranda metin düzenlemeyi gösterdi.</div>
+      <div class="timeline-item"><strong>1970</strong> — Xerox PARC kuruldu. İlk bitmap fontlar burada geliştirildi.</div>
+      <div class="timeline-item"><strong>1973</strong> — <strong>Xerox Alto</strong> — İlk kişisel bilgisayar prototipi. Bitmap fontlar, 72 DPI ekran.</div>
+      <div class="timeline-item"><strong>1975</strong> — Charles Simonyi, <strong>Bravo</strong> WYSIWYG editörünü yazdı (Xerox PARC).</div>
+      <div class="timeline-item"><strong>1978</strong> — Donald Knuth <strong>METAFONT</strong>'u tanıttı — parametrik, matematiksel font sistemi. TeX ile birlikte kullanıldı.</div>
+      <div class="timeline-item"><strong>1983</strong> — <strong>Apple Lisa</strong> — İlk ticari GUI bilgisayar. Bitmap fontlar.</div>
+      <div class="timeline-item"><strong>1984</strong> — <strong>Apple Macintosh</strong> — Susan Kare'nin ikonik bitmap fontları: Chicago, Geneva, Monaco, New York. Her biri elle piksel piksel tasarlandı.</div>
+      <div class="timeline-item"><strong>1984</strong> — <strong>Adobe PostScript</strong> ve <strong>Type 1</strong> fontlar — kübik Bézier eğrileriyle tanımlanan vektörel fontlar. Herhangi bir boyuta ölçeklenebilir! Adobe formatı başlangıçta kapalı tuttu → "Font Savaşları" başladı.</div>
+      <div class="timeline-item"><strong>1985</strong> — <strong>Apple LaserWriter</strong> — PostScript destekli ilk lazer yazıcı. 300 DPI. Masaüstü yayıncılık (DTP) devriminin başlangıcı.</div>
+      <div class="timeline-item"><strong>1991</strong> — <strong>Apple TrueType</strong> — Adobe'nin pahalı lisanslarına tepki. Kuadratik Bézier eğrileri. Ücretsiz olarak Microsoft'a lisanslandı.</div>
+      <div class="timeline-item"><strong>1991</strong> — Adobe, TrueType tehdidi karşısında <strong>Type 1 spesifikasyonunu</strong> herkese açtı.</div>
+      <div class="timeline-item"><strong>1992</strong> — <strong>Windows 3.1 + TrueType</strong> — Times New Roman, Arial, Courier New. Font hinting teknolojisi.</div>
+      <div class="timeline-item"><strong>1996</strong> — <strong>OpenType</strong> duyuruldu — Microsoft + Adobe. TrueType + PostScript birleşimi. 65.536 glyph, Unicode desteği.</div>
+      <div class="timeline-item"><strong>2009</strong> — <strong>WOFF</strong> — Web fontları için sıkıştırılmış konteyner formatı.</div>
+      <div class="timeline-item"><strong>2010</strong> — <strong>Google Fonts</strong> lansmanı — web tipografisinde devrim.</div>
+      <div class="timeline-item"><strong>2016</strong> — <strong>OpenType 1.8 — Variable Fonts</strong> — Tek dosya, sürekli ağırlık/genişlik/eğiklik aralığı.</div>
+      <div class="timeline-item"><strong>2018</strong> — <strong>WOFF2</strong> yaygın destek — Brotli sıkıştırma ile %30+ daha küçük.</div>
+    </div>
+
+    <h3 id="xerox-parc">Xerox PARC ve Font Tarihindeki Rolü</h3>
+
+    <p>Xerox PARC (Palo Alto Research Center, 1970), bilgisayar tipografisinin doğduğu yerdir:</p>
+    <ul>
+      <li><strong>Alto (1973):</strong> İlk bitmap fontlu kişisel bilgisayar prototipi. 72 DPI.</li>
+      <li><strong>Bravo (1975):</strong> İlk WYSIWYG metin editörü. Charles Simonyi tarafından yazıldı.</li>
+      <li><strong>Gypsy:</strong> Copy-paste komutlarının icat edildiği yer.</li>
+      <li><strong>Star workstation (1981):</strong> WYSIWYG masaüstü yayıncılığın ticari prototipi.</li>
+    </ul>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Steve Jobs ve Xerox PARC</div>
+      <p>Steve Jobs'un 1979'daki meşhur Xerox PARC ziyareti, Apple'da grafik arayüz devrimini başlattı. Susan Kare'nin ikonik Macintosh fontları (Chicago, Geneva, Monaco, New York) elle piksel piksel tasarlanmıştı. Jobs'un Reed College'da aldığı kaligrafik dersin etkisi doğrudan burada görülür.</p>
+    </div>
+
+    <h3 id="font-savaslari">Font Savaşları: Adobe vs Apple vs Microsoft</h3>
+
+    <p>1984'te Adobe, PostScript ve Type 1 fontlarla vektörel font devrimi başlattı. Ancak formatı kapalı tutup lisans ücreti istemesi "Font Savaşları"nı ateşledi:</p>
+
+    <ol>
+      <li><strong>1984:</strong> Adobe Type 1 — kübik Bézier, kapalı format, pahalı lisans</li>
+      <li><strong>1991:</strong> Apple TrueType — kuadratik Bézier, ücretsiz, Microsoft'a lisanslandı</li>
+      <li><strong>1991:</strong> Adobe geri adım attı — Type 1 spesifikasyonu herkese açıldı</li>
+      <li><strong>1996:</strong> Barış — Microsoft + Adobe birlikte OpenType'ı duyurdu</li>
+    </ol>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Bézier eğrileri burada da!</div>
+      <p>Inkscape'te öğrendiğiniz Bézier eğrileri, fontların temelini oluşturur. TrueType kuadratik (2. derece), PostScript kübik (3. derece) Bézier kullanır. Fark: kuadratik'te 1 kontrol noktası, kübik'te 2 kontrol noktası vardır.</p>
+    </div>
+
+    <!-- ══════ 2. BITMAP VS VEKTÖR ══════ -->
+    <h2 id="bitmap-vs-vektor">2. Bitmap Fontlar vs Vektör Fontlar</h2>
+
+    <h3 id="bitmap-fontlar">2.1 Bitmap (Piksel) Fontlar</h3>
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/AmigaOS_3.1_bitmap_fonts.png/500px-AmigaOS_3.1_bitmap_fonts.png" alt="Bitmap font örneği" style="display:block; margin:15px auto; max-width:500px; border:2px solid var(--border-color); border-radius:6px; image-rendering:pixelated;">
+    <p class="img-caption">AmigaOS bitmap fontları — her karakter piksel piksel tanımlanır</p>
+
+    <p>Her glyph (karakter şekli), piksel piksel bir ızgara (matris) olarak saklanır. Metin çizimi = karakter bitmap'lerinin art arda ekrana kopyalanması.</p>
+
+    <div class="two-col">
+      <div>
+        <h4>✅ Avantajlar</h4>
+        <ul>
+          <li>Render çok hızlı — doğrudan piksel kopyalama</li>
+          <li>Aynı ekranda her zaman aynı çıktı (deterministik)</li>
+          <li>Düşük çözünürlükte elle optimize edilmiş görünüm</li>
+          <li>Retro / pixel art oyunlar için mükemmel</li>
+        </ul>
+      </div>
+      <div>
+        <h4>❌ Dezavantajlar</h4>
+        <ul>
+          <li>Ölçeklendiğinde kalite kaybı</li>
+          <li>Her boyut için ayrı bitmap = yüksek bellek</li>
+          <li>Döndürme, eğme kötü sonuç verir</li>
+          <li>Yazıcıda farklı görünür (WYSIWYG bozulur)</li>
+        </ul>
+      </div>
+    </div>
+
+    <p><strong>Hâlâ kullanıldığı yerler:</strong> Linux konsol, gömülü sistemler, nokta vuruşlu yazıcılar, pixel art oyunlar, retro emülatörler.</p>
+
+    <h3 id="vektor-fontlar">2.2 Vektör (Outline) Fontlar</h3>
+
+    <p>Her glyph, Bézier eğrileri ve düz çizgi segmentleriyle matematiksel olarak tanımlanır. İstenilen boyuta ölçeklenip rasterize edilir.</p>
+
+    <table class="comparison-table">
+      <thead><tr><th>Özellik</th><th>TrueType (Kuadratik)</th><th>PostScript/CFF (Kübik)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bézier derecesi</strong></td><td>2. derece</td><td>3. derece</td></tr>
+        <tr><td><strong>Kontrol noktaları</strong></td><td>2 uç + 1 kontrol</td><td>2 uç + 2 kontrol</td></tr>
+        <tr><td><strong>Esneklik</strong></td><td>Daha az — daha fazla nokta gerekir</td><td>Daha fazla — az noktayla karmaşık eğriler</td></tr>
+        <tr><td><strong>İşlem hızı</strong></td><td>Daha hızlı</td><td>Biraz daha yavaş</td></tr>
+        <tr><td><strong>Kullanan formatlar</strong></td><td>TrueType, OpenType (.ttf)</td><td>PostScript Type 1, OpenType CFF (.otf)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="karsilastirma">2.3 Karşılaştırma Özeti</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Özellik</th><th>Bitmap Font</th><th>Vektör Font</th></tr></thead>
+      <tbody>
+        <tr><td>Veri yapısı</td><td>Piksel dizisi (matris)</td><td>Bézier eğrileri + komutlar</td></tr>
+        <tr><td>Ölçekleme</td><td>❌ Pikselleşme</td><td>✅ Kayıpsız, sonsuz</td></tr>
+        <tr><td>Bellekte boyut</td><td>Boyut başına ayrı set</td><td>Tek dosya, tüm boyutlar</td></tr>
+        <tr><td>İşlem hızı</td><td>⚡ Çok hızlı</td><td>🔄 Rasterizasyon gerekli</td></tr>
+        <tr><td>Düşük çözünürlük</td><td>✅ Elle optimize edilebilir</td><td>⚠️ Hinting gerekir</td></tr>
+        <tr><td>Kullanım alanı</td><td>Retro, gömülü sistemler</td><td>Modern OS, web, baskı</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ 3. FONT RENDERING ══════ -->
+    <h2 id="font-rendering">3. Font Rendering (İşleme / Çizim)</h2>
+
+    <h3 id="rasterizasyon">3.1 Rasterizasyon: Vektörden Piksele</h3>
+
+    <p><strong>Font rasterizasyonu</strong>, vektörel font outline'ını ekrandaki piksel ızgarasına dönüştürme işlemidir:</p>
+
+    <ol>
+      <li><strong>Glyph seçimi:</strong> Karakter kodu → font tablosundan glyph outline alınır</li>
+      <li><strong>Ölçekleme:</strong> İstenen punto boyutuna göre matematiksel ölçekleme (em birimi → piksel)</li>
+      <li><strong>Hinting uygulaması:</strong> Piksel ızgarasına hizalama ipuçları işlenir</li>
+      <li><strong>Rasterizasyon:</strong> Eğriler → piksel haritasına dönüştürülür (scanline fill)</li>
+      <li><strong>Anti-aliasing:</strong> Kenar piksellere gri tonları uygulanır (isteğe bağlı)</li>
+    </ol>
+
+    <h3 id="hinting">3.2 Hinting (Font İpuçları)</h3>
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Font-hinting-example.png" alt="Font hinting örneği" style="display:block; margin:15px auto; max-width:350px; background:#fff; padding:10px; border-radius:8px; border:2px solid var(--border-color);">
+    <p class="img-caption">Hinting: Üst — hinting olmadan, Alt — hinting ile piksel ızgarasına hizalanmış glyph'ler</p>
+
+    <p><strong>Hinting</strong>, font outline'ının düşük çözünürlüklü piksel ızgarasına en iyi şekilde hizalanması için gömülen talimatlardır.</p>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Sorun</div>
+      <p>12pt metin, 96 DPI ekranda sadece ~16 piksel yüksekliğinde. Serbest ölçeklenmiş eğriler piksel sınırlarına denk gelmeyebilir → bulanık veya düzensiz çizgiler.</p>
+    </div>
+
+    <p><strong>TrueType hinting:</strong> Kendi sanal makinesi var — font içindeki programları çalıştırır. IF ifadeleri, döngüler, değişkenler, fonksiyonlar içerir. Tam bir programlama dili! İyi bir TrueType font'u hint'lemek <strong>önemli miktarda iş</strong> gerektirir.</p>
+
+    <p><strong>Apple vs Microsoft yaklaşımı:</strong></p>
+    <ul>
+      <li><strong>macOS:</strong> Hintlerin çoğunu <strong>yok sayar</strong> — outline'a sadık kalır → ekranda baskıya çok benzer, küçük boyutlarda biraz bulanık</li>
+      <li><strong>Windows:</strong> Hintlere <strong>güvenir</strong> — piksel ızgarasına sıkı hizalama → keskin ama outline'dan sapma</li>
+    </ul>
+
+    <h3 id="anti-aliasing">3.3 Anti-Aliasing (Kenar Yumuşatma)</h3>
+
+    <p><strong>Sorun:</strong> Bir eğri, bir pikselin %50'sini kaplıyorsa piksel açık mı kapalı mı? İkili renderlama = testere dişi kenarlar.</p>
+    <p><strong>Çözüm:</strong> Her kenar pikseli için kaplama oranına göre ara tonluk (gri) değer atanır.</p>
+
+    <table class="comparison-table">
+      <thead><tr><th>Tür</th><th>Açıklama</th><th>Avantaj</th><th>Dezavantaj</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Yok (Bi-level)</strong></td><td>Piksel ya açık ya kapalı</td><td>Hızlı, keskin</td><td>Testere dişi kenarlar</td></tr>
+        <tr><td><strong>Grayscale AA</strong></td><td>Gri tonlar ile kenar yumuşatma</td><td>Pürüzsüz</td><td>Biraz bulanık olabilir</td></tr>
+        <tr><td><strong>Subpixel rendering</strong></td><td>LCD alt piksellerini kullanır (RGB)</td><td>3× yatay çözünürlük artışı</td><td>Renk saçılması (color fringing)</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="cleartype">3.4 Subpixel Rendering ve ClearType</h3>
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Subpixel-rendering-RGB.png" alt="Subpixel rendering" style="display:block; margin:15px auto; max-width:500px; border:2px solid var(--border-color); border-radius:6px;">
+    <p class="img-caption">Subpixel rendering: Her pikselin R, G, B alt pikselleri ayrı ayrı kontrol edilerek yatay çözünürlük 3 katına çıkarılır</p>
+
+    <p>LCD ekranlarda her piksel 3 alt pikselden (R, G, B) oluşur. Bu alt pikselleri ayrı ayrı kontrol ederek yatay çözünürlüğü teorik olarak <strong>3 katına</strong> çıkarabilirsiniz.</p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 ClearType (Microsoft)</div>
+      <ul>
+        <li>1998'de duyuruldu, 2000'de ilk kullanım (Microsoft Reader)</li>
+        <li>Windows XP'de opsiyonel, Vista'dan itibaren varsayılan</li>
+        <li><strong>ClearType Font Collection</strong> (Vista): Calibri, Cambria, Candara, Consolas, Constantia, Corbel — ClearType için optimize</li>
+        <li><strong>Calibri</strong>, Office 2007'den bu yana Microsoft'un varsayılan fontu</li>
+        <li>Araştırmalar: Kelime tanıma doğruluğunda %17 iyileşme, okuma hızında %5 artış</li>
+      </ul>
+    </div>
+
+    <p><strong>Modern yaklaşım (DirectWrite):</strong> HiDPI ekranların yaygınlaşmasıyla subpixel rendering ihtiyacı azaldı. macOS Mojave'den beri subpixel rendering kaldırıldı. Windows 10+'da da grayscale AA tercih ediliyor.</p>
+
+    <h3 id="neden-farkli">3.5 Neden Metin Farklı Ekranlarda Farklı Görünür?</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Faktör</th><th>Etki</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ekran DPI</strong></td><td>72 vs 96 vs 220+ DPI → aynı punto, farklı piksel sayısı</td></tr>
+        <tr><td><strong>Rasterizer</strong></td><td>Windows (GDI/DirectWrite), macOS (Quartz), Linux (FreeType)</td></tr>
+        <tr><td><strong>Hinting</strong></td><td>Windows hintlere güvenir, macOS çoğunlukla yok sayar</td></tr>
+        <tr><td><strong>AA yöntemi</strong></td><td>Grayscale, ClearType, subpixel veya yok</td></tr>
+        <tr><td><strong>Alt piksel düzeni</strong></td><td>RGB, BGR, dikey çizgili, PenTile</td></tr>
+        <tr><td><strong>Font hinting kalitesi</strong></td><td>İyi hinted fontlar (Arial, Verdana) vs otomatik hinting</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ 4. OYUN TİPOGRAFİSİ ══════ -->
+    <h2 id="oyun-tipografi">4. Oyunlar İçin Tipografi Temelleri</h2>
+
+    <h3 id="anatomisi">4.1 Harf Anatomisi</h3>
+
+    <div class="font-anatomy">        ┌─────── Ascender Line (Yükselen Çizgi)
+        │   b d f h k l     ← Ascender (Yükselen bölüm)
+        │
+Cap H.──┤   H E L T B      ← Cap Height (Büyük Harf Yüksekliği)
+        │
+x-h. ──┤   a c e o x       ← x-height (Küçük x Yüksekliği)
+        │
+Baseline┤───────────────    ← Baseline — harflerin "oturduğu" çizgi
+        │
+        │   g j p q y       ← Descender (İnen bölüm)
+        └─────── Descender Line (İnen Çizgi)</div>
+
+    <table class="comparison-table">
+      <thead><tr><th>Terim</th><th>Türkçe</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Baseline</strong></td><td>Taban Çizgisi</td><td>Harflerin "oturduğu" hayali yatay çizgi</td></tr>
+        <tr><td><strong>x-height</strong></td><td>x-yüksekliği</td><td>Küçük "x"in yüksekliği. Büyük x-height = daha okunabilir</td></tr>
+        <tr><td><strong>Cap Height</strong></td><td>Büyük Harf Yüksekliği</td><td>Büyük harflerin tepe noktası</td></tr>
+        <tr><td><strong>Ascender</strong></td><td>Yükselen Kısım</td><td>b, d, f, h, k, l — cap height üstüne çıkan bölüm</td></tr>
+        <tr><td><strong>Descender</strong></td><td>İnen Kısım</td><td>g, j, p, q, y — baseline altına inen bölüm</td></tr>
+        <tr><td><strong>Kerning</strong></td><td>Karakter Çifti Aralığı</td><td>İki belirli karakter arası mesafe (AV, To, WA)</td></tr>
+        <tr><td><strong>Leading</strong></td><td>Satır Aralığı</td><td>İki satırın baseline'ları arası mesafe. CSS'te <code>line-height</code></td></tr>
+        <tr><td><strong>Tracking</strong></td><td>Harf Aralığı</td><td>Tüm karakterler arası genel mesafe. CSS'te <code>letter-spacing</code></td></tr>
+        <tr><td><strong>Em</strong></td><td>Em Birimi</td><td>Font boyutuna eşit kare birim. 12pt fontta 1 em = 12pt</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="serif-sansserif">4.2 Serif vs Sans-Serif</h3>
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Serif_and_sans-serif_03.svg/500px-Serif_and_sans-serif_03.svg.png" alt="Serif vs Sans-Serif karşılaştırması" style="display:block; margin:15px auto; max-width:500px; background:#fff; padding:15px; border-radius:8px; border:2px solid var(--border-color);">
+    <p class="img-caption">Serif (tırnaklı) ve Sans-Serif (tırnaksız) karşılaştırması — kırmızı bölgeler serif tırnaklara işaret eder</p>
+
+    <div class="two-col">
+      <div>
+        <h4>Serif (Tırnaklı) 📰</h4>
+        <p>Harf çizgilerinin uçlarında küçük tırnaklar. 1. yüzyıl Roma yazıtlarından türemiş.</p>
+        <ul>
+          <li>Uzun metinlerde okunabilirlik yüksek</li>
+          <li>Baskıda güçlü</li>
+          <li>Oyunlarda: hikâye, diyalog, RPG</li>
+          <li>Örnekler: Times New Roman, Georgia, Garamond</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sans-Serif (Tırnaksız) 🖥️</h4>
+        <p>Harf uçlarında tırnak yok. 19. yüzyılda ortaya çıktı ("Grotesk").</p>
+        <ul>
+          <li>Ekranda daha net, küçük boyutlarda okunabilir</li>
+          <li>Modern, temiz görünüm</li>
+          <li>Oyunlarda: UI, HUD, menü, skor</li>
+          <li>Örnekler: Arial, Helvetica, Inter, Roboto</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 id="monospace">4.3 Monospace Fontlar</h3>
+    <p>Her karakter aynı yatay alanı kaplar (W = i = m = aynı genişlik). Terminal, kod editörü, skor tabloları, zamanlayıcılar ve retro terminaller için ideal. Örnekler: <strong>Consolas</strong>, <strong>JetBrains Mono</strong>, <strong>Fira Code</strong>.</p>
+
+    <h3 id="font-secim">4.4 Oyun Türüne Göre Font Seçim Rehberi</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Oyun Türü</th><th>Font Stili</th><th>Örnekler</th></tr></thead>
+      <tbody>
+        <tr><td><strong>RPG / Fantezi</strong></td><td>Serif veya el yazısı, antik his</td><td>Garamond, Cinzel, IM Fell, MedievalSharp</td></tr>
+        <tr><td><strong>Sci-Fi</strong></td><td>Geometrik sans-serif, monospace</td><td>Orbitron, Rajdhani, Share Tech Mono</td></tr>
+        <tr><td><strong>Horror</strong></td><td>Bozulmuş, düzensiz, el yazısı</td><td>Creepster, Nosifer, Special Elite</td></tr>
+        <tr><td><strong>Casual / Mobil</strong></td><td>Yuvarlatılmış sans-serif</td><td>Nunito, Quicksand, Fredoka</td></tr>
+        <tr><td><strong>Pixel Art / Retro</strong></td><td>Piksel font</td><td>Press Start 2P, PixelMplus, Silkscreen</td></tr>
+        <tr><td><strong>Yarış / Spor</strong></td><td>Italik, kalın, dinamik</td><td>Russo One, Black Ops One</td></tr>
+        <tr><td><strong>Simülasyon / Strateji</strong></td><td>Temiz sans-serif</td><td>Inter, Source Sans Pro, Noto Sans</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="font-ui-kullanim">4.5 UI Kullanım Alanına Göre Font Seçimi</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Kullanım Alanı</th><th>Önerilen Tür</th><th>Dikkat Edilecekler</th></tr></thead>
+      <tbody>
+        <tr><td>Ana menü / başlık</td><td>Display / dekoratif</td><td>Oyunun temasıyla uyum, büyük boyutlarda etkileyici</td></tr>
+        <tr><td>Diyalog / hikâye</td><td>Serif veya sans-serif, yüksek x-height</td><td>Uzun okuma konforu, geniş satır aralığı</td></tr>
+        <tr><td>HUD (sağlık, cephane)</td><td>Sans-serif, kalın</td><td>Hızlı okunabilirlik, arka plana karşı kontrast</td></tr>
+        <tr><td>Zamanlayıcı / skor</td><td>Monospace</td><td>Rakamlar kaymamalı (tabular figures)</td></tr>
+        <tr><td>Piksel art oyun</td><td>Piksel font</td><td>Oyun çözünürlüğüne uygun boyut</td></tr>
+        <tr><td>Hata ayıklama</td><td>Monospace</td><td>FPS sayacı, koordinat bilgisi</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ 5. PİKSEL FONTLAR ══════ -->
+    <h2 id="piksel-fontlar">5. Piksel Fontlar</h2>
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Bitmap_vs_vector.svg/500px-Bitmap_vs_vector.svg.png" alt="Bitmap ve vektör font karşılaştırması" style="display:block; margin:15px auto; max-width:400px; background:#fff; padding:10px; border-radius:8px; border:2px solid var(--border-color);">
+    <p class="img-caption">Bitmap (sol) vs Vektör (sağ) font karşılaştırması — büyütüldüğünde fark belirginleşir</p>
+
+    <p>Piksel fontlar, piksel art estetiğiyle tasarlanmış, her pikselin kasıtlı olarak yerleştirildiği bitmap fontlardır. Anti-aliasing kullanılmaz — her piksel ya var ya yok.</p>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Genel bitmap fontlardan farkı</div>
+      <p>Geleneksel bitmap fontlar sınırlama nedeniyle pikselliydi; piksel fontlar ise <strong>kasıtlı estetik seçimdir</strong>.</p>
+    </div>
+
+    <h3 id="piksel-font-boyutlari">5.1 Yaygın Piksel Font Boyutları</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Boyut</th><th>Kullanım</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td><strong>3×5</strong></td><td>Minimum okunabilir</td><td>Çok küçük etiketler, gömülü sistemler</td></tr>
+        <tr><td><strong>5×7</strong></td><td>Mikrodenetleyici</td><td>Arduino LCD, LED matris</td></tr>
+        <tr><td><strong>6×8</strong></td><td>Yaygın piksel art</td><td>Commodore 64 karakter seti</td></tr>
+        <tr><td><strong>8×8</strong></td><td>En yaygın retro boyut</td><td>NES, Game Boy, ZX Spectrum. Karakter başına 8 byte</td></tr>
+        <tr><td><strong>8×16</strong></td><td>PC/DOS metin modu</td><td>IBM PC BIOS fontu. CGA/EGA/VGA</td></tr>
+        <tr><td><strong>16×16</strong></td><td>Büyük piksel art</td><td>Kanji/CJK karakterler, büyük başlıklar</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="piksel-font-olusturma">5.2 Piksel Font Nasıl Oluşturulur?</h3>
+
+    <ol>
+      <li><strong>Izgara boyutu seç:</strong> Oyunun çözünürlüğüne göre (ör. 8×8)</li>
+      <li><strong>Temel harfleri tasarla:</strong> A-Z, a-z, 0-9, temel noktalama</li>
+      <li><strong>Tutarlı stil kur:</strong> x-height, ascender/descender oranları, çizgi kalınlığı (genellikle 1px)</li>
+      <li><strong>Kerning ayarla:</strong> Gerekirse karakter çiftleri arası boşluk</li>
+      <li><strong>Özel karakterler:</strong> Türkçe ç, ğ, ı, ö, ş, ü, İ desteği!</li>
+      <li><strong>Test:</strong> Oyun içi çözünürlükte, hedef arka plan üzerinde</li>
+    </ol>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Temel kurallar</div>
+      <ul>
+        <li>Anti-aliasing <strong>kullanma</strong> — keskin piksel sınırları korunmalı</li>
+        <li>1 piksel çizgi kalınlığı genellikle yeterli (8×8'de)</li>
+        <li>Tüm harflerin baseline'ı aynı hizada olmalı</li>
+        <li>Okunabilirlik > estetik</li>
+      </ul>
+    </div>
+
+    <h3 id="piksel-font-araclari">5.3 Piksel Font Araçları & Kaynakları</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Araç</th><th>Tür</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td><strong><a href="https://www.pentacom.jp/pentacom/bitfontmaker2/" target="_blank">BitFontMaker2</a></strong></td><td>Web (ücretsiz)</td><td>Tarayıcıda piksel font tasarla, TTF olarak indir. Çok basit ve hızlı. 8×8–16×16.</td></tr>
+        <tr><td><strong><a href="https://fontforge.org/" target="_blank">FontForge</a></strong></td><td>Masaüstü (ücretsiz)</td><td>Profesyonel font editörü. Bitmap fontlar da desteklenir. Python scripting.</td></tr>
+        <tr><td><strong><a href="https://www.glyphrstudio.com/" target="_blank">Glyphr Studio</a></strong></td><td>Web (ücretsiz)</td><td>Modern web tabanlı font editörü. Başlangıç için ideal.</td></tr>
+        <tr><td><strong>Aseprite / LibreSprite</strong></td><td>Masaüstü</td><td>Font sprite sheet oluşturma.</td></tr>
+        <tr><td><strong><a href="https://www.piskelapp.com/" target="_blank">Piskel</a></strong></td><td>Web (ücretsiz)</td><td>Piksel art editörü, font sprite sheet yapılabilir.</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Ücretsiz Piksel Font Kaynakları</h4>
+    <ul>
+      <li><strong><a href="https://fonts.google.com/?category=Monospace" target="_blank">Google Fonts</a>:</strong> "Press Start 2P", "VT323", "Silkscreen", "DotGothic16"</li>
+      <li><strong><a href="https://www.dafont.com/bitmap.php" target="_blank">DaFont — Bitmap</a>:</strong> Yüzlerce piksel font (lisans bilgisine dikkat!)</li>
+      <li><strong><a href="https://itch.io/game-assets/tag-fonts" target="_blank">itch.io</a>:</strong> Oyun geliştiriciler için piksel font paketleri</li>
+      <li><strong><a href="https://opengameart.org" target="_blank">OpenGameArt</a>:</strong> CC/GPL lisanslı ücretsiz piksel fontlar</li>
+    </ul>
+
+    <!-- ══════ 6. WEB TİPOGRAFİSİ ══════ -->
+    <h2 id="web-tipografi">6. Web Tipografisi</h2>
+
+    <h3 id="font-face">6.1 CSS @font-face</h3>
+
+    <p>Web'de uzun süre yalnızca "web-safe fontlar" (Arial, Verdana, Georgia, Times New Roman) kullanılabildi. <code>@font-face</code> kuralı bunu değiştirdi:</p>
+
+    <pre><code>@font-face {
+  font-family: 'OyunFontu';
+  src: url('fonts/oyun-fontu.woff2') format('woff2'),
+       url('fonts/oyun-fontu.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'OyunFontu', sans-serif;
+}</code></pre>
+
+    <h3>Font Formatları</h3>
+
+    <table class="comparison-table">
+      <thead><tr><th>Format</th><th>Sıkıştırma</th><th>Destek</th></tr></thead>
+      <tbody>
+        <tr><td><strong>WOFF2</strong> (.woff2)</td><td>Brotli (~%30 daha küçük)</td><td>Tüm modern tarayıcılar (2018+) ✅</td></tr>
+        <tr><td><strong>WOFF</strong> (.woff)</td><td>zlib</td><td>IE9+, tüm modern tarayıcılar</td></tr>
+        <tr><td><strong>TTF/OTF</strong></td><td>Yok</td><td>Çoğu tarayıcı</td></tr>
+        <tr><td><strong>EOT</strong> (.eot)</td><td>LZ</td><td>Sadece IE (artık gereksiz) ❌</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <div class="info-title">💡 Modern Öneri</div>
+      <p>Sadece <strong>WOFF2</strong> yeterli. Bu ders sitesi de Google Fonts üzerinden Inter ve JetBrains Mono kullanıyor!</p>
+    </div>
+
+    <h3 id="google-fonts">6.2 Google Fonts</h3>
+
+    <p><strong>Google Fonts</strong> (2010): 1.600+ açık kaynak font ailesi, tamamen ücretsiz, CDN üzerinden hızlı erişim.</p>
+
+    <pre><code>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+
+    <p><strong>Popüler Google Fonts (oyun/web):</strong></p>
+    <ul>
+      <li><strong>Inter</strong> — modern sans-serif, ekran için optimize</li>
+      <li><strong>Roboto</strong> — Android varsayılan fontu</li>
+      <li><strong>Press Start 2P</strong> — piksel font, retro oyun teması</li>
+      <li><strong>VT323</strong> — terminal/monospace piksel font</li>
+      <li><strong>Noto Sans / Noto Serif</strong> — 1.000+ dil desteği (Google + Adobe)</li>
+      <li><strong>Poppins</strong> — geometrik sans-serif, modern UI</li>
+      <li><strong>JetBrains Mono</strong> — kod editörü için monospace</li>
+    </ul>
+
+    <h3 id="font-yukleme">6.3 Font Yükleme Stratejileri</h3>
+
+    <p>Web fontları ağ üzerinden indirilir → gecikme. Bu sırada metin nasıl gösterilir?</p>
+
+    <div class="two-col">
+      <div>
+        <h4>FOIT — Flash of Invisible Text</h4>
+        <p>Web fontu indirilene kadar metin <strong>gizlenir</strong>. Font gelince aniden belirir. Sayfa saniye(ler)ce okunamaz.</p>
+      </div>
+      <div>
+        <h4>FOUT — Flash of Unstyled Text</h4>
+        <p>Web fontu indirene kadar <strong>yedek font</strong> gösterilir. Font gelince metin "zıplar". Genellikle daha iyi UX.</p>
+      </div>
+    </div>
+
+    <table class="comparison-table">
+      <thead><tr><th><code>font-display</code> Değeri</th><th>Davranış</th><th>Kullanım</th></tr></thead>
+      <tbody>
+        <tr><td><code>swap</code></td><td>Hemen fallback göster, font gelince değiştir</td><td><strong>Çoğu zaman en iyisi</strong> ✅</td></tr>
+        <tr><td><code>block</code></td><td>~3s gizle, sonra fallback</td><td>İkon fontları</td></tr>
+        <tr><td><code>fallback</code></td><td>~100ms gizle, ~3s içinde gelmezse fallback kalır</td><td>Denge</td></tr>
+        <tr><td><code>optional</code></td><td>~100ms gizle, gelmezse fallback, sonraki ziyarette cache</td><td>Performans öncelikli</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Optimizasyon İpuçları</h4>
+    <ol>
+      <li><code>font-display: swap</code> kullan — metin her zaman okunabilir</li>
+      <li><code>&lt;link rel="preload"&gt;</code> ile fontu erken yüklemeye başla</li>
+      <li>WOFF2 kullan — en küçük dosya boyutu</li>
+      <li><strong>Subset</strong> — Türkçe karakterler: <code>unicode-range: U+0000-00FF, U+00C7, U+00E7, U+011E-011F, U+0130-0131, U+00D6, U+00F6, U+015E-015F, U+00DC, U+00FC;</code></li>
+      <li>Local font kontrolü: <code>src: local('Inter'), url(...)</code> → zaten yüklüyse indirme</li>
+    </ol>
+
+    <!-- ══════ 7. COZUNURLUK ══════ -->
+    <h2 id="cozunurluk">7. Farklı Çözünürlüklerde Okunabilirlik</h2>
+
+    <table class="comparison-table">
+      <thead><tr><th>Çözünürlük</th><th>Platform</th><th>Font Boyutu Önerisi</th></tr></thead>
+      <tbody>
+        <tr><td><strong>320×240</strong> (QVGA)</td><td>Retro, Game Boy</td><td>8×8 piksel font zorunlu</td></tr>
+        <tr><td><strong>640×480</strong> (VGA)</td><td>Retro PC</td><td>8-16px bitmap veya küçük vektör</td></tr>
+        <tr><td><strong>1280×720</strong> (720p)</td><td>Mobil, Switch</td><td>Min 18px body, 14px minimum</td></tr>
+        <tr><td><strong>1920×1080</strong> (1080p)</td><td>PC, konsol</td><td>20-24px body, 16px minimum</td></tr>
+        <tr><td><strong>3840×2160</strong> (4K)</td><td>PC, yeni konsol</td><td>2× ölçekleme veya yüksek DPI</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Genel Kurallar</div>
+      <ul>
+        <li><strong>Minimum font:</strong> 1080p'de asla 12px altında. TV konsollar için 16px+.</li>
+        <li><strong>Kontrast:</strong> WCAG 2.1 → normal metin için en az 4.5:1 kontrast oranı</li>
+        <li><strong>Satır uzunluğu:</strong> İdeal 45-75 karakter/satır</li>
+        <li><strong>Satır aralığı:</strong> Font boyutunun 1.3-1.6 katı</li>
+      </ul>
+    </div>
+
+    <!-- ══════ 8. YERELLEŞTİRME ══════ -->
+    <h2 id="yerellestirme">8. Yerelleştirme Zorlukları</h2>
+
+    <table class="comparison-table">
+      <thead><tr><th>Zorluk</th><th>Açıklama</th><th>Çözüm</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Karakter seti</strong></td><td>Türkçe: ç, ğ, ı, ö, ş, ü, İ. Japonca: ~6.000 kanji</td><td>Unicode kapsamlı fontlar (Noto, Source Sans)</td></tr>
+        <tr><td><strong>Metin uzunluğu</strong></td><td>Almanca metin İngilizceden %30-40 daha uzun</td><td>Esnek UI kutuları, metin taşma kontrolü</td></tr>
+        <tr><td><strong>Yazı yönü</strong></td><td>Arapça, İbranice: sağdan sola (RTL)</td><td>BiDi text rendering desteği</td></tr>
+        <tr><td><strong>CJK fontlar</strong></td><td>Binlerce glyph → büyük dosyalar (5-20 MB)</td><td>Font subsetting</td></tr>
+        <tr><td><strong>Özel kurallar</strong></td><td>Türkçe: I→ı, İ→i dönüşümü</td><td>Locale-aware string işlemleri</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Noto Fonts (Google + Adobe)</div>
+      <p><strong>"No Tofu"</strong> — hiçbir karakter için □ (tofu / boş kare) gösterilmesin hedefi. 1.000'den fazla dil ve yazı sistemi desteği. Noto Sans CJK ile Pan-CJK desteği.</p>
+    </div>
+
+    <!-- ══════ 9. FONT ARAÇLARI ══════ -->
+    <h2 id="font-araclari">9. Font Tasarım Araçları</h2>
+
+    <table class="comparison-table">
+      <thead><tr><th>Araç</th><th>Tür</th><th>Fiyat</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td><strong><a href="https://fontforge.org/" target="_blank">FontForge</a></strong></td><td>Masaüstü</td><td>Ücretsiz (GPL)</td><td>Profesyonel font editörü. TrueType, OpenType, WOFF oluşturma. Python scripting. Öğrenme eğrisi yüksek.</td></tr>
+        <tr><td><strong><a href="https://www.glyphrstudio.com/" target="_blank">Glyphr Studio</a></strong></td><td>Web</td><td>Ücretsiz</td><td>Modern arayüz, sezgisel Bézier editörü. Başlangıç için ideal.</td></tr>
+        <tr><td><strong><a href="https://www.pentacom.jp/pentacom/bitfontmaker2/" target="_blank">BitFontMaker2</a></strong></td><td>Web</td><td>Ücretsiz</td><td>Piksel font oluşturma. TTF export. Çok basit ve hızlı.</td></tr>
+        <tr><td><strong><a href="https://calligraphr.com/" target="_blank">Calligraphr</a></strong></td><td>Web</td><td>Ücretsiz/Pro</td><td>El yazısı → font dönüşümü. Kağıda yaz, tara, font yap.</td></tr>
+        <tr><td><strong>FontLab 8</strong></td><td>Masaüstü</td><td>~$499</td><td>Profesyonel endüstri standardı. Variable font desteği.</td></tr>
+        <tr><td><strong>Glyphs 3</strong></td><td>macOS</td><td>~€299</td><td>Profesyonel, modern arayüz. Mini versiyonu ~€49.</td></tr>
+        <tr><td><strong>Hiero / BMFont</strong></td><td>Masaüstü</td><td>Ücretsiz</td><td>Oyun motorları için bitmap font atlas oluşturucular.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ 10. SÖZLÜK ══════ -->
+    <h2 id="sozluk">10. Tipografi Terimler Sözlüğü</h2>
+
+    <table class="comparison-table">
+      <thead><tr><th>İngilizce</th><th>Türkçe</th><th>Açıklama</th></tr></thead>
+      <tbody>
+        <tr><td>Font</td><td>Yazı Tipi</td><td>Belirli ağırlık, boyut ve stildeki set</td></tr>
+        <tr><td>Typeface</td><td>Yazı Tipi Ailesi</td><td>Font ailesinin genel tasarımı (ör. "Helvetica")</td></tr>
+        <tr><td>Glyph</td><td>Glif / Karakter Şekli</td><td>Bir karakterin görsel temsili</td></tr>
+        <tr><td>Serif</td><td>Tırnak</td><td>Harflerin uçlarındaki küçük çizgiler</td></tr>
+        <tr><td>Sans-Serif</td><td>Tırnaksız</td><td>Serif olmayan (sans = "olmadan")</td></tr>
+        <tr><td>Kerning</td><td>Karakter Çifti Aralığı</td><td>İki karakter arası özel boşluk ayarı</td></tr>
+        <tr><td>Leading</td><td>Satır Aralığı</td><td>Satırlar arası dikey mesafe</td></tr>
+        <tr><td>Hinting</td><td>İpuçlama</td><td>Piksel ızgarasına hizalama talimatları</td></tr>
+        <tr><td>Rasterization</td><td>Rasterizasyon</td><td>Vektör → piksel dönüşümü</td></tr>
+        <tr><td>Anti-aliasing</td><td>Kenar Yumuşatma</td><td>Testere dişlerini azaltma</td></tr>
+        <tr><td>Subpixel</td><td>Alt Piksel İşleme</td><td>LCD alt piksellerini kullanarak çözünürlük artırma</td></tr>
+        <tr><td>Ligature</td><td>Bitişik Harf</td><td>İki harfin birleşik glyph'i (fi, fl)</td></tr>
+        <tr><td>Variable Font</td><td>Değişken Font</td><td>Tek dosyada sürekli ağırlık/genişlik aralığı</td></tr>
+        <tr><td>WOFF2</td><td>Web Açık Font Formatı</td><td>Brotli sıkıştırmalı web font konteyner formatı</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ KAYNAKLAR ══════ -->
+    <h2 id="kaynaklar">11. Kaynaklar & Bağlantılar</h2>
+
+    <div class="two-col">
+      <div>
+        <h3>Tipografi Temelleri</h3>
+        <ul>
+          <li><a href="https://practicaltypography.com/" target="_blank">Practical Typography (M. Butterick)</a></li>
+          <li><a href="https://thinkingwithtype.com/" target="_blank">Thinking with Type (E. Lupton)</a></li>
+          <li><a href="https://fonts.google.com/knowledge" target="_blank">Google Fonts Knowledge</a></li>
+          <li><a href="https://rastertragedy.com/" target="_blank">The Raster Tragedy — font rasterizasyonu</a></li>
+        </ul>
+
+        <h3>Font Editörleri</h3>
+        <ul>
+          <li><a href="https://fontforge.org/" target="_blank">FontForge</a> — ücretsiz, açık kaynak</li>
+          <li><a href="https://www.glyphrstudio.com/" target="_blank">Glyphr Studio</a> — web tabanlı</li>
+          <li><a href="https://www.pentacom.jp/pentacom/bitfontmaker2/" target="_blank">BitFontMaker2</a> — piksel font</li>
+          <li><a href="https://wakamaifondue.com/" target="_blank">Wakamaifondue</a> — font özelliklerini keşfet</li>
+          <li><a href="https://fontdrop.info/" target="_blank">FontDrop!</a> — font dosyasını incele</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Ücretsiz Font Kütüphaneleri</h3>
+        <ul>
+          <li><a href="https://fonts.google.com/" target="_blank">Google Fonts</a> — 1.600+ font</li>
+          <li><a href="https://www.fontsquirrel.com/" target="_blank">Font Squirrel</a> — ticari kullanıma uygun</li>
+          <li><a href="https://www.dafont.com/" target="_blank">DaFont</a> — binlerce font (lisans dikkat!)</li>
+          <li><a href="https://itch.io/game-assets/tag-fonts" target="_blank">itch.io</a> — oyun fontları</li>
+          <li><a href="https://www.theleagueofmoveabletype.com/" target="_blank">The League of Moveable Type</a></li>
+        </ul>
+
+        <h3>Teknik Referanslar</h3>
+        <ul>
+          <li><a href="https://learn.microsoft.com/en-us/typography/opentype/spec" target="_blank">Microsoft OpenType Spec</a></li>
+          <li><a href="https://developer.apple.com/fonts/TrueType-Reference-Manual/" target="_blank">Apple TrueType Reference</a></li>
+          <li><a href="https://freetype.org/" target="_blank">FreeType</a> — açık kaynak rendering</li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face" target="_blank">MDN: @font-face</a></li>
+          <li><a href="https://v-fonts.com/" target="_blank">Variable Fonts rehberi</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+
+  <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 3rem;">
+    <p>Bu ders notları Wikipedia, Microsoft Typography, Google Fonts Documentation, MDN Web Docs ve çeşitli tipografi kaynaklarından derlenmiştir.</p>
+  </footer>
+
+  </div><!-- /page-wrapper -->
+
+  <script src="../shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eski Donanım Grafikleri — Sınırlamalar ve Yaratıcı Çözümler</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .interactive-demo{margin:2rem 0;padding:1.5rem;background:var(--card-bg);border-radius:12px;border:1px solid var(--border)}
+    .interactive-demo h4{margin:0 0 .5rem;color:var(--accent);font-size:1rem}
+    .demo-btn{padding:.4rem .8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:inherit}
+    .demo-btn:hover{opacity:.85}
+    .keyword-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1.5rem 0}
+    .keyword-card{padding:1rem;background:var(--card-bg);border-radius:8px;border:1px solid var(--border)}
+    .keyword-card strong{color:var(--accent)}.keyword-card p{margin:.25rem 0 0;font-size:.85rem;color:var(--text-secondary)}
+  </style>
+</head>
+<body class="has-sidebar">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+      <a href="../pixel-art/index.html"><span class="section-num">🎮</span> Pixel Art</a>
+      <a href="../tipografi/index.html"><span class="section-num">🔤</span> Tipografi</a>
+      <a href="../cli-araclari/index.html"><span class="section-num">⌨️</span> CLI Araçları</a>
+      <a href="../eski-donanim/index.html" class="active"><span class="section-num">🕹️</span> Eski Donanım Grafikleri</a>
+    </div>
+    <div class="sidebar-toc">
+      <!-- Auto-populated by JS -->
+    </div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <!-- ═══════ PAGE WRAPPER ═══════ -->
+  <div class="page-wrapper">
+
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+      <a href="../pixel-art/index.html">Pixel Art</a>
+      <a href="../tipografi/index.html">Tipografi</a>
+      <a href="../cli-araclari/index.html">CLI</a>
+      <a href="../eski-donanim/index.html" class="active">Retro HW</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="week-header">
+    <span class="week-number">🕹️ EK BÖLÜM</span>
+    <h1>Eski Donanım Grafikleri</h1>
+    <p class="week-desc">8-bit çağında bellek sınırlamaları grafik tasarımını nasıl şekillendirdi? Mühendisler ve sanatçılar bu kısıtlamalara hangi yaratıcı çözümleri üretti?</p>
+    <div class="week-meta">
+      <div class="meta-item">📖 Araştırma Raporu</div>
+      <div class="meta-item">🎮 C64 · NES · Apple II · Atari 2600</div>
+      <div class="meta-item">📺 The 8-Bit Guy Video Serisi</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ══════ GİRİŞ ══════ -->
+    <h2 id="giris">1. Giriş: Bellek ve Grafik Arasındaki Denge</h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Bu Bölüm Neden Önemli?</div>
+      <p>Bugünün GPU'ları gigabaytlarca belleğe sahipken, 1980'lerin ev bilgisayarları yalnızca <strong>16 KB–64 KB RAM</strong> ile tüm sistem işlemlerini yürütmek zorundaydı. Bu kısıtlamalar, grafik donanımı tasarımında son derece yaratıcı mühendislik çözümlerini zorunlu kıldı. Bu bölümde, eski donanımların grafik sınırlamalarını ve bu sınırlamaların nasıl aşıldığını detaylı inceliyoruz.</p>
+    </div>
+
+    <p>1980'lerin başında tipik bir ev bilgisayarının RAM miktarı 16 KB ile 64 KB arasında değişiyordu. Şimdi basit bir hesap yapalım:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Renk Derinliği</th>
+          <th>Bit/Piksel</th>
+          <th>320×200 için Gereken Bellek</th>
+          <th>Durum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Siyah-Beyaz (1-bit)</td><td>1</td><td>8 KB</td><td>✅ Çoğu bilgisayarda uygulanabilir</td></tr>
+        <tr><td>16 Renk (4-bit)</td><td>4</td><td>32 KB</td><td>⚠️ Birçok bilgisayarın toplam RAM'inden fazla</td></tr>
+        <tr><td>256 Renk (8-bit)</td><td>8</td><td>64 KB</td><td>❌ En pahalı bilgisayarın bile tüm RAM'i</td></tr>
+        <tr><td>True Color (24-bit)</td><td>24</td><td>192 KB</td><td>❌ Tamamen imkânsız</td></tr>
+      </tbody>
+    </table>
+
+    <div class="interactive-demo">
+      <h4>📊 Bellek Bütçesi: 320×200 Ekran</h4>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem;">Farklı renk derinliklerinin gerektirdiği bellek miktarı, dönemin bilgisayar RAM kapasiteleriyle karşılaştırıldığında:</p>
+      <svg id="memSvg" viewBox="0 0 560 200" width="560" style="max-width:100%;"></svg>
+    </div>
+
+    <p>Gördüğünüz gibi, 16 renk bile kullanmak istediğinizde ekran belleği tek başına birçok bilgisayarın toplam RAM kapasitesini aşıyordu. Üstelik video çipi kendi belleğine sahip değildi — CPU ile aynı RAM'i paylaşmak zorundaydı. Kod için yer kalması gerektiğinden, mühendisler bu bellek kısıtlamalarını aşmak için üç temel yöntem geliştirdi:</p>
+
+    <ol>
+      <li><strong>Renk Hücreleri (Color Cells)</strong> — Commodore 64, NES, ZX Spectrum</li>
+      <li><strong>NTSC Artifact Renklendirme</strong> — Apple II, Tandy Color Computer</li>
+      <li><strong>CPU-Güdümlü Grafikler</strong> — Atari 2600, Sinclair ZX81</li>
+    </ol>
+
+    <!-- ══════ RENK HÜCRELERİ ══════ -->
+    <h2 id="renk-hucreleri">2. Renk Hücreleri (Color Cells) ve Attribute Clash</h2>
+
+    <p>Renk hücreleri sistemi, 8-bit grafiklerin en yaygın kullanılan yöntemiydi. Temel fikir şuydu: ekranı 8×8 piksellik küçük bloklara (hücrelere) bölüp, her hücre için yalnızca 2 renk (ön plan ve arka plan) tanımlamak. Bu şekilde hem renkli bir görüntü elde ediliyor hem de bellek tüketimi minimum düzeyde tutuluyordu.</p>
+
+    <h3 id="nasil-calisir">Nasıl Çalışır?</h3>
+
+    <p>Ekran 320×200 çözünürlükte olduğunda, 40×25 = <strong>1000 hücre</strong> oluşur. Her hücre için 1 byte renk bilgisi yeterlidir (4 bit ön plan rengi + 4 bit arka plan rengi). Böylece:</p>
+
+    <ul>
+      <li><strong>Bitmap verisi:</strong> 8 KB (siyah-beyaz piksel bilgisi)</li>
+      <li><strong>Renk bilgisi:</strong> 1 KB (1000 hücre × 1 byte)</li>
+      <li><strong>Toplam:</strong> ~9 KB — 32 KB yerine!</li>
+    </ul>
+
+    <div class="interactive-demo" id="demo-attr-clash">
+      <h4>🎮 İnteraktif Demo: Renk Hücresi Kısıtlaması</h4>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem;">Paletinden bir renk seçip ızgaradaki piksellere tıklayarak çizim yapın. Her 8×8 hücrede yalnızca <strong>2 renk</strong> kullanılabilir — üçüncü bir renk denediğinizde <em>attribute clash</em> oluşur!</p>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-start;">
+        <div>
+          <svg id="acSvg" viewBox="0 0 336 224" width="336" height="224" style="border-radius:8px;background:#000;cursor:crosshair;display:block;"></svg>
+          <div style="margin-top:.5rem;display:flex;gap:.5rem;">
+            <button onclick="acToggleGrid()" class="demo-btn">Hücre Sınırları</button>
+            <button onclick="acClear()" class="demo-btn" style="background:var(--text-secondary);">Temizle</button>
+          </div>
+        </div>
+        <div style="min-width:140px;">
+          <div style="font-size:.8rem;font-weight:600;margin-bottom:.5rem;color:var(--text);">C64 Paleti (16 Renk):</div>
+          <div id="acPal" style="display:grid;grid-template-columns:repeat(4,28px);gap:3px;"></div>
+          <div id="acInfo" style="margin-top:1rem;font-size:.8rem;color:var(--text-secondary);min-height:3em;"></div>
+          <div id="acWarn" style="margin-top:.5rem;font-size:.8rem;color:#ff6b6b;font-weight:600;min-height:2.5em;opacity:0;transition:opacity .3s;"></div>
+        </div>
+      </div>
+    </div>
+
+    <p>Bu muazzam bir tasarruftu. Ancak bedeli vardı: <em>her 8×8 piksellik blokta yalnızca 2 renk kullanılabilirdi</em>. Bu kısıtlama, "<strong>attribute clash</strong>" (nitelik çakışması) olarak bilinen görsel artefaktlara yol açıyordu.</p>
+
+    <h3 id="attribute-clash">Attribute Clash (Nitelik Çakışması)</h3>
+
+    <figure style="text-align:center; margin: 2rem 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/ZX_Laser_Squad.png"
+           alt="ZX Spectrum'da Laser Squad oyununda attribute clash etkisi"
+           style="max-width: 500px; width: 100%; image-rendering: pixelated; border-radius: 8px;">
+      <figcaption style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        ZX Spectrum'da <em>Laser Squad</em> oyunu — ekranın farklı renkli bloklara bölündüğü açıkça görülüyor. Her 8×8 blokta yalnızca 2 renk kullanılabiliyor (Kaynak: Wikipedia, CC BY-SA).
+      </figcaption>
+    </figure>
+
+    <p><strong>ZX Spectrum</strong> bu sorunun en belirgin yaşandığı platformdu. Spectrum'un görüntü belleği şöyle düzenlenmişti:</p>
+
+    <ul>
+      <li><strong>Bitmap:</strong> 6144 byte (her byte = 8 piksel, açık/kapalı)</li>
+      <li><strong>Nitelik (Attribute):</strong> 768 byte (24 satır × 32 sütun, her biri 8×8 blok)</li>
+      <li><strong>Toplam:</strong> 6912 byte — tüm ekran bilgisi</li>
+    </ul>
+
+    <p>Her nitelik byte'ı şu bilgileri kodluyordu: 3-bit INK (mürekkep/ön plan rengi), 3-bit PAPER (kâğıt/arka plan rengi), 1-bit BRIGHT (parlaklık), 1-bit FLASH (yanıp sönme). Bu sayede her 8×8 blokta yalnızca <strong>2 renk + parlaklık seçeneği</strong> mevcuttu.</p>
+
+    <figure style="text-align:center; margin: 2rem 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/MSX_Computer_Color_Limit.gif"
+           alt="MSX bilgisayarında renk kısıtlaması etkisi"
+           style="max-width: 440px; width: 100%; image-rendering: pixelated; border-radius: 8px;">
+      <figcaption style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        MSX 1'de attribute clash etkisi — 8×1 piksellik gruplarda yalnızca 2 renk. Spectrum'a göre daha az ciddi ama yine de belirgin (Kaynak: Wikipedia, CC BY-SA).
+      </figcaption>
+    </figure>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Attribute Clash Neden Sorundu?</div>
+      <p>Hareketli grafiklerde (özellikle oyunlarda) bir sprite bir hücreye dokunduğunda, o hücredeki <em>tüm piksellerin</em> rengi değişiyordu. Bu da sprite'ların etrafında çirkin, hızla değişen renk saçaklarına neden oluyordu. Oyun geliştiricileri bu sorunu çözmek için çeşitli stratejiler geliştirdi:</p>
+      <ul style="margin-top: 0.5rem; padding-left: 1.25rem;">
+        <li>Hareketli grafikleri <strong>monokrom</strong> yapıp, rengi yalnızca statik arka planlarda kullanmak</li>
+        <li>Sprite'ları <strong>hücre sınırlarına hizalayarak</strong> dikkatli tasarım yapmak</li>
+        <li><strong>Raster trick'leri</strong> ile her tarama satırında nitelik değerlerini değiştirmek</li>
+        <li>Büyük, karikatürvari sprite'lar kullanarak hücre sınırlarını maskelemek</li>
+      </ul>
+    </div>
+
+    <h3 id="c64-renk-hucreleri">Commodore 64'te Renk Hücreleri</h3>
+
+    <figure style="text-align:center; margin: 2rem 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Commodore-64-Computer-FL.jpg"
+           alt="Commodore 64 bilgisayarı"
+           style="max-width: 500px; width: 100%; border-radius: 8px;">
+      <figcaption style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        Commodore 64 — Tarihte en çok satan masaüstü bilgisayar modeli (~17 milyon adet). VIC-II grafik çipi ile 16 renk, 8 donanım sprite'ı ve 320×200 çözünürlük sunuyordu (Kaynak: Wikipedia, CC BY-SA).
+      </figcaption>
+    </figure>
+
+    <p>Commodore 64'ün <strong>VIC-II</strong> grafik çipi, 320×200 piksel çözünürlükte 16 renk paletine sahipti. Ekran 40×25 karakter hücresine bölünmüş olup, her hücrede <strong>2 renk</strong> (1 ön plan + 1 arka plan) kullanılabiliyordu.</p>
+
+    <p>The 8-Bit Guy'ın videosunda çarpıcı bir örnek paylaşılıyor: C64'te yapılmış renkli bir sanat eseri ilk bakışta son derece renkli ve canlı görünüyor. Ancak 8×8 piksellik hücre sınırlarını üst üste bindirdiğinizde, gerçekten de hiçbir hücrede 2'den fazla rengin kullanılmadığını görüyorsunuz. Sanatçı, renk geçişlerini hücre sınırlarıyla mükemmel biçimde hizalayarak bu kısıtlamayı görünmez kılmış.</p>
+
+    <blockquote style="border-left: 4px solid var(--accent); padding: 1rem 1.5rem; margin: 1.5rem 0; background: var(--card-bg); border-radius: 0 8px 8px 0;">
+      <p><em>"But, the artist has worked very hard to make his work line up with the edges of the cells to the point that it appears seamless. Knowing this should cause you to give these guys a little bit more respect for the work they do."</em></p>
+      <footer style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">— The 8-Bit Guy, "How 'Oldschool' Graphics Worked Part 1"</footer>
+    </blockquote>
+
+    <!-- ══════ ÇOK RENKLİ MOD ══════ -->
+    <h2 id="cok-renkli-mod">3. Çok Renkli Mod (Multi-Color Mode)</h2>
+
+    <p>C64 mühendisleri, renk hücrelerinin kısıtlamalarını aşmak için ek bir seçenek sundular: <strong>Multi-Color Mode</strong>. Bu modda pikseller <em>yatay olarak iki katına</em> genişletiliyordu. Bu, etkin çözünürlüğü 160×200'e düşürüyordu, ancak her hücrede <strong>4 renk</strong> kullanılmasına izin veriyordu.</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Özellik</th>
+          <th>Standart Mod (Hi-Res)</th>
+          <th>Multi-Color Mod</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Çözünürlük</td><td>320×200</td><td>160×200 (pikseller 2× geniş)</td></tr>
+        <tr><td>Hücre başına renk</td><td>2</td><td>4</td></tr>
+        <tr><td>Bellek kullanımı</td><td>~9 KB</td><td>~9 KB</td></tr>
+        <tr><td>Tercih edilen kullanım</td><td>Metin, iş uygulamaları</td><td>Oyunlar, sanat eserleri</td></tr>
+      </tbody>
+    </table>
+
+    <p>Çoğu C64 oyunu, yüksek çözünürlük yerine daha fazla renk sunan multi-color modunu tercih ediyordu. Çünkü renk, oyun deneyimi açısından çoğu zaman çözünürlükten daha önemliydi.</p>
+
+    <blockquote style="border-left: 4px solid var(--accent); padding: 1rem 1.5rem; margin: 1.5rem 0; background: var(--card-bg); border-radius: 0 8px 8px 0;">
+      <p><em>"Most games for the Commodore 64 actually used this mode, since color was often more important than high resolution."</em></p>
+      <footer style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">— The 8-Bit Guy, "How 'Oldschool' Graphics Worked Part 1"</footer>
+    </blockquote>
+
+    <!-- ══════ DONANIM SPRITE'LARI ══════ -->
+    <h2 id="donanim-spritelari">4. Donanım Sprite'ları (Hardware Sprites)</h2>
+
+    <p>Renk hücreleri ekranın genel görüntüsünü oluştururken, <strong>donanım sprite'ları</strong> hareketli nesneler için devrimci bir çözüm sunuyordu. Sprite, ekrandaki arka plandan bağımsız olarak hareket ettirilebilen bir grafik nesnesiydi. Renk hücreleri kural ve kısıtlamalarından tamamen bağımsızdı.</p>
+
+    <h3 id="sprite-nasil-calisir">Sprite Nasıl Çalışır?</h3>
+
+    <p>The 8-Bit Guy, videosunda C64 sprite'ını kareli kâğıt üzerinde piksel piksel tasarlayarak gösteriyor. Her piksel 0 (kapalı) veya 1 (açık) olarak kodlanır, 8 piksellik gruplar binary sayıya dönüştürülür. Bu sayısal veri bilgisayarın belleğine yazıldıktan sonra, donanım registerları kullanılarak:</p>
+
+    <ul>
+      <li>Sprite ekranda <strong>görünür hale getirilir</strong></li>
+      <li>Rengi <strong>değiştirilebilir</strong></li>
+      <li>Konumu <strong>taşınabilir</strong></li>
+      <li>Metin yazma veya ekranı temizleme gibi işlemlerden <strong>etkilenmez</strong></li>
+    </ul>
+
+    <h3 id="sprite-karsilastirma">Sistem Karşılaştırması</h3>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Sistem</th>
+          <th>Sprite Sayısı</th>
+          <th>Sprite Boyutu</th>
+          <th>Renk</th>
+          <th>Notlar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Atari 2600 (TIA)</strong></td>
+          <td>5 nesne</td>
+          <td>8 piksel geniş</td>
+          <td>1 renk</td>
+          <td>2 oyuncu, 2 mermi, 1 top; gerçek anlamda sprite değil, CPU tarama satırı başına günceller</td>
+        </tr>
+        <tr>
+          <td><strong>Commodore 64 (VIC-II)</strong></td>
+          <td>8</td>
+          <td>24×21 piksel</td>
+          <td>1 renk (hi-res) / 3 renk (multi-color)</td>
+          <td>Sprite çarpışma algılama donanımda; multiplexing ile daha fazla gösterilebilir</td>
+        </tr>
+        <tr>
+          <td><strong>NES (RP2C02 PPU)</strong></td>
+          <td>64 (maks. 8/satır)</td>
+          <td>8×8 veya 8×16</td>
+          <td>3 renk + şeffaf</td>
+          <td>Mario gibi karakterler birden fazla sprite birleştirilerek oluşturulur</td>
+        </tr>
+        <tr>
+          <td><strong>MSX 1 (TMS9918)</strong></td>
+          <td>32 (maks. 4/satır)</td>
+          <td>8×8 veya 16×16</td>
+          <td>1 renk</td>
+          <td>Monokrom sprite'lar; renk kısıtlamaları attribute clash'e bağlı değil</td>
+        </tr>
+        <tr>
+          <td><strong>Atari 8-bit (ANTIC+GTIA)</strong></td>
+          <td>4 oyuncu + 4 mermi</td>
+          <td>8 piksel geniş, tam ekran yüksekliğinde</td>
+          <td>1-3 renk</td>
+          <td>"Player/Missile Graphics"; GTIA ile renk kaplama desteği</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <figure style="text-align:center; margin: 2rem 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/NES-Console-Set.jpg"
+           alt="Nintendo Entertainment System (NES) konsolu"
+           style="max-width: 500px; width: 100%; border-radius: 8px;">
+      <figcaption style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        Nintendo Entertainment System (NES) — RP2C02 PPU çipi ile 64 sprite destekliyor, ancak tarama satırı başına en fazla 8 sprite gösterilebiliyordu. Mario karakteri birden fazla sprite'ın birleşimiyle oluşturuluyordu (Kaynak: Wikipedia, CC BY-SA).
+      </figcaption>
+    </figure>
+
+    <div class="info-box note">
+      <div class="info-title">💡 NES'te Mario Nasıl Oluşturuluyordu?</div>
+      <p>NES'in sprite'ları yalnızca 8×8 veya 8×16 piksel boyutundaydı. Mario gibi nispeten büyük bir karakter, <strong>birden fazla küçük sprite'ın yan yana dizilmesiyle</strong> oluşturuluyordu. Geliştiriciler bu sprite'ları o kadar iyi senkronize ediyorlardı ki, oyuncu için tek bir karakter gibi görünüyordu.</p>
+      <p>Ancak tarama satırı başına 8 sprite sınırı dolduğunda bazı sprite'lar görünmez oluyordu — eski NES oyunlarındaki "sprite flickering" (sprite titremesi) sorunu budur.</p>
+    </div>
+
+    <!-- ══════ APPLE II ve NTSC ARTİFACT ══════ -->
+    <h2 id="ntsc-artifact">5. NTSC Artifact Renklendirme — Apple II</h2>
+
+    <figure style="text-align:center; margin: 2rem 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/Apple_II_Plus.jpg"
+           alt="Apple II Plus bilgisayarı"
+           style="max-width: 500px; width: 100%; border-radius: 8px;">
+      <figcaption style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        Apple II Plus — 1977'de piyasaya çıkan Apple II, NES ve C64'ten 5 yıl öncesine ait bir makine. Yalnızca 6 yüksek çözünürlük rengine sahipti ama NTSC artifact renklendirmesi ile bu bile o dönem için etkileyiciydi (Kaynak: Wikipedia, CC BY-SA).
+      </figcaption>
+    </figure>
+
+    <p>Apple II'nin grafik sistemi belki de tüm 8-bit bilgisayarlar arasında en karmaşık ve anlaşılması en zor olanıydı. Makine, üzerinde <strong>monokrom mu yoksa renkli monitör mü</strong> bağlı olduğuna göre tamamen farklı görüntüler üretiyordu.</p>
+
+    <h3 id="apple-monokrom">Monokrom Ekran</h3>
+    <p>Monokrom monitörde Apple II, 280×192 çözünürlükte son derece keskin bir görüntü sunuyordu. Pikseller basitçe açık ya da kapalıydı. Bu nedenle iş uygulamaları için idealdir.</p>
+
+    <h3 id="apple-renkli">Renkli Ekran — NTSC Artifact Coloring</h3>
+    <p>Renkli monitör bağlandığındaysa durum tamamen değişiyordu. Apple II, renkleri <strong>NTSC televizyon sinyalinin fiziksel özelliklerinden</strong> yararlanarak üretiyordu. Ekran 7 piksellik bölümlere ayrılmış olup, her bölüm 8 bit bellekle tanımlanıyordu (7 piksel + 1 kontrol biti):</p>
+
+    <ul>
+      <li>Bir pikselin <strong>yatay konumunu</strong> değiştirmek rengini değiştiriyordu: bir tarafta <strong>yeşil</strong>, diğer tarafta <strong>mor</strong></li>
+      <li>İki bitişik piksel açıldığında <strong>beyaz</strong> oluşuyordu</li>
+      <li>Kontrol biti etkinleştirildiğinde renkler <strong>turuncu</strong> ve <strong>maviye</strong> dönüşüyordu</li>
+      <li>Toplam <strong>6 yüksek çözünürlük rengi</strong> elde ediliyordu</li>
+    </ul>
+
+    <div class="interactive-demo" id="demo-ntsc">
+      <h4>📺 İnteraktif Demo: NTSC Artifact Renklendirmesi</h4>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem;">Piksellere tıklayarak açıp kapatın. Piksel konumunun ve kontrol bitinin (CB) rengi nasıl belirlediğini gözlemleyin.</p>
+      <svg id="ntscSvg" viewBox="0 0 520 240" width="520" style="max-width:100%;display:block;"></svg>
+    </div>
+
+    <div class="info-box warning">
+      <div class="info-title">⚠️ Renk Kısıtlaması</div>
+      <p>Yeşil/mor renk grubu ile turuncu/mavi renk grubu aynı 7-bit bölüm içinde <strong>bir arada kullanılamıyordu</strong>. Mavi ve yeşili yan yana getirmek ancak bölüm sınırlarını mükemmel hizalayarak mümkündü. Bu nedenle Apple II'nin renkli ekranda metin gösteriminde harfler gökkuşağı renklerinde görünüyordu.</p>
+    </div>
+
+    <blockquote style="border-left: 4px solid var(--accent); padding: 1rem 1.5rem; margin: 1.5rem 0; background: var(--card-bg); border-radius: 0 8px 8px 0;">
+      <p><em>"If you found that confusing, don't feel bad. There are very few people that really comprehend how Apple II graphics work."</em></p>
+      <footer style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">— The 8-Bit Guy, "How 'Oldschool' Graphics Worked Part 2"</footer>
+    </blockquote>
+
+    <p>Apple II ayrıca 40×48 piksellik bir <strong>düşük çözünürlük modu</strong> sunuyordu. Pikseller çok büyük ve kaba görünüyordu, ancak 16 renk kullanılabiliyordu — Apple II'nin "16 renkli bilgisayar" olarak pazarlanmasının sebebi buydu.</p>
+
+    <!-- ══════ ATARI 2600 / RACING THE BEAM ══════ -->
+    <h2 id="racing-the-beam">6. CPU-Güdümlü Grafikler: "Racing the Beam"</h2>
+
+    <figure style="text-align:center; margin: 2rem 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Atari-2600-Wood-4Sw-Set.jpg"
+           alt="Atari 2600 konsolu"
+           style="max-width: 500px; width: 100%; border-radius: 8px;">
+      <figcaption style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        Atari 2600 (1977) — Tarihte en radikal grafik mimarisine sahip konsol. RAM'siz TIA çipi, framebuffer yerine CPU'nun tarama satırı satırı görüntü oluşturmasını gerektiriyordu (Kaynak: Wikipedia, CC BY-SA).
+      </figcaption>
+    </figure>
+
+    <p>Tüm eski sistemler arasında belki de en çarpıcı olanı <strong>Atari 2600</strong>'ün yaklaşımıdır. Bu konsol, <strong>hiçbir video framebuffer'ı olmadan</strong> çalışıyordu. Yani bellekte ekranın görüntüsünü tutan bir alan yoktu.</p>
+
+    <h3 id="tia-tasarimi">TIA Çipinin RAM'siz Tasarımı</h3>
+
+    <p> Atari 2600'ün <strong>Television Interface Adaptor (TIA)</strong> çipi, Jay Miner tarafından tasarlanmıştı. O dönemde RAM son derece pahalıydı — megabayt başına on binlerce dolar. 80×48 piksellik basit bir framebuffer bile binlerce dolara mal olurdu. Bu nedenle TIA, framebuffer olmadan çalışmak üzere tasarlandı.</p>
+
+    <p>TIA şu grafik nesnelerini destekliyordu:</p>
+
+    <ul>
+      <li><strong>Playfield:</strong> 20-bit'lik register, ekranın yarısını tanımlar (simetri veya kopyalama ile tam ekran)</li>
+      <li><strong>2 Oyuncu (Player):</strong> 8 piksel genişliğinde sprite'lar, 2× veya 4× büyütülebilir</li>
+      <li><strong>2 Mermi (Missile):</strong> Oyuncu rengiyle aynı, 1-8 piksel genişliğinde çizgi</li>
+      <li><strong>1 Top (Ball):</strong> Playfield rengiyle aynı, 1-8 piksel genişliğinde çizgi</li>
+    </ul>
+
+    <p>Tüm bu nesneler yalnızca <strong>tek bir tarama satırı</strong> için tanımlanabiliyordu. Bir sonraki satır için tüm register'lar yeniden yazılmalıydı. Bu yüzden oyun programı, televizyonun elektron ışınıyla yarışmak zorundaydı — bu teknik "<strong>racing the beam</strong>" olarak adlandırıldı.</p>
+
+    <figure style="text-align:center; margin: 2rem 0;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Barnstorming_Atari_2600.jpg"
+           alt="Atari 2600 Barnstorming oyununda gökkuşağı efekti"
+           style="max-width: 500px; width: 100%; image-rendering: pixelated; border-radius: 8px;">
+      <figcaption style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+        Atari 2600'de <em>Barnstorming</em> oyunu — gökkuşağı efekti, programcıların her tarama satırında renk register'larını değiştirmesiyle elde ediliyor. "Racing the beam" tekniğinin güzel bir örneği (Kaynak: Wikipedia, CC BY-SA).
+      </figcaption>
+    </figure>
+
+    <h3 id="racing-beam-zorluklar">Zorluklar</h3>
+
+    <p>Bu mimari, oyun geliştiricileri için muazzam zorluklar yaratıyordu:</p>
+
+    <ul>
+      <li>CPU zamanının yaklaşık <strong>%90'ı</strong> görüntü oluşturmaya harcanıyordu</li>
+      <li>Oyun mantığı için <strong>çok az CPU zamanı</strong> kalıyordu</li>
+      <li>MOS 6507 işlemci, donanım kesintilerini (interrupt) desteklemiyordu — sadece "RDY" pini ile senkronizasyon yapılabiliyordu</li>
+      <li>Dikey senkronizasyon bile otomatik değildi — programcının satırları sayıp doğru zamanda sinyal göndermesi gerekiyordu</li>
+    </ul>
+
+    <blockquote style="border-left: 4px solid var(--accent); padding: 1rem 1.5rem; margin: 1.5rem 0; background: var(--card-bg); border-radius: 0 8px 8px 0;">
+      <p><em>"If you ever noticed in some games, if you look over to the left side of the screen and see these mysterious black lines, those are there because game code is running and there's just not enough time to draw the screen and run the game code at the same time."</em></p>
+      <footer style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">— The 8-Bit Guy, "How 'Oldschool' Graphics Worked Part 2"</footer>
+    </blockquote>
+
+    <div class="info-box note">
+      <div class="info-title">📖 Önerilen Kitap: "Racing the Beam"</div>
+      <p>Nick Montfort ve Ian Bogost'un <strong><em>Racing the Beam: The Atari Video Computer System</em></strong> (MIT Press, 2009) adlı kitabı, Atari 2600'ün TIA çipini ve programcıların bu kısıtlamalarla nasıl başa çıktığını detaylı şekilde anlatmaktadır. Platform studies (platform çalışmaları) alanının öncü eserlerinden biridir.</p>
+    </div>
+
+    <h3 id="tia-yaratici-cozumler">Yaratıcı Çözümler</h3>
+
+    <p>Programcılar TIA'nın kısıtlamalarıyla başa çıkmak için önemli teknikler geliştirdiler:</p>
+
+    <ol>
+      <li><strong>Renk register'larını her satırda değiştirmek:</strong> Playfield'ın 1 ve 0 değerlerinin renklerini her tarama satırında değiştirerek gökkuşağı benzeri efektler oluşturuldu.</li>
+      <li><strong>Sprite verilerini satır satır güncellemek:</strong> Space Invaders portunda, her satırda "player" register'ları değiştirilerek çok sayıda düşman illüzyonu yaratıldı.</li>
+      <li><strong>Asimetrik playfield:</strong> İleri düzey oyunlar, satır ortasında playfield verilerini değiştirerek simetrik olmayan ekranlar oluşturabildi.</li>
+      <li><strong>Ekran verisini kod olarak depolamak:</strong> <em>Adventure</em> oyunu, ekran verisini ROM'daki sabit veri yerine CPU komutları olarak kodlayarak 30 farklı oda oluşturmayı başardı.</li>
+    </ol>
+
+    <!-- ══════ RASTER TRİCKLERİ ══════ -->
+    <h2 id="raster-tricks">7. Raster Trick'leri — Sınırları Aşmak</h2>
+
+    <p>Atari 2600'ün "racing the beam" tekniğinin daha hafif bir versiyonu, geleneksel grafik çipine sahip sistemlerde de kullanılıyordu. Bu teknikler genel olarak "<strong>raster trick</strong>" olarak adlandırılır.</p>
+
+    <p>Temel fikir şuydu: CPU, ekranın her tarama satırının çizildiği anı takip ederek, o sırada grafik çipinin register'larını değiştirebiliyordu. Bu sayede:</p>
+
+    <ul>
+      <li>Her tarama satırında <strong>farklı bir renk paleti</strong> kullanılabiliyordu</li>
+      <li>Normalde ekranın tamamında geçerli olan <strong>arka plan rengi</strong> satır satır değiştirilebiliyordu</li>
+      <li>Sprite multiplexing ile <strong>donanım limitinden daha fazla sprite</strong> gösterilebiliyordu</li>
+    </ul>
+
+    <p>Commodore 64'te VIC-II çipinin <strong>raster interrupt</strong> özelliği buna olanak tanıyordu. The 8-Bit Guy'ın belirttiği gibi, bu teknikle C64'te son derece etkileyici sanat eserleri üretildi — ancak CPU'nun neredeyse tamamını tükettiği için oyunlarda nadiren kullanılabildi.</p>
+
+    <blockquote style="border-left: 4px solid var(--accent); padding: 1rem 1.5rem; margin: 1.5rem 0; background: var(--card-bg); border-radius: 0 8px 8px 0;">
+      <p><em>"If a programmer wanted, he could use the CPU to change the color palette on each scanline. This allowed some pretty fantastic artwork on the Commodore 64, but this was never used in games because it pretty much chewed up all of the available CPU time."</em></p>
+      <footer style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">— The 8-Bit Guy, "How 'Oldschool' Graphics Worked Part 2"</footer>
+    </blockquote>
+
+    <!-- ══════ CGA ve IBM PC ══════ -->
+    <h2 id="cga-ibm">8. CGA ve IBM PC Grafikleri</h2>
+
+    <p>IBM PC dünyası da benzer kısıtlamalardan muaf değildi. 1981'de tanıtılan <strong>Color Graphics Adapter (CGA)</strong>, IBM'in ilk renkli grafik kartıydı. Motorola 6845 tabanlı olan CGA, 16 KB video belleğine sahipti.</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Mod</th>
+          <th>Çözünürlük</th>
+          <th>Renk Sayısı</th>
+          <th>Kısıtlama</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Düşük çözünürlük</td><td>320×200</td><td>4 renk</td><td>Sabit 2 palet seçeneği</td></tr>
+        <tr><td>Yüksek çözünürlük</td><td>640×200</td><td>2 renk</td><td>Yalnızca siyah-beyaz</td></tr>
+        <tr><td>Metin modu</td><td>80×25 karakter</td><td>16 renk ön plan + 8 arka plan</td><td>Grafik değil, karakter tabanlı</td></tr>
+        <tr><td>Tweaked mod</td><td>160×100</td><td>16 renk</td><td>Belgesiz, metin modu hack'i</td></tr>
+      </tbody>
+    </table>
+
+    <p>CGA'nın 320×200 modundaki <strong>4 renklik sabit paletler</strong> (cyan-magenta-beyaz veya kırmızı-yeşil-sarı) oldukça kısıtlayıcıydı. Geliştiriciler bu kısıtlamaları aşmak için çeşitli yöntemler kullandılar:</p>
+
+    <h3 id="cga-dithering">Dithering</h3>
+    <p>Sınırlı renklerin birbirine karıştırılarak daha fazla renk tonu illüzyonu yaratılması. Özellikle grafik macera oyunlarında (Sierra'nın King's Quest serisi gibi) yaygın olarak kullanıldı.</p>
+
+    <h3 id="cga-composite">Composite Artifact Renkleri</h3>
+    <p>CGA, Apple II gibi <strong>NTSC composite çıkışından</strong> yararlanılarak 16'dan fazla renk üretebiliyordu. Kompozit video sinyalindeki parazitleri bilinçli olarak kullanarak, normalde mümkün olmayan renkler elde ediliyordu. Bu teknik özellikle bazı oyunlarda çarpıcı sonuçlar veriyordu.</p>
+
+    <!-- ══════ KARŞILAŞTIRMA TABLOSU ══════ -->
+    <h2 id="karsilastirma">9. Genel Karşılaştırma: 8-Bit Grafik Mimarileri</h2>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Sistem</th>
+          <th>Yıl</th>
+          <th>Grafik Çipi</th>
+          <th>Çözünürlük</th>
+          <th>Renk Paleti</th>
+          <th>Temel Teknik</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Apple II</strong></td>
+          <td>1977</td>
+          <td>—</td>
+          <td>280×192 / 40×48</td>
+          <td>6 hi-res / 16 lo-res</td>
+          <td>NTSC Artifact</td>
+        </tr>
+        <tr>
+          <td><strong>Atari 2600</strong></td>
+          <td>1977</td>
+          <td>TIA</td>
+          <td>160×192 (değişken)</td>
+          <td>128 (NTSC)</td>
+          <td>Racing the Beam</td>
+        </tr>
+        <tr>
+          <td><strong>ZX Spectrum</strong></td>
+          <td>1982</td>
+          <td>ULA</td>
+          <td>256×192</td>
+          <td>15 (8×2 parlaklık - 1 tekrar)</td>
+          <td>Attribute Clash</td>
+        </tr>
+        <tr>
+          <td><strong>Commodore 64</strong></td>
+          <td>1982</td>
+          <td>VIC-II</td>
+          <td>320×200 / 160×200</td>
+          <td>16</td>
+          <td>Color Cells + Sprites</td>
+        </tr>
+        <tr>
+          <td><strong>NES</strong></td>
+          <td>1983</td>
+          <td>RP2C02 PPU</td>
+          <td>256×240</td>
+          <td>54 (52 kullanılabilir)</td>
+          <td>Color Cells + OAM Sprites</td>
+        </tr>
+        <tr>
+          <td><strong>IBM CGA</strong></td>
+          <td>1981</td>
+          <td>Motorola 6845</td>
+          <td>320×200 / 640×200</td>
+          <td>16 (RGBI)</td>
+          <td>Sabit Palet + Dithering</td>
+        </tr>
+        <tr>
+          <td><strong>MSX 1</strong></td>
+          <td>1983</td>
+          <td>TMS9918</td>
+          <td>256×192</td>
+          <td>15</td>
+          <td>8×1 Attribute + 32 Sprite</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ══════ DEMOSCENE ══════ -->
+    <h2 id="demoscene">10. Demoscene: Donanım Sınırlarını Zorlama Kültürü</h2>
+
+    <p>8-bit grafik kısıtlamalarının yarattığı en önemli kültürel miras, <strong>demoscene</strong> hareketidir. Demoscene, bilgisayar donanımının sınırlarını zorlayarak görsel-işitsel sunumlar (<em>demo</em>) üreten uluslararası bir bilgisayar sanatı alt kültürüdür.</p>
+
+    <div class="info-box note">
+      <div class="info-title">🏛️ UNESCO Somut Olmayan Kültürel Miras</div>
+      <p>Demoscene, 2020'de Finlandiya tarafından UNESCO somut olmayan kültürel miras listesine eklenen <strong>ilk dijital alt kültür</strong> oldu. Ardından Almanya (2021), Polonya (2021), Hollanda (2023), İsveç ve Fransa (2025) de kendi listelerine ekledi.</p>
+    </div>
+
+    <h3 id="demoscene-tarihce">Kısa Tarihçe</h3>
+    <p>Demoscene, 1980'lerin başında yazılım korsanlarının (<em>cracker</em>) kırdıkları oyunlara ekledikleri imza ekranlarından (<em>crack intro</em>) doğdu. Bu giriş ekranları zamanla müzik ve animasyon içeren etkileyici sunumlara evrildi. 1986'da C64 üzerinde <strong>1001 Crew</strong> ve <strong>The Judges</strong> gibi Hollandalı grupların yarışması, bağımsız demoscene hareketinin başlangıcı kabul edilir.</p>
+
+    <p>Demoscene, oyun sektörü üzerinde de derin etkiler bıraktı. <strong>Remedy Entertainment</strong> (Max Payne) Future Crew demo grubundan, <strong>DICE</strong> (Battlefield) İsveç demo sahnesinden doğdu. Angry Birds'ün baş tasarımcısı Jaakko Iisalo da aktif bir demoscener'dı. John Carmack, 2011'de 64k intro programcılarına duyduğu saygıyı dile getirmiştir.</p>
+
+    <h3 id="demoscene-teknikler">VIC-II Demo Teknikleri</h3>
+
+    <p>C64 demo programcıları, VIC-II çipinin belgelenmemiş yan etkilerini keşfederek olağanüstü efektler oluşturdular:</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr><th>Teknik</th><th>Açıklama</th><th>Nasıl Çalışır?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Border Trick</strong></td><td>Normalde boş olan kenarlık alanında sprite gösterme</td><td>Donanımı kenarlık çizmemesi için kandırıp sprite'ları bu alana taşıma</td></tr>
+        <tr><td><strong>FLI (Flexible Line Interpretation)</strong></td><td>Her 8-piksel satırda farklı renk bilgisi</td><td>Raster interrupt ile her satırda renk RAM'ini yeniden yönlendirme</td></tr>
+        <tr><td><strong>FLD (Flexible Line Distance)</strong></td><td>Karakter satırlarını dikey eksende serbest konumlama</td><td>VIC-II kontrol register'ını her satırda manipüle etme</td></tr>
+        <tr><td><strong>VSP (Variable Screen Positioning)</strong></td><td>Bitmap'i yatay eksende piksel hassasiyetinde kaydırma</td><td>$D011 register'ının cycle-exact manipülasyonu</td></tr>
+        <tr><td><strong>AGSP</strong></td><td>VSP + Linecruncher birleşimi, tam hareket özgürlüğü</td><td>Renkli bitmap grafiklerin her yöne kaydırılması</td></tr>
+        <tr><td><strong>120+ Sprite Multiplexing</strong></td><td>8 donanım sprite sınırını 120'nin üzerine çıkarma</td><td>Her sprite çizildikten sonra Y koordinatını hızla değiştirme</td></tr>
+      </tbody>
+    </table>
+
+    <p>Bu tekniklerin çoğu, CPU'nun VIC-II ile <strong>cycle-exact</strong> (döngü-hassas) senkronizasyonunu gerektiriyordu. Raster interrupt'ın doğru tarama satırında tetiklenmesi ve ardından her CPU döngüsünün hassas şekilde planlanması zorunluydu.</p>
+
+    <!-- ══════ TERİMLER SÖZLÜĞÜ ══════ -->
+    <h2 id="sozluk">11. Terimler Sözlüğü</h2>
+
+    <p>Bu bölümde geçen teknik terimlerin kısa açıklamaları:</p>
+
+    <div class="keyword-grid">
+      <div class="keyword-card">
+        <strong>Attribute Clash</strong>
+        <p>Renk hücresi sistemlerinde, bir 8×8 blok içinde 2'den fazla renk kullanılamadığı için oluşan görsel artefakt. Özellikle ZX Spectrum'da belirgin.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Artifact Coloring (Composite)</strong>
+        <p>NTSC sinyalinin fiziksel özelliklerinden yararlanarak, piksellerin yatay pozisyonuna göre renk üretme. Apple II, CGA, TRS-80 CoCo ve Atari 8-bit'te kullanıldı.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Racing the Beam</strong>
+        <p>Framebuffer olmadan, CPU'nun TV tarama ışınıyla senkronize çalışarak her satırı anlık oluşturması. Atari 2600 TIA çipinin temel prensibi.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Raster Interrupt</strong>
+        <p>Grafik çipinin belirli bir tarama satırına ulaştığında CPU'ya sinyal göndermesi. Mid-frame register değişikliklerine olanak tanır. VIC-II, ANTIC, Amiga Copper gibi çiplerde desteklenir.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Sprite Multiplexing</strong>
+        <p>Sınırlı sayıda donanım sprite'ını, tarama ilerledikçe yeniden konumlandırarak ekranda daha fazla nesne gösterme. NES'te 64 sprite/8 per scanline, C64'te 8→120+.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Color Cell</strong>
+        <p>Ekranı 8×8 piksellik bloklara bölüp, her blok için sınırlı sayıda renk tanımlama. 320×200 @ 16 renk için 32 KB yerine ~9 KB bellek yeterli olur.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Dithering</strong>
+        <p>Sınırlı renk paletinde, farklı renkteki pikselleri düzenli desenlerle karıştırarak ara tonlar illüzyonu oluşturma. CGA oyunlarında ve pixel art'ta temel teknik.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Framebuffer</strong>
+        <p>Ekrandaki her pikselin rengini depolayan bellek bölgesi. Çoğu sistemde standart, ancak Atari 2600 framebuffer'sız çalışan nadir bir tasarımdır.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Playfield (TIA)</strong>
+        <p>Atari 2600'de arka plan grafiğini tanımlayan 20-bit register. Ekranın yalnızca yarısını temsil eder; simetri veya kopyalama ile tamamlanır.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>FLI / IFLI / SHIFLI</strong>
+        <p>C64 demo teknikleri: Her piksel satırında farklı renk bilgisi kullanarak attribute clash'i minimize etme. Sprite ve interlace ile genişletilebilir.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>NTSC vs PAL</strong>
+        <p>NTSC: Kuzey Amerika (60 Hz, 525 satır). PAL: Avrupa (50 Hz, 625 satır). Artifact renklendirme yalnızca NTSC'de güvenilir; PAL'da sınırlı ve tutarsız.</p>
+      </div>
+      <div class="keyword-card">
+        <strong>Demoscene</strong>
+        <p>Donanım sınırlarını zorlayarak görsel-işitsel sunumlar üreten uluslararası alt kültür. 2020'den beri UNESCO somut olmayan kültürel miras listesinde.</p>
+      </div>
+    </div>
+
+    <!-- ══════ KISITLAMALAR ve SANAT ══════ -->
+    <h2 id="kisitlamalar-sanat">12. Kısıtlamalar ve Yaratıcılık</h2>
+
+    <div class="info-box note">
+      <div class="info-title">🎨 Sınırlamalar Sanatı Nasıl Şekillendirdi?</div>
+      <p>8-bit dönemin grafik kısıtlamaları, geliştiricileri ve sanatçıları son derece yaratıcı olmaya zorladı. Bu dönemin mirası, bugün de oyun ve grafik tasarımını etkilemeye devam ediyor.</p>
+    </div>
+
+    <p>8-bit çağının kısıtlamaları, paradoks olarak bazı önemli sanatsal ve teknik yeniliklere yol açtı:</p>
+
+    <ol>
+      <li><strong>Dithering sanatı:</strong> Sınırlı renk paletlerinde ton geçişleri oluşturmak, pixel art'ın temel tekniklerinden biri oldu. Bu teknik bugün retro oyunlarda ve indie oyunlarda estetik bir tercih olarak yaşamaya devam ediyor.</li>
+      <li><strong>Piksel hizalama ustalığı:</strong> C64 sanatçılarının renk hücre sınırlarına göre çalışması, "sınırlar içinde yaratıcılık" kavramının güçlü bir örneğidir.</li>
+      <li><strong>Sprite multiplexing:</strong> Donanım sınırlarını yazılım ile aşmak; bugünkü shader ve LOD optimizasyonlarının öncüsüdür.</li>
+      <li><strong>Demoscene kültürü:</strong> Donanım sınırlarını zorlama arzusu, C64 ile başlayan demoscene hareketini doğurdu. Bu kültür hâlâ aktiftir ve grafik programlamada önemli bir öğrenme alanıdır.</li>
+      <li><strong>Platform farkındalığı:</strong> Her sistemin benzersiz kısıtlamaları, geliştiricileri donanımı derinlemesine anlamaya zorladı. Bugünkü "donanıma yakın programlama" felsefesinin temelleri burada atıldı.</li>
+    </ol>
+
+    <blockquote style="border-left: 4px solid var(--accent); padding: 1rem 1.5rem; margin: 1.5rem 0; background: var(--card-bg); border-radius: 0 8px 8px 0;">
+      <p><em>"Some of the graphics modes on the 64 are really strange, and they have no analogs to the Atari or Apple, like the ability to change color of the character basis across the screen. That gave us a lot of color capability that had not been exploited."</em></p>
+      <footer style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">— Craig Nelson (Epyx), 1986</footer>
+    </blockquote>
+
+    <!-- ══════ VİDEO TRANSKRİPTLERİ ══════ -->
+    <h2 id="video-transkriptleri">13. Kaynak Videolar ve Transkriptler</h2>
+
+    <p>Bu bölümün temelini oluşturan video kaynakları, David Murray (The 8-Bit Guy) tarafından hazırlanmış iki bölümlük grafik donanımı belgeselidir:</p>
+
+    <div class="info-box note">
+      <div class="info-title">📺 Video 1: "How 'Oldschool' Graphics Worked Part 1 — Commodore and Nintendo"</div>
+      <p><strong>Konu:</strong> Ekran belleği matematik hesabı, renk hücreleri sistemi, C64 hi-res ve multi-color modları, donanım sprite'ları (C64'te 8 sprite, NES'te 64 sprite).</p>
+      <p><strong>İzle:</strong> <a href="https://www.youtube.com/watch?v=Tfh0ytz8S0k" target="_blank" rel="noopener">YouTube — The 8-Bit Guy</a></p>
+    </div>
+
+    <details style="margin: 1rem 0; padding: 1rem; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border);">
+      <summary style="cursor: pointer; font-weight: 600; color: var(--accent);">📜 Video 1 Transkripti (İngilizce — tıklayarak aç)</summary>
+      <div style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.7; white-space: pre-wrap; color: var(--text-secondary);">Welcome! In this episode I'm gonna explain how old-school graphics worked.
+Let's talk about some basic math real quick.
+Back in the early 1980s, your typical home computer had 16K of RAM,
+some had 32K,
+and if you really had money to burn, then you might have 64K.
+Now, let's talk about screen memory.
+The video chip back then didn't have its own bank of memory, so it had to share with the CPU.
+Back then a typical screen resolution was 320 x 200 pixels.
+And if you do the math, you'll see there are 64,000 pixels on the screen.
+Now, let's talk about color.
+If you just wanted 1-bit color, which is essentially black and white,
+then you would need 8 kilobytes of memory just to hold the screen information.
+Okay, so that takes a decent chunk of memory from all of these computers.
+But, it still leaves enough left over for your game code.
+Now, if you bump that up to 16 colors, suddenly you need 32K,
+which is more than many computers even had.
+By the time you get to 256 colors, you've eaten up all of the RAM, even in high-end computers,
+so now there's no room left for any code.
+And doing a modern-style 24-bit "true color" would be impossible.
+So the engineers were pretty smart and they figured out ways to get more color out of these old machines without using up so much RAM,
+and there were essentially three different methods used for this and I'm going to cover them.
+Color cells, which were used
+by many systems such as Commodore and Nintendo;
+artifact coloring,
+used primarily on the Apple II and the Tandy Color Computer;
+CPU driven graphics, such as on the Atari 2600 and the Sinclair ZX81.
+Ok, so the first type of system we're going to cover was arguably the most popular.
+Now what they did was they basically took the screen and shrunk it down into smaller sections
+and these sections were called cells or color cells.
+That way you could change the color of each specific cell.
+Let me illustrate how this works.
+Let's pretend this is a black screen,
+and let's zoom into the pixels.
+Now I've drawn this so that you can see imaginary lines where the pixels would be.
+Now, let's put some example text on the screen.
+At this point the screen is essentially a 1-bit screen so pixels are either on or they're off.
+So, how can we add color to this?
+Well, divide up the screen into areas that are 8 pixels wide and 8 pixels tall.
+Now, we'll make these areas where you can define a foreground and a background color.
+So, I could turn this letter yellow, and this letter blue.
+And I could make the background blue.
+So, you can see how this certainly adds some color to an otherwise black and white display.
+And each color cell only requires 1 byte of memory to define the foreground and background colors.
+That means the whole screen only used 9 kilobytes, instead of 8 kilobytes for a traditional monochrome screen.
+So, that was a pretty good tradeoff.
+But, here's where you start to run into problems.
+Let's just say, for example, that you wanted to put a white line here.
+This would actually not be possible, because you can only have two colors per cell.
+So, you can see how this method was able to give computers 16 colors on screen at the same time,
+you just couldn't always put the colors exactly where you wanted them to go.
+And you could imagine that this made artwork pretty challenging.
+Nevertheless, take a look at this piece of artwork done on the Commodore 64.
+It looks very colorful.
+And, to the layman, they may not even be aware of the color limitations of the computer.
+But, let's zoom into this piece of art,
+and look at it a little bit closer.
+If I overlay some imaginary lines to show you where the color cells are,
+you'll be able to see that, in fact, there are never more than 2 colors per cell.
+But, the artist has worked very hard to make his work line up with the edges of the cells
+to the point that it appears seamless.
+Knowing this should cause you to give these guys a little bit more respect for the work they do.
+And, if you were a player of the Nintendo Entertainment System, then keep in mind just about every game had to deal with this exact same issue.
+The color cells worked a little bit different than the Commodore 64, but it's basically the same headache.
+So the engineers knew that these color limitations might be a problem,
+so they gave the software designers another option they could use.
+Let's go back to our 2-color example.
+The C64 had a mode called "multi-color mode".
+Now, what it did was literally made the pixels twice as wide,
+which cut the screen resolution in half.
+Small text looks really bad like this.
+But the machine rewards you for your sacrifice. You have traded in some resolution for some color.
+But, it still only consumes 9 kilobytes of RAM, just like the other system.
+Now, each color cell will allow you up to 4 colors.
+So, now, you could do something like this.
+And here's an example of a piece of art done in multi-color mode.
+And again, I'll zoom in and show you the fine detail, and you can see how the colors were used in this picture.
+You will still never see more than 4 colors used in a single cell.
+Most games for the Commodore 64 actually used this mode, since color was often more important than high resolution.
+And then there was one other tool the engineers gave us. It's called a hardware sprite generator. Now let me show you how this works.
+I'm going to create a sprite on graph paper.
+This is actually how I learned to do this back in the early 1980s.
+Next, we have to convert this to binary data.
+So, let me show you how to break this down.
+Every pixel corresponds to a 0 or a 1.
+Now I've divided this up into three sections of 8 pixels each.
+So, let's take the first 8 pixels.
+There's nothing here, so we'll write in a 0 for this section.
+Ok, the next section does have some pixels, and for simplicity I'll use a calculator to convert from binary to decimal.
+So, we get 124.
+And the last section will also be a 0.
+Okay, so now to finish all the way down the paper.
+Ok, next I entered these numbers into the computer's memory.
+And, I can turn the sprite on like this.
+Notice that I cannot type over the sprite, nor can I erase it using the keyboard.
+Even if I change the color of the text, it doesn't matter.
+The sprite is independent from the rest of the screen,
+and it doesn't even care about the color cells.
+I can modify a different register and change the color of the sprite.
+I can change a different register, and move the sprite somewhere else on the screen.
+Even a clear screen command won't get rid of it.
+Sprites were heavily used in gaming.
+Different systems had different numbers of sprites.
+The Commodore 64 had 8 different sprites.
+Um, the Nintendo had 64 sprites,
+but, the sprites were very small, meaning you would usually need to use a lot more of them to accomplish the same goal.
+So, Mario here was actually made up of several different sprites,
+but they just do a good job of keeping them all together so it looks and behaves like one.
+All right, so this concludes part one. Stick around for part two, where I'm going to show you how Apple II graphics and some of the early CPU-driven graphics modes worked.</div>
+    </details>
+
+    <div class="info-box note" style="margin-top: 1.5rem;">
+      <div class="info-title">📺 Video 2: "How 'Oldschool' Graphics Work, Part 2 — Apple and Atari"</div>
+      <p><strong>Konu:</strong> Apple II NTSC artifact renklendirmesi, Atari 2600 CPU-güdümlü grafikler (racing the beam), raster trick'leri ile C64'te tarama satırı başına palet değiştirme.</p>
+      <p><strong>İzle:</strong> <a href="https://www.youtube.com/watch?v=_rsycfDliZU" target="_blank" rel="noopener">YouTube — The 8-Bit Guy</a></p>
+    </div>
+
+    <details style="margin: 1rem 0; padding: 1rem; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border);">
+      <summary style="cursor: pointer; font-weight: 600; color: var(--accent);">📜 Video 2 Transkripti (İngilizce — tıklayarak aç)</summary>
+      <div style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.7; white-space: pre-wrap; color: var(--text-secondary);">Welcome to part 2 of "How Old School Graphics Work".
+Now, in the last episode, I covered some of the more popular systems in the eighties, like the Nintendo
+and the Commodore systems, and in this episode I'm going to cover the Apple II and some other systems.
+Now, the Apple II is one of the more complicated and hard to explain graphics of all,
+and to be honest it actually works like two completely different computers depending upon
+whether you have a monochrome monitor or color monitor attached to it
+take this example this is a zoomed in view of what the pixels would look like
+on each type. Now, to better understand why it works this way
+let's break it down a bit further. The screen is divided up into sections of 7 pixels each.
+So, let's see what goes on inside these sections. Eight bits of memory are used
+to define the 7 pixels. The leftover bit is used to change the palette.
+So, here's how this works: on a monochrome monitor, if you turn on some bits in memory like this,
+the corresponding pixels will turn on, and you'll get the result you pretty much expected.
+So, what happens when we toggle this bit on and off?
+Pretty much nothing. So, on a monochrome screen, the Apple II had a very crisp graphics display
+and was generally great for business applications.
+OK, now let's add a color monitor for comparison.
+One of the first things you might notice when looking at an Apple II on a color monitor
+is that the text often looks rainbow-colored.
+Now, there's actually a reason for this and it has to do with the way the machine produces color.
+So, let's go back to our pixel diagram.
+If you turn on some bits you'll end up with colors,
+and you change the color by moving the location of the pixel like this.
+If you move the pixel to one side, you get green, and on the other side you get violet.
+Now, if you put two pixels next to each other you get white. So, that gives you
+four possible colors. But remember this control bit here?
+Watch what happens when we turn it on now. Notice the colors change to orange and blue.
+So, that extra control bit allows you to use two additional colors.
+But keep in mind that you can't use these colors in the same 7-bit section
+as these colors, so it's very difficult to have blue and green next to each
+other on the screen, unless you line it up just perfectly.
+And now you can see why text would look rainbow-colored when using a color monitor.
+Now, we've been talking about high resolution mode, which almost all
+games were designed for, but Apple also gave us a low resolution mode with 40 by 48 pixels.
+The pixels are huge and chunky, but you do get a total of 16 colors,
+hence why the Apple II claims to be a 16-color computer.
+Now, later on, when Apple introduced the Apple IIc and Apple IIe computers, they did add the ability for
+more colors in high resolution mode, but it was rarely used because game
+developers wanted to maintain compatibility with older Apples.
+All right. So if you found that confusing, don't feel bad. There are very few people
+that really comprehend how Apple II graphics work. And also I want to defend
+the computer a little bit for those who might say, "Wow! It can only do six colors
+when in high resolution graphics mode for games and stuff. That's terrible!"
+But you kind of have to keep it in perspective that this machine came out
+in 1977, which was a good five years earlier than systems like the Nintendo
+and the Commodore.
+So, OK, there's one more type of graphics system I want to talk about.
+It's called CPU-driven graphics, and let me show you how this works.
+I created some oversized pixels on this illustration.
+First of all, you have to keep in mind that the pixels are drawn on the screen
+one at a time starting on the top-left, moving to the right, and then dropping down.
+Of course, all this happens in the blink of an eye. In fact, that happens 30 times a second.
+Most computers have a dedicated video chip that sends pulses
+to the monitor, in the correct order and timing, to draw the picture on the screen.
+However, some systems had no video chip at all, and use the CPU to drive the pulses directly.
+OK, so this does actually work, but it requires an enormous amount of the CPU's time
+in order to pull this off. So, that left very little CPU time left over to run game code.
+Imagine if they did this on a modern system, and you opened your task manager,
+and there was always a task running called "Video Generator", and it took up ninety percent of your computer's CPU time.
+What a drag that would be, huh?
+Games designed for the Atari 2600 were quite a challenge because of this. In fact, if you ever noticed in some games,
+if you look over to the left side of the screen and see these mysterious black lines,
+those are there because game code is running and there's just not enough time
+to draw the screen and run the game code at the same time.
+Now, one last thing I'm going to mention is it is actually possible to use a
+little bit of CPU-driven graphics even on a machine that has a traditional graphics chip.
+You know those color cells we talked about in the last episode?
+Well, if a programmer wanted, he could use the CPU to change the color palette on each scanline.
+This allowed some pretty fantastic artwork on the Commodore 64,
+but this was never used in games because it pretty much chewed up all of the available CPU time.
+All right, so that about wraps it up for this episode.
+In the next episode, I'm going to be covering how old school sound and music worked,
+and if there's enough interest I might actually make one on IBM, CGA, EGA, and VGA graphics modes.
+Don't forget to like my video and subscribe,
+and also check out my Facebook page--there's a link down at the bottom.
+I'll see you next time!</div>
+    </details>
+
+    <!-- ══════ KAYNAKLAR ══════ -->
+    <h2 id="kaynaklar">14. Kaynaklar ve İleri Okuma</h2>
+
+    <h3 id="video-kaynaklar">Video Kaynakları</h3>
+    <ul>
+      <li>The 8-Bit Guy — <a href="https://www.youtube.com/watch?v=Tfh0ytz8S0k" target="_blank" rel="noopener">"How 'Oldschool' Graphics Worked Part 1 — Commodore and Nintendo"</a></li>
+      <li>The 8-Bit Guy — <a href="https://www.youtube.com/watch?v=_rsycfDliZU" target="_blank" rel="noopener">"How 'Oldschool' Graphics Worked Part 2 — Apple and Atari"</a></li>
+      <li>Michael Steil — <a href="https://www.youtube.com/watch?v=ZsRRCnque2E" target="_blank" rel="noopener">"The Ultimate Commodore 64 Talk"</a> (25C3, 2008)</li>
+    </ul>
+
+    <h3 id="kitaplar">Kitaplar</h3>
+    <ul>
+      <li>Montfort, N. &amp; Bogost, I. — <em>Racing the Beam: The Atari Video Computer System</em> (MIT Press, 2009)</li>
+      <li>Angerhausen, M. et al. — <em>Anatomy of the Commodore 64</em> (Abacus Software, 1983)</li>
+      <li>Perry, T. S. &amp; Wallich, P. — "Design Case History: The Commodore 64", <em>IEEE Spectrum</em> 22(3), March 1985</li>
+      <li>Bagnall, B. — <em>On the Edge: The Spectacular Rise and Fall of Commodore</em> (Variant Press, 2005)</li>
+      <li>Dillon, R. — <em>Ready: A Commodore 64 Retrospective</em> (Springer, 2015)</li>
+      <li>Tasajärvi, L. — <em>DEMOSCENE: the Art of Real-Time</em> (Evenlake Studios, 2004)</li>
+      <li>Polgár, T. — <em>FREAX: The History of the Computer Demoscene</em> (CSW-Verlag, 2005)</li>
+    </ul>
+
+    <h3 id="akademik-makaleler">Akademik Makaleler</h3>
+    <ul>
+      <li>Collins, S. — "Game Graphics During the 8-bit Computer Era", <em>ACM SIGGRAPH Computer Graphics</em> 32(2): 47–51, 1998. <a href="https://doi.org/10.1145/282037.282049" target="_blank" rel="noopener">doi:10.1145/282037.282049</a></li>
+      <li>Reunanen, M. — <em>Computer Demos — What Makes Them Tick?</em> (Lic. tezi, Aalto University, 2010)</li>
+      <li>Reunanen, M. — <em>Times of Change in the Demoscene: A Creative Community and Its Relationship with Technology</em> (Doktora tezi, University of Turku, 2017)</li>
+      <li>Hartmann, D. — "Computer Demos and the Demoscene: Artistic Subcultural Innovation in Real-Time", <em>ISEA 2010</em></li>
+      <li>Reunanen, M. &amp; Silvast, A. — "Demoscene Platforms: A Case Study on the Adoption of Home Computers", <em>History of Nordic Computing</em>, pp. 289–301, 2009</li>
+    </ul>
+
+    <h3 id="wikipedia-makaleleri">Wikipedia Makaleleri</h3>
+    <ul>
+      <li><a href="https://en.wikipedia.org/wiki/Attribute_clash" target="_blank" rel="noopener">Attribute Clash</a> — Renk hücresi kısıtlamaları ve çözümleri</li>
+      <li><a href="https://en.wikipedia.org/wiki/Composite_artifact_colors" target="_blank" rel="noopener">Composite Artifact Colors</a> — NTSC/PAL artifact renklendirme tekniğinin teknik detayları</li>
+      <li><a href="https://en.wikipedia.org/wiki/Raster_interrupt" target="_blank" rel="noopener">Raster Interrupt</a> — Tarama satırı kesmeleri ve destekleyen sistemler</li>
+      <li><a href="https://en.wikipedia.org/wiki/Sprite_multiplexing" target="_blank" rel="noopener">Sprite Multiplexing</a> — Donanım sprite'larını yazılımla çoğaltma tekniği</li>
+      <li><a href="https://en.wikipedia.org/wiki/Demoscene" target="_blank" rel="noopener">Demoscene</a> — Bilgisayar sanatı alt kültürü, UNESCO kültürel mirası</li>
+      <li><a href="https://en.wikipedia.org/wiki/Commodore_64_demos" target="_blank" rel="noopener">Commodore 64 Demos</a> — C64 demo efektleri: FLI, FLD, VSP, border trick'leri</li>
+      <li><a href="https://en.wikipedia.org/wiki/Television_Interface_Adaptor" target="_blank" rel="noopener">Television Interface Adaptor (TIA)</a> — Atari 2600'ün grafik çipi</li>
+      <li><a href="https://en.wikipedia.org/wiki/MOS_Technology_VIC-II" target="_blank" rel="noopener">MOS Technology VIC-II</a> — Commodore 64'ün grafik çipi, register detayları</li>
+      <li><a href="https://en.wikipedia.org/wiki/Sprite_(computer_graphics)" target="_blank" rel="noopener">Sprite (computer graphics)</a> — Donanım sprite'larının tarihi</li>
+      <li><a href="https://en.wikipedia.org/wiki/Color_Graphics_Adapter" target="_blank" rel="noopener">Color Graphics Adapter (CGA)</a> — IBM'in ilk renkli grafik kartı</li>
+      <li><a href="https://en.wikipedia.org/wiki/Video_display_controller" target="_blank" rel="noopener">Video Display Controller</a> — Video ekran denetleyicileri (NES PPU, VIC-II, TIA, vs.)</li>
+      <li><a href="https://en.wikipedia.org/wiki/List_of_8-bit_computer_hardware_graphics" target="_blank" rel="noopener">List of 8-bit Computer Hardware Graphics</a> — 8-bit sistemlerin grafik donanım karşılaştırması</li>
+    </ul>
+
+    <h3 id="teknik-kaynaklar">Teknik Kaynaklar</h3>
+    <ul>
+      <li><a href="http://www.cebix.net/VIC-Article.txt" target="_blank" rel="noopener">The MOS 6567/6569 VIC-II and Its Application in the C64</a> — Detaylı VIC-II donanım açıklaması</li>
+      <li><a href="http://www.studiostyle.sk/dmagic/gallery/gfxmodes.htm" target="_blank" rel="noopener">Description of C64 Graphics Modes</a> — Tüm C64 grafik modlarının örnekli açıklamaları</li>
+      <li><a href="http://codebase64.org/doku.php?id=base:vic" target="_blank" rel="noopener">VIC Programming — Codebase64</a> — C64 demo programlama kaynakları</li>
+      <li><a href="https://www.atariarchives.org/dere/chaptD.php" target="_blank" rel="noopener">De Re Atari — Appendix D: Television Artifacts</a> — Atari 8-bit artifact renklerin teknik dökümantasyonu</li>
+      <li><a href="http://www.cpcwiki.eu/index.php/Video_display_controller" target="_blank" rel="noopener">Video Display Controller — CPC Wiki</a></li>
+      <li><a href="http://www.worldofspectrum.org/faq/reference/reference.htm" target="_blank" rel="noopener">ZX Spectrum Reference FAQ — World of Spectrum</a></li>
+      <li><a href="http://atariage.com/forums/topic/33233-sorted-table-of-contents" target="_blank" rel="noopener">Atari 2600 Programming for Newbies — AtariAge</a></li>
+      <li><a href="https://www.c64-wiki.com/wiki/Main_Page" target="_blank" rel="noopener">C64-Wiki</a> — Commodore 64 ansiklopedisi</li>
+      <li><a href="https://csdb.dk/" target="_blank" rel="noopener">CSDb — Commodore Scene Database</a> — C64 demo/intro/müzik arşivi</li>
+      <li><a href="https://demozoo.org/" target="_blank" rel="noopener">Demozoo</a> — Çok platformlu demoscene üretim arşivi</li>
+    </ul>
+
+  </div><!-- /container -->
+
+  </div><!-- /page-wrapper -->
+
+  <script>
+  /* ═══════ 1. Bellek Bütçesi Çubuk Grafiği ═══════ */
+  (function(){
+    const svg = document.getElementById('memSvg');
+    if(!svg) return;
+    const data = [
+      {label:'1-bit (Mono)',   kb:8,   color:'#6ec6ff'},
+      {label:'2-bit (4 renk)', kb:16,  color:'#66bb6a'},
+      {label:'4-bit (16 renk)',kb:32,  color:'#ffa726'},
+      {label:'8-bit (256 renk)',kb:64, color:'#ef5350'},
+      {label:'24-bit (True)',  kb:192, color:'#ab47bc'}
+    ];
+    const rams = [
+      {label:'VIC-20 (5 KB)',  kb:5,   dash:'4 2'},
+      {label:'ZX Spectrum (48 KB)', kb:48, dash:'6 3'},
+      {label:'C64 (64 KB)',    kb:64,  dash:'2 2'}
+    ];
+    const maxKb=192, barH=22, gap=8, padL=120, padR=80, padT=10, barW=340;
+    data.forEach(function(d,i){
+      var y = padT + i*(barH+gap);
+      var w = (d.kb/maxKb)*barW;
+      var g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      /* label */
+      var t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x', padL-8);
+      t.setAttribute('y', y+barH/2+4);
+      t.setAttribute('text-anchor','end');
+      t.setAttribute('fill','var(--text)');
+      t.setAttribute('font-size','11');
+      t.setAttribute('font-family','Inter, sans-serif');
+      t.textContent = d.label;
+      g.appendChild(t);
+      /* bar */
+      var r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x', padL);
+      r.setAttribute('y', y);
+      r.setAttribute('width', w);
+      r.setAttribute('height', barH);
+      r.setAttribute('rx', 4);
+      r.setAttribute('fill', d.color);
+      r.setAttribute('opacity','0.85');
+      g.appendChild(r);
+      /* value */
+      var v = document.createElementNS('http://www.w3.org/2000/svg','text');
+      v.setAttribute('x', padL+w+6);
+      v.setAttribute('y', y+barH/2+4);
+      v.setAttribute('fill','var(--text-secondary)');
+      v.setAttribute('font-size','11');
+      v.setAttribute('font-family','JetBrains Mono, monospace');
+      v.textContent = d.kb+' KB';
+      g.appendChild(v);
+      svg.appendChild(g);
+    });
+    /* RAM reference lines */
+    rams.forEach(function(rm){
+      var x = padL + (rm.kb/maxKb)*barW;
+      var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1',x); line.setAttribute('x2',x);
+      line.setAttribute('y1',0); line.setAttribute('y2',padT+data.length*(barH+gap));
+      line.setAttribute('stroke','var(--text-secondary)');
+      line.setAttribute('stroke-width','1');
+      line.setAttribute('stroke-dasharray',rm.dash);
+      line.setAttribute('opacity','0.6');
+      svg.appendChild(line);
+      var lt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      lt.setAttribute('x',x);
+      lt.setAttribute('y',padT+data.length*(barH+gap)+14);
+      lt.setAttribute('text-anchor','middle');
+      lt.setAttribute('fill','var(--text-secondary)');
+      lt.setAttribute('font-size','9');
+      lt.setAttribute('font-family','Inter, sans-serif');
+      lt.textContent = rm.label;
+      svg.appendChild(lt);
+    });
+  })();
+
+  /* ═══════ 2. Attribute Clash İnteraktif Demo ═══════ */
+  (function(){
+    var svg = document.getElementById('acSvg');
+    var palDiv = document.getElementById('acPal');
+    var infoDiv = document.getElementById('acInfo');
+    var warnDiv = document.getElementById('acWarn');
+    if(!svg || !palDiv) return;
+
+    var C64 = ['#000000','#FFFFFF','#880000','#AAFFEE','#CC44CC','#00CC55','#0000AA','#EEEE77',
+               '#DD8855','#664400','#FF7777','#333333','#777777','#AAFF66','#0088FF','#BBBBBB'];
+    var C64Names = ['Siyah','Beyaz','Kırmızı','Cyan','Mor','Yeşil','Mavi','Sarı',
+                    'Turuncu','Kahve','Açık Kırm','Koyu Gri','Orta Gri','Açık Yeşil','Açık Mavi','Açık Gri'];
+    var CELL=8, GW=24, GH=16, PX=14;
+    var grid = []; /* GW*GH array of color indices, -1=empty */
+    var selColor = 1; /* default white */
+    var showGrid = true;
+    var gridLines = [];
+    var warnTimer = null;
+
+    for(var i=0;i<GW*GH;i++) grid[i]=-1;
+
+    /* palette buttons */
+    C64.forEach(function(c,ci){
+      var btn = document.createElement('div');
+      btn.style.cssText = 'width:28px;height:28px;border-radius:4px;cursor:pointer;border:2px solid '+(ci===selColor?'var(--accent)':'transparent')+';box-sizing:border-box;';
+      btn.style.background = c;
+      btn.title = C64Names[ci];
+      btn.addEventListener('click', function(){
+        selColor = ci;
+        palDiv.querySelectorAll('div').forEach(function(d,di){
+          d.style.borderColor = di===ci ? 'var(--accent)' : 'transparent';
+        });
+      });
+      palDiv.appendChild(btn);
+    });
+
+    /* pixel rects */
+    var pixRects = [];
+    for(var py=0;py<GH;py++){
+      for(var px=0;px<GW;px++){
+        var r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+        r.setAttribute('x', px*PX);
+        r.setAttribute('y', py*PX);
+        r.setAttribute('width', PX);
+        r.setAttribute('height', PX);
+        r.setAttribute('fill','#000');
+        r.setAttribute('data-idx', py*GW+px);
+        r.style.cursor = 'crosshair';
+        svg.appendChild(r);
+        pixRects.push(r);
+      }
+    }
+
+    /* cell grid lines */
+    function drawGridLines(){
+      gridLines.forEach(function(l){ svg.removeChild(l); });
+      gridLines = [];
+      if(!showGrid) return;
+      for(var cx=0;cx<=GW/CELL;cx++){
+        var l = document.createElementNS('http://www.w3.org/2000/svg','line');
+        l.setAttribute('x1',cx*CELL*PX); l.setAttribute('x2',cx*CELL*PX);
+        l.setAttribute('y1',0); l.setAttribute('y2',GH*PX);
+        l.setAttribute('stroke','rgba(255,255,255,0.25)');
+        l.setAttribute('stroke-width','1');
+        svg.appendChild(l);
+        gridLines.push(l);
+      }
+      for(var cy=0;cy<=GH/CELL;cy++){
+        var l2 = document.createElementNS('http://www.w3.org/2000/svg','line');
+        l2.setAttribute('x1',0); l2.setAttribute('x2',GW*PX);
+        l2.setAttribute('y1',cy*CELL*PX); l2.setAttribute('y2',cy*CELL*PX);
+        l2.setAttribute('stroke','rgba(255,255,255,0.25)');
+        l2.setAttribute('stroke-width','1');
+        svg.appendChild(l2);
+        gridLines.push(l2);
+      }
+    }
+    drawGridLines();
+
+    function getCellColors(cx,cy){
+      var colors = new Set();
+      for(var dy=0;dy<CELL;dy++){
+        for(var dx=0;dx<CELL;dx++){
+          var idx = (cy*CELL+dy)*GW + (cx*CELL+dx);
+          if(grid[idx]>=0) colors.add(grid[idx]);
+        }
+      }
+      return colors;
+    }
+
+    function showWarn(msg){
+      warnDiv.textContent = msg;
+      warnDiv.style.opacity = '1';
+      if(warnTimer) clearTimeout(warnTimer);
+      warnTimer = setTimeout(function(){ warnDiv.style.opacity='0'; }, 2000);
+    }
+
+    function paint(idx){
+      var px2 = idx % GW, py2 = Math.floor(idx/GW);
+      var cx = Math.floor(px2/CELL), cy = Math.floor(py2/CELL);
+      var cellColors = getCellColors(cx,cy);
+      if(cellColors.size>=2 && !cellColors.has(selColor)){
+        showWarn('⚠ Attribute Clash! Bu hücrede zaten 2 renk var.');
+        return;
+      }
+      grid[idx] = selColor;
+      pixRects[idx].setAttribute('fill', C64[selColor]);
+      cellColors = getCellColors(cx,cy);
+      var names = [];
+      cellColors.forEach(function(ci){ names.push(C64Names[ci]); });
+      infoDiv.innerHTML = 'Hücre ['+cx+','+cy+']: '+names.join(' + ')+' ('+cellColors.size+'/2)';
+    }
+
+    var painting = false;
+    svg.addEventListener('mousedown', function(e){
+      painting = true;
+      var r = e.target;
+      if(r.hasAttribute('data-idx')) paint(+r.getAttribute('data-idx'));
+    });
+    svg.addEventListener('mousemove', function(e){
+      if(!painting) return;
+      var r = e.target;
+      if(r.hasAttribute('data-idx')) paint(+r.getAttribute('data-idx'));
+    });
+    svg.addEventListener('mouseup', function(){ painting=false; });
+    svg.addEventListener('mouseleave', function(){ painting=false; });
+
+    window.acToggleGrid = function(){
+      showGrid = !showGrid;
+      drawGridLines();
+    };
+    window.acClear = function(){
+      for(var i=0;i<grid.length;i++){
+        grid[i]=-1;
+        pixRects[i].setAttribute('fill','#000');
+      }
+      infoDiv.innerHTML = '';
+      warnDiv.style.opacity = '0';
+    };
+  })();
+
+  /* ═══════ 3. NTSC Artifact Renklendirme Demo ═══════ */
+  (function(){
+    var svg = document.getElementById('ntscSvg');
+    if(!svg) return;
+
+    var BITS = 14; /* 2 groups of 7 */
+    var pixels = new Array(BITS);
+    for(var i=0;i<BITS;i++) pixels[i] = 0;
+    var controlBit = 0; /* 0 or 1 */
+    var PW=28, PH=40, GAP=2, LEFT=20, TOP=30;
+
+    /* artifact color map: position parity + CB → color */
+    var artifactColors = {
+      '0_0':['#000000','#22cc44','#cc6622','#ffffff'], /* even pos, CB=0: black, green, orange, white */
+      '0_1':['#000000','#8844cc','#4488ff','#ffffff'], /* even pos, CB=1: black, violet, blue, white */
+      '1_0':['#000000','#cc6622','#22cc44','#ffffff'], /* odd pos, CB=0 */
+      '1_1':['#000000','#4488ff','#8844cc','#ffffff']  /* odd pos, CB=1 */
+    };
+
+    function getArtifactColor(pos, val, neighborLeft, neighborRight){
+      if(!val) return '#000000';
+      if(val && neighborLeft && neighborRight) return '#ffffff';
+      var parity = pos % 2;
+      var key = parity+'_'+controlBit;
+      if(val && (neighborLeft || neighborRight)) return '#ffffff';
+      return artifactColors[key][1+parity]; /* simplified: return primary artifact color */
+    }
+
+    /* title */
+    var title = document.createElementNS('http://www.w3.org/2000/svg','text');
+    title.setAttribute('x',LEFT);
+    title.setAttribute('y',18);
+    title.setAttribute('fill','var(--text)');
+    title.setAttribute('font-size','12');
+    title.setAttribute('font-family','Inter, sans-serif');
+    title.textContent = 'Hi-Res Piksel Grupları (7+7 bit) — Tıklayarak aç/kapat';
+    svg.appendChild(title);
+
+    /* CB toggle */
+    var cbGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
+    cbGroup.style.cursor = 'pointer';
+    var cbRect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    cbRect.setAttribute('x',LEFT+BITS*(PW+GAP)+20);
+    cbRect.setAttribute('y',TOP);
+    cbRect.setAttribute('width',60);
+    cbRect.setAttribute('height',PH);
+    cbRect.setAttribute('rx',6);
+    cbRect.setAttribute('fill','#333');
+    cbRect.setAttribute('stroke','var(--accent)');
+    cbRect.setAttribute('stroke-width','1.5');
+    cbGroup.appendChild(cbRect);
+    var cbText = document.createElementNS('http://www.w3.org/2000/svg','text');
+    cbText.setAttribute('x',LEFT+BITS*(PW+GAP)+50);
+    cbText.setAttribute('y',TOP+PH/2+4);
+    cbText.setAttribute('text-anchor','middle');
+    cbText.setAttribute('fill','var(--accent)');
+    cbText.setAttribute('font-size','11');
+    cbText.setAttribute('font-family','JetBrains Mono, monospace');
+    cbText.textContent = 'CB=0';
+    cbGroup.appendChild(cbText);
+    svg.appendChild(cbGroup);
+    cbGroup.addEventListener('click', function(){
+      controlBit = 1-controlBit;
+      cbText.textContent = 'CB='+controlBit;
+      renderColors();
+    });
+
+    /* mono row label */
+    var mlbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    mlbl.setAttribute('x',LEFT-5);
+    mlbl.setAttribute('y',TOP+PH/2+4);
+    mlbl.setAttribute('text-anchor','end');
+    mlbl.setAttribute('fill','var(--text-secondary)');
+    mlbl.setAttribute('font-size','9');
+    mlbl.textContent = '';
+    svg.appendChild(mlbl);
+
+    /* pixel rects: mono row */
+    var monoRects = [];
+    for(var p=0;p<BITS;p++){
+      (function(pp){
+        var r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+        r.setAttribute('x', LEFT+pp*(PW+GAP));
+        r.setAttribute('y', TOP);
+        r.setAttribute('width', PW);
+        r.setAttribute('height', PH);
+        r.setAttribute('rx', 3);
+        r.setAttribute('fill','#000');
+        r.setAttribute('stroke','#555');
+        r.setAttribute('stroke-width','1');
+        r.style.cursor = 'pointer';
+        svg.appendChild(r);
+        monoRects.push(r);
+
+        /* bit label */
+        var bl = document.createElementNS('http://www.w3.org/2000/svg','text');
+        bl.setAttribute('x', LEFT+pp*(PW+GAP)+PW/2);
+        bl.setAttribute('y', TOP+PH+14);
+        bl.setAttribute('text-anchor','middle');
+        bl.setAttribute('fill','var(--text-secondary)');
+        bl.setAttribute('font-size','9');
+        bl.setAttribute('font-family','JetBrains Mono, monospace');
+        bl.textContent = pp<7 ? 'b'+pp : 'b'+(pp-7);
+        svg.appendChild(bl);
+
+        r.addEventListener('click', function(){
+          pixels[pp] = 1-pixels[pp];
+          r.setAttribute('fill', pixels[pp] ? '#FFFFFF' : '#000000');
+          renderColors();
+        });
+      })(p);
+    }
+
+    /* group separators */
+    var sepX = LEFT+7*(PW+GAP)-GAP/2;
+    var sep = document.createElementNS('http://www.w3.org/2000/svg','line');
+    sep.setAttribute('x1',sepX); sep.setAttribute('x2',sepX);
+    sep.setAttribute('y1',TOP-5); sep.setAttribute('y2',TOP+PH+20);
+    sep.setAttribute('stroke','var(--accent)');
+    sep.setAttribute('stroke-width','1');
+    sep.setAttribute('stroke-dasharray','4 2');
+    svg.appendChild(sep);
+
+    /* group labels */
+    var gl1 = document.createElementNS('http://www.w3.org/2000/svg','text');
+    gl1.setAttribute('x', LEFT+3*(PW+GAP));
+    gl1.setAttribute('y', TOP+PH+28);
+    gl1.setAttribute('text-anchor','middle');
+    gl1.setAttribute('fill','var(--text-secondary)');
+    gl1.setAttribute('font-size','10');
+    gl1.textContent = 'Byte 1';
+    svg.appendChild(gl1);
+    var gl2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+    gl2.setAttribute('x', LEFT+10*(PW+GAP));
+    gl2.setAttribute('y', TOP+PH+28);
+    gl2.setAttribute('text-anchor','middle');
+    gl2.setAttribute('fill','var(--text-secondary)');
+    gl2.setAttribute('font-size','10');
+    gl2.textContent = 'Byte 2';
+    svg.appendChild(gl2);
+
+    /* color output row */
+    var colorY = TOP+PH+45;
+    var clbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    clbl.setAttribute('x', LEFT);
+    clbl.setAttribute('y', colorY-6);
+    clbl.setAttribute('fill','var(--text)');
+    clbl.setAttribute('font-size','11');
+    clbl.textContent = 'NTSC Kompozit Çıkış (Artifact Renkler):';
+    svg.appendChild(clbl);
+
+    var colorRects = [];
+    for(var c=0;c<BITS;c++){
+      var cr = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      cr.setAttribute('x', LEFT+c*(PW+GAP));
+      cr.setAttribute('y', colorY);
+      cr.setAttribute('width', PW);
+      cr.setAttribute('height', PH);
+      cr.setAttribute('rx', 3);
+      cr.setAttribute('fill','#000');
+      cr.setAttribute('stroke','#333');
+      cr.setAttribute('stroke-width','1');
+      svg.appendChild(cr);
+      colorRects.push(cr);
+    }
+
+    /* legend */
+    var legY = colorY+PH+20;
+    var legItems = [
+      {color:'#22cc44',label:'Yeşil (CB=0, çift)'},
+      {color:'#cc6622',label:'Turuncu (CB=0, tek)'},
+      {color:'#8844cc',label:'Mor (CB=1, çift)'},
+      {color:'#4488ff',label:'Mavi (CB=1, tek)'},
+      {color:'#ffffff',label:'Beyaz (komşu pikseller)'}
+    ];
+    legItems.forEach(function(li,idx){
+      var lx = LEFT + idx*100;
+      var lr = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      lr.setAttribute('x',lx);
+      lr.setAttribute('y',legY);
+      lr.setAttribute('width',10);
+      lr.setAttribute('height',10);
+      lr.setAttribute('rx',2);
+      lr.setAttribute('fill',li.color);
+      svg.appendChild(lr);
+      var lt2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+      lt2.setAttribute('x',lx+14);
+      lt2.setAttribute('y',legY+9);
+      lt2.setAttribute('fill','var(--text-secondary)');
+      lt2.setAttribute('font-size','8');
+      lt2.setAttribute('font-family','Inter, sans-serif');
+      lt2.textContent = li.label;
+      svg.appendChild(lt2);
+    });
+
+    function renderColors(){
+      for(var i=0;i<BITS;i++){
+        var val = pixels[i];
+        var nL = i>0 ? pixels[i-1] : 0;
+        var nR = i<BITS-1 ? pixels[i+1] : 0;
+        var col;
+        if(!val){
+          col = '#000000';
+        } else if(val && nL && nR){
+          col = '#ffffff';
+        } else if(val && (nL || nR)){
+          col = '#ffffff';
+        } else {
+          var parity = i % 2;
+          var key = parity+'_'+controlBit;
+          col = artifactColors[key][1]; /* primary artifact color for this parity */
+        }
+        colorRects[i].setAttribute('fill', col);
+      }
+    }
+    renderColors();
+  })();
+  </script>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

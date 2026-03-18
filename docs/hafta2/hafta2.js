@@ -635,7 +635,7 @@ function updateHistogramDemo() {
 
 if (histSourceCanvas) {
   // Try loading real photo from Wikimedia Commons (CORS-friendly)
-  const defaultUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Golde33443.jpg/640px-Golde33443.jpg';
+  const defaultUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Golde33443.jpg/960px-Golde33443.jpg';
   loadHistogramImage(defaultUrl);
 
   histBrightness?.addEventListener('input', updateHistogramDemo);

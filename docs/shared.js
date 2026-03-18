@@ -141,4 +141,34 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.card, .interactive-demo, .info-box, .quiz-container').forEach(el => {
     observer.observe(el);
   });
+
+  // ─── Code Block Copy Buttons ───
+  document.querySelectorAll('pre').forEach(pre => {
+    // Skip if already wrapped
+    if (pre.parentElement.classList.contains('code-block-wrapper')) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'code-block-wrapper';
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    const btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.setAttribute('aria-label', 'Kodu kopyala');
+    btn.innerHTML = '📋 Kopyala';
+    wrapper.appendChild(btn);
+
+    btn.addEventListener('click', () => {
+      const code = pre.querySelector('code') || pre;
+      navigator.clipboard.writeText(code.textContent).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '✅ Kopyalandı!';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = '📋 Kopyala';
+        }, 2000);
+      });
+    });
+  });
+
 });
