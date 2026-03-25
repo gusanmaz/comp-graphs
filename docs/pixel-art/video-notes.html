@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art Temelleri — Video Ders Notları</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .vn-card { display: flex; gap: 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.8rem; margin-bottom: 0.8rem; transition: border-color 0.2s; }
+    .vn-card:hover { border-color: var(--accent-4); }
+    .vn-card-img { flex-shrink: 0; position: relative; width: 220px; cursor: zoom-in; }
+    .vn-card-img img { width: 220px; height: auto; border-radius: 6px; display: block; border: 1px solid var(--border-color); cursor: zoom-in; transition: border-color 0.2s; }
+    .vn-card-img img:hover { border-color: var(--accent-4); }
+    .vn-badge { position: absolute; bottom: 4px; left: 4px; background: rgba(0,0,0,0.85); color: #fff; font-size: 0.72rem; padding: 2px 6px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; pointer-events: none; }
+    .vn-yt-link { position: absolute; bottom: 4px; right: 4px; background: rgba(255,0,0,0.85); color: #fff; font-size: 0.7rem; padding: 2px 7px; border-radius: 3px; text-decoration: none; font-weight: bold; transition: background 0.2s; }
+    .vn-yt-link:hover { background: rgba(255,0,0,1); }
+    .vn-card-text { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.3rem; }
+    .vn-en { font-size: 0.86rem; line-height: 1.6; color: var(--text-primary); }
+    .vn-details { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.5rem; }
+    .vn-details summary { cursor: pointer; padding: 0.6rem 1rem; font-size: 0.9rem; font-weight: 500; color: var(--text-primary); }
+    .vn-details summary:hover { color: var(--accent-4); }
+    .vn-details p { padding: 0.6rem 1rem 1rem; font-size: 0.88rem; line-height: 1.7; }
+    .vn-transcript-en { color: var(--text-secondary); }
+    .vn-transcript-tr { color: var(--text-primary); }
+    .vn-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .vn-two-col .info-box ul { margin: 0.3rem 0 0 1rem; font-size: 0.85rem; }
+    .vn-two-col .info-box li { margin-bottom: 0.4rem; line-height: 1.5; }
+    .vn-section-toc { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 2rem; }
+    .vn-section-toc h3 { font-size: 1rem; color: var(--accent-4); margin-bottom: 0.6rem; }
+    .vn-section-toc a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 0.88rem; padding: 0.25rem 0; transition: color 0.15s; }
+    .vn-section-toc a:hover { color: var(--accent-4); }
+    .vn-toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.5rem; }
+    .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; cursor: zoom-out; }
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-overlay img { max-width: 90vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
+    .lightbox-close { position: fixed; top: 20px; right: 20px; color: #fff; font-size: 2rem; cursor: pointer; z-index: 10000; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+    .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+    .lightbox-nav { position: fixed; top: 50%; transform: translateY(-50%); color: #fff; font-size: 2.5rem; cursor: pointer; z-index: 10000; background: rgba(0,0,0,0.4); border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.15); }
+    .lightbox-prev { left: 15px; }
+    .lightbox-next { right: 15px; }
+    .video-link { display: inline-block; background: var(--accent-4); color: var(--bg-primary); padding: 0.5rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: opacity 0.2s; margin-top: 0.8rem; }
+    .video-link:hover { opacity: 0.85; }
+    .nav-links-sub { display: flex; gap: 0.8rem; justify-content: center; margin: 1rem 0 2rem; flex-wrap: wrap; }
+    .nav-links-sub a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; padding: 0.3rem 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; transition: all 0.15s; }
+    .nav-links-sub a:hover, .nav-links-sub a.active { color: var(--accent-4); border-color: var(--accent-4); }
+    @media (max-width: 700px) {
+      .vn-card { flex-direction: column; }
+      .vn-card-img { width: 100%; }
+      .vn-card-img img { width: 100%; }
+      .vn-toc-grid { grid-template-columns: 1fr; }
+      .vn-two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="has-sidebar">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+      <a href="../pixel-art/index.html" class="active"><span class="section-num">🎮</span> Pixel Art Giriş</a>
+      <a href="../pixel-art/1bitstudio-shorts.html"><span class="section-num">🎮</span> 1Bit Studio</a>
+      <a href="../tipografi/index.html"><span class="section-num">🔤</span> Tipografi</a>
+      <a href="../cli-araclari/index.html"><span class="section-num">⌨️</span> CLI Araçları</a>
+      <a href="../eski-donanim/index.html"><span class="section-num">🕹️</span> Eski Donanım Grafikleri</a>
+    </div>
+    <div class="sidebar-toc"></div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(event, -1)">&#8249;</button>
+    <img id="lightbox-img" src="" alt="Büyütülmüş kare">
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(event, 1)">&#8250;</button>
+  </div>
+
+  <div class="page-wrapper">
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+      <a href="../pixel-art/index.html" class="active">Pixel Art</a>
+      <a href="../pixel-art/1bitstudio-shorts.html">1Bit Studio</a>
+      <a href="../tipografi/index.html">Tipografi</a>
+      <a href="../cli-araclari/index.html">CLI</a>
+      <a href="../eski-donanim/index.html">Retro HW</a>
+    </div>
+  </nav>
+
+  <div class="week-header">
+    <span class="week-number">🎮 VIDEO DERS NOTLARI</span>
+    <h1>Pixel Art Temelleri — Kare Notları</h1>
+    <p class="week-desc">Her sahne karesi transkript ve Türkçe çeviri ile eşleştirilmiş kapsamlı ders notları</p>
+    <div class="week-meta">
+      <div class="meta-item">📹 27 dakika</div>
+      <div class="meta-item">🖼️ 157 kare</div>
+      <div class="meta-item">📝 12 bölüm</div>
+    </div>
+    <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc" target="_blank" rel="noopener noreferrer" class="video-link">▶ Orijinal Video</a>
+    <a href="video-clips.html" class="video-link" style="margin-left:0.5rem; background: var(--accent-green, #4caf50);">🎬 Video Klipleri</a>
+  </div>
+
+  <div class="container">
+    <div class="info-box tip">
+      <div class="info-title">💡 Nasıl Kullanılır</div>
+      <p><strong>Kareye tıklayın</strong> → büyütülmüş görüntü (← → tuşlarıyla gezinin). <strong>▶ butonu</strong> → YouTube'da o ana gider. Her bölümde İngilizce/Türkçe tam metin, önemli noktalar ve Aseprite ipuçları bulunur.</p>
+    </div>
+
+    <div class="nav-links-sub">
+      <a href="video-notes.html" class="active">🖼️ Kare Notları</a>
+      <a href="video-clips.html">🎬 Video Klipleri</a>
+      <a href="1bitstudio-shorts.html">📱 1BitStudio Shorts</a>
+      <a href="index.html">📖 Ana Sayfa</a>
+    </div>
+
+    <nav class="vn-section-toc">
+      <h3>İçindekiler</h3>
+      <div class="vn-toc-grid">
+        <a href="#clean-lines">01. Temiz Çizgiler</a>
+        <a href="#straight-lines">02. Düz Çizgiler ve Daireler</a>
+        <a href="#outlines">03. Kenar Çizgileri (Outline)</a>
+        <a href="#shapes-cubes">04. Temel Şekiller ve Küp Gölgeleme</a>
+        <a href="#sphere-shading">05. Küre Gölgeleme</a>
+        <a href="#cylinder-cone">06. Silindir ve Koni Gölgeleme</a>
+        <a href="#highlights">07. Parlak Noktalar (Highlight için)</a>
+        <a href="#materials">08. Malzeme ve Doku</a>
+        <a href="#hue-shifting">09. Renk Kayması (Hue Shifting)</a>
+        <a href="#dithering">10. Dithering (Noktalama Tekniği)</a>
+        <a href="#color-palettes">11. Renk Paletleri</a>
+        <a href="#anti-aliasing">12. Anti-Aliasing (Kenar Yumuşatma)</a>
+      </div>
+    </nav>
+
+    <h2 id="clean-lines">01. Temiz Çizgiler <small style="color:var(--text-secondary); font-weight:400;">(Clean Lines)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Piksel çizgilerinde tutarlılık önemlidir. Bir pikselin yalnızca 1 veya 2 komşusu olmalıdır. 3+ komşu kalınlaşmaya ('doubles') neden olur.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">Hello there, in this video you'll learn everything a pixel art beginner should know. This video is part two of Pixel Art Short Courses and it's a compilation of shorts on the topic of pixel art basics. You have to avoid this rookie mistake if you want clean lines. The only thing that matters is consistency in thickness. One pixel thick lines are used the most. So how do we ensure that consistency? A single pixel has eight possible neighbors. Out of those it should only have one or two neighbors. If a pixel has more, like three neighbors, the line becomes thicker in that area and people call these unnecessary pixels 'doubles'. Aseprite also has a great feature that will help you out — by checking the Pixel Perfect property you will create clean lines without worries. Of course you can use the line tool, but that's not good enough if you want to become a true pixel art expert.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Merhaba, bu videoda piksel art başlangıcı için bilmeniz gereken her şeyi öğreneceksiniz. Bu video Pixel Art Kısa Kursları'nın ikinci bölümüdür ve piksel art temelleri konusundaki kısa videoların bir derlemesidir. Temiz çizgiler istiyorsanız bu acemi hatasından kaçınmalısınız. Önemli olan tek şey kalınlıkta tutarlılıktır. En çok tek piksel kalınlığındaki çizgiler kullanılır. Peki bu tutarlılığı nasıl sağlarız? Tek bir pikselin sekiz olası komşusu vardır. Bunlardan yalnızca bir veya iki komşusu olmalıdır. Eğer bir pikselin üç gibi daha fazla komşusu varsa, çizgi o bölgede kalınlaşır ve insanlar bu gereksiz piksellere 'doubles' (çiftler) der. Aseprite'da size yardımcı olacak harika bir özellik var — Pixel Perfect özelliğini aktif ederek endişe duymadan temiz çizgiler çizebilirsiniz. Tabii ki çizgi aracını kullanabilirsiniz ama gerçek bir piksel art uzmanı olmak istiyorsanız bu yeterli değildir.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Her pikselin 8 olası komşusu var — yalnızca 1-2 tanesi dolu olmalı</li>
+          <li>3+ komşu olan piksel → 'double' = kalın nokta hatası</li>
+          <li>Tek piksel kalınlığı en yaygın ve temiz çizgi standardıdır</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Pixel Perfect:</strong> Pencil aracı seçiliyken üst menüden <code>Pixel Perfect</code> kutusunu işaretleyin. Bu, çizim sırasında otomatik olarak çift pikselleri temizler.</li>
+          <li><strong>Pencil (B):</strong> Temel çizim aracı. Brush Size'ı 1px'e ayarlayın.</li>
+          <li><strong>Zoom (Z veya +/-):</strong> Piksel seviyesinde çalışmak için 400-800% zoom kullanın.</li>
+          <li><strong>LibreSprite'da:</strong> Aynı Pixel Perfect özelliği mevcuttur — Pencil aracının ayarlarında bulunur.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0000_17.83.jpg" alt="00:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=17s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">course as well as timestamps for specific topics so let's jump into it you have to avoid this rookie mistake if you want clean lines the only thing that matters is consistency in thickness one</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0002_24.60.jpg" alt="00:24" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:24</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=24s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">you want clean lines the only thing that matters is consistency in thickness one pixel thick lines are used the most so how do we ensure that consistency a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0003_28.87.jpg" alt="00:28" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:28</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=28s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">pixel thick lines are used the most so how do we ensure that consistency a single Pixel has eight possible neighbors out of those he should only have one or two neighbors if a pixel has more like three neighbors the line becomes thicker in that area and people call these unnecessary pixels doubles</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0004_39.20.jpg" alt="00:39" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:39</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=39s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">becomes thicker in that area and people call these unnecessary pixels doubles aprite also has a great feature that</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0005_41.43.jpg" alt="00:41" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:41</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=41s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">call these unnecessary pixels doubles aprite also has a great feature that will help you out by checking Pixel Perfect property you will create clean lines without worries of course you can</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0006_49.13.jpg" alt="00:49" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:49</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=49s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">Perfect property you will create clean lines without worries of course you can use the line tool but that's not good enough if you want to become a true</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0007_52.33.jpg" alt="00:52" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:52</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=52s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">use the line tool but that's not good enough if you want to become a true Pixel Art Expert you have to understand</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0008_55.67.jpg" alt="00:55" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">00:55</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=55s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">enough if you want to become a true Pixel Art Expert you have to understand the essence of straight lines first a diagonal straight line consists of</p>
+        </div>
+      </div>
+
+    <h2 id="straight-lines">02. Düz Çizgiler ve Daireler <small style="color:var(--text-secondary); font-weight:400;">(Straight Lines & Circles)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Düz çapraz çizgiler tutarlı piksel bölümlerinden oluşmalıdır. Bölüm uzunlukları arasındaki fark en fazla 1 piksel olmalıdır.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">You have to understand the essence of straight lines. First, a diagonal straight line consists of sections like one or two pixels etc. You have to keep these sections as consistent as possible, both in length and in the ratio of appearance. In cases when you have to mix lengths of these sections, the maximum difference is one pixel. So if your line has a section that is 2 pixels longer than any other section, you've messed up and your line won't be straight. Here's a test you can do: duplicate and connect your line to itself, then zoom out and you will easily notice the difference. So if you only use 90 and 45 degree angles, rethink your decision. And you might ask yourself why not just use the line tool? Don't trust the tools blindly. Yes, Aseprite has wonderful tools but like all other software it was coded by people and thus is prone to human error. Allow me to show you this on a simple circle example. This one was created using Aseprite's ellipse tool — it is 13 pixels in diameter. And the other one was custom made, same in size but a bit different. Personally I think the custom one looks a bit more round. Which one looks better to you?</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Düz çizgilerin özünü anlamanız gerekiyor. İlk olarak, çapraz bir düz çizgi bir veya iki piksel gibi bölümlerden oluşur. Bu bölümleri hem uzunluk hem de görünüm oranı açısından mümkün olduğunca tutarlı tutmalısınız. Bölüm uzunluklarını karıştırmanız gereken durumlarda, maksimum fark bir piksel olmalıdır. Eğer çizginizde diğer bölümlerden 2 piksel daha uzun bir bölüm varsa, hata yapmışsınız demektir ve çizginiz düz olmayacaktır. İşte yapabileceğiniz bir test: çizginizi kopyalayıp kendisine bağlayın, sonra uzaklaştırarak farkı kolayca görebilirsiniz. Yalnızca 90 ve 45 derece açılar kullanıyorsanız, kararınızı yeniden düşünün. Neden çizgi aracını kullanmıyorsunuz diye sorabilirsiniz. Araçlara körü körüne güvenmeyin. Evet, Aseprite harika araçlara sahip ama diğer tüm yazılımlar gibi insanlar tarafından kodlanmıştır ve insan hatasına açıktır. Bunu basit bir daire örneğinde göstereyim. Bu, Aseprite'ın elips aracıyla oluşturuldu — 13 piksel çapında. Diğeri ise elle yapıldı, aynı boyutta ama biraz farklı. Kişisel olarak elle yapılanın biraz daha yuvarlak göründüğünü düşünüyorum. Hangisi size daha iyi görünüyor?</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Çapraz çizgi = tutarlı piksel bölümleri (ör. 2-2-2 veya 2-3-2-3)</li>
+          <li>Bölümler arası fark max 1 piksel olmalı, yoksa çizgi eğri görünür</li>
+          <li>Test: çizgiyi kopyala + birleştir + uzaklaştır → düzensizlik belirginleşir</li>
+          <li>Araçların çıktısı her zaman mükemmel değildir — elle kontrol edin</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Line Tool (L):</strong> Shift tuşuna basılı tutarak açıları kısıtlayabilirsiniz.</li>
+          <li><strong>Ellipse Tool (U):</strong> Daire çizmek için kullanın, ama sonucu her zaman kontrol edin — küçük boyutlarda elle düzeltme gerekebilir.</li>
+          <li><strong>Test yöntemi:</strong> Çizgiyi <code>Ctrl+C</code> ile kopyalayın, yapıştırıp uç uca ekleyin. <code>View > Zoom Out</code> ile uzaklaştırarak düzensizlik var mı kontrol edin.</li>
+          <li><strong>LibreSprite'da:</strong> Aynı araçlar mevcuttur. Line aracı için <code>L</code> kısayolunu kullanın.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0009_62.90.jpg" alt="01:02" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:02</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=62s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">diagonal straight line consists of sections like one or two pixels Etc you have to keep these sections as consistent as possible both in length and in the ratio of appearance in cases</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0010_69.63.jpg" alt="01:09" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:09</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=69s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">consistent as possible both in length and in the ratio of appearance in cases when you have to mix length of these sections the maximum difference is one</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0011_72.83.jpg" alt="01:12" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:12</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=72s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">when you have to mix length of these sections the maximum difference is one pixel so if your line has section that</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0012_75.33.jpg" alt="01:15" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:15</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=75s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">sections the maximum difference is one pixel so if your line has section that is 2 pixels longer than any other section you've messed up and your line</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0013_80.00.jpg" alt="01:20" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:20</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=80s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">is 2 pixels longer than any other section you've messed up and your line won't be straight won't approve here's a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0014_82.43.jpg" alt="01:22" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:22</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=82s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">section you've messed up and your line won't be straight won't approve here's a test you can do duplicate and connect</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0015_84.50.jpg" alt="01:24" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:24</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=84s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">won't be straight won't approve here's a test you can do duplicate and connect your line to itself then zoom out and you will easily notice the difference so</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0016_90.00.jpg" alt="01:30" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:30</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=90s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">your line to itself then zoom out and you will easily notice the difference so if you only use 90 and 45° angles rethink your decision and you might ask yourself why not just use the line tool</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0017_95.53.jpg" alt="01:35" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:35</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=95s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">rethink your decision and you might ask yourself why not just use the line tool don't trust the tools blindly yes aprite has wonderful tools but like all other software it was coded by people and thus is prone to human error allow me to show</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0019_106.53.jpg" alt="01:46" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">01:46</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=106s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">software it was coded by people and thus is prone to human error allow me to show you this on a simple Circle example this one was created using aprit ellipse tool it is 13 pixels in diameter and the other one was custom made it is same in size but it's a bit different personally I think the custom one looks a bit more rounder which one lookss better to you</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0020_122.90.jpg" alt="02:02" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">02:02</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=122s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">I think the custom one looks a bit more rounder which one lookss better to you using outlines is not only an artistic</p>
+        </div>
+      </div>
+
+    <h2 id="outlines">03. Kenar Çizgileri (Outline) <small style="color:var(--text-secondary); font-weight:400;">(Outlines)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Kenar çizgisi kullanımı hem sanatsal hem oyun tasarımı kararıdır. Üç ana yaklaşım vardır: çizgisiz, tam çizgili ve kısmi çizgili. Renkli outline'lar derinlik katar.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">Using outlines is not only an artistic choice but also a game design choice. Here we have the same rock with three different choices. On the left, when we don't use outline it blends quite nicely with the grass, which is useful for non-interactable objects. In the middle we have a full outline which covers the entire rock, making it more visible — it pops from the background and that's quite useful for interactable objects. On the right we have a partial outline where the object is still quite visible but because we erase the outline on the bottom edge, the rock feels more connected to the ground, which is quite useful for non-interactable objects that could be used as a landmark in the game. But we still have one important choice — most people only use black outlines, however you can also use white outlines, you can use colored outlines, meaning where the object is hitting the light the outline would be lighter, and where it is in the shadow the outline will be darker.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Kenar çizgisi (outline) kullanımı yalnızca sanatsal bir seçim değil, aynı zamanda bir oyun tasarımı kararıdır. Burada aynı kayayı üç farklı seçenekle görüyoruz. Solda outline kullanmadığımızda çimle güzelce harmanlanıyor — bu etkileşilemeyen nesneler için kullanışlıdır. Ortada tüm kayayı kaplayan tam bir outline var, bu onu daha görünür kılıyor — arka plandan öne çıkıyor ve etkileşimli nesneler için çok kullanışlı. Sağda kısmi outline var — nesne hâlâ oldukça görünür ama alt kenardan outline'ı sildiğimiz için kaya zemine daha bağlı hissettiriyor, bu da oyunda işaret noktası olarak kullanılabilecek etkileşilemeyen nesneler için kullanışlı. Ama hâlâ önemli bir seçimimiz var — çoğu kişi yalnızca siyah outline kullanır, ancak beyaz outline, renkli outline da kullanabilirsiniz. Nesnenin ışık aldığı yerde outline daha açık, gölgede kaldığı yerde ise daha koyu olur.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Outline yok → arka plana karışır (dekoratif nesneler için)</li>
+          <li>Tam outline → nesne belirginleşir (etkileşimli nesneler için)</li>
+          <li>Kısmi outline → zemine bağlı hissedilir (yer işaretleri için)</li>
+          <li>Renkli outline → ışıklı kısımda açık, gölgede koyu renk outline</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Outline ekleme:</strong> Sprite'ınızı çizdikten sonra yeni bir katman (layer) oluşturun, altına taşıyın ve <code>Edit > Stroke > Selection</code> ile otomatik outline ekleyin.</li>
+          <li><strong>Renkli outline:</strong> Siyah outline'ı seçip <code>Edit > Replace Color</code> ile bölgesel olarak değiştirebilirsiniz.</li>
+          <li><strong>Kısmi outline:</strong> Tam outline çizin, sonra <code>Eraser (E)</code> ile alt kenarları silin.</li>
+          <li><strong>Katman yapısı:</strong> Outline'ı ayrı bir katmanda tutun → kolayca açıp kapatabilirsiniz.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0020_122.90.jpg" alt="02:02" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">02:02</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=122s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">I think the custom one looks a bit more rounder which one lookss better to you using outlines is not only an artistic choice but also a game design Choice here we have the same rock with three different choices on the left when we don't use outline it Blends quite nicely with the grass which is useful for non-interactable objects in the middle we have a full outline which covers the entire Rock making it more visible it pops from the background and that's quite useful for interactable objects on the right we have a partial outline where the object is still quite visible but because we erase the outline on the bottom Edge The Rock feels more connected to the ground which is quite useful for non-interactable object that could be used as a landmark in the game</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0021_159.60.jpg" alt="02:39" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">02:39</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=159s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">useful for non-interactable object that could be used as a landmark in the game but we still have one important choice that we need to make regarding the outlines most people only use black outlines however you can also use white outlines you can use colored outlines and so on and you can also use shaded outlines meaning where the object is</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0022_171.33.jpg" alt="02:51" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">02:51</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=171s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">and so on and you can also use shaded outlines meaning where the object is hitting the light the outline would be of the lighter tone and where the object is in the shadow the outline will be darker mixing pixel size is considered</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0023_179.13.jpg" alt="02:59" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">02:59</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=179s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">is in the shadow the outline will be darker mixing pixel size is considered in pixel art one of the greatest scenes and these are called Mixels it's when you want to have different pixel sizes in your image for example you can see that even though this three is now larger it has different pixel size this is a standard pixel size however here on the side each pixel so to speak is actually 2 x two in other words four</p>
+        </div>
+      </div>
+
+    <h2 id="shapes-cubes">04. Temel Şekiller ve Küp Gölgeleme <small style="color:var(--text-secondary); font-weight:400;">(Basic Shapes & Cube Shading)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Her nesne temel geometrik şekillerden oluşur. Küp gölgelemesinde her düz yüzey tek bir ton alır — ışığa göre açık, orta ve koyu.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">This is a standard pixel size, however here on the side each pixel is actually 2x2, in other words four pixels. Beginners often do this when they want to have a larger object and they just don't feel like drawing it from scratch — then they just take the object, resize it to the size they want, and call it a day. That's not how pixel art works. Once you understand basic geometric shapes you can draw pretty much anything. There are a few simple rules you can follow to ensure good shading. For a cube, it's one side one color. Why is that? Because every side of the cube is flat, and the only thing that matters is the angle of this side to the light source. In this case it's on the top left side, so the top side will be in the light tone, the left side will be in the mid tone, and the right side will be the darkest.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Bu standart bir piksel boyutudur, ancak burada her piksel aslında 2x2, yani dört pikseldir. Yeni başlayanlar genellikle daha büyük bir nesne istediklerinde bunu yapar — nesneyi alıp istedikleri boyuta yeniden boyutlandırırlar. Piksel art böyle çalışmaz. Temel geometrik şekilleri anladığınızda hemen hemen her şeyi çizebilirsiniz. İyi gölgeleme için izleyebileceğiniz birkaç basit kural vardır. Küp için kural: bir yüz, bir renk. Neden? Çünkü küpün her yüzü düzdür ve önemli olan tek şey bu yüzün ışık kaynağına göre açısıdır. Bu durumda ışık sol üstten geliyor, bu yüzden üst yüzey açık ton, sol yüzey orta ton ve sağ yüzey en koyu ton olacaktır.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Sprite'ı büyütmek için yeniden boyutlandırma YAPMAYIN — baştan çizin</li>
+          <li>Temel kural: düz yüzey = tek renk tonu</li>
+          <li>Küpte 3 görünür yüz = 3 farklı ton (açık, orta, koyu)</li>
+          <li>Işık kaynağı yönünü belirleyin → her yüzün tonu ona göre değişir</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Boyutlandırma uyarısı:</strong> <code>Sprite > Sprite Size</code> ile büyütmeyin — bu pikselleri 2x2 bloklara dönüştürür. Her zaman orijinal çözünürlükte çizin.</li>
+          <li><strong>Renk seçimi:</strong> 3 ton seçin (açık, orta, koyu) ve bunları palette kaydedin. <code>Switch Colors (X)</code> ile hızla aralarında geçiş yapın.</li>
+          <li><strong>Katmanları kullanın:</strong> Gölgeyi ayrı katmanda oluşturun → deneme yanılma kolaylaşır.</li>
+          <li><strong>Referans:</strong> <code>Edit > Paste as New Reference</code> ile bir küp referansını ekrana sabitleyin.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0024_233.60.jpg" alt="03:53" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">03:53</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=233s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">general you want to have your pixel size consistent it doesn't matter what you're trying to draw everything can be broken down into these five basic shapes Cube</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0025_239.30.jpg" alt="03:59" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">03:59</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=239s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">trying to draw everything can be broken down into these five basic shapes Cube sphere cylinder cone and pyramid and if</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0026_241.60.jpg" alt="04:01" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">04:01</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=241s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">down into these five basic shapes Cube sphere cylinder cone and pyramid and if you learn how to shade these five basic shapes everything will fall into place</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0027_244.30.jpg" alt="04:04" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">04:04</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=244s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">you learn how to shade these five basic shapes everything will fall into place naturally for example a pencil is a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0028_246.37.jpg" alt="04:06" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">04:06</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=246s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">shapes everything will fall into place naturally for example a pencil is a simple combination of a cone at the top</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0029_249.50.jpg" alt="04:09" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">04:09</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=249s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">naturally for example a pencil is a simple combination of a cone at the top and a couple of cylinders a truck is basically just a modified cube with a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0030_253.13.jpg" alt="04:13" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">04:13</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=253s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">and a couple of cylinders a truck is basically just a modified cube with a couple of cylinders for the wheels but</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0031_255.33.jpg" alt="04:15" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">04:15</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=255s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">basically just a modified cube with a couple of cylinders for the wheels but that's not all even the human body can be broken down into simple shapes this is why it's so important to understand how to shade these five basic shapes because once you understand that you can draw pretty much anything there are a few simple rules you can follow to ensure good shading for Cube It's one side one color why is that because every</p>
+        </div>
+      </div>
+
+    <h2 id="sphere-shading">05. Küre Gölgeleme <small style="color:var(--text-secondary); font-weight:400;">(Sphere Shading)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Küresel gölgelemede ışıktan uzaklaştıkça renk koyulaşır. Gölge bantları yuvarlak formda uygulanır. Birçok doğal nesne küre formundadır.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">You'll be often shading as spherical objects, meaning around curved surfaces. The first thing you need to decide is where the light source is. For a sphere, shading works in bands that curve around the surface. Starting from the light source and then curving away into the shadows. That's the most important principle — dividing into two rules: if a surface is flat use one color, if a surface is rounded use a gradient transition. The color palette for shading a sphere typically uses 3-5 tones from light to dark.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Sıklıkla küresel nesneleri, yani kavisli yüzeyleri gölgeleyeceksiniz. İlk karar vermeniz gereken şey ışık kaynağının nerede olduğudur. Küre için gölgeleme, yüzey boyunca kıvrılan bantlar şeklinde çalışır. Işık kaynağından başlayıp gölgelere doğru kıvrılır. Bu en önemli prensiptir — iki kurala ayrılır: yüzey düzse tek renk kullanın, yüzey yuvarlatılmışsa gradyan geçiş kullanın. Bir küreyi gölgelemek için renk paleti genellikle açıktan koyuya 3-5 ton kullanır.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Düz yüzey = tek renk; yuvarlak yüzey = gradyan geçiş</li>
+          <li>Gölge bantları ışık kaynağına göre kavisli olarak yerleştirilir</li>
+          <li>3-5 ton yeterlidir — çok fazla ton geçişi piksel art'ta gürültü yaratır</li>
+          <li>Meyveler, kafalar, taşlar, toplar → hep küre gölgeleme kullanır</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Ton seçimi:</strong> HSV/HSL modunda çalışın — <code>V (Value)</code> değerini düşürerek koyu tonları hızla oluşturun.</li>
+          <li><strong>Bantlar:</strong> Her gölge bandını ayrı renk olarak çizin, sonra sınırları yumuşatın.</li>
+          <li><strong>Quick shade:</strong> <code>Edit > FX > Color Curve</code> ile mevcut renklerin parlaklığını toplu ayarlayın.</li>
+          <li><strong>LibreSprite:</strong> Ink ayarında <code>Shading</code> modunu kullanarak tek tuşla aynı rengin koyusuna/açığına geçebilirsiniz.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0033_295.70.jpg" alt="04:55" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">04:55</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=295s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">premise stays the same one color per one side a lot of beginners will try to create something like this thinking it's correct because the light source is coming from the top left and naturally</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0034_302.23.jpg" alt="05:02" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">05:02</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=302s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">correct because the light source is coming from the top left and naturally the light should be strongest near the source of the light and then fade out slowly this isn't how the light works</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0035_307.77.jpg" alt="05:07" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">05:07</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=307s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">source of the light and then fade out slowly this isn't how the light works you really need to have only one side in one color for the cubes because remember all that matters is the angle of the side of the cube to the light source that's all that matters in pixel art</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0036_318.37.jpg" alt="05:18" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">05:18</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=318s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">side of the cube to the light source that's all that matters in pixel art you'll be often shading as spherical objects meaning around arounded object</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0037_322.67.jpg" alt="05:22" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">05:22</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=322s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">you'll be often shading as spherical objects meaning around arounded object the first thing you need to decide is where the light source is in this case it's going to be on the top left side then you need to define the light area and even this by itself should be enough if you really want to add more tones you can certainly do so but be careful not to overdo it if you overdo it and introduce too many tones even though you can do it I don't think you really should because this is no longer pixel art in pixel art we are trying to</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0038_343.10.jpg" alt="05:43" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">05:43</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=343s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">should because this is no longer pixel art in pixel art we are trying to simplify everything and that includes the color palette shading a cylinder</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0039_347.30.jpg" alt="05:47" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">05:47</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=347s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">simplify everything and that includes the color palette shading a cylinder should be straightforward if you know just two simple rules and because</p>
+        </div>
+      </div>
+
+    <h2 id="cylinder-cone">06. Silindir ve Koni Gölgeleme <small style="color:var(--text-secondary); font-weight:400;">(Cylinder & Cone Shading)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Silindir gölgeleme tek eksende uygulanır. Koni sivri uçta belirginleşir. Bu şekilleri birleştirerek kılıç, ağaç, varil gibi karmaşık nesneler oluşturulur.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">Shading a cylinder should be straightforward if you know just two simple rules. Because cylinders are used a lot of times when creating organic things like humans, it's really important. First, you need to understand the structure of the cylinder — it's essentially a circle stretched along one axis. So the shading follows that axis. The light hits one side and gradually transitions across. For a horizontal cylinder, the light and shadow change horizontally. For a vertical cylinder, it changes vertically. Just like a cone, shading follows the same principle but narrows toward the tip. Now, let's put this into practice. We have a truck — I can identify the front part as shapes: cylinders for pipes, a cone for the tip of the pencil, cubes for the body. By combining basic shape shading, you create complex objects.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Silindir gölgeleme iki basit kuralı bilirseniz kolay olacaktır. Silindirler, insan vücudu gibi organik nesneler oluştururken çok sık kullanıldığı için gerçekten önemlidir. Öncelikle silindirin yapısını anlamalısınız — aslında tek eksen boyunca uzatılmış bir dairedir. Bu yüzden gölgeleme o ekseni takip eder. Işık bir tarafı vurup kademeli olarak geçiş yapar. Yatay bir silindirde ışık ve gölge yatay olarak değişir. Dikey bir silindirde dikey olarak değişir. Tıpkı koni gibi, gölgeleme aynı prensibi takip eder ama uca doğru daralır. Şimdi bunu pratiğe dökelim. Bir kamyonetimiz var — ön kısmını şekiller olarak tanıyabilirim: borular için silindirler, kalemin ucu için koni, gövde için küpler. Temel şekil gölgelemeyi birleştirerek karmaşık nesneler yaratırsınız.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Silindir = daire + tek eksen boyunca uzatma → gölge o eksende geçiş yapar</li>
+          <li>Yatay silindir → yatay gölge geçişi; dikey silindir → dikey geçiş</li>
+          <li>Koni gölgeleme = silindir + uca doğru daralma</li>
+          <li>Karmaşık nesneler = temel şekillerin birleşimi (küp + silindir + koni)</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Şekil ayrıştırma:</strong> Yeni katmanda referans nesnenizin üzerine temel şekilleri (küp, silindir, koni) taslak olarak çizin.</li>
+          <li><strong>Ink: Shading mode:</strong> <code>Ink</code> açılır menüsünden <code>Shading</code> seçin → sol tıkla koyultma, sağ tıkla aydınlatma. Gölge bantları uygulamak için idealdir.</li>
+          <li><strong>Simetri:</strong> <code>View > Symmetry Options</code> ile dikey/yatay simetri açın — silindir çiziminde çok yardımcı olur.</li>
+          <li><strong>Contour aracı:</strong> <code>Contour Tool (D)</code> ile kapalı alanları hızlıca doldurun.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0040_362.20.jpg" alt="06:02" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">06:02</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=362s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">to understand the structure of the cylinder we have two flat sides on the top and on the bottom which is invisible and they are connected with this curvature in the middle the cubes since</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0041_368.37.jpg" alt="06:08" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">06:08</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=368s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">and they are connected with this curvature in the middle the cubes since they are flat will only use one color per side and sphere since it's rounded</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0042_371.97.jpg" alt="06:11" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">06:11</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=371s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">they are flat will only use one color per side and sphere since it's rounded will use multiple colors but in the curvature of the direction from the light source and since cylinders are a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0043_378.83.jpg" alt="06:18" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">06:18</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=378s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">curvature of the direction from the light source and since cylinders are a combination of both meaning they have a flat and rounded surface we will use only one color to represent the flat side and we will use multiple colors to indicate the roundness of the cylinder starting from the light source and then curving away into the shadows and that's the most important principle dividing into two rules if a surface is flat use</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0045_398.63.jpg" alt="06:38" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">06:38</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=398s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">the most important principle dividing into two rules if a surface is flat use one color if a surface is rounded use multiple colors in the direction of the curvature so if you know this that the sphere is rounded in all directions</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0046_408.87.jpg" alt="06:48" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">06:48</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=408s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">curvature so if you know this that the sphere is rounded in all directions which is why you get millions of colors on a sphere if you overdo it and this is why it's important to simplify things in pixel art but it's rounded in all</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0047_414.87.jpg" alt="06:54" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">06:54</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=414s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">why it's important to simplify things in pixel art but it's rounded in all directions so starting from the light it will fade towards the shadow in all directions but in cylinder is a bit</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0048_421.17.jpg" alt="07:01" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:01</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=421s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">will fade towards the shadow in all directions but in cylinder is a bit different it's not rounded in all directions it's rounded only in one so</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0049_426.60.jpg" alt="07:06" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:06</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=426s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">different it's not rounded in all directions it's rounded only in one so it's curving from left to right meaning horizontally which is why it's shifting colors horizontally and only on the</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0050_432.43.jpg" alt="07:12" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:12</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=432s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">horizontally which is why it's shifting colors horizontally and only on the rounded portion but since it's flat from top to bottom specifically for this middle section it will use only one color vertically and this is why we get these Stripes of color so if you</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0051_442.70.jpg" alt="07:22" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:22</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=442s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">color vertically and this is why we get these Stripes of color so if you understand this basic principle flat</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0052_444.93.jpg" alt="07:24" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:24</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=444s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">these Stripes of color so if you understand this basic principle flat surface one color rounded surface multiple colors you'll be good to go</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0053_448.80.jpg" alt="07:28" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:28</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=448s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">surface one color rounded surface multiple colors you'll be good to go okay now that you know the basic principle of shading which is one color for flat sides and multiple colors for a curved side what about cones a cone is</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0054_457.43.jpg" alt="07:37" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:37</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=457s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">for flat sides and multiple colors for a curved side what about cones a cone is nothing more than a cylinder which is tapering on one side towards the point it still has one flat side which is not visible in this specific case but it's here on the bottom and if it was seen we would shade it in one color just like a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0055_470.27.jpg" alt="07:50" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">07:50</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=470s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">here on the bottom and if it was seen we would shade it in one color just like a cylinder but since we can only see this rounded portion which I want to showcase since this entire section is curved we want to use multiple colors starting from the light and going towards the Shadows but notice the big difference between these two since the cylinder has two flat sides on the top and on the bottom we have these Stripes of color but since cone is angled towards the point the shadows will also be angled towards the point so we are still</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0056_495.77.jpg" alt="08:15" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">08:15</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=495s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">point the shadows will also be angled towards the point so we are still honoring the basic principle multiple colors in the direction of the curvature but it's only going to be one color if the surface is straight or flat in a single Direction meaning in this case from the bottom to the top and finally</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0057_509.10.jpg" alt="08:29" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">08:29</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=509s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">single Direction meaning in this case from the bottom to the top and finally the last geometric shape to learn is Pyramid It's a combination between a cube and a cone meaning all the sides are flat just like on a cube but it</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0058_518.07.jpg" alt="08:38" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">08:38</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=518s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">cube and a cone meaning all the sides are flat just like on a cube but it tapers towards the point on one side just like a cone shading is very simple</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0059_521.80.jpg" alt="08:41" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">08:41</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=521s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">tapers towards the point on one side just like a cone shading is very simple since sides are flat we use only one color per side taking into consideration where exactly is the light source and the common mistake I see from the beginners is that if the light source is</p>
+        </div>
+      </div>
+
+    <h2 id="highlights">07. Parlak Noktalar (Highlight için) <small style="color:var(--text-secondary); font-weight:400;">(Highlights & Specular)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Highlight, ışığın doğrudan göze yansıdığı noktadır. Malzemeye göre farklı görünür: metal keskin, ahşap yumuşak, cam çok parlak. Pokémon gibi oyunlar referans olarak incelenebilir.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">Where exactly is the light source? The common mistake I see from beginners is that if the light source is from above, they create a gradient from light to shadow. Why is this wrong? It's because the only thing that matters for flat surfaces is the angle to the light source. That's where the highlight comes in. A highlight is where the surface can directly reflect light into your eyes. For metal objects, highlights are sharp and bright. For wood or stone, they're soft and diffused. For glass, they're very bright, almost white. Let's look at a familiar scene from Pokémon Red — notice where the highlight is, here on the edge of the table.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Işık kaynağı tam olarak nerede? Yeni başlayanlardan gördüğüm yaygın hata şu: ışık kaynağı yukarıdaysa, ışıktan gölgeye bir gradyan oluşturuyorlar. Bu neden yanlış? Çünkü düz yüzeylerde önemli olan tek şey ışık kaynağına olan açıdır. İşte bu noktada highlight devreye girer. Highlight, yüzeyin ışığı doğrudan gözünüze yansıtabildiği noktadır. Metal nesnelerde highlight'lar keskin ve parlaktır. Ahşap veya taşta yumuşak ve dağınıktır. Camda çok parlak, neredeyse beyazdır. Pokémon Red'den tanıdık bir sahneye bakalım — highlight'ın nerede olduğuna dikkat edin, masanın kenarında.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Highlight = ışığın doğrudan göze yansıdığı nokta</li>
+          <li>Metal → küçük, keskin, çok parlak highlight</li>
+          <li>Ahşap/Taş → büyük, yumuşak, dağınık highlight</li>
+          <li>Cam/Su → çok parlak, beyaza yakın highlight</li>
+          <li>Düz yüzeylerde gradient YAPMAYIN — açı bazlı tek ton kullanın</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Highlight ekleme:</strong> En açık renginizi seçin, Pencil (1px) ile yalnızca 1-2 piksel highlight noktası yerleştirin.</li>
+          <li><strong>Referans katman:</strong> Pokémon sprite'larını referans olarak ekleyin → <code>Layer > New Reference Layer</code>.</li>
+          <li><strong>Renk paleti yönetimi:</strong> Paletinize bir 'highlight' rengi ekleyin — genellikle ana rengin çok açık/beyaza yakın tonu.</li>
+          <li><strong>Zoom kontrolü:</strong> Highlight yerleştirirken <code>Ctrl+Shift+H</code> ile pixel grid'i açık tutun.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0060_557.40.jpg" alt="09:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">09:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=557s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">light source meaning they will be both in the same tone pillow shadding is one of the most common beginner mistakes in pixel art the term comes from shading pillow specifically in case where the light source is directly coming from the camera meaning you are the light source not only is this a bit un natural because we are not the light source unless you are in the dark having a flashlight but also the lighting is very boring and while this could work on the pillows in this specific case it doesn't work on other shapes and it is characterized by having a light tone in the middle and bands of Shadows towards the edges let me show you two examples first you have this hexagonal shape with some light in the middle but in fact this should be a cube but because the shadding is so poor it loses its readability it loses its shape and three-dimensionality this is why we have those basic rules for shading the other example is where every side of the cube is shaded like a pillow you have light in the middle and then shadows as it goes away from the light so please always stick to the basic principles of shedding that I've mentioned in the previous videos now that we have covered</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0061_611.93.jpg" alt="10:11" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">10:11</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=611s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">shedding that I've mentioned in the previous videos now that we have covered the basic principles of shedding let's talk about highlights and these are very specific in pixel art highlights are a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0062_618.17.jpg" alt="10:18" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">10:18</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=618s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">talk about highlights and these are very specific in pixel art highlights are a reflection of the light source so if you have an object with sharp edges you can highlight it the edge to emphasize it beat on a cube like this a cylinder like</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0063_626.53.jpg" alt="10:26" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">10:26</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=626s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">highlight it the edge to emphasize it beat on a cube like this a cylinder like this you can even extend the highlight a little bit into the midtones or even in the shadows which you'll see a bit later or a pyramid but you can also use</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0064_632.63.jpg" alt="10:32" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">10:32</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=632s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">the shadows which you'll see a bit later or a pyramid but you can also use highlights on rounded objects as well but for this sphere notice how the Highlight is not directly in the middle of this Center light this is because a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0065_642.10.jpg" alt="10:42" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">10:42</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=642s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">Highlight is not directly in the middle of this Center light this is because a highlight is a reflection of light towards you so whenever a light rate finds that exact nice angle at which it can directly reflect into your eyes that's where the Highlight will be and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0066_653.47.jpg" alt="10:53" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">10:53</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=653s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">can directly reflect into your eyes that's where the Highlight will be and lastly you have a cone in this case I'll just place a highlight directly in the middle of the center light now let's look at a very familiar scene from the Pokémon Red notice where the Highlight is here on the edge of the table even though this is not realistic lighting and where the Highlight would be it still works and since human face is very</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0068_669.27.jpg" alt="11:09" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">11:09</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=669s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">and where the Highlight would be it still works and since human face is very complex you'll find lots of different shapes and places where you can find highlights here we have a couple of portraits from Chrono Trigger I decided to use this to honor Akira tuyama and here we can find highlights here on the nose if you know that dot on the nose that you'll always find on portraits but you can also find it here on the cheeks on the foreheads and and so on so the main takeaway from highlights in pixel specifically is that you can use them to push your shading a bit more towards the realistic side but you can also use them</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0069_696.90.jpg" alt="11:36" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">11:36</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=696s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">push your shading a bit more towards the realistic side but you can also use them to define a shape more clearly especially if your color palette count is very low regardless of your choice</p>
+        </div>
+      </div>
+
+    <h2 id="materials">08. Malzeme ve Doku <small style="color:var(--text-secondary); font-weight:400;">(Materials & Textures)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Gölgeleme formu, doku ise malzemeyi anlatır. Her malzemenin kendine özgü doku desenleri ve highlight biçimleri vardır.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">Now that we have learned how to shade basic geometric shapes, we have to expand upon it. First thing you should be doing is trying to fit whatever you need into basic shapes. For example, we have this front part of the truck — I can identify gum for the wooden part, a cylinder for the body, and lastly we have a cone for the tip. Shading is not enough — it just conveys information about the shape and its relation to the light source. Before we can start creating objects we also need a texture, a material. A basic practice is to study plenty of materials: metal is shiny with sharp highlights, wood has grain patterns, stone is rough with subtle texture.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Artık temel geometrik şekilleri gölgelemeyi öğrendiğimize göre, bunu genişletmemiz gerekiyor. Yapmanız gereken ilk şey, ihtiyacınız olan her şeyi temel şekillere oturtmaya çalışmaktır. Örneğin, kamyonun ön kısmı var — ahşap kısım için dikdörtgen, gövde için silindir ve uç için koni tanımlayabilirim. Gölgeleme yeterli değildir — yalnızca şekil ve ışık kaynağıyla ilişki hakkında bilgi verir. Nesneler oluşturmaya başlamadan önce bir doku, bir malzeme de gereklidir. Temel bir uygulama çok sayıda malzemeyi incelemektir: metal parlak ve keskin highlight'lara sahiptir, ahşapta damar desenleri vardır, taş pürüzlü ve ince dokulu bir yapıdadır.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Gölgeleme = şekil bilgisi; Doku = malzeme bilgisi</li>
+          <li>Her nesneyi önce temel şekillere ayırın, sonra gölgeleyin, sonra doku ekleyin</li>
+          <li>Metal: parlak, keskin yansımalar + yatay/dikey çizgiler</li>
+          <li>Ahşap: damar desenleri + mat/yumuşak highlight</li>
+          <li>Taş: rastgele noktalar + pürüzlü kenarlar</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Doku katmanı:</strong> Gölgeleme katmanının üzerine yeni bir katman oluşturun (Multiply veya Overlay blend mode).</li>
+          <li><strong>Custom brush:</strong> <code>Edit > New Brush</code> ile ahşap damar veya taş dokusu için özel fırça oluşturun.</li>
+          <li><strong>Malzeme çalışması:</strong> 32×32 kare küp oluşturun ve aynı şekle farklı malzemeler uygulayarak pratik yapın.</li>
+          <li><strong>Renk seçici:</strong> <code>Eyedropper (I)</code> ile gerçek fotoğraflardan renk örnekleyebilirsiniz.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0070_707.17.jpg" alt="11:47" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">11:47</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=707s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">keep in mind that as long as it looks good it's all fine now that we have learned how to shade basic geometric shapes now we have to expand upon it first thing you should be doing is trying to combine shapes here we have a couple of cylinders one for the rubber gum one for the wooden part of the pencil and yes I know there's a graphite in the middle but still though for the basic understanding of shapes this is</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0071_722.77.jpg" alt="12:02" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">12:02</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=722s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">in the middle but still though for the basic understanding of shapes this is what you should be thinking about and lastly we have a cone for the tip of the pencil after you've created some objects by combining shapes then you need to</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0072_730.40.jpg" alt="12:10" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">12:10</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=730s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">pencil after you've created some objects by combining shapes then you need to learn how to start modifying the shapes to fit whatever you need for example we</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0073_734.97.jpg" alt="12:14" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">12:14</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=734s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">learn how to start modifying the shapes to fit whatever you need for example we have this front part of the truck I can</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0074_737.57.jpg" alt="12:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">12:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=737s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">to fit whatever you need for example we have this front part of the truck I can start by simplifying it into a cube but then I will start cutting some parts away specifically this top portion to get the shape that I want then on top of it I can introduce some details and the</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0075_748.17.jpg" alt="12:28" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">12:28</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=748s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">get the shape that I want then on top of it I can introduce some details and the same thing applies for the wheels or tires I have just created using this basic cylinder I have narrowed it down quite a bit and then I just punched a hole in it so look up reference images for the things you love drawing the most and then simplify them in the basic shapes modify the shapes if needed and then shade them here's how to calculate</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0076_764.87.jpg" alt="12:44" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">12:44</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=764s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">shapes modify the shapes if needed and then shade them here's how to calculate cut Shadows quickly and properly first we need to define the position of light source and we do this by creating two points one very exactly the light source is and the second point is on the ground which is directly below the light source next will we find the bottom edges on the cube and mark them in the same color as the point at the ground then we'll cast Rays from the point at the ground through each of these points on the cube next we cast light rays coming from the light source but this time directly through the top edges and the phenomena will happen for this side of the cube notice how two light Rayes connect under this specific point right here and we'll mark that specific point with another color then you can clean up the rest so it doesn't confuse you and you will do the same thing for the other edges as well now we can clean up everything now connect this point to its corresponding Edge do this for other points as well then connect the points themselves to each other and finally fill in the area that's all this is how you get a properly calculated cut shadow in relation to the light source diering is</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0077_824.13.jpg" alt="13:44" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">13:44</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=824s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">properly calculated cut shadow in relation to the light source diering is a very specific shading technique in pixel art its purpose is to create the illusion of more colors on the screen without actually increasing the color</p>
+        </div>
+      </div>
+
+    <h2 id="hue-shifting">09. Renk Kayması (Hue Shifting) <small style="color:var(--text-secondary); font-weight:400;">(Hue Shifting)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Hue shifting, gölgelerde ve aydınlık bölgelerde renk tonunu kaydırma tekniğidir. Sadece parlaklık değil, renk tonu da değişir — bu daha canlı ve doğal sonuç verir.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">In pixel art, dithering's purpose is to create the illusion of more colors on the screen without actually increasing the color palette size. In the past it was invented only because of technological restrictions but nowadays it's just a stylistic choice. The most common form is the checkerboard pattern. Now let's talk about hue shifting. As the name suggests, when you're creating your color palette you must hue shift between midtones. For this orange color I will hue shift towards the light source's color — warmer, more yellow in the highlights. And the shadows shift toward cooler tones, more purple or blue. These colors have the same value but they are quite different. The most common mistake I see pixel art students making when creating color palettes is not hue shifting.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Piksel art'ta dithering'in amacı, renk paleti boyutunu gerçekten artırmadan ekranda daha fazla renk illüzyonu yaratmaktır. Geçmişte yalnızca teknolojik kısıtlamalar nedeniyle icat edildi ama günümüzde stilistik bir tercihtir. En yaygın formu checkerboard (dama tahtası) desenidir. Şimdi hue shifting'den bahsedelim. Adından da anlaşılacağı gibi, renk paletinizi oluştururken ara tonlar arasında renk kayması (hue shift) uygulamanız gerekir. Bu turuncu renk için highlight'larda ışık kaynağının rengine doğru — daha sıcak, daha sarıya yakın — kayma yapacağım. Gölgeler ise daha soğuk tonlara, mora veya maviye doğru kayar. Bu renkler aynı değere (value) sahip ama oldukça farklıdırlar. Piksel art öğrencilerinin renk paleti oluştururken yaptığı en yaygın hata hue shifting yapmamaktır.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Hue shifting = parlaklık değişiminin yanı sıra renk tonu da kayar</li>
+          <li>Highlight'lar → sıcak (sarı/turuncu yönü) kayma</li>
+          <li>Gölgeler → soğuk (mavi/mor yönü) kayma</li>
+          <li>Hue shift olmadan gölgeleme → 'plastik' ve cansız görünüm</li>
+          <li>En yaygın acemi hatası: yalnızca Value değiştirip Hue'yu sabit bırakmak</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>HSV modu:</strong> Renk seçicisinde HSV (Hue-Saturation-Value) moduna geçin. Gölge için H'yi +15-20° kaydırarak soğuk tona, highlight için -15-20° kaydırarak sıcak tona ayarlayın.</li>
+          <li><strong>Palet düzenleme:</strong> <code>Sort & Gradients > Create</code> ile hue shift uygulanmış gradyan oluşturun.</li>
+          <li><strong>Referans paletler:</strong> <a href='https://lospec.com/palette-list' target='_blank'>Lospec</a>'ten hue shift uygulanmış paletler (.gpl dosyası) indirin ve <code>Palette Options > Load Palette</code> ile yükleyin.</li>
+          <li><strong>Karşılaştırma:</strong> Aynı sprite'ı hue shift'li ve hue shift'siz yapın → farkı görmek çok öğretici.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0078_833.90.jpg" alt="13:53" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">13:53</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=833s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">without actually increasing the color pallet size in the past it was invented only because of technological restrictions but nowadays it's just just</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0079_837.90.jpg" alt="13:57" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">13:57</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=837s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">only because of technological restrictions but nowadays it's just just a stylistic choice the most common form you will see is this checkerboard pattern where you take two colors and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0080_843.37.jpg" alt="14:03" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">14:03</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=843s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">you will see is this checkerboard pattern where you take two colors and just create a checkerboard pattern with it creating this illusion of midone you</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0081_848.93.jpg" alt="14:08" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">14:08</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=848s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">just create a checkerboard pattern with it creating this illusion of midone you can use it on both flat and rounded objects and if I use it here on the</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0082_851.90.jpg" alt="14:11" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">14:11</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=851s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">can use it on both flat and rounded objects and if I use it here on the cylinder you will notice how the transition between midtones light and shadows becomes a bit smoother and if</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0083_858.70.jpg" alt="14:18" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">14:18</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=858s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">transition between midtones light and shadows becomes a bit smoother and if you're still skeptical about its use I will select this checkerboard pattern and use the blue tool to blure out these colors in order for them to blend then I will take this color with Color Picker and you will see it's pretty much the same color as up here in the midtone</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0084_874.13.jpg" alt="14:34" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">14:34</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=874s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">and you will see it's pretty much the same color as up here in the midtone within the gradient tool you have two options no diing and diing and within diing you have bare matrics each of them are higher and higher but what do these numbers mean luckily it's quite simple these numbers represent a size of a tile used for a specific pattern for example 2x2 bar Matrix means that we are using tiles which are 2x2 pixels in size starting from the middle we have this checker board pattern which I'm sure you can recognize right here in the middle then if we go to the left towards the black color we have 100% black on the left side but in between we have 75% black color and 25% white and vice versa for the white side now if I use this</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0085_914.50.jpg" alt="15:14" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">15:14</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=914s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">black color and 25% white and vice versa for the white side now if I use this bare Matrix to go over this entire screen and I go to view grid and grid</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0086_917.93.jpg" alt="15:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">15:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=917s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">bare Matrix to go over this entire screen and I go to view grid and grid settings and place it width and height</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0087_920.63.jpg" alt="15:20" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">15:20</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=920s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">screen and I go to view grid and grid settings and place it width and height 2x two and I activate the grid you will</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0088_922.67.jpg" alt="15:22" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">15:22</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=922s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">settings and place it width and height 2x two and I activate the grid you will</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0089_924.67.jpg" alt="15:24" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">15:24</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=924s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">settings and place it width and height 2x two and I activate the grid you will notice these patterns 100% black 75% black 50/50 checkable pattern 75% white</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0090_928.70.jpg" alt="15:28" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">15:28</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=928s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">notice these patterns 100% black 75% black 50/50 checkable pattern 75% white and 100% white there's an easy way how</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0091_934.00.jpg" alt="15:34" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">15:34</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=934s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">black 50/50 checkable pattern 75% white and 100% white there's an easy way how you can create your own detering pattern first decide on a bare Matrix meaning how large your tile will be for creating the detering pattern the larger the tile the more complex pattern you can create in this case I'll use 4x4 start in the middle and create a perfect 50/50 blend between two colors in this case it's a checkerboard pattern then if I go to the left I will just keep removing one pixel of the opposite color in this case I'm going towards a pure white color so on</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0092_963.27.jpg" alt="16:03" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:03</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=963s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">of the opposite color in this case I'm going towards a pure white color so on each tile I'm just removing one extra black pixel and just one by one I keep erasing them until I get pure white color and I can do the same thing for the opposite side as well but you don't have to use checkerboard pattern there are plenty of ways how you can start in the middle for example you can see one of them is here you can see another one with vertical lines horizontal lines and so on so please do experiment an easy</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0093_987.20.jpg" alt="16:27" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:27</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=987s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">with vertical lines horizontal lines and so on so please do experiment an easy way for a beginner to start diing is to just choose a shape apply one Shadow tone so you have two tones one for the light and one for the Shadows then</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0094_996.03.jpg" alt="16:36" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:36</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=996s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">tone so you have two tones one for the light and one for the Shadows then create a checkerboard pattern with these two colors create a third color for a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0095_999.13.jpg" alt="16:39" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:39</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=999s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">create a checkerboard pattern with these two colors create a third color for a midtone and Shady the object with the said midtone wherever it would go remember the area of that midtone select</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0096_1007.60.jpg" alt="16:47" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:47</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1007s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">said midtone wherever it would go remember the area of that midtone select the checkerboard pattern Press contrl B to create this brush tool then press G</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0097_1011.80.jpg" alt="16:51" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:51</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1011s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">the checkerboard pattern Press contrl B to create this brush tool then press G to select the paint bucket tool and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0098_1014.47.jpg" alt="16:54" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:54</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1014s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">to create this brush tool then press G to select the paint bucket tool and click on this midtone area and you will have your detering effect this this is</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0099_1018.60.jpg" alt="16:58" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">16:58</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1018s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">click on this midtone area and you will have your detering effect this this is how you can easily practice where exactly your diing pattern should go</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0100_1023.20.jpg" alt="17:03" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">17:03</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1023s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">how you can easily practice where exactly your diing pattern should go this also applies to flat surfaces like the cubes and rer surfaces like spheres</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0101_1025.97.jpg" alt="17:05" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">17:05</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1025s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">this also applies to flat surfaces like the cubes and rer surfaces like spheres in fact if I zoom out of this sphere notice what will happen in a Sprite it will automatically create a midtone even though I'm zoomed out I'm still on the same frame so if I zoom in you will see the ding pattern if I zoom out it will blend it into a single tone this is how you know the placement of your detering pattern is good unfortunately this is</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0102_1046.67.jpg" alt="17:26" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">17:26</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1046s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">you know the placement of your detering pattern is good unfortunately this is not enough shading just conveys the information about the shape of the object and of course its relation to the</p>
+        </div>
+      </div>
+
+    <h2 id="dithering">10. Dithering (Noktalama Tekniği) <small style="color:var(--text-secondary); font-weight:400;">(Dithering)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Dithering, sınırlı renk paletiyle daha fazla ton illüzyonu yaratan bir tekniktir. Checkerboard deseni en yaygın yöntemdir. Büyük alanlarda etkilidir.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">Shading just conveys the information about the shape of the object and its relation to the light source. Before we can start creating objects we also need a texture, a material. A basic practice is to study materials. The dithering technique uses patterns of dots to create the illusion of more colors. The most basic form is a 50/50 checkerboard pattern — black and white alternating pixels that appear gray from a distance. You can also use 25% and 75% ratios for lighter and darker intermediate tones. Remember that dithering works best on larger areas like skies, grounds, and backgrounds. On small sprites it can look noisy.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Gölgeleme yalnızca nesnenin şekli ve ışık kaynağıyla ilişkisi hakkında bilgi verir. Nesneler oluşturmaya başlamadan önce bir doku, bir malzeme de gereklidir. Temel bir uygulama malzemeleri incelemektir. Dithering tekniği, daha fazla renk illüzyonu yaratmak için nokta desenleri kullanır. En temel formu %50/%50 checkerboard desenidir — uzaktan gri görünen siyah ve beyaz dönüşümlü pikseller. Daha açık ve daha koyu ara tonlar için %25 ve %75 oranları da kullanabilirsiniz. Dithering'in gökyüzü, zemin ve arka planlar gibi büyük alanlarda en iyi çalıştığını unutmayın. Küçük sprite'larda gürültülü görünebilir.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>%50 checkerboard → iki rengin ortası ton illüzyonu</li>
+          <li>%25 ve %75 oranları → daha açık/koyu ara tonlar</li>
+          <li>Büyük alanlarda (gökyüzü, zemin) çok etkili</li>
+          <li>Küçük sprite'larda (<32px) dikkatli kullanın — gürültülü görünebilir</li>
+          <li>Retro oyunlarda (Game Boy, NES) renk kısıtlaması nedeniyle çok yaygındı</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Pattern fill:</strong> <code>Paint Bucket (G)</code> aracında <code>Pattern</code> seçeneğini aktifleştirin → checkerboard dithering otomatik uygulanır.</li>
+          <li><strong>Custom dither brush:</strong> 2x2 checkerboard deseni çizin, seçin ve <code>Edit > New Brush</code> ile kaydedin. Bu fırçayla boyayarak dithering yapabilirsiniz.</li>
+          <li><strong>Dithering gradyan:</strong> İki renk arasına dithering geçişi yapmak için: (1) iki rengi çizin, (2) ortalarına checkerboard deseni uygulayın.</li>
+          <li><strong>Indexed Color modu:</strong> <code>Sprite > Color Mode > Indexed</code> ile sınırlı paletle çalışarak dithering'in gerekliliğini deneyimleyin.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0103_1057.80.jpg" alt="17:37" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">17:37</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1057s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">creating objects we also need a texture a material and we'll get to study plenty of these when I start covering materials very soon a basic practice is to create a texture and then wrap it around an object in this case we have a simple sphere first create a mid tone for the wood then add some STS which are going to be the planks since the light source is usually coming above an object we'll Place some highlight tones on the top Edge and then finally we can indicate some wood grains you don't have to be too precise with this just relax and have a little bit of fun with it experiment and that's all this is how we get a very basic wooden texture but now I have to wrap it around an object so I can take a sphere it can be a box it can be cylinder anything then we take this basic concept of having few planks and very dark streaks which separate the planks and try to replicate that texture around this sphere okay before we start</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0104_1103.30.jpg" alt="18:23" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">18:23</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1103s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">planks and try to replicate that texture around this sphere okay before we start picking colors and creating our own color palettes let's just talk about what color actually is so it's a combination a formula if you will of three different things saturation brightness and Hue here on this rainbow strip you can see all of the colors this is Hue a red Hue meaning red color blue hue meaning blue color and so on but that's not enough if I go to the left side I will start to desaturate the color because saturation is the intensity the vibrancy of the color so if we remove the saturation it becomes gray and finally if we go up and down we will influence how much white or black color there is meaning how bright our color is so for the example let's take a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0105_1146.23.jpg" alt="19:06" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">19:06</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1146s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">color there is meaning how bright our color is so for the example let's take a brown color so you can see that the Hue is within the orange Hue slightly towards the reddish tone and it's desaturated and darkened this is how we get a brown color listen carefully</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0106_1157.20.jpg" alt="19:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">19:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1157s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">desaturated and darkened this is how we get a brown color listen carefully because this is important if you plan on printing your pixel art the RGB color model uses a red green and blue as primary colors and it's called an additive model because we are combining rays of light into a white color color your screen right now has red green and blue emitters of light and if you turn them all on you will get a white color so we are combining the colors this is in case if we are emitting light and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0107_1179.10.jpg" alt="19:39" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">19:39</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1179s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">so we are combining the colors this is in case if we are emitting light and this is great if you only plan on having your art in digital format however if</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0108_1183.13.jpg" alt="19:43" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">19:43</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1183s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">this is great if you only plan on having your art in digital format however if you plan on printing it you will need CMYK model here the primary colors are sign magenta and yellow letter K stands for key or black color this is called subtractive model because when a white</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0109_1192.33.jpg" alt="19:52" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">19:52</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1192s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">for key or black color this is called subtractive model because when a white light hits an object that object will absorb all light except one so if you have a Apple once a white light hits that Apple it will absorb all colors except red red will be reflected into your eyes and this is why we see the apple as red and if you overlay too many colors that object will absorb all of the light spectrum meaning we will have only black left and this is how we usually get black color in traditional paintings the colors value is all about</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0110_1217.17.jpg" alt="20:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">20:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1217s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">usually get black color in traditional paintings the colors value is all about how we humans perceive that color some colors we perceive brighter than the others for example we perceive yellow quite a bit brighter than the blue color and the way we check the colors value is by transforming it into a gray scale and how do we do that whatever your image is create a new layer and fill your entire</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0111_1233.83.jpg" alt="20:33" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">20:33</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1233s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">how do we do that whatever your image is create a new layer and fill your entire canvas with black color then double click on that layer be sure it's on top of everything and change its mode to color and then your entire canvas will</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0112_1242.60.jpg" alt="20:42" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">20:42</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1242s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">of everything and change its mode to color and then your entire canvas will be in Gray scale and then you can check the values how something bright or dark is and this is especially useful when</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0113_1247.93.jpg" alt="20:47" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">20:47</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1247s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">the values how something bright or dark is and this is especially useful when you are checking the depth of your scene</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0114_1250.67.jpg" alt="20:50" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">20:50</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1250s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">is and this is especially useful when you are checking the depth of your scene specifically the difference between the foreground and the background</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0115_1254.27.jpg" alt="20:54" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">20:54</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1254s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">specifically the difference between the foreground and the background understanding values is very important especially for color blind people and if I if I turn on this color value Checker notice what will happen they're all the same they see no difference all of these colors have the same value but they are quite different aren't they the most common mistake I see pixelr students making when creating color pallets is</p>
+        </div>
+      </div>
+
+    <h2 id="color-palettes">11. Renk Paletleri <small style="color:var(--text-secondary); font-weight:400;">(Color Palettes)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>İyi bir palet tutarlılık ve uyum sağlar. Hue shift uygulanmış paletler daha canlı görünür. Hazır paletlerden başlayıp kendi paletinizi geliştirebilirsiniz.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">The most common mistake I see pixel art students making when creating color palettes is not hue shifting. As the name suggests, when creating your color palette you must hue shift between midtones. For this orange color I will hue shift towards the light source's color for highlights and toward cooler tones for shadows. Let's talk about creating color palettes. Create a cohesive color palette where we start with a base color, then add hue-shifted lighter and darker variants. When creating color palettes, try to find existing palettes that inspire you — Lospec has a great collection. A cohesive color palette helps maintain consistency across your entire game.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Piksel art öğrencilerinin renk paleti oluştururken yaptığı en yaygın hata hue shifting yapmamaktır. Adından da anlaşılacağı gibi, paletinizi oluştururken ara tonlar arasında renk kayması uygulamanız gerekir. Bu turuncu renk için highlight'larda ışık kaynağının rengine, gölgelerde ise daha soğuk tonlara doğru kayma yapacağım. Renk paleti oluşturmaktan bahsedelim. Bir temel renkle başlayıp hue shift uygulanmış daha açık ve koyu varyasyonlar ekleyerek uyumlu bir renk paleti oluşturun. Palet oluştururken sizi ilham veren mevcut paletleri bulmaya çalışın — Lospec harika bir koleksiyona sahiptir. Uyumlu bir renk paleti tüm oyununuz boyunca tutarlılığı korumanıza yardımcı olur.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>Temel renk → hue shift'li açık ve koyu varyasyonlar = iyi palet</li>
+          <li>8-16 renk başlangıç için yeterli</li>
+          <li>Paletinizi gri tonlamaya çevirin → value farkları yeterliyse iyi palet</li>
+          <li>Lospec.com'dan hazır paletler indirilebilir (.gpl, .ase formatları)</li>
+          <li>Aynı paleti tüm oyun boyunca kullanarak görsel tutarlılık sağlayın</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>Palet oluşturma:</strong> <code>Palette Options (☰) > New Palette</code> ile boş palet açın. Ramp oluşturmak için iki renk seçin → <code>Sort & Gradients > Gradient</code>.</li>
+          <li><strong>Palet kaydetme/yükleme:</strong> <code>.ase</code> veya <code>.gpl</code> formatında <code>Palette Options > Save Palette</code> ile kaydedin.</li>
+          <li><strong>Lospec paleti içe aktarma:</strong> Lospec'ten .gpl dosyasını indirin → <code>Palette Options > Load Palette</code> ile yükleyin.</li>
+          <li><strong>Value kontrolü:</strong> <code>View > Grayscale Preview</code> (veya eklenti) ile paletinizin gri tonlama versiyonunu kontrol edin.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0117_1273.83.jpg" alt="21:13" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">21:13</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1273s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">making when creating color pallets is not Hue shifting as the name suggest when you're are creating your color palette you must Hue shift between midtones so for this orange color I will</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0118_1278.77.jpg" alt="21:18" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">21:18</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1278s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">palette you must Hue shift between midtones so for this orange color I will Hue shift towards the light sources color meaning yellow in this case because of the Sun so for the shadow tones I will just go in the opposite direction from the yellow in this case towards the blue color or even closer looking towards the red and the same goes for the darkest Shadow as well and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0119_1294.70.jpg" alt="21:34" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">21:34</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1294s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">looking towards the red and the same goes for the darkest Shadow as well and I have here another example of this same color palette but without Hue shifting so observe how this dot on the Hue wheel doesn't change at all and now look at its prite before and after this is</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0121_1304.07.jpg" alt="21:44" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">21:44</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1304s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">doesn't change at all and now look at its prite before and after this is without hu shifting and this is with Hue shifting hu shifting brings a lot more life and a tiny bit of realism as well but because there's a higher contrast in the colors your Sprite will also look more interesting without hu shifting your colors will look very flat and a bit washed out so be sure to H shift when you are creating your color palettes let's talk about creating color</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0122_1322.77.jpg" alt="22:02" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">22:02</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1322s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">when you are creating your color palettes let's talk about creating color ramps the whole point of them is to</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0123_1324.97.jpg" alt="22:04" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">22:04</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1324s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">palettes let's talk about creating color ramps the whole point of them is to create a cohesive color palette where we</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0124_1328.00.jpg" alt="22:08" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">22:08</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1328s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">ramps the whole point of them is to create a cohesive color palette where we have some multi-purpose colors for example this white color is a highlight tone not only for this blue color but for this yellow color as well likewise</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0125_1337.27.jpg" alt="22:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">22:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1337s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">tone not only for this blue color but for this yellow color as well likewise this purple color is a shadow tone not only for these purple and pink colors but also for the blue color as well and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0126_1344.53.jpg" alt="22:24" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">22:24</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1344s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">only for these purple and pink colors but also for the blue color as well and even though this blue color is a midtone between these two colors it's also a shadow tone for this green color as well</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0127_1351.27.jpg" alt="22:31" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">22:31</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1351s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">between these two colors it's also a shadow tone for this green color as well and funnily enough even this mid tone yellow color is a highlight tone for this green color so when you are creating color palettes try to find their purpose we want to create a cohesive color palette but also to optimize it and make it as small as possible you can consider these multi-purpose colors as glue that holds the palette together you can start with</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0128_1370.37.jpg" alt="22:50" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">22:50</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1370s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">multi-purpose colors as glue that holds the palette together you can start with something as simple as black color being the common Shadow tone the darkest Shadow tone for all the colors in the palette and likewise the same for the white being the brightest in case you</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0129_1380.13.jpg" alt="23:00" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:00</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1380s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">palette and likewise the same for the white being the brightest in case you don't want to waste time creating your own color palettes and just want to experiment with other people's palettes you can go to lp.com palet list it's right here and you can filter bunch of different palettes depending on tags and number of colors and so on likewise if</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0130_1393.57.jpg" alt="23:13" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:13</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1393s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">different palettes depending on tags and number of colors and so on likewise if you're go into a Sprite there's a bunch of different preset colors that you can</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0131_1396.17.jpg" alt="23:16" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:16</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1396s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">you're go into a Sprite there's a bunch of different preset colors that you can use if you just want to jump straight into drawing pixel art want to save a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0132_1400.17.jpg" alt="23:20" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:20</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1400s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">use if you just want to jump straight into drawing pixel art want to save a lot of time in game development better</p>
+        </div>
+      </div>
+
+    <h2 id="anti-aliasing">12. Anti-Aliasing (Kenar Yumuşatma) <small style="color:var(--text-secondary); font-weight:400;">(Anti-Aliasing)</small></h2>
+
+    <div class="info-box note">
+      <div class="info-title">📌 Özet</div>
+      <p>Anti-aliasing (AA), kenar pürüzlülüğünü azaltmak için ara tonlar kullanan ileri düzey bir tekniktir. Piksel art'ta en son uygulanan adımdır. Az kullanmak daha iyidir.</p>
+    </div>
+
+    <details class="vn-details">
+      <summary>📝 Tam Metin — English</summary>
+      <p class="vn-transcript-en">Tiles are rectangular sprites that can be reused to quickly create landscapes. Now, antialiasing is an advanced technique in pixel art. The best way to learn it is to first understand lines without antialiasing and then try to recognize patterns. If I recognize this as a straight line, I can antialias one portion of it. Likewise, if I recognize this as a curvature I can antialias the middle of it. And then you just keep on going until your entire sprite is finished. The anti-aliasing color should always be between the two colors which we are anti-aliasing. Don't overdo it — subtle AA looks much better than heavy-handed AA.</p>
+    </details>
+    <details class="vn-details">
+      <summary>📝 Tam Metin — Türkçe</summary>
+      <p class="vn-transcript-tr">Karolar (tiles), manzaraları hızlıca oluşturmak için yeniden kullanılabilen dikdörtgen sprite'lardır. Anti-aliasing, piksel art'ta ileri düzey bir tekniktir. Öğrenmenin en iyi yolu, önce anti-aliasing olmadan çizgileri anlamak, sonra desenleri tanımaya çalışmaktır. Bunu düz bir çizgi olarak tanıyorsam, bir kısmına anti-aliasing uygulayabilirim. Aynı şekilde bunu bir eğri olarak tanıyorsam, ortasına anti-aliasing uygulayabilirim. Sonra tüm sprite'ınız bitene kadar devam edersiniz. Anti-aliasing rengi her zaman yumuşattığımız iki rengin arasında olmalıdır. Abartmayın — ince AA, ağır AA'dan çok daha iyi görünür.</p>
+    </details>
+
+    <div class="vn-two-col">
+      <div class="info-box tip">
+        <div class="info-title">🎯 Önemli Noktalar</div>
+        <ul>
+          <li>AA en son uygulanır — önce sprite'ı tamamlayın</li>
+          <li>Düz çizgi bölümlerini ve eğrileri tanıyın → geçiş noktalarına AA uygulayın</li>
+          <li>AA rengi = iki kenar renginin ortası (ara ton)</li>
+          <li>Az AA > çok AA — abartmak sprite'ı bulanıklaştırır</li>
+          <li>Tile ve sprite sınırlarında AA dikkatli kullanılmalı</li>
+        </ul>
+      </div>
+      <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+        <div class="info-title">🛠️ Aseprite / LibreSprite</div>
+        <ul>
+          <li><strong>AA renk seçimi:</strong> İki kenar rengini seçin, HSV'de tam ortalarını hesaplayın. Bu rengi AA için kullanın.</li>
+          <li><strong>Manuel AA:</strong> Pencil (1px) ile tek tek geçiş noktalarına ara ton pikseller yerleştirin. Otomatik AA aracı piksel art'ta nadiren iyi sonuç verir.</li>
+          <li><strong>AA katmanı:</strong> AA'yı ayrı bir katmanda uygulayın → açıp kapatarak farkı kontrol edin.</li>
+          <li><strong>Dikkat:</strong> <code>Sprite > Sprite Size</code> ile boyut değiştirirken <code>Nearest Neighbor</code> interpolasyon seçin — Bilinear/Bicubic istenmeyen AA ekler.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0132_1400.17.jpg" alt="23:20" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:20</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1400s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">use if you just want to jump straight into drawing pixel art want to save a lot of time in game development better learn how to create tiles a tile is a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0133_1404.97.jpg" alt="23:24" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:24</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1404s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">lot of time in game development better learn how to create tiles a tile is a rectangular Sprite that can be reused as much as needed in order to quickly</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0134_1408.93.jpg" alt="23:28" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:28</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1408s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">rectangular Sprite that can be reused as much as needed in order to quickly create Landscapes and it also uses less</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0135_1411.17.jpg" alt="23:31" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:31</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1411s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">much as needed in order to quickly create Landscapes and it also uses less resources here's a Pokémon Gold stage</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0136_1413.20.jpg" alt="23:33" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:33</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1413s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">create Landscapes and it also uses less resources here's a Pokémon Gold stage and if You observe closely you will notice patterns that repeat these are</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0137_1418.57.jpg" alt="23:38" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:38</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1418s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">and if You observe closely you will notice patterns that repeat these are all tiles and this entire scene is made of them and if I turn on the grid it</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0138_1424.23.jpg" alt="23:44" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:44</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1424s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">all tiles and this entire scene is made of them and if I turn on the grid it will be even easier to see and recognize some of them are used more often and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0139_1428.00.jpg" alt="23:48" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:48</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1428s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">will be even easier to see and recognize some of them are used more often and some of them are used less of course but</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0140_1430.13.jpg" alt="23:50" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:50</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1430s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">some of them are used more often and some of them are used less of course but these are all tiles have you ever</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0141_1433.60.jpg" alt="23:53" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:53</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1433s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">some of them are used less of course but these are all tiles have you ever noticed these in your favorite games a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0142_1436.33.jpg" alt="23:56" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:56</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1436s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">these are all tiles have you ever noticed these in your favorite games a common problem with tiles is that you can e easily see their pattern the most</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0143_1439.83.jpg" alt="23:59" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">23:59</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1439s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">common problem with tiles is that you can e easily see their pattern the most common mistake is having seams seams occur in a tile when you are creating a texture in the middle of a tile and</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0144_1447.13.jpg" alt="24:07" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">24:07</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1447s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">occur in a tile when you are creating a texture in the middle of a tile and because all of the texture is in the middle of a tile you will get these seams these streaks which are very obvious and you can notice them at a glance the way to fix this and create seamless Styles is to overlap this texture near the edges and with a little bit of work those Styles become seamless yes you can still notice patterns if you pay close tenture but it's very difficult to see a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0145_1470.50.jpg" alt="24:30" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">24:30</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1470s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">still notice patterns if you pay close tenture but it's very difficult to see a tile set is a collection of tiles that you can use to create your game on the screen you can see tile sets from Pokemon Gold one of my favorite games that I used to play and it uses styles of 8 by8 pixels in size as you can see</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0146_1482.47.jpg" alt="24:42" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">24:42</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1482s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">that I used to play and it uses styles of 8 by8 pixels in size as you can see once you bring a lot of different tiles together you can create a lot of</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0147_1485.67.jpg" alt="24:45" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">24:45</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1485s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">once you bring a lot of different tiles together you can create a lot of different combinations and you can create entire Maps just made out of these tiles when you are creating tile sets for your own game you have to think about their purpose what do you need and what you don't need so you don't waste unnecessary time for example if you have a ground and water as your base Styles will these two connect and if the answer is yes you need to think about transitioning tiles between these two bomes so to speak because when you make these transitions your world looks fuller it looks bigger it looks more fulfilled even here in Pokémon go you</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0148_1517.20.jpg" alt="25:17" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">25:17</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1517s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">fuller it looks bigger it looks more fulfilled even here in Pokémon go you can see even though they do have a specific tile for water and grass due to</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0149_1522.07.jpg" alt="25:22" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">25:22</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1522s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">can see even though they do have a specific tile for water and grass due to the perspective they still have these transitioning tiles that creates this illusion of depth there's a difference</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0150_1527.33.jpg" alt="25:27" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">25:27</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1527s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">transitioning tiles that creates this illusion of depth there's a difference between a tile set and a tile map a tile set is a set of unique tiles and a tile map is a map made out of tiles so this would be a tile set as you can see every tile is different and this is a tile map</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0151_1538.93.jpg" alt="25:38" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">25:38</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1538s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">would be a tile set as you can see every tile is different and this is a tile map where you can see a lot of copies of the same tile sometimes you just want to add</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0152_1542.67.jpg" alt="25:42" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">25:42</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1542s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">where you can see a lot of copies of the same tile sometimes you just want to add some variety into your tile set if your</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0153_1546.03.jpg" alt="25:46" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">25:46</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1546s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">same tile sometimes you just want to add some variety into your tile set if your tile set looks like this and it's very plain that's totally fun and if you want</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0154_1548.50.jpg" alt="25:48" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">25:48</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1548s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">tile set looks like this and it's very plain that's totally fun and if you want to create more details there are two ways to go about it this is the first one keep the tile set the same but on a layer above it add some details as a separate object that that way you can move them around and you have more flexibility another way would be to</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0155_1561.10.jpg" alt="26:01" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">26:01</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1561s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">move them around and you have more flexibility another way would be to create variation tiles this is essentially just taking a tile duplicating it and changing something in the middle it can be something as obvious as these gems but it can also be something less obvious for example these styles are a all of faces and they can be combined between each other as I wish for example these two top tiles are the same but the tiles below are different and you can even notice the same face right here which is a little bit different on the left side but nonetheless the edges of a TI are same so the way they connect the way you create seamless Styles is that you overlap the details on the edges and you only change the middle this is why it's important to know how seamless tiles are created because then you can create variation tiles on top of them</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0156_1601.90.jpg" alt="26:41" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">26:41</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1601s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">created because then you can create variation tiles on top of them antialiasing is an advanced technique in pixel art that we are using to blend the transitions between shapes and lines</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0157_1608.20.jpg" alt="26:48" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">26:48</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1608s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">pixel art that we are using to blend the transitions between shapes and lines when used on a straight line it creates the illusion of the line becoming thinner on the edges un curved lines it</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0158_1612.57.jpg" alt="26:52" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">26:52</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1612s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">the illusion of the line becoming thinner on the edges un curved lines it creates the illusion of the curvature being a bit more smooth and it's always good to keep keep the antialising on the inside of an object because if you change the background color that way the antialising is still there and the color</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0159_1624.27.jpg" alt="27:04" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">27:04</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1624s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">change the background color that way the antialising is still there and the color values of the anti-as pixels should always be between the two colors which we are anti-aliasing the best way to</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0160_1630.40.jpg" alt="27:10" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">27:10</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1630s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">always be between the two colors which we are anti-aliasing the best way to start practicing is to create some clouds because they are unpredictable use two colors one for light and Shadow and the third color will be used for anti-aliasing and then try to recognize either the straight lines or the cures and use ntls to blend them for example</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0161_1643.63.jpg" alt="27:23" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">27:23</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1643s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">either the straight lines or the cures and use ntls to blend them for example if I recognize this specific shape as a straight line I can ntls one portion of it likewise if I recognize this as a</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0162_1648.70.jpg" alt="27:28" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">27:28</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1648s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">straight line I can ntls one portion of it likewise if I recognize this as a curvature I can antias the middle of it</p>
+        </div>
+      </div>
+      <div class="vn-card">
+        <div class="vn-card-img">
+          <img src="video-frames/frame_0163_1651.07.jpg" alt="27:31" loading="lazy"
+               onclick="openLightbox(this.src)" title="Büyütmek için tıklayın">
+          <span class="vn-badge">27:31</span>
+          <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc&amp;t=1651s" target="_blank" rel="noopener noreferrer" class="vn-yt-link" title="Videoda izle">▶</a>
+        </div>
+        <div class="vn-card-text">
+          <p class="vn-en">it likewise if I recognize this as a curvature I can antias the middle of it and then you just keep on going until your entire Sprite is finished</p>
+        </div>
+      </div>
+
+
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 3rem;">
+    <p>Kaynak: <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc" target="_blank">Pixel Art Fundamentals</a></p>
+    <p style="margin-top:0.5rem;"><a href="index.html">← Pixel Art Ana Sayfa</a> · <a href="video-clips.html">🎬 Video Klipleri →</a></p>
+  </footer>
+  </div>
+
+  <script src="../shared.js"></script>
+  <script>
+    const allFrameImgs = Array.from(document.querySelectorAll('.vn-card-img img'));
+    let currentLightboxIdx = -1;
+    function openLightbox(src) {
+      const o = document.getElementById('lightbox'), img = document.getElementById('lightbox-img');
+      img.src = src; o.classList.add('active'); document.body.style.overflow = 'hidden';
+      currentLightboxIdx = allFrameImgs.findIndex(el => el.src === src || el.src.endsWith(src.split('/').pop()));
+    }
+    function closeLightbox(e) {
+      if (e && (e.target.classList.contains('lightbox-nav') || e.target.id === 'lightbox-img')) return;
+      document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow = ''; currentLightboxIdx = -1;
+    }
+    function navigateLightbox(e, dir) {
+      e.stopPropagation(); if (currentLightboxIdx < 0) return;
+      currentLightboxIdx = (currentLightboxIdx + dir + allFrameImgs.length) % allFrameImgs.length;
+      document.getElementById('lightbox-img').src = allFrameImgs[currentLightboxIdx].src;
+    }
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('lightbox').classList.contains('active')) return;
+      if (e.key==='Escape') closeLightbox({target:document.getElementById('lightbox')});
+      if (e.key==='ArrowLeft') navigateLightbox(e,-1);
+      if (e.key==='ArrowRight') navigateLightbox(e,1);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art Temelleri — Video Klipleri</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('cg-theme') || 'dark');</script>
+  <style>
+    .clip-section {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .clip-section:last-child { border-bottom: none; }
+    .clip-section h2 {
+      color: var(--accent-4);
+      margin-bottom: 1rem;
+    }
+    .clip-section h2 small {
+      color: var(--text-secondary);
+      font-weight: 400;
+      font-size: 0.65em;
+    }
+    .clip-video-wrap {
+      max-width: 640px;
+      margin: 0 auto 1.5rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--border-color);
+      background: #000;
+    }
+    .clip-video {
+      width: 100%;
+      display: block;
+    }
+    .clip-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .clip-text-block {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .clip-text-block h3 {
+      font-size: 0.9rem;
+      color: var(--accent-4);
+      margin-bottom: 0.5rem;
+    }
+    .clip-text-block p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+    .vn-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .vn-two-col .info-box ul { margin: 0.3rem 0 0 1rem; font-size: 0.85rem; }
+    .vn-two-col .info-box li { margin-bottom: 0.4rem; line-height: 1.5; }
+    .vn-section-toc { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 2rem; }
+    .vn-section-toc h3 { font-size: 1rem; color: var(--accent-4); margin-bottom: 0.6rem; }
+    .vn-section-toc a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 0.88rem; padding: 0.25rem 0; transition: color 0.15s; }
+    .vn-section-toc a:hover { color: var(--accent-4); }
+    .vn-section-toc a small { color: var(--text-secondary); font-size: 0.8em; }
+    .vn-toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.5rem; }
+    .video-link { display: inline-block; background: var(--accent-4); color: var(--bg-primary); padding: 0.5rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: opacity 0.2s; margin-top: 0.8rem; }
+    .video-link:hover { opacity: 0.85; }
+    .nav-links-sub { display: flex; gap: 0.8rem; justify-content: center; margin: 1rem 0 2rem; flex-wrap: wrap; }
+    .nav-links-sub a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; padding: 0.3rem 0.8rem; border: 1px solid var(--border-color); border-radius: 5px; transition: all 0.15s; }
+    .nav-links-sub a:hover, .nav-links-sub a.active { color: var(--accent-4); border-color: var(--accent-4); }
+    @media (max-width: 700px) {
+      .clip-columns { grid-template-columns: 1fr; }
+      .vn-two-col { grid-template-columns: 1fr; }
+      .vn-toc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="has-sidebar">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="../index.html" class="sidebar-brand"><span>🎨</span> Bilgisayar Grafiği</a>
+      <button class="sidebar-close" aria-label="Menüyü kapat">✕</button>
+    </div>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">Bölümler</div>
+      <a href="../index.html"><span class="section-num">🏠</span> Ana Sayfa</a>
+      <a href="../hafta1/index.html"><span class="section-num">1</span> Bilgisayar Grafiğine Giriş</a>
+      <a href="../hafta2/index.html"><span class="section-num">2</span> Renk Teorisi</a>
+      <a href="../hafta3/index.html"><span class="section-num">3</span> GIMP ile Görüntü İşleme</a>
+      <a href="../hafta4/index.html"><span class="section-num">4</span> Inkscape ile Vektör Grafik</a>
+      <a href="../pixel-art/index.html" class="active"><span class="section-num">🎮</span> Pixel Art Giriş</a>
+      <a href="../pixel-art/1bitstudio-shorts.html"><span class="section-num">🎮</span> 1Bit Studio</a>
+      <a href="../tipografi/index.html"><span class="section-num">🔤</span> Tipografi</a>
+      <a href="../cli-araclari/index.html"><span class="section-num">⌨️</span> CLI Araçları</a>
+      <a href="../eski-donanim/index.html"><span class="section-num">🕹️</span> Eski Donanım Grafikleri</a>
+    </div>
+    <div class="sidebar-toc"></div>
+    <div class="sidebar-footer">
+      <div class="theme-toggle">
+        <span class="theme-label"><span class="theme-label-icon">🌙</span> <span class="theme-label-text">Koyu Mod</span></span>
+        <span class="theme-switch"></span>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay"></div>
+  <button class="sidebar-toggle" aria-label="Menüyü aç">☰</button>
+
+  <div class="page-wrapper">
+  <nav class="top-nav">
+    <a href="../index.html" class="brand"><span>🎨</span> Bilgisayar Grafiği</a>
+    <div class="nav-links">
+      <a href="../index.html">Ana Sayfa</a>
+      <a href="../hafta1/index.html">Bölüm 1</a>
+      <a href="../hafta2/index.html">Bölüm 2</a>
+      <a href="../hafta3/index.html">Bölüm 3</a>
+      <a href="../hafta4/index.html">Bölüm 4</a>
+      <a href="../pixel-art/index.html" class="active">Pixel Art</a>
+      <a href="../pixel-art/1bitstudio-shorts.html">1Bit Studio</a>
+      <a href="../tipografi/index.html">Tipografi</a>
+      <a href="../cli-araclari/index.html">CLI</a>
+      <a href="../eski-donanim/index.html">Retro HW</a>
+    </div>
+  </nav>
+
+  <div class="week-header">
+    <span class="week-number">🎬 VIDEO KLİPLERİ</span>
+    <h1>Pixel Art Temelleri — Bölüm Videoları</h1>
+    <p class="week-desc">Ana video konularına göre kesilmiş kısa kliplerle İngilizce/Türkçe açıklamalar ve Aseprite ipuçları</p>
+    <div class="week-meta">
+      <div class="meta-item">🎬 12 klip</div>
+      <div class="meta-item">🇬🇧🇹🇷 Çift dil</div>
+      <div class="meta-item">🛠️ Aseprite rehberi</div>
+    </div>
+    <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc" target="_blank" rel="noopener noreferrer" class="video-link">▶ Orijinal Video</a>
+    <a href="video-notes.html" class="video-link" style="margin-left:0.5rem; background: var(--accent-green, #4caf50);">🖼️ Kare Notları</a>
+  </div>
+
+  <div class="container">
+    <div class="info-box tip">
+      <div class="info-title">💡 Nasıl Kullanılır</div>
+      <p>Her bölüm kendi video klibini içerir. Videoyu izleyin, ardından altındaki İngilizce ve Türkçe metinleri okuyun. Sağdaki Aseprite ipuçları ile pratiğe dökebilirsiniz.</p>
+    </div>
+
+    <div class="nav-links-sub">
+      <a href="video-notes.html">🖼️ Kare Notları</a>
+      <a href="video-clips.html" class="active">🎬 Video Klipleri</a>
+      <a href="1bitstudio-shorts.html">📱 1BitStudio Shorts</a>
+      <a href="index.html">📖 Ana Sayfa</a>
+    </div>
+
+    <nav class="vn-section-toc">
+      <h3>Klip Listesi</h3>
+      <div class="vn-toc-grid">
+        <a href="#clip-clean-lines">01. Temiz Çizgiler <small>(1:00)</small></a>
+        <a href="#clip-straight-lines">02. Düz Çizgiler ve Daireler <small>(1:07)</small></a>
+        <a href="#clip-outlines">03. Kenar Çizgileri (Outline) <small>(1:16)</small></a>
+        <a href="#clip-shapes-cubes">04. Temel Şekiller ve Küp Gölgeleme <small>(1:19)</small></a>
+        <a href="#clip-sphere-shading">05. Küre Gölgeleme <small>(1:24)</small></a>
+        <a href="#clip-cylinder-cone">06. Silindir ve Koni Gölgeleme <small>(3:04)</small></a>
+        <a href="#clip-highlights">07. Parlak Noktalar (Highlight için) <small>(2:54)</small></a>
+        <a href="#clip-materials">08. Malzeme ve Doku <small>(2:14)</small></a>
+        <a href="#clip-hue-shifting">09. Renk Kayması (Hue Shifting) <small>(3:44)</small></a>
+        <a href="#clip-dithering">10. Dithering (Noktalama Tekniği) <small>(3:44)</small></a>
+        <a href="#clip-color-palettes">11. Renk Paletleri <small>(2:14)</small></a>
+        <a href="#clip-anti-aliasing">12. Anti-Aliasing (Kenar Yumuşatma) <small>(4:22)</small></a>
+      </div>
+    </nav>
+
+    <section id="clip-clean-lines" class="clip-section">
+      <h2>01. Temiz Çizgiler <small>(Clean Lines) — 1:00</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/01-clean-lines.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>Hello there, in this video you'll learn everything a pixel art beginner should know. This video is part two of Pixel Art Short Courses and it's a compilation of shorts on the topic of pixel art basics. You have to avoid this rookie mistake if you want clean lines. The only thing that matters is consistency in thickness. One pixel thick lines are used the most. So how do we ensure that consistency? A single pixel has eight possible neighbors. Out of those it should only have one or two neighbors. If a pixel has more, like three neighbors, the line becomes thicker in that area and people call these unnecessary pixels 'doubles'. Aseprite also has a great feature that will help you out — by checking the Pixel Perfect property you will create clean lines without worries. Of course you can use the line tool, but that's not good enough if you want to become a true pixel art expert.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Merhaba, bu videoda piksel art başlangıcı için bilmeniz gereken her şeyi öğreneceksiniz. Bu video Pixel Art Kısa Kursları'nın ikinci bölümüdür ve piksel art temelleri konusundaki kısa videoların bir derlemesidir. Temiz çizgiler istiyorsanız bu acemi hatasından kaçınmalısınız. Önemli olan tek şey kalınlıkta tutarlılıktır. En çok tek piksel kalınlığındaki çizgiler kullanılır. Peki bu tutarlılığı nasıl sağlarız? Tek bir pikselin sekiz olası komşusu vardır. Bunlardan yalnızca bir veya iki komşusu olmalıdır. Eğer bir pikselin üç gibi daha fazla komşusu varsa, çizgi o bölgede kalınlaşır ve insanlar bu gereksiz piksellere 'doubles' (çiftler) der. Aseprite'da size yardımcı olacak harika bir özellik var — Pixel Perfect özelliğini aktif ederek endişe duymadan temiz çizgiler çizebilirsiniz. Tabii ki çizgi aracını kullanabilirsiniz ama gerçek bir piksel art uzmanı olmak istiyorsanız bu yeterli değildir.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Her pikselin 8 olası komşusu var — yalnızca 1-2 tanesi dolu olmalı</li>
+            <li>3+ komşu olan piksel → 'double' = kalın nokta hatası</li>
+            <li>Tek piksel kalınlığı en yaygın ve temiz çizgi standardıdır</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Pixel Perfect:</strong> Pencil aracı seçiliyken üst menüden <code>Pixel Perfect</code> kutusunu işaretleyin. Bu, çizim sırasında otomatik olarak çift pikselleri temizler.</li>
+            <li><strong>Pencil (B):</strong> Temel çizim aracı. Brush Size'ı 1px'e ayarlayın.</li>
+            <li><strong>Zoom (Z veya +/-):</strong> Piksel seviyesinde çalışmak için 400-800% zoom kullanın.</li>
+            <li><strong>LibreSprite'da:</strong> Aynı Pixel Perfect özelliği mevcuttur — Pencil aracının ayarlarında bulunur.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-straight-lines" class="clip-section">
+      <h2>02. Düz Çizgiler ve Daireler <small>(Straight Lines & Circles) — 1:07</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/02-straight-lines.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>You have to understand the essence of straight lines. First, a diagonal straight line consists of sections like one or two pixels etc. You have to keep these sections as consistent as possible, both in length and in the ratio of appearance. In cases when you have to mix lengths of these sections, the maximum difference is one pixel. So if your line has a section that is 2 pixels longer than any other section, you've messed up and your line won't be straight. Here's a test you can do: duplicate and connect your line to itself, then zoom out and you will easily notice the difference. So if you only use 90 and 45 degree angles, rethink your decision. And you might ask yourself why not just use the line tool? Don't trust the tools blindly. Yes, Aseprite has wonderful tools but like all other software it was coded by people and thus is prone to human error. Allow me to show you this on a simple circle example. This one was created using Aseprite's ellipse tool — it is 13 pixels in diameter. And the other one was custom made, same in size but a bit different. Personally I think the custom one looks a bit more round. Which one looks better to you?</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Düz çizgilerin özünü anlamanız gerekiyor. İlk olarak, çapraz bir düz çizgi bir veya iki piksel gibi bölümlerden oluşur. Bu bölümleri hem uzunluk hem de görünüm oranı açısından mümkün olduğunca tutarlı tutmalısınız. Bölüm uzunluklarını karıştırmanız gereken durumlarda, maksimum fark bir piksel olmalıdır. Eğer çizginizde diğer bölümlerden 2 piksel daha uzun bir bölüm varsa, hata yapmışsınız demektir ve çizginiz düz olmayacaktır. İşte yapabileceğiniz bir test: çizginizi kopyalayıp kendisine bağlayın, sonra uzaklaştırarak farkı kolayca görebilirsiniz. Yalnızca 90 ve 45 derece açılar kullanıyorsanız, kararınızı yeniden düşünün. Neden çizgi aracını kullanmıyorsunuz diye sorabilirsiniz. Araçlara körü körüne güvenmeyin. Evet, Aseprite harika araçlara sahip ama diğer tüm yazılımlar gibi insanlar tarafından kodlanmıştır ve insan hatasına açıktır. Bunu basit bir daire örneğinde göstereyim. Bu, Aseprite'ın elips aracıyla oluşturuldu — 13 piksel çapında. Diğeri ise elle yapıldı, aynı boyutta ama biraz farklı. Kişisel olarak elle yapılanın biraz daha yuvarlak göründüğünü düşünüyorum. Hangisi size daha iyi görünüyor?</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Çapraz çizgi = tutarlı piksel bölümleri (ör. 2-2-2 veya 2-3-2-3)</li>
+            <li>Bölümler arası fark max 1 piksel olmalı, yoksa çizgi eğri görünür</li>
+            <li>Test: çizgiyi kopyala + birleştir + uzaklaştır → düzensizlik belirginleşir</li>
+            <li>Araçların çıktısı her zaman mükemmel değildir — elle kontrol edin</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Line Tool (L):</strong> Shift tuşuna basılı tutarak açıları kısıtlayabilirsiniz.</li>
+            <li><strong>Ellipse Tool (U):</strong> Daire çizmek için kullanın, ama sonucu her zaman kontrol edin — küçük boyutlarda elle düzeltme gerekebilir.</li>
+            <li><strong>Test yöntemi:</strong> Çizgiyi <code>Ctrl+C</code> ile kopyalayın, yapıştırıp uç uca ekleyin. <code>View > Zoom Out</code> ile uzaklaştırarak düzensizlik var mı kontrol edin.</li>
+            <li><strong>LibreSprite'da:</strong> Aynı araçlar mevcuttur. Line aracı için <code>L</code> kısayolunu kullanın.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-outlines" class="clip-section">
+      <h2>03. Kenar Çizgileri (Outline) <small>(Outlines) — 1:16</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/03-outlines.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>Using outlines is not only an artistic choice but also a game design choice. Here we have the same rock with three different choices. On the left, when we don't use outline it blends quite nicely with the grass, which is useful for non-interactable objects. In the middle we have a full outline which covers the entire rock, making it more visible — it pops from the background and that's quite useful for interactable objects. On the right we have a partial outline where the object is still quite visible but because we erase the outline on the bottom edge, the rock feels more connected to the ground, which is quite useful for non-interactable objects that could be used as a landmark in the game. But we still have one important choice — most people only use black outlines, however you can also use white outlines, you can use colored outlines, meaning where the object is hitting the light the outline would be lighter, and where it is in the shadow the outline will be darker.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Kenar çizgisi (outline) kullanımı yalnızca sanatsal bir seçim değil, aynı zamanda bir oyun tasarımı kararıdır. Burada aynı kayayı üç farklı seçenekle görüyoruz. Solda outline kullanmadığımızda çimle güzelce harmanlanıyor — bu etkileşilemeyen nesneler için kullanışlıdır. Ortada tüm kayayı kaplayan tam bir outline var, bu onu daha görünür kılıyor — arka plandan öne çıkıyor ve etkileşimli nesneler için çok kullanışlı. Sağda kısmi outline var — nesne hâlâ oldukça görünür ama alt kenardan outline'ı sildiğimiz için kaya zemine daha bağlı hissettiriyor, bu da oyunda işaret noktası olarak kullanılabilecek etkileşilemeyen nesneler için kullanışlı. Ama hâlâ önemli bir seçimimiz var — çoğu kişi yalnızca siyah outline kullanır, ancak beyaz outline, renkli outline da kullanabilirsiniz. Nesnenin ışık aldığı yerde outline daha açık, gölgede kaldığı yerde ise daha koyu olur.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Outline yok → arka plana karışır (dekoratif nesneler için)</li>
+            <li>Tam outline → nesne belirginleşir (etkileşimli nesneler için)</li>
+            <li>Kısmi outline → zemine bağlı hissedilir (yer işaretleri için)</li>
+            <li>Renkli outline → ışıklı kısımda açık, gölgede koyu renk outline</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Outline ekleme:</strong> Sprite'ınızı çizdikten sonra yeni bir katman (layer) oluşturun, altına taşıyın ve <code>Edit > Stroke > Selection</code> ile otomatik outline ekleyin.</li>
+            <li><strong>Renkli outline:</strong> Siyah outline'ı seçip <code>Edit > Replace Color</code> ile bölgesel olarak değiştirebilirsiniz.</li>
+            <li><strong>Kısmi outline:</strong> Tam outline çizin, sonra <code>Eraser (E)</code> ile alt kenarları silin.</li>
+            <li><strong>Katman yapısı:</strong> Outline'ı ayrı bir katmanda tutun → kolayca açıp kapatabilirsiniz.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-shapes-cubes" class="clip-section">
+      <h2>04. Temel Şekiller ve Küp Gölgeleme <small>(Basic Shapes & Cube Shading) — 1:19</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/04-shapes-cubes.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>This is a standard pixel size, however here on the side each pixel is actually 2x2, in other words four pixels. Beginners often do this when they want to have a larger object and they just don't feel like drawing it from scratch — then they just take the object, resize it to the size they want, and call it a day. That's not how pixel art works. Once you understand basic geometric shapes you can draw pretty much anything. There are a few simple rules you can follow to ensure good shading. For a cube, it's one side one color. Why is that? Because every side of the cube is flat, and the only thing that matters is the angle of this side to the light source. In this case it's on the top left side, so the top side will be in the light tone, the left side will be in the mid tone, and the right side will be the darkest.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Bu standart bir piksel boyutudur, ancak burada her piksel aslında 2x2, yani dört pikseldir. Yeni başlayanlar genellikle daha büyük bir nesne istediklerinde bunu yapar — nesneyi alıp istedikleri boyuta yeniden boyutlandırırlar. Piksel art böyle çalışmaz. Temel geometrik şekilleri anladığınızda hemen hemen her şeyi çizebilirsiniz. İyi gölgeleme için izleyebileceğiniz birkaç basit kural vardır. Küp için kural: bir yüz, bir renk. Neden? Çünkü küpün her yüzü düzdür ve önemli olan tek şey bu yüzün ışık kaynağına göre açısıdır. Bu durumda ışık sol üstten geliyor, bu yüzden üst yüzey açık ton, sol yüzey orta ton ve sağ yüzey en koyu ton olacaktır.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Sprite'ı büyütmek için yeniden boyutlandırma YAPMAYIN — baştan çizin</li>
+            <li>Temel kural: düz yüzey = tek renk tonu</li>
+            <li>Küpte 3 görünür yüz = 3 farklı ton (açık, orta, koyu)</li>
+            <li>Işık kaynağı yönünü belirleyin → her yüzün tonu ona göre değişir</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Boyutlandırma uyarısı:</strong> <code>Sprite > Sprite Size</code> ile büyütmeyin — bu pikselleri 2x2 bloklara dönüştürür. Her zaman orijinal çözünürlükte çizin.</li>
+            <li><strong>Renk seçimi:</strong> 3 ton seçin (açık, orta, koyu) ve bunları palette kaydedin. <code>Switch Colors (X)</code> ile hızla aralarında geçiş yapın.</li>
+            <li><strong>Katmanları kullanın:</strong> Gölgeyi ayrı katmanda oluşturun → deneme yanılma kolaylaşır.</li>
+            <li><strong>Referans:</strong> <code>Edit > Paste as New Reference</code> ile bir küp referansını ekrana sabitleyin.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-sphere-shading" class="clip-section">
+      <h2>05. Küre Gölgeleme <small>(Sphere Shading) — 1:24</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/05-sphere-shading.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>You'll be often shading as spherical objects, meaning around curved surfaces. The first thing you need to decide is where the light source is. For a sphere, shading works in bands that curve around the surface. Starting from the light source and then curving away into the shadows. That's the most important principle — dividing into two rules: if a surface is flat use one color, if a surface is rounded use a gradient transition. The color palette for shading a sphere typically uses 3-5 tones from light to dark.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Sıklıkla küresel nesneleri, yani kavisli yüzeyleri gölgeleyeceksiniz. İlk karar vermeniz gereken şey ışık kaynağının nerede olduğudur. Küre için gölgeleme, yüzey boyunca kıvrılan bantlar şeklinde çalışır. Işık kaynağından başlayıp gölgelere doğru kıvrılır. Bu en önemli prensiptir — iki kurala ayrılır: yüzey düzse tek renk kullanın, yüzey yuvarlatılmışsa gradyan geçiş kullanın. Bir küreyi gölgelemek için renk paleti genellikle açıktan koyuya 3-5 ton kullanır.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Düz yüzey = tek renk; yuvarlak yüzey = gradyan geçiş</li>
+            <li>Gölge bantları ışık kaynağına göre kavisli olarak yerleştirilir</li>
+            <li>3-5 ton yeterlidir — çok fazla ton geçişi piksel art'ta gürültü yaratır</li>
+            <li>Meyveler, kafalar, taşlar, toplar → hep küre gölgeleme kullanır</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Ton seçimi:</strong> HSV/HSL modunda çalışın — <code>V (Value)</code> değerini düşürerek koyu tonları hızla oluşturun.</li>
+            <li><strong>Bantlar:</strong> Her gölge bandını ayrı renk olarak çizin, sonra sınırları yumuşatın.</li>
+            <li><strong>Quick shade:</strong> <code>Edit > FX > Color Curve</code> ile mevcut renklerin parlaklığını toplu ayarlayın.</li>
+            <li><strong>LibreSprite:</strong> Ink ayarında <code>Shading</code> modunu kullanarak tek tuşla aynı rengin koyusuna/açığına geçebilirsiniz.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-cylinder-cone" class="clip-section">
+      <h2>06. Silindir ve Koni Gölgeleme <small>(Cylinder & Cone Shading) — 3:04</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/06-cylinder-cone.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>Shading a cylinder should be straightforward if you know just two simple rules. Because cylinders are used a lot of times when creating organic things like humans, it's really important. First, you need to understand the structure of the cylinder — it's essentially a circle stretched along one axis. So the shading follows that axis. The light hits one side and gradually transitions across. For a horizontal cylinder, the light and shadow change horizontally. For a vertical cylinder, it changes vertically. Just like a cone, shading follows the same principle but narrows toward the tip. Now, let's put this into practice. We have a truck — I can identify the front part as shapes: cylinders for pipes, a cone for the tip of the pencil, cubes for the body. By combining basic shape shading, you create complex objects.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Silindir gölgeleme iki basit kuralı bilirseniz kolay olacaktır. Silindirler, insan vücudu gibi organik nesneler oluştururken çok sık kullanıldığı için gerçekten önemlidir. Öncelikle silindirin yapısını anlamalısınız — aslında tek eksen boyunca uzatılmış bir dairedir. Bu yüzden gölgeleme o ekseni takip eder. Işık bir tarafı vurup kademeli olarak geçiş yapar. Yatay bir silindirde ışık ve gölge yatay olarak değişir. Dikey bir silindirde dikey olarak değişir. Tıpkı koni gibi, gölgeleme aynı prensibi takip eder ama uca doğru daralır. Şimdi bunu pratiğe dökelim. Bir kamyonetimiz var — ön kısmını şekiller olarak tanıyabilirim: borular için silindirler, kalemin ucu için koni, gövde için küpler. Temel şekil gölgelemeyi birleştirerek karmaşık nesneler yaratırsınız.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Silindir = daire + tek eksen boyunca uzatma → gölge o eksende geçiş yapar</li>
+            <li>Yatay silindir → yatay gölge geçişi; dikey silindir → dikey geçiş</li>
+            <li>Koni gölgeleme = silindir + uca doğru daralma</li>
+            <li>Karmaşık nesneler = temel şekillerin birleşimi (küp + silindir + koni)</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Şekil ayrıştırma:</strong> Yeni katmanda referans nesnenizin üzerine temel şekilleri (küp, silindir, koni) taslak olarak çizin.</li>
+            <li><strong>Ink: Shading mode:</strong> <code>Ink</code> açılır menüsünden <code>Shading</code> seçin → sol tıkla koyultma, sağ tıkla aydınlatma. Gölge bantları uygulamak için idealdir.</li>
+            <li><strong>Simetri:</strong> <code>View > Symmetry Options</code> ile dikey/yatay simetri açın — silindir çiziminde çok yardımcı olur.</li>
+            <li><strong>Contour aracı:</strong> <code>Contour Tool (D)</code> ile kapalı alanları hızlıca doldurun.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-highlights" class="clip-section">
+      <h2>07. Parlak Noktalar (Highlight için) <small>(Highlights & Specular) — 2:54</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/07-highlights.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>Where exactly is the light source? The common mistake I see from beginners is that if the light source is from above, they create a gradient from light to shadow. Why is this wrong? It's because the only thing that matters for flat surfaces is the angle to the light source. That's where the highlight comes in. A highlight is where the surface can directly reflect light into your eyes. For metal objects, highlights are sharp and bright. For wood or stone, they're soft and diffused. For glass, they're very bright, almost white. Let's look at a familiar scene from Pokémon Red — notice where the highlight is, here on the edge of the table.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Işık kaynağı tam olarak nerede? Yeni başlayanlardan gördüğüm yaygın hata şu: ışık kaynağı yukarıdaysa, ışıktan gölgeye bir gradyan oluşturuyorlar. Bu neden yanlış? Çünkü düz yüzeylerde önemli olan tek şey ışık kaynağına olan açıdır. İşte bu noktada highlight devreye girer. Highlight, yüzeyin ışığı doğrudan gözünüze yansıtabildiği noktadır. Metal nesnelerde highlight'lar keskin ve parlaktır. Ahşap veya taşta yumuşak ve dağınıktır. Camda çok parlak, neredeyse beyazdır. Pokémon Red'den tanıdık bir sahneye bakalım — highlight'ın nerede olduğuna dikkat edin, masanın kenarında.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Highlight = ışığın doğrudan göze yansıdığı nokta</li>
+            <li>Metal → küçük, keskin, çok parlak highlight</li>
+            <li>Ahşap/Taş → büyük, yumuşak, dağınık highlight</li>
+            <li>Cam/Su → çok parlak, beyaza yakın highlight</li>
+            <li>Düz yüzeylerde gradient YAPMAYIN — açı bazlı tek ton kullanın</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Highlight ekleme:</strong> En açık renginizi seçin, Pencil (1px) ile yalnızca 1-2 piksel highlight noktası yerleştirin.</li>
+            <li><strong>Referans katman:</strong> Pokémon sprite'larını referans olarak ekleyin → <code>Layer > New Reference Layer</code>.</li>
+            <li><strong>Renk paleti yönetimi:</strong> Paletinize bir 'highlight' rengi ekleyin — genellikle ana rengin çok açık/beyaza yakın tonu.</li>
+            <li><strong>Zoom kontrolü:</strong> Highlight yerleştirirken <code>Ctrl+Shift+H</code> ile pixel grid'i açık tutun.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-materials" class="clip-section">
+      <h2>08. Malzeme ve Doku <small>(Materials & Textures) — 2:14</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/08-materials.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>Now that we have learned how to shade basic geometric shapes, we have to expand upon it. First thing you should be doing is trying to fit whatever you need into basic shapes. For example, we have this front part of the truck — I can identify gum for the wooden part, a cylinder for the body, and lastly we have a cone for the tip. Shading is not enough — it just conveys information about the shape and its relation to the light source. Before we can start creating objects we also need a texture, a material. A basic practice is to study plenty of materials: metal is shiny with sharp highlights, wood has grain patterns, stone is rough with subtle texture.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Artık temel geometrik şekilleri gölgelemeyi öğrendiğimize göre, bunu genişletmemiz gerekiyor. Yapmanız gereken ilk şey, ihtiyacınız olan her şeyi temel şekillere oturtmaya çalışmaktır. Örneğin, kamyonun ön kısmı var — ahşap kısım için dikdörtgen, gövde için silindir ve uç için koni tanımlayabilirim. Gölgeleme yeterli değildir — yalnızca şekil ve ışık kaynağıyla ilişki hakkında bilgi verir. Nesneler oluşturmaya başlamadan önce bir doku, bir malzeme de gereklidir. Temel bir uygulama çok sayıda malzemeyi incelemektir: metal parlak ve keskin highlight'lara sahiptir, ahşapta damar desenleri vardır, taş pürüzlü ve ince dokulu bir yapıdadır.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Gölgeleme = şekil bilgisi; Doku = malzeme bilgisi</li>
+            <li>Her nesneyi önce temel şekillere ayırın, sonra gölgeleyin, sonra doku ekleyin</li>
+            <li>Metal: parlak, keskin yansımalar + yatay/dikey çizgiler</li>
+            <li>Ahşap: damar desenleri + mat/yumuşak highlight</li>
+            <li>Taş: rastgele noktalar + pürüzlü kenarlar</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Doku katmanı:</strong> Gölgeleme katmanının üzerine yeni bir katman oluşturun (Multiply veya Overlay blend mode).</li>
+            <li><strong>Custom brush:</strong> <code>Edit > New Brush</code> ile ahşap damar veya taş dokusu için özel fırça oluşturun.</li>
+            <li><strong>Malzeme çalışması:</strong> 32×32 kare küp oluşturun ve aynı şekle farklı malzemeler uygulayarak pratik yapın.</li>
+            <li><strong>Renk seçici:</strong> <code>Eyedropper (I)</code> ile gerçek fotoğraflardan renk örnekleyebilirsiniz.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-hue-shifting" class="clip-section">
+      <h2>09. Renk Kayması (Hue Shifting) <small>(Hue Shifting) — 3:44</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/09-hue-shifting.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>In pixel art, dithering's purpose is to create the illusion of more colors on the screen without actually increasing the color palette size. In the past it was invented only because of technological restrictions but nowadays it's just a stylistic choice. The most common form is the checkerboard pattern. Now let's talk about hue shifting. As the name suggests, when you're creating your color palette you must hue shift between midtones. For this orange color I will hue shift towards the light source's color — warmer, more yellow in the highlights. And the shadows shift toward cooler tones, more purple or blue. These colors have the same value but they are quite different. The most common mistake I see pixel art students making when creating color palettes is not hue shifting.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Piksel art'ta dithering'in amacı, renk paleti boyutunu gerçekten artırmadan ekranda daha fazla renk illüzyonu yaratmaktır. Geçmişte yalnızca teknolojik kısıtlamalar nedeniyle icat edildi ama günümüzde stilistik bir tercihtir. En yaygın formu checkerboard (dama tahtası) desenidir. Şimdi hue shifting'den bahsedelim. Adından da anlaşılacağı gibi, renk paletinizi oluştururken ara tonlar arasında renk kayması (hue shift) uygulamanız gerekir. Bu turuncu renk için highlight'larda ışık kaynağının rengine doğru — daha sıcak, daha sarıya yakın — kayma yapacağım. Gölgeler ise daha soğuk tonlara, mora veya maviye doğru kayar. Bu renkler aynı değere (value) sahip ama oldukça farklıdırlar. Piksel art öğrencilerinin renk paleti oluştururken yaptığı en yaygın hata hue shifting yapmamaktır.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Hue shifting = parlaklık değişiminin yanı sıra renk tonu da kayar</li>
+            <li>Highlight'lar → sıcak (sarı/turuncu yönü) kayma</li>
+            <li>Gölgeler → soğuk (mavi/mor yönü) kayma</li>
+            <li>Hue shift olmadan gölgeleme → 'plastik' ve cansız görünüm</li>
+            <li>En yaygın acemi hatası: yalnızca Value değiştirip Hue'yu sabit bırakmak</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>HSV modu:</strong> Renk seçicisinde HSV (Hue-Saturation-Value) moduna geçin. Gölge için H'yi +15-20° kaydırarak soğuk tona, highlight için -15-20° kaydırarak sıcak tona ayarlayın.</li>
+            <li><strong>Palet düzenleme:</strong> <code>Sort & Gradients > Create</code> ile hue shift uygulanmış gradyan oluşturun.</li>
+            <li><strong>Referans paletler:</strong> <a href='https://lospec.com/palette-list' target='_blank'>Lospec</a>'ten hue shift uygulanmış paletler (.gpl dosyası) indirin ve <code>Palette Options > Load Palette</code> ile yükleyin.</li>
+            <li><strong>Karşılaştırma:</strong> Aynı sprite'ı hue shift'li ve hue shift'siz yapın → farkı görmek çok öğretici.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-dithering" class="clip-section">
+      <h2>10. Dithering (Noktalama Tekniği) <small>(Dithering) — 3:44</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/10-dithering.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>Shading just conveys the information about the shape of the object and its relation to the light source. Before we can start creating objects we also need a texture, a material. A basic practice is to study materials. The dithering technique uses patterns of dots to create the illusion of more colors. The most basic form is a 50/50 checkerboard pattern — black and white alternating pixels that appear gray from a distance. You can also use 25% and 75% ratios for lighter and darker intermediate tones. Remember that dithering works best on larger areas like skies, grounds, and backgrounds. On small sprites it can look noisy.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Gölgeleme yalnızca nesnenin şekli ve ışık kaynağıyla ilişkisi hakkında bilgi verir. Nesneler oluşturmaya başlamadan önce bir doku, bir malzeme de gereklidir. Temel bir uygulama malzemeleri incelemektir. Dithering tekniği, daha fazla renk illüzyonu yaratmak için nokta desenleri kullanır. En temel formu %50/%50 checkerboard desenidir — uzaktan gri görünen siyah ve beyaz dönüşümlü pikseller. Daha açık ve daha koyu ara tonlar için %25 ve %75 oranları da kullanabilirsiniz. Dithering'in gökyüzü, zemin ve arka planlar gibi büyük alanlarda en iyi çalıştığını unutmayın. Küçük sprite'larda gürültülü görünebilir.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>%50 checkerboard → iki rengin ortası ton illüzyonu</li>
+            <li>%25 ve %75 oranları → daha açık/koyu ara tonlar</li>
+            <li>Büyük alanlarda (gökyüzü, zemin) çok etkili</li>
+            <li>Küçük sprite'larda (<32px) dikkatli kullanın — gürültülü görünebilir</li>
+            <li>Retro oyunlarda (Game Boy, NES) renk kısıtlaması nedeniyle çok yaygındı</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Pattern fill:</strong> <code>Paint Bucket (G)</code> aracında <code>Pattern</code> seçeneğini aktifleştirin → checkerboard dithering otomatik uygulanır.</li>
+            <li><strong>Custom dither brush:</strong> 2x2 checkerboard deseni çizin, seçin ve <code>Edit > New Brush</code> ile kaydedin. Bu fırçayla boyayarak dithering yapabilirsiniz.</li>
+            <li><strong>Dithering gradyan:</strong> İki renk arasına dithering geçişi yapmak için: (1) iki rengi çizin, (2) ortalarına checkerboard deseni uygulayın.</li>
+            <li><strong>Indexed Color modu:</strong> <code>Sprite > Color Mode > Indexed</code> ile sınırlı paletle çalışarak dithering'in gerekliliğini deneyimleyin.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-color-palettes" class="clip-section">
+      <h2>11. Renk Paletleri <small>(Color Palettes) — 2:14</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/11-color-palettes.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>The most common mistake I see pixel art students making when creating color palettes is not hue shifting. As the name suggests, when creating your color palette you must hue shift between midtones. For this orange color I will hue shift towards the light source's color for highlights and toward cooler tones for shadows. Let's talk about creating color palettes. Create a cohesive color palette where we start with a base color, then add hue-shifted lighter and darker variants. When creating color palettes, try to find existing palettes that inspire you — Lospec has a great collection. A cohesive color palette helps maintain consistency across your entire game.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Piksel art öğrencilerinin renk paleti oluştururken yaptığı en yaygın hata hue shifting yapmamaktır. Adından da anlaşılacağı gibi, paletinizi oluştururken ara tonlar arasında renk kayması uygulamanız gerekir. Bu turuncu renk için highlight'larda ışık kaynağının rengine, gölgelerde ise daha soğuk tonlara doğru kayma yapacağım. Renk paleti oluşturmaktan bahsedelim. Bir temel renkle başlayıp hue shift uygulanmış daha açık ve koyu varyasyonlar ekleyerek uyumlu bir renk paleti oluşturun. Palet oluştururken sizi ilham veren mevcut paletleri bulmaya çalışın — Lospec harika bir koleksiyona sahiptir. Uyumlu bir renk paleti tüm oyununuz boyunca tutarlılığı korumanıza yardımcı olur.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>Temel renk → hue shift'li açık ve koyu varyasyonlar = iyi palet</li>
+            <li>8-16 renk başlangıç için yeterli</li>
+            <li>Paletinizi gri tonlamaya çevirin → value farkları yeterliyse iyi palet</li>
+            <li>Lospec.com'dan hazır paletler indirilebilir (.gpl, .ase formatları)</li>
+            <li>Aynı paleti tüm oyun boyunca kullanarak görsel tutarlılık sağlayın</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>Palet oluşturma:</strong> <code>Palette Options (☰) > New Palette</code> ile boş palet açın. Ramp oluşturmak için iki renk seçin → <code>Sort & Gradients > Gradient</code>.</li>
+            <li><strong>Palet kaydetme/yükleme:</strong> <code>.ase</code> veya <code>.gpl</code> formatında <code>Palette Options > Save Palette</code> ile kaydedin.</li>
+            <li><strong>Lospec paleti içe aktarma:</strong> Lospec'ten .gpl dosyasını indirin → <code>Palette Options > Load Palette</code> ile yükleyin.</li>
+            <li><strong>Value kontrolü:</strong> <code>View > Grayscale Preview</code> (veya eklenti) ile paletinizin gri tonlama versiyonunu kontrol edin.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="clip-anti-aliasing" class="clip-section">
+      <h2>12. Anti-Aliasing (Kenar Yumuşatma) <small>(Anti-Aliasing) — 4:22</small></h2>
+
+      <div class="clip-video-wrap">
+        <video controls preload="metadata" class="clip-video">
+          <source src="video-clips/12-anti-aliasing.mp4" type="video/mp4">
+          Tarayıcınız video oynatmayı desteklemiyor.
+        </video>
+      </div>
+
+      <div class="clip-columns">
+        <div class="clip-text-block">
+          <h3>🇬🇧 English Transcript</h3>
+          <p>Tiles are rectangular sprites that can be reused to quickly create landscapes. Now, antialiasing is an advanced technique in pixel art. The best way to learn it is to first understand lines without antialiasing and then try to recognize patterns. If I recognize this as a straight line, I can antialias one portion of it. Likewise, if I recognize this as a curvature I can antialias the middle of it. And then you just keep on going until your entire sprite is finished. The anti-aliasing color should always be between the two colors which we are anti-aliasing. Don't overdo it — subtle AA looks much better than heavy-handed AA.</p>
+        </div>
+        <div class="clip-text-block">
+          <h3>🇹🇷 Türkçe Çeviri</h3>
+          <p>Karolar (tiles), manzaraları hızlıca oluşturmak için yeniden kullanılabilen dikdörtgen sprite'lardır. Anti-aliasing, piksel art'ta ileri düzey bir tekniktir. Öğrenmenin en iyi yolu, önce anti-aliasing olmadan çizgileri anlamak, sonra desenleri tanımaya çalışmaktır. Bunu düz bir çizgi olarak tanıyorsam, bir kısmına anti-aliasing uygulayabilirim. Aynı şekilde bunu bir eğri olarak tanıyorsam, ortasına anti-aliasing uygulayabilirim. Sonra tüm sprite'ınız bitene kadar devam edersiniz. Anti-aliasing rengi her zaman yumuşattığımız iki rengin arasında olmalıdır. Abartmayın — ince AA, ağır AA'dan çok daha iyi görünür.</p>
+        </div>
+      </div>
+
+      <div class="vn-two-col" style="margin-top:1rem;">
+        <div class="info-box tip">
+          <div class="info-title">🎯 Önemli Noktalar</div>
+          <ul>
+            <li>AA en son uygulanır — önce sprite'ı tamamlayın</li>
+            <li>Düz çizgi bölümlerini ve eğrileri tanıyın → geçiş noktalarına AA uygulayın</li>
+            <li>AA rengi = iki kenar renginin ortası (ara ton)</li>
+            <li>Az AA > çok AA — abartmak sprite'ı bulanıklaştırır</li>
+            <li>Tile ve sprite sınırlarında AA dikkatli kullanılmalı</li>
+          </ul>
+        </div>
+        <div class="info-box" style="border-left-color: var(--accent-green, #4caf50);">
+          <div class="info-title">🛠️ Aseprite / LibreSprite İpuçları</div>
+          <ul>
+            <li><strong>AA renk seçimi:</strong> İki kenar rengini seçin, HSV'de tam ortalarını hesaplayın. Bu rengi AA için kullanın.</li>
+            <li><strong>Manuel AA:</strong> Pencil (1px) ile tek tek geçiş noktalarına ara ton pikseller yerleştirin. Otomatik AA aracı piksel art'ta nadiren iyi sonuç verir.</li>
+            <li><strong>AA katmanı:</strong> AA'yı ayrı bir katmanda uygulayın → açıp kapatarak farkı kontrol edin.</li>
+            <li><strong>Dikkat:</strong> <code>Sprite > Sprite Size</code> ile boyut değiştirirken <code>Nearest Neighbor</code> interpolasyon seçin — Bilinear/Bicubic istenmeyen AA ekler.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+
+  <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 3rem;">
+    <p>Kaynak: <a href="https://www.youtube.com/watch?v=pXeTmgeNIrc" target="_blank">Pixel Art Fundamentals</a></p>
+    <p style="margin-top:0.5rem;"><a href="index.html">← Pixel Art Ana Sayfa</a> · <a href="video-notes.html">🖼️ Kare Notları →</a></p>
+  </footer>
+  </div>
+
+  <script src="../shared.js"></script>
+</body>
+</html>
